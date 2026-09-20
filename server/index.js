@@ -1,0 +1,338 @@
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import Database from 'better-sqlite3';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const app = express();
+const PORT = 3001;
+
+import crypto from 'crypto';
+import fs from 'fs';
+
+app.use(cors());
+app.use(express.json());
+
+// ─── Database Setup ──────────────────────────────────────────────
+const dbPath = join(__dirname, '..', 'codequest.db');
+const db = new Database(dbPath);
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE COLLATE NOCASE,
+    password_hash TEXT NOT NULL,
+    salt TEXT NOT NULL,
+    avatar TEXT DEFAULT 'mascot',
+    created_at TEXT
+  );
+
+  CREATE TABLE IF NOT EXISTS sessions (
+    token TEXT PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    created_at TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+  );
+
+  CREATE TABLE IF NOT EXISTS user_stats_multi (
+    user_id INTEGER PRIMARY KEY,
+    total_xp INTEGER DEFAULT 0,
+    level INTEGER DEFAULT 1,
+    current_streak INTEGER DEFAULT 0,
+    longest_streak INTEGER DEFAULT 0,
+    last_active_date TEXT
+  );
+
+  CREATE TABLE IF NOT EXISTS progress_multi (
+    user_id INTEGER NOT NULL,
+    item_id TEXT NOT NULL,
+    item_type TEXT NOT NULL,
+    completed INTEGER DEFAULT 1,
+    xp_earned INTEGER DEFAULT 0,
+    score INTEGER DEFAULT 0,
+    code_snapshot TEXT,
+    completed_at TEXT,
+    PRIMARY KEY (user_id, item_id)
+  );
+`);
+
+// ─── Auth Helper Functions ───────────────────────────────────────
+function hashPassword(password, salt = crypto.randomBytes(16).toString('hex')) {
+  const hash = crypto.scryptSync(password, salt, 64).toString('hex');
+  return { hash, salt };
+}
+
+function verifyPassword(password, hash, salt) {
+  const testHash = crypto.scryptSync(password, salt, 64).toString('hex');
+  return testHash === hash;
+}
+
+function getAuthUser(req) {
+  const auth = req.headers.authorization;
+  if (!auth || !auth.startsWith('Bearer ')) return null;
+  const token = auth.slice(7);
+  const session = db.prepare('SELECT user_id FROM sessions WHERE token = ?').get(token);
+  if (!session) return null;
+  return db.prepare('SELECT id, username, avatar, created_at FROM users WHERE id = ?').get(session.user_id);
+}
+
+// ─── Auth Routes ─────────────────────────────────────────────────
+
+// POST /api/auth/register
+app.post('/api/auth/register', (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || typeof username !== 'string' || username.trim().length < 3) {
+      return res.status(400).json({ error: 'Username must be at least 3 characters.' });
+    }
+    if (!password || typeof password !== 'string' || password.length < 4) {
+      return res.status(400).json({ error: 'Password must be at least 4 characters.' });
+    }
+
+    const cleanUser = username.trim();
+    const existing = db.prepare('SELECT id FROM users WHERE username = ?').get(cleanUser);
+    if (existing) {
+      return res.status(400).json({ error: 'Username already taken. Choose another handle!' });
+    }
+
+    const { hash, salt } = hashPassword(password);
+    const now = new Date().toISOString();
+    const result = db.prepare(`
+      INSERT INTO users (username, password_hash, salt, created_at)
+      VALUES (?, ?, ?, ?)
+    `).run(cleanUser, hash, salt, now);
+
+    const userId = result.lastInsertRowid;
+
+    // Initialize stats
+    db.prepare(`
+      INSERT INTO user_stats_multi (user_id, total_xp, level, current_streak, longest_streak)
+      VALUES (?, 0, 1, 0, 0)
+    `).run(userId);
+
+    // Create session token
+    const token = crypto.randomBytes(32).toString('hex');
+    db.prepare('INSERT INTO sessions (token, user_id, created_at) VALUES (?, ?, ?)').run(token, userId, now);
+
+    res.json({
+      token,
+      user: { id: userId, username: cleanUser, avatar: 'mascot' }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST /api/auth/login
+app.post('/api/auth/login', (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) {
+      return res.status(400).json({ error: 'Username and password required.' });
+    }
+
+    const user = db.prepare('SELECT * FROM users WHERE username = ?').get(username.trim());
+    if (!user || !verifyPassword(password, user.password_hash, user.salt)) {
+      return res.status(401).json({ error: 'Invalid username or password.' });
+    }
+
+    const token = crypto.randomBytes(32).toString('hex');
+    db.prepare('INSERT INTO sessions (token, user_id, created_at) VALUES (?, ?, ?)').run(token, user.id, new Date().toISOString());
+
+    res.json({
+      token,
+      user: { id: user.id, username: user.username, avatar: user.avatar }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST /api/auth/logout
+app.post('/api/auth/logout', (req, res) => {
+  const auth = req.headers.authorization;
+  if (auth && auth.startsWith('Bearer ')) {
+    const token = auth.slice(7);
+    db.prepare('DELETE FROM sessions WHERE token = ?').run(token);
+  }
+  res.json({ ok: true });
+});
+
+// GET /api/auth/me
+app.get('/api/auth/me', (req, res) => {
+  const user = getAuthUser(req);
+  if (!user) return res.status(401).json({ error: 'Not authenticated' });
+  res.json({ user });
+});
+
+// GET /api/leaderboard — bonus for friends!
+app.get('/api/leaderboard', (req, res) => {
+  const top = db.prepare(`
+    SELECT u.username, u.avatar, s.total_xp, s.level, s.current_streak
+    FROM users u
+    JOIN user_stats_multi s ON u.id = s.user_id
+    ORDER BY s.total_xp DESC
+    LIMIT 20
+  `).all();
+  res.json({ leaderboard: top });
+});
+
+// ─── Stats & Progress Routes (User-Scoped) ───────────────────────
+
+// GET /api/stats — load current user stats & progress
+app.get('/api/stats', (req, res) => {
+  const user = getAuthUser(req);
+  const userId = user ? user.id : 1; // 1 = guest
+
+  let stats = db.prepare('SELECT * FROM user_stats_multi WHERE user_id = ?').get(userId);
+  if (!stats) {
+    stats = { total_xp: 0, level: 1, current_streak: 0, longest_streak: 0, last_active_date: null };
+  }
+
+  const progressRows = db.prepare('SELECT * FROM progress_multi WHERE user_id = ?').all(userId);
+  const progress = {};
+  for (const row of progressRows) {
+    progress[row.item_id] = {
+      type: row.item_type,
+      completedAt: row.completed_at,
+      xpEarned: row.xp_earned,
+      score: row.score,
+    };
+  }
+
+  res.json({
+    stats: {
+      totalXp: stats.total_xp,
+      level: stats.level,
+      currentStreak: stats.current_streak,
+      longestStreak: stats.longest_streak,
+      lastActiveDate: stats.last_active_date,
+    },
+    progress,
+    user: user || null,
+  });
+});
+
+// PUT /api/stats — update user stats
+app.put('/api/stats', (req, res) => {
+  const user = getAuthUser(req);
+  const userId = user ? user.id : 1;
+  const { totalXp, level, currentStreak, longestStreak, lastActiveDate } = req.body;
+
+  db.prepare(`
+    INSERT INTO user_stats_multi (user_id, total_xp, level, current_streak, longest_streak, last_active_date)
+    VALUES (?, ?, ?, ?, ?, ?)
+    ON CONFLICT(user_id) DO UPDATE SET
+      total_xp = excluded.total_xp,
+      level = excluded.level,
+      current_streak = excluded.current_streak,
+      longest_streak = excluded.longest_streak,
+      last_active_date = excluded.last_active_date
+  `).run(userId, totalXp || 0, level || 1, currentStreak || 0, longestStreak || 0, lastActiveDate || null);
+
+  res.json({ ok: true });
+});
+
+// POST /api/progress — save progress item
+app.post('/api/progress', (req, res) => {
+  const user = getAuthUser(req);
+  const userId = user ? user.id : 1;
+  const { itemId, type, xp, score, codeSnapshot } = req.body;
+
+  db.prepare(`
+    INSERT OR REPLACE INTO progress_multi (user_id, item_id, item_type, xp_earned, score, code_snapshot, completed_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `).run(userId, itemId, type || 'lesson', xp || 0, score || 0, codeSnapshot || null, new Date().toISOString());
+
+  res.json({ ok: true });
+});
+
+// POST /api/run — run code via JDoodle (Java) or locally (JS)
+app.post('/api/run', async (req, res) => {
+  try {
+    const { code, language } = req.body;
+    console.log(`[run] language=${language}, code length=${(code||'').length}`);
+
+    if (language === 'javascript') {
+      try {
+        const logs = [];
+        const fakeConsole = {
+          log: (...args) => logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' ')),
+        };
+        const fn = new Function('console', code);
+        fn(fakeConsole);
+        return res.json({ output: logs.join('\n') || '(no output)' });
+      } catch (err) {
+        return res.json({ error: err.message });
+      }
+    }
+
+    // For Java/other languages — use JDoodle API
+    const JDOODLE_CLIENT_ID = process.env.JDOODLE_CLIENT_ID;
+    const JDOODLE_CLIENT_SECRET = process.env.JDOODLE_CLIENT_SECRET;
+
+    if (!JDOODLE_CLIENT_ID || !JDOODLE_CLIENT_SECRET) {
+      console.log('[run] JDoodle credentials missing');
+      return res.json({
+        output: '[JDoodle API not configured]\n\nTo enable Java code execution:\n1. Sign up at https://www.jdoodle.com/compiler-api\n2. Create a .env file with:\n   JDOODLE_CLIENT_ID=your_id\n   JDOODLE_CLIENT_SECRET=your_secret',
+      });
+    }
+
+    const langMap = {
+      java: { language: 'java', versionIndex: '4' },
+      sql: { language: 'sql', versionIndex: '3' },
+    };
+    const config = langMap[language] || langMap.java;
+
+    console.log(`[run] calling JDoodle: lang=${config.language}, version=${config.versionIndex}`);
+
+    const response = await fetch('https://api.jdoodle.com/v1/execute', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        clientId: JDOODLE_CLIENT_ID,
+        clientSecret: JDOODLE_CLIENT_SECRET,
+        script: code,
+        language: config.language,
+        versionIndex: config.versionIndex,
+      }),
+    });
+
+    const data = await response.json();
+    console.log('[run] JDoodle response:', JSON.stringify(data).slice(0, 200));
+
+    if (data.error) {
+      return res.json({ output: `Error: ${data.error}` });
+    }
+    return res.json({ output: data.output || '(no output)' });
+  } catch (err) {
+    console.error('[run] Server error:', err);
+    return res.status(500).json({ error: `Server error: ${err.message}` });
+  }
+});
+
+// Serve production static frontend if built
+const distPath = join(__dirname, '..', 'dist');
+if (fs.existsSync(distPath)) {
+  app.use(express.static(distPath));
+  app.use((req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(join(distPath, 'index.html'));
+  });
+}
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error('[error]', err.stack);
+  res.status(500).json({ error: 'Internal server error' });
+});
+
+// ─── Start ───────────────────────────────────────────────────────
+const LISTEN_PORT = process.env.PORT || PORT;
+app.listen(LISTEN_PORT, () => {
+  console.log(`⚔️  CodeQuest running on http://localhost:${LISTEN_PORT}`);
+});
