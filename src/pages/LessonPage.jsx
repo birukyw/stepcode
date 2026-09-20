@@ -1,4 +1,4 @@
-import { useState, useContext, useCallback } from 'react';
+import { useState, useContext, useCallback, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../App';
 import { ROADMAP, getWeekContent } from '../data/roadmap';
@@ -18,6 +18,15 @@ export default function LessonPage() {
   const week = findWeek(weekId);
   const phase = findPhaseForWeek(weekId);
 
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 768);
+  const [mobileTab, setMobileTab] = useState('lesson'); // 'lesson' | 'editor' | 'terminal'
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   if (!weekContent || !week || !weekContent.lessons[idx]) {
     return <div style={{ padding: 40 }}>Lesson not found.</div>;
   }
@@ -35,6 +44,7 @@ export default function LessonPage() {
   const handleRun = useCallback(async () => {
     setIsRunning(true);
     setOutput('Running...');
+    if (isMobile) setMobileTab('terminal');
 
     if (lang === 'javascript') {
       try {
@@ -55,7 +65,7 @@ export default function LessonPage() {
       else setOutput(result.output || '(no output)');
     }
     setIsRunning(false);
-  }, [code, lang]);
+  }, [code, isMobile, lang]);
 
   const handleComplete = () => {
     if (!isDone) completeItem(itemId, 'lesson', 15);
@@ -72,93 +82,169 @@ export default function LessonPage() {
     : lang === 'css' ? 'style.css'
     : 'script.js';
 
+  const renderLesson = () => (
+    <>
+      <div className="lesson-panel-left__header">
+        <span>Lesson</span>
+        <span style={{ fontSize: 14, color: 'var(--text-dim)' }}>
+          {idx + 1} / {totalLessons}
+        </span>
+      </div>
+      <div className="lesson-panel-left__scroll">
+        <GlitchHeader
+          as="h1"
+          text={`${String(idx + 1).padStart(2, '0')}. ${lesson.title}`}
+          style={{
+            fontFamily: 'var(--font-pixel)',
+            fontSize: 14,
+            color: 'var(--white)',
+            marginBottom: 10,
+          }}
+        />
+        <div className="lesson-content" dangerouslySetInnerHTML={{ __html: lesson.content }} />
+      </div>
+    </>
+  );
+
+  const renderEditor = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
+      {/* File tab */}
+      <div className="editor-tab-bar">
+        <div className="editor-tab">
+          <span className="editor-tab__icon">📄</span>
+          {fileName}
+        </div>
+      </div>
+
+      {/* Code Editor */}
+      <div className="editor-area">
+        <CodeEditor
+          code={code}
+          language={lang}
+          onChange={setCode}
+        />
+      </div>
+
+      {/* Action bar */}
+      <div className="editor-action-bar">
+        <div className="editor-action-bar__left">
+          <button className="btn btn-secondary btn--reset" onClick={() => setCode(lesson.starterCode || '')}>
+            ↺ Reset
+          </button>
+        </div>
+        <div className="editor-action-bar__right">
+          <button className="btn btn-secondary btn--run" onClick={handleRun} disabled={isRunning}>
+            {isRunning ? '⏳ Running...' : '▶ Run'}
+          </button>
+          <button className="btn btn-primary btn--submit" onClick={handleComplete}>
+            {isDone ? 'Next →' : 'Complete & Next →'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderTerminal = () => (
+    <div className="terminal-panel">
+      <div className="terminal-header">
+        <span>Terminal</span>
+        <span className={`terminal-companion ${isRunning ? 'terminal-companion--running' : output ? 'terminal-companion--pass' : ''}`}>
+          <PixelSprite name={isRunning ? "bot" : "cat"} size={14} animated={isRunning} />
+          <span>{isRunning ? "compiling..." : "ready"}</span>
+        </span>
+      </div>
+      <div className={`terminal-output ${output.startsWith('Error') ? 'error' : ''}`}>
+        {output ? output : (
+          <div className="terminal-placeholder">
+            <span className="terminal-placeholder__icon">&lt; &gt;</span>
+            Click <strong>Run</strong> to view your results
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
   return (
     <div style={{ padding: 0 }}>
-      {/* Full-height split layout */}
-      <Split className="lesson-layout" sizes={[40, 60]} gutterSize={2} snapOffset={0}>
-        {/* === LEFT: Lesson Content === */}
-        <div className="lesson-panel-left">
-          <div className="lesson-panel-left__header">
-            <span>Lesson</span>
-            <span style={{ fontSize: 14, color: 'var(--text-dim)' }}>
-              {idx + 1} / {totalLessons}
-            </span>
+      {isMobile ? (
+        <div className="mobile-code-container">
+          {/* Mobile Segmented Tab Bar */}
+          <div className="mobile-code-tabs">
+            <button
+              className={`mobile-code-tab ${mobileTab === 'lesson' ? 'mobile-code-tab--active' : ''}`}
+              onClick={() => setMobileTab('lesson')}
+            >
+              <PixelSprite name="sword" size={13} />
+              <span>Lesson</span>
+            </button>
+            <button
+              className={`mobile-code-tab ${mobileTab === 'editor' ? 'mobile-code-tab--active' : ''}`}
+              onClick={() => setMobileTab('editor')}
+            >
+              <PixelSprite name="chip" size={13} />
+              <span>Sandbox</span>
+            </button>
+            <button
+              className={`mobile-code-tab ${mobileTab === 'terminal' ? 'mobile-code-tab--active' : ''}`}
+              onClick={() => setMobileTab('terminal')}
+            >
+              <PixelSprite name={output ? "trophy" : isRunning ? "bot" : "cat"} size={13} animated={isRunning} />
+              <span>Output</span>
+              {output && <span className="mobile-tab-indicator" />}
+            </button>
           </div>
-          <div className="lesson-panel-left__scroll">
-            <GlitchHeader
-              as="h1"
-              text={`${String(idx + 1).padStart(2, '0')}. ${lesson.title}`}
-              style={{
-                fontFamily: 'var(--font-pixel)',
-                fontSize: 14,
-                color: 'var(--white)',
-                marginBottom: 10,
-              }}
-            />
-            <div className="lesson-content" dangerouslySetInnerHTML={{ __html: lesson.content }} />
+
+          {/* Active Mobile Panel */}
+          <div className="mobile-active-panel">
+            {mobileTab === 'lesson' && (
+              <div className="lesson-panel-left mobile-full-panel">
+                {renderLesson()}
+                <button
+                  className="btn btn-primary mobile-switch-btn"
+                  onClick={() => setMobileTab('editor')}
+                >
+                  <span>Open Code Sandbox</span>
+                  <span style={{ fontSize: 16 }}>➔</span>
+                </button>
+              </div>
+            )}
+
+            {mobileTab === 'editor' && (
+              <div className="mobile-editor-wrapper">
+                {renderEditor()}
+              </div>
+            )}
+
+            {mobileTab === 'terminal' && (
+              <div className="mobile-terminal-wrapper">
+                {renderTerminal()}
+                <div className="mobile-terminal-actions">
+                  <button className="btn btn-secondary" onClick={() => setMobileTab('editor')}>
+                    ← Back to Sandbox
+                  </button>
+                  <button className="btn btn-primary" onClick={handleComplete}>
+                    {idx < totalLessons - 1 ? 'Next Lesson →' : 'Complete Phase →'}
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-
-        {/* === RIGHT: Editor + Terminal === */}
-        <Split className="lesson-panel-right" direction="vertical" sizes={[70, 30]} gutterSize={2} snapOffset={0}>
-          <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
-
-          {/* File tab */}
-          <div className="editor-tab-bar">
-            <div className="editor-tab">
-              <span className="editor-tab__icon">📄</span>
-              {fileName}
-            </div>
+      ) : (
+        /* Full-height split layout */
+        <Split className="lesson-layout" sizes={[40, 60]} gutterSize={2} snapOffset={0}>
+          {/* === LEFT: Lesson Content === */}
+          <div className="lesson-panel-left">
+            {renderLesson()}
           </div>
 
-          {/* Code Editor */}
-          <div className="editor-area">
-            <CodeEditor
-              code={code}
-              language={lang}
-              onChange={setCode}
-            />
-          </div>
-
-          {/* Action bar */}
-          <div className="editor-action-bar">
-            <div className="editor-action-bar__left">
-              <button className="btn btn-secondary btn--reset" onClick={() => setCode(lesson.starterCode || '')}>
-                ↺ Reset
-              </button>
-            </div>
-            <div className="editor-action-bar__right">
-              <button className="btn btn-secondary btn--run" onClick={handleRun} disabled={isRunning}>
-                {isRunning ? '⏳ Running...' : '▶ Run'}
-              </button>
-              <button className="btn btn-primary btn--submit" onClick={handleComplete}>
-                {isDone ? 'Next →' : 'Complete & Next →'}
-              </button>
-            </div>
-          </div>
-
-          {/* Terminal */}
-          </div>
-
-          <div className="terminal-panel">
-            <div className="terminal-header">
-              <span>Terminal</span>
-              <span className={`terminal-companion ${isRunning ? 'terminal-companion--running' : output ? 'terminal-companion--pass' : ''}`}>
-                <PixelSprite name={isRunning ? "bot" : "cat"} size={14} animated={isRunning} />
-                <span>{isRunning ? "compiling..." : "ready"}</span>
-              </span>
-            </div>
-            <div className={`terminal-output ${output.startsWith('Error') ? 'error' : ''}`}>
-              {output ? output : (
-                <div className="terminal-placeholder">
-                  <span className="terminal-placeholder__icon">&lt; &gt;</span>
-                  Click <strong>Run</strong> to view your results
-                </div>
-              )}
-            </div>
-          </div>
+          {/* === RIGHT: Editor + Terminal === */}
+          <Split className="lesson-panel-right" direction="vertical" sizes={[70, 30]} gutterSize={2} snapOffset={0}>
+            {renderEditor()}
+            {renderTerminal()}
+          </Split>
         </Split>
-      </Split>
+      )}
 
       {/* Bottom bar */}
       <div className="lesson-bottom-bar">
