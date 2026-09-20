@@ -5,6 +5,8 @@ import { java } from '@codemirror/lang-java';
 import { sql } from '@codemirror/lang-sql';
 import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
+import { python } from '@codemirror/lang-python';
+import { cpp } from '@codemirror/lang-cpp';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { EditorState } from '@codemirror/state';
 
@@ -14,6 +16,10 @@ const LANG_MAP = {
   sql: sql,
   html: html,
   css: css,
+  python: python,
+  python3: python,
+  cpp: cpp,
+  c: cpp,
 };
 
 export default function CodeEditor({ code, language = 'java', onChange, readOnly = false }) {

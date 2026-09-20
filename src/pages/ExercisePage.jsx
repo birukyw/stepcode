@@ -36,11 +36,29 @@ export default function ExercisePage() {
   const isDone = !!progress[itemId];
   const lang = exercise.language || 'javascript';
 
+  const [currentLang, setCurrentLang] = useState(exercise.language || 'java');
+  const [langCodeMap, setLangCodeMap] = useState(() => ({
+    [exercise.language || 'java']: exercise.starterCode || '',
+    python: `# Python 3 Solution\n# Problem: ${exercise.title}\nprint("Solution running in Python...")\n`,
+    cpp: `#include <iostream>\nusing namespace std;\n\n// Problem: ${exercise.title}\nint main() {\n    cout << "Solution running in C++..." << endl;\n    return 0;\n}\n`,
+    javascript: `// JavaScript Solution\n// Problem: ${exercise.title}\nconsole.log("Solution running in JavaScript...");\n`,
+    java: `// Java Solution\n// Problem: ${exercise.title}\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println("Solution running in Java...");\n    }\n}\n`,
+  }));
+
   const [code, setCode] = useState(exercise.starterCode || '');
   const [output, setOutput] = useState('');
   const [result, setResult] = useState(null);
   const [showHint, setShowHint] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
+
+  const handleLanguageChange = (newLang) => {
+    // Preserve current code before switching
+    setLangCodeMap(prev => ({ ...prev, [currentLang]: code }));
+    setCurrentLang(newLang);
+    setCode(langCodeMap[newLang] || '');
+    setOutput('');
+    setResult(null);
+  };
 
   const handleRun = useCallback(async () => {
     setIsRunning(true);
@@ -48,7 +66,7 @@ export default function ExercisePage() {
     if (isMobile) setMobileTab('terminal');
     let actualOutput = '';
 
-    if (lang === 'javascript') {
+    if (currentLang === 'javascript') {
       try {
         let logs = [];
         const fakeConsole = { log: (...args) => logs.push(args.join(' ')), error: (...args) => logs.push('ERROR: ' + args.join(' ')) };
@@ -59,13 +77,13 @@ export default function ExercisePage() {
         actualOutput = `Error: ${err.message}`;
       }
     } else {
-      const res = await runCode(code, lang);
+      const res = await runCode(code, currentLang);
       actualOutput = res.error || res.output || '';
     }
 
     setOutput(actualOutput || '(no output)');
     setIsRunning(false);
-  }, [code, isMobile, lang]);
+  }, [code, currentLang, isMobile]);
 
   const handleSubmit = useCallback(async () => {
     setIsRunning(true);
@@ -73,7 +91,7 @@ export default function ExercisePage() {
     if (isMobile) setMobileTab('terminal');
     let actualOutput = '';
 
-    if (lang === 'javascript') {
+    if (currentLang === 'javascript') {
       try {
         let logs = [];
         const fakeConsole = { log: (...args) => logs.push(args.join(' ')), error: (...args) => logs.push('ERROR: ' + args.join(' ')) };
@@ -84,7 +102,7 @@ export default function ExercisePage() {
         actualOutput = `Error: ${err.message}`;
       }
     } else {
-      const res = await runCode(code, lang);
+      const res = await runCode(code, currentLang);
       actualOutput = res.error || res.output || '';
     }
 
@@ -109,12 +127,15 @@ export default function ExercisePage() {
       }
     }
     setIsRunning(false);
-  }, [code, exercise, isDone, itemId, lang]);
+  }, [code, currentLang, exercise, isDone, itemId, isMobile]);
 
-  const fileName = lang === 'java' ? 'Main.java'
-    : lang === 'sql' ? 'query.sql'
-    : lang === 'html' ? 'index.html'
-    : lang === 'css' ? 'style.css'
+  const fileName = currentLang === 'java' ? 'Main.java'
+    : currentLang === 'python' || currentLang === 'python3' ? 'solution.py'
+    : currentLang === 'cpp' ? 'solution.cpp'
+    : currentLang === 'c' ? 'solution.c'
+    : currentLang === 'sql' ? 'query.sql'
+    : currentLang === 'html' ? 'index.html'
+    : currentLang === 'css' ? 'style.css'
     : 'script.js';
 
   const renderInstructions = () => (
@@ -194,20 +215,38 @@ export default function ExercisePage() {
 
   const renderEditor = () => (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
-      <div className="editor-tab-bar">
+      <div className="editor-tab-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: 12 }}>
         <div className="editor-tab">
           <span className="editor-tab__icon">📄</span>
           {fileName}
         </div>
+        <div className="editor-lang-picker" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ fontSize: 10, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: 0.5, fontFamily: 'var(--font-pixel)' }}>
+            Lang:
+          </span>
+          <select
+            value={currentLang}
+            onChange={(e) => handleLanguageChange(e.target.value)}
+            className="editor-lang-select"
+            title="Switch programming language (LeetCode style)"
+          >
+            <option value="java">☕ Java</option>
+            <option value="python">🐍 Python 3</option>
+            <option value="cpp">⚡ C++ 17</option>
+            <option value="javascript">🟨 JavaScript</option>
+            <option value="c">⚙️ C</option>
+            <option value="sql">🗄️ SQL</option>
+          </select>
+        </div>
       </div>
 
       <div className="editor-area">
-        <CodeEditor code={code} language={lang} onChange={setCode} />
+        <CodeEditor code={code} language={currentLang} onChange={setCode} />
       </div>
 
       <div className="editor-action-bar">
         <div className="editor-action-bar__left">
-          <button className="btn btn-secondary btn--reset" onClick={() => { setCode(exercise.starterCode || ''); setResult(null); setOutput(''); }}>
+          <button className="btn btn-secondary btn--reset" onClick={() => { setCode(langCodeMap[currentLang] || exercise.starterCode || ''); setResult(null); setOutput(''); }}>
             ↺ Reset
           </button>
         </div>

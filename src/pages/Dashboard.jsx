@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../App';
 import { ROADMAP } from '../data/roadmap';
+import { TRACKS, getTrack } from '../data/catalog';
 import PixelSprite from '../components/PixelSprite';
 import GlitchHeader from '../components/GlitchHeader';
 
@@ -9,14 +10,16 @@ const PHASE_DESCRIPTIONS = {
   'phase-1': 'Master the fundamentals of Java — from JVM architecture and memory models to OOP and collections. ☕',
   'phase-2': 'Level up with high-yield LeetCode core patterns: Two Pointers, Sliding Window, Linked Lists, and Stacks. 🧩',
   'phase-3': 'Conquer advanced LeetCode patterns: Binary Trees, Heaps/PriorityQueues, Graph traversals, and Dynamic Programming. 🧠',
-  'phase-4': 'Design enterprise database schemas, write complex SQL queries, optimize indexes, and connect Java via JDBC. 🗄️',
+  'phase-4': 'Design enterprise database schemas, write complex SQL queries, optimize indexes, and connect backend apps. 🗄️',
   'phase-5': 'Build production-ready enterprise REST APIs with Spring Boot 3, Spring Data JPA, and Spring Security. ⚙️',
   'phase-6': 'Create responsive, modern user interfaces with Semantic HTML5, CSS Grid/Flexbox, ES6+ JavaScript, and React. 🎨',
   'phase-7': 'Ship like a senior engineer! Master Git workflows, containerize with Docker, automate CI/CD, and defend your Capstone. 🚀',
+  'phase-py-1': 'Master Python 3 foundations, clean syntax, dictionaries, list comprehensions, and Pythonic OOP with magic methods. 🐍',
+  'phase-sys-1': 'Master low-level C programming, memory addressing, pointers, heap allocation with malloc/free, and stack frames. ⚙️',
 };
 
 export default function Dashboard() {
-  const { stats, isPhaseUnlocked, getPhaseProgress, progress } = useContext(AppContext);
+  const { stats, isPhaseUnlocked, getPhaseProgress, progress, activeTrackId, changeActiveTrack } = useContext(AppContext);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 768);
 
   useEffect(() => {
@@ -25,69 +28,134 @@ export default function Dashboard() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const totalItems = ROADMAP.phases.reduce((sum, p) => {
-    return sum + p.weeks.reduce((ws, w) => {
-      return ws + (w.lessons?.length || 0) + (w.exercises?.length || 0) + (w.quiz?.length ? 1 : 0) + (w.project ? 1 : 0);
-    }, 0);
-  }, 0);
+  const activeTrack = getTrack(activeTrackId);
+  const activePhases = activeTrack.phases;
 
-  const globalDone = ROADMAP.phases.reduce((sum, p) => sum + getPhaseProgress(p).done, 0);
-  const globalPct = totalItems ? Math.round((globalDone / totalItems) * 100) : 0;
-  const totalExercises = ROADMAP.phases.reduce((sum, p) => sum + p.weeks.reduce((ws, w) => ws + (w.exercises?.length || 0), 0), 0);
-  const doneExercises = ROADMAP.phases.reduce((sum, p) => sum + p.weeks.reduce((ws, w) => {
-    return ws + Array.from({ length: w.exercises?.length || 0 }, (_, i) => progress[`${w.id}-exercise-${i}`] ? 1 : 0).reduce((a, b) => a + b, 0);
-  }, 0), 0);
-  const totalProjects = ROADMAP.phases.reduce((sum, p) => sum + p.weeks.filter(w => w.project).length, 0);
-  const doneProjects = ROADMAP.phases.reduce((sum, p) => sum + p.weeks.filter(w => w.project && progress[`${w.id}-project`]).length, 0);
+  // Track progress calculation helper
+  const getTrackStats = (track) => {
+    let total = 0;
+    let done = 0;
+    let totalEx = 0;
+    let doneEx = 0;
+    let totalProj = 0;
+    let doneProj = 0;
 
-  // Find continue target
+    track.phases.forEach(phase => {
+      const pProg = getPhaseProgress(phase);
+      total += pProg.total;
+      done += pProg.done;
+
+      phase.weeks.forEach(w => {
+        const exCount = w.exercises?.length || 0;
+        totalEx += exCount;
+        for (let i = 0; i < exCount; i++) {
+          if (progress[`${w.id}-exercise-${i}`]) doneEx++;
+        }
+        if (w.project) {
+          totalProj++;
+          if (progress[`${w.id}-project`]) doneProj++;
+        }
+      });
+    });
+
+    const pct = total ? Math.round((done / total) * 100) : 0;
+    return { total, done, pct, totalEx, doneEx, totalProj, doneProj };
+  };
+
+  const activeStats = getTrackStats(activeTrack);
+
+  // Find continue target within the active track
   let continueTarget = null;
-  for (const phase of ROADMAP.phases) {
+  for (const phase of activePhases) {
     const pp = getPhaseProgress(phase);
     if (pp.pct < 100) {
       continueTarget = `/phase/${phase.id}`;
       break;
     }
   }
+  if (!continueTarget && activePhases.length > 0) {
+    continueTarget = `/phase/${activePhases[0].id}`;
+  }
+
+  const scrollToCatalog = (e) => {
+    e.preventDefault();
+    const el = document.getElementById('catalog-section');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
-    <div>
-      {/* Hero Banner */}
-      <div className="course-hero">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 10 }}>
-          <div className="course-hero__badge">
-            <PixelSprite name="sword" size={12} style={{ marginRight: 4 }} /> 7-MONTH MASTER QUEST
+    <div className="dashboard-container">
+      {/* ── Active Track Hero Banner (Codédex Hybrid Header) ── */}
+      <div className="course-hero track-hero" style={{ borderLeft: `4px solid ${activeTrack.color || 'var(--cyan)'}` }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10, marginBottom: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+            <div className="course-hero__badge" style={{ color: activeTrack.color || 'var(--cyan)' }}>
+              <span style={{ fontSize: 13, marginRight: 6 }}>{activeTrack.icon}</span>
+              {activeTrack.badge || 'CAREER TRACK'}
+            </div>
+            <div className="hero-companion-badge">
+              <PixelSprite name="bot" size={14} animated />
+              <span className="hero-companion-badge__bubble">Active Quest</span>
+            </div>
           </div>
-          <div className="hero-companion-badge">
-            <PixelSprite name="bot" size={14} animated />
-            <span className="hero-companion-badge__bubble">Bit-Bot Companion</span>
-          </div>
+          <button onClick={scrollToCatalog} className="btn-track-switch-pill">
+            🔀 Switch Track ({TRACKS.length} Available)
+          </button>
         </div>
 
-        <GlitchHeader as="h1" className="course-hero__title" text="CodeQuest" />
+        <GlitchHeader as="h1" className="course-hero__title" text={activeTrack.title} />
 
         <p className="course-hero__desc">
-          Master software engineering in 28 weeks (7 months) by building real projects, solving LeetCode coding challenges, and conquering quizzes — from Java foundations to full-stack cloud deployment!
+          {activeTrack.tagline}
         </p>
 
-        {continueTarget && (
-          <Link to={continueTarget} className="course-hero__cta">
-            ▶ Continue Quest
-          </Link>
-        )}
+        {/* Tags */}
+        <div className="track-tags-list">
+          {activeTrack.tags.map(tag => (
+            <span key={tag} className="track-tag-pill">{tag}</span>
+          ))}
+        </div>
 
-        <div className="course-hero__meta">
-          <span>⏱ 28 WEEKS</span>
-          <span>📘 {totalItems} MODULES</span>
-          <span>⚡ {stats.totalXp} XP EARNED</span>
+        {/* Action Buttons & Progress */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', marginTop: 16 }}>
+          {continueTarget && (
+            <Link to={continueTarget} className="course-hero__cta" style={{ margin: 0 }}>
+              ▶ Continue {activeTrack.title.split('&')[0]}
+            </Link>
+          )}
+          <button onClick={scrollToCatalog} className="btn btn-secondary" style={{ padding: '12px 20px', fontSize: 13, fontWeight: 700 }}>
+            🗺️ Browse All Tracks
+          </button>
+        </div>
+
+        <div className="course-hero__meta" style={{ marginTop: 20 }}>
+          <span>⏱ {activeTrack.duration.toUpperCase()}</span>
+          <span>📘 {activeStats.total} MODULES</span>
+          <span>📊 {activeStats.pct}% COMPLETE</span>
+          <span>⚡ {stats.totalXp} TOTAL XP</span>
+        </div>
+
+        {/* Track Completion Bar */}
+        <div className="track-hero-progress-bar">
+          <div className="track-hero-progress-fill" style={{ width: `${activeStats.pct}%`, background: activeTrack.color || 'var(--cyan)' }} />
         </div>
       </div>
 
-      {/* Two-column layout on desktop, Single column on mobile */}
+      {/* ── Two-column layout on desktop: Left = Chapters, Right = Sidebar ── */}
       <div className="course-layout">
-        {/* Left: Chapter list / Mobile Phase Tabs */}
+        {/* Left: Active Track Chapter list */}
         <div className="course-main">
+          <div className="track-roadmap-header">
+            <h2 style={{ fontFamily: 'var(--font-pixel)', fontSize: 13, color: 'var(--white)', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span>{activeTrack.icon}</span> {activeTrack.title} Roadmap
+            </h2>
+            <span style={{ fontSize: 12, color: 'var(--text-dim)' }}>
+              {activePhases.length} Phases · {activeStats.done} / {activeStats.total} Completed
+            </span>
+          </div>
+
           <ChapterList
+            phases={activePhases}
             progress={progress}
             isPhaseUnlocked={isPhaseUnlocked}
             getPhaseProgress={getPhaseProgress}
@@ -95,9 +163,9 @@ export default function Dashboard() {
           />
         </div>
 
-        {/* Right: Sidebar (hidden on small mobile or stacked at bottom) */}
+        {/* Right: Sidebar */}
         <div className="course-sidebar">
-          {/* User Card */}
+          {/* User Profile Card */}
           <div className="sidebar-card user-card">
             <img src="/images/pixel_cyber_mascot.jpg" alt="Byte Knight" className="user-card__pixel-avatar" />
             <div className="user-card__name">ByteKnight</div>
@@ -106,26 +174,140 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Course Progress */}
+          {/* Active Track Progress Breakdown */}
           <div className="sidebar-card">
-            <div className="sidebar-card__title">Course Progress</div>
+            <div className="sidebar-card__title" style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span>Track Progress</span>
+              <span style={{ color: activeTrack.color || 'var(--cyan)', fontSize: 12 }}>{activeStats.pct}%</span>
+            </div>
             <div style={{ marginTop: 12 }}>
-              <ProgressRow icon="📘" label="Exercises" done={doneExercises} total={totalExercises} color="var(--cyan)" />
-              <ProgressRow icon="🚀" label="Projects" done={doneProjects} total={totalProjects} color="var(--green-bright)" />
-              <ProgressRow icon="⚡" label="XP Earned" done={stats.totalXp} total={totalItems * 15} color="var(--yellow)" />
+              <ProgressRow icon="📘" label="Exercises" done={activeStats.doneEx} total={activeStats.totalEx} color="var(--cyan)" />
+              <ProgressRow icon="🚀" label="Projects" done={activeStats.doneProj} total={activeStats.totalProj} color="var(--green-bright)" />
+              <ProgressRow icon="⚡" label="Track Modules" done={activeStats.done} total={activeStats.total} color="var(--yellow)" />
             </div>
           </div>
 
-          {/* Stats */}
+          {/* Quick Track Switcher Widget */}
           <div className="sidebar-card">
-            <div className="sidebar-card__title">Your Stats</div>
-            <div style={{ marginTop: 12 }}>
-              <StatRow icon="🔥" label="Day Streak" value={stats.currentStreak} />
-              <StatRow icon="⭐" label="Level" value={stats.level} />
-              <StatRow icon="✅" label="Completed" value={`${globalDone} / ${totalItems}`} />
-              <StatRow icon="📊" label="Progress" value={`${globalPct}%`} />
+            <div className="sidebar-card__title">Quick Switch Track</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
+              {TRACKS.map(t => {
+                const isCur = t.id === activeTrack.id;
+                const tStats = getTrackStats(t);
+                return (
+                  <button
+                    key={t.id}
+                    onClick={() => changeActiveTrack(t.id)}
+                    className={`sidebar-track-pill ${isCur ? 'sidebar-track-pill--active' : ''}`}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontSize: 16 }}>{t.icon}</span>
+                      <span className="sidebar-track-pill__name">{t.title.split('&')[0]}</span>
+                    </div>
+                    <span className="sidebar-track-pill__pct">{tStats.pct}%</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
+
+          {/* Global Stats Card */}
+          <div className="sidebar-card">
+            <div className="sidebar-card__title">Global Career Stats</div>
+            <div style={{ marginTop: 12 }}>
+              <StatRow icon="🔥" label="Day Streak" value={stats.currentStreak} />
+              <StatRow icon="⭐" label="Hacker Level" value={stats.level} />
+              <StatRow icon="⚡" label="Total XP" value={stats.totalXp} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Codédex-style Course Catalog Grid Section ── */}
+      <div id="catalog-section" className="catalog-section">
+        <div className="catalog-header">
+          <div className="catalog-badge">
+            <PixelSprite name="sparkle" size={12} style={{ marginRight: 6 }} />
+            5 CAREER TRACKS CATALOG
+          </div>
+          <GlitchHeader as="h2" className="catalog-title" text="Choose Your Career Specialization" />
+          <p className="catalog-desc">
+            Learn at your own pace. All 5 tracks feature interactive coding environments, multi-language compiler support, quizzes, and portfolio-ready capstones.
+          </p>
+        </div>
+
+        <div className="catalog-grid">
+          {TRACKS.map(track => {
+            const isCur = track.id === activeTrack.id;
+            const tStats = getTrackStats(track);
+            return (
+              <div
+                key={track.id}
+                className={`catalog-card ${isCur ? 'catalog-card--enrolled' : ''}`}
+                style={{ '--track-color': track.color || 'var(--cyan)' }}
+              >
+                <div className="catalog-card__top">
+                  <div className="catalog-card__icon-box">
+                    <span className="catalog-card__icon">{track.icon}</span>
+                  </div>
+                  <span className="catalog-card__badge" style={{ color: track.color || 'var(--cyan)' }}>
+                    {track.badge}
+                  </span>
+                </div>
+
+                <h3 className="catalog-card__title">{track.title}</h3>
+                <p className="catalog-card__tagline">{track.tagline}</p>
+                <p className="catalog-card__desc">{track.description}</p>
+
+                {/* Tech Tags */}
+                <div className="catalog-card__tags">
+                  {track.tags.map(t => (
+                    <span key={t} className="catalog-pill">{t}</span>
+                  ))}
+                </div>
+
+                {/* Metadata */}
+                <div className="catalog-card__meta">
+                  <span>⏱ {track.duration}</span>
+                  <span>📈 {track.difficulty}</span>
+                  <span>📘 {tStats.total} Modules</span>
+                </div>
+
+                {/* Progress bar */}
+                <div className="catalog-card__progress">
+                  <div className="catalog-card__progress-info">
+                    <span>Progress</span>
+                    <span style={{ fontWeight: 700 }}>{tStats.pct}%</span>
+                  </div>
+                  <div className="sidebar-progress-bar">
+                    <div className="sidebar-progress-fill" style={{ width: `${tStats.pct}%`, background: track.color || 'var(--cyan)' }} />
+                  </div>
+                </div>
+
+                {/* Action button */}
+                <div className="catalog-card__action">
+                  {isCur ? (
+                    <button
+                      className="btn-catalog-enrolled"
+                      disabled
+                    >
+                      ✓ Currently Enrolled
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        changeActiveTrack(track.id);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className="btn-catalog-switch"
+                    >
+                      🚀 Switch to this Track
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -160,22 +342,28 @@ function StatRow({ icon, label, value }) {
   );
 }
 
-function ChapterList({ progress, isPhaseUnlocked, getPhaseProgress, isMobile }) {
-  const initialPhase = ROADMAP.phases.findIndex((p, i) => isPhaseUnlocked(i) && getPhaseProgress(p).pct < 100);
-  const [selectedPhase, setSelectedPhase] = useState(initialPhase !== -1 ? initialPhase : 0);
-  const [openPhase, setOpenPhase] = useState(initialPhase !== -1 ? initialPhase : 0);
+function ChapterList({ phases, progress, isPhaseUnlocked, getPhaseProgress, isMobile }) {
+  const [selectedPhase, setSelectedPhase] = useState(0);
+  const [openPhase, setOpenPhase] = useState(0);
+
+  useEffect(() => {
+    setSelectedPhase(0);
+    setOpenPhase(0);
+  }, [phases]);
 
   if (isMobile) {
-    const activePhase = ROADMAP.phases[selectedPhase] || ROADMAP.phases[0];
-    const activeProgress = getPhaseProgress(activePhase);
+    const activePhase = phases[selectedPhase] || phases[0];
+    const activeProgress = activePhase ? getPhaseProgress(activePhase) : { pct: 0 };
+
+    if (!activePhase) return null;
 
     return (
       <div className="mobile-phase-container">
         {/* Horizontal Scrollable Phase Switcher Tabs */}
         <div className="mobile-phase-tabs-wrapper">
           <div className="mobile-phase-tabs">
-            {ROADMAP.phases.map((phase, i) => {
-              const unlocked = isPhaseUnlocked(i);
+            {phases.map((phase, i) => {
+              const unlocked = isPhaseUnlocked(i, phases);
               const { pct } = getPhaseProgress(phase);
               const isSelected = selectedPhase === i;
               return (
@@ -185,7 +373,7 @@ function ChapterList({ progress, isPhaseUnlocked, getPhaseProgress, isMobile }) 
                   onClick={() => unlocked && setSelectedPhase(i)}
                   disabled={!unlocked}
                 >
-                  <span className="mobile-phase-tab__num">Phase {phase.number}</span>
+                  <span className="mobile-phase-tab__num">Phase {i + 1}</span>
                   <span className="mobile-phase-tab__name">{phase.title.split(':')[0]}</span>
                   {!unlocked ? (
                     <span className="mobile-phase-tab__status">🔒</span>
@@ -202,7 +390,7 @@ function ChapterList({ progress, isPhaseUnlocked, getPhaseProgress, isMobile }) 
         <div className="mobile-selected-phase-card">
           <div className="mobile-phase-banner">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-              <span className="mobile-phase-tag">PHASE {activePhase.number} OF 7</span>
+              <span className="mobile-phase-tag">PHASE {selectedPhase + 1} OF {phases.length}</span>
               <span className="mobile-phase-pct">{activeProgress.pct}% COMPLETED</span>
             </div>
             <h2 className="mobile-phase-title">{activePhase.title}</h2>
@@ -229,8 +417,8 @@ function ChapterList({ progress, isPhaseUnlocked, getPhaseProgress, isMobile }) 
             </button>
             <button
               className="btn btn-secondary"
-              disabled={selectedPhase === ROADMAP.phases.length - 1 || !isPhaseUnlocked(selectedPhase + 1)}
-              onClick={() => setSelectedPhase(p => Math.min(ROADMAP.phases.length - 1, p + 1))}
+              disabled={selectedPhase === phases.length - 1 || !isPhaseUnlocked(selectedPhase + 1, phases)}
+              onClick={() => setSelectedPhase(p => Math.min(phases.length - 1, p + 1))}
             >
               Next Phase →
             </button>
@@ -242,8 +430,8 @@ function ChapterList({ progress, isPhaseUnlocked, getPhaseProgress, isMobile }) 
 
   return (
     <div className="chapter-list">
-      {ROADMAP.phases.map((phase, i) => {
-        const unlocked = isPhaseUnlocked(i);
+      {phases.map((phase, i) => {
+        const unlocked = isPhaseUnlocked(i, phases);
         const { done, total, pct } = getPhaseProgress(phase);
         const isOpen = openPhase === i;
 
@@ -257,7 +445,7 @@ function ChapterList({ progress, isPhaseUnlocked, getPhaseProgress, isMobile }) 
               className="chapter-header"
               onClick={() => unlocked && setOpenPhase(isOpen ? -1 : i)}
             >
-              <div className={numberClass}>{phase.number}</div>
+              <div className={numberClass}>{i + 1}</div>
               <div className="chapter-title">{phase.title}</div>
               {!unlocked ? (
                 <span className="chapter-tag chapter-tag--locked">🔒</span>

@@ -29,6 +29,20 @@ export default function App() {
   const [levelUp, setLevelUp] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [activeTrackId, setActiveTrackId] = useState(() => {
+    try {
+      return localStorage.getItem('codequest_active_track') || 'java-spring';
+    } catch {
+      return 'java-spring';
+    }
+  });
+
+  const changeActiveTrack = (newTrackId) => {
+    setActiveTrackId(newTrackId);
+    try {
+      localStorage.setItem('codequest_active_track', newTrackId);
+    } catch {}
+  };
 
   // Load stats and user on mount
   useEffect(() => {
@@ -153,13 +167,14 @@ export default function App() {
     }).catch(() => {});
   }
 
-  // Calculate phase unlock status
-  function isPhaseUnlocked(phaseIndex) {
+  // Calculate phase unlock status (relative to active track or roadmap)
+  function isPhaseUnlocked(phaseIndex, trackPhases = ROADMAP.phases) {
     if (phaseIndex === 0) return true;
-    const prevPhase = ROADMAP.phases[phaseIndex - 1];
+    const prevPhase = trackPhases[phaseIndex - 1];
+    if (!prevPhase) return true;
     const prevItems = getPhaseItems(prevPhase);
     const completedCount = prevItems.filter(id => progress[id]).length;
-    // Unlock if at least 70% of previous phase is done
+    // Unlock if at least 70% of previous phase in this track is done
     return completedCount >= Math.floor(prevItems.length * 0.7);
   }
 
@@ -186,6 +201,7 @@ export default function App() {
     showToast, awardXP, completeItem,
     isPhaseUnlocked, getPhaseProgress, getPhaseItems,
     setLevelUp,
+    activeTrackId, changeActiveTrack,
   };
 
   const location = useLocation();

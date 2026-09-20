@@ -6,6 +6,8 @@ import { phase4Content } from './lessons/phase4.js';
 import { phase5Content } from './lessons/phase5.js';
 import { phase6Content } from './lessons/phase6.js';
 import { phase7Content } from './lessons/phase7.js';
+import { pythonTrackContent } from './lessons/pythonTrack.js';
+import { systemsTrackContent } from './lessons/systemsTrack.js';
 
 const contentMap = {
   ...phase1Content,
@@ -15,6 +17,8 @@ const contentMap = {
   ...phase5Content,
   ...phase6Content,
   ...phase7Content,
+  ...pythonTrackContent,
+  ...systemsTrackContent,
 };
 
 export function getWeekContent(weekId) {
@@ -136,5 +140,43 @@ export const ROADMAP = {
           lessons: [{},{}], exercises: [{}], quiz: [1], project: true },
       ],
     },
+    {
+      id: 'phase-py-1', number: 8,
+      title: 'Python Core & Backend Foundations',
+      subtitle: 'Pythonic OOP, Data Structures & REST APIs',
+      icon: '🐍', months: 'Python Track', weekRange: 'Weeks 1–2', color: '#4fc3f7',
+      weeks: [
+        { id: 'py-week-1', number: 1, title: 'Python 3 Foundations & Data Structures',
+          lessons: [{},{}], exercises: [{}], quiz: [1], project: false },
+        { id: 'py-week-2', number: 2, title: 'Pythonic OOP & Magic Methods',
+          lessons: [{}], exercises: [{}], quiz: [1], project: false },
+      ],
+    },
+    {
+      id: 'phase-sys-1', number: 9,
+      title: 'C Memory Architecture & Low-Level Systems',
+      subtitle: 'Direct Addressing, Pointers & Malloc',
+      icon: '⚙️', months: 'Systems Track', weekRange: 'Week 1', color: '#ff80ab',
+      weeks: [
+        { id: 'sys-week-1', number: 1, title: 'Memory Model, Pointers & Dynamic Allocation',
+          lessons: [{},{}], exercises: [{}], quiz: [1], project: false },
+      ],
+    },
   ],
 };
+
+export function findWeek(weekId) {
+  for (const phase of ROADMAP.phases) {
+    for (const week of phase.weeks) {
+      if (week.id === weekId) return week;
+    }
+  }
+  return null;
+}
+
+export function findPhaseForWeek(weekId) {
+  for (const phase of ROADMAP.phases) {
+    if (phase.weeks.some(w => w.id === weekId)) return phase;
+  }
+  return ROADMAP.phases[0];
+}

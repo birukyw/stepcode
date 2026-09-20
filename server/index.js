@@ -285,6 +285,12 @@ app.post('/api/run', async (req, res) => {
     const langMap = {
       java: { language: 'java', versionIndex: '4' },
       sql: { language: 'sql', versionIndex: '3' },
+      python: { language: 'python3', versionIndex: '4' },
+      python3: { language: 'python3', versionIndex: '4' },
+      cpp: { language: 'cpp17', versionIndex: '1' },
+      c: { language: 'c', versionIndex: '5' },
+      csharp: { language: 'csharp', versionIndex: '4' },
+      javascript: { language: 'nodejs', versionIndex: '4' },
     };
     const config = langMap[language] || langMap.java;
 
