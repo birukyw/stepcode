@@ -10,6 +10,7 @@ import ExercisePage from './pages/ExercisePage';
 import QuizPage from './pages/QuizPage';
 import ProjectPage from './pages/ProjectPage';
 import AuthModal from './components/AuthModal';
+import MobileBottomNav from './components/MobileBottomNav';
 import { fetchStats, saveStats } from './utils/api';
 import { ROADMAP } from './data/roadmap';
 
@@ -212,6 +213,7 @@ export default function App() {
             onSuccess={handleAuthSuccess}
           />
         )}
+        <MobileBottomNav />
       </div>
     </AppContext.Provider>
   );

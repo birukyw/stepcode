@@ -1512,6 +1512,248 @@ a:hover { color: #81d4fa; }
   font-size: 13px;
 }
 
+/* ─── Mobile Bottom Navigation ────────────────────────────────── */
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    background: rgba(13, 17, 26, 0.94);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+    z-index: 1000;
+    padding: 0 8px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .mobile-bottom-nav__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    flex: 1;
+    height: 100%;
+    color: var(--text-dim);
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .mobile-bottom-nav__item.active {
+    color: var(--cyan);
+  }
+
+  .mobile-bottom-nav__icon {
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .mobile-bottom-nav__label {
+    font-size: 10px;
+    font-weight: 500;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  .mobile-bottom-nav__item--play .mobile-bottom-nav__icon {
+    color: var(--yellow);
+  }
+
+  body, .main-content {
+    padding-bottom: 64px !important;
+  }
+}
+
+/* ─── Mobile Phase Switcher Tabs ──────────────────────────────── */
+.mobile-phase-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mobile-phase-tabs-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  margin: 0 -10px;
+  padding: 4px 10px;
+}
+.mobile-phase-tabs-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-phase-tabs {
+  display: flex;
+  gap: 8px;
+  width: max-content;
+}
+
+.mobile-phase-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.mobile-phase-tab--active {
+  background: rgba(79, 195, 247, 0.12) !important;
+  border-color: var(--cyan) !important;
+  color: var(--white) !important;
+  box-shadow: 0 2px 8px rgba(79, 195, 247, 0.2);
+}
+
+.mobile-phase-tab__num {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: var(--cyan);
+}
+
+.mobile-phase-tab__name {
+  font-size: 12px;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.mobile-phase-tab--locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mobile-selected-phase-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 14px;
+}
+
+.mobile-phase-banner {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.mobile-phase-tag {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--cyan);
+  letter-spacing: 1px;
+}
+
+.mobile-phase-pct {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--green-bright);
+}
+
+.mobile-phase-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--white);
+  margin: 6px 0 4px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.mobile-phase-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.mobile-phase-pager {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.mobile-phase-pager .btn {
+  flex: 1;
+  text-align: center;
+  justify-content: center;
+  padding: 9px 12px;
+  font-size: 12px;
+}
+
+/* ─── Week Section on Mobile ──────────────────────────────────── */
+.week-section-wrapper {
+  margin-bottom: 14px;
+}
+
+.week-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding: 6px 0 2px;
+}
+
+.week-section-badge {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  background: rgba(79, 195, 247, 0.12);
+  color: var(--cyan);
+  padding: 2px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+}
+
+.week-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─── Modern Chapter Item Buttons ─────────────────────────────── */
+.chapter-item__btn--start {
+  background: var(--cyan) !important;
+  color: #000 !important;
+  border-color: var(--cyan) !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  padding: 4px 10px !important;
+  border-radius: 12px !important;
+  letter-spacing: 0 !important;
+  white-space: nowrap;
+}
+
+.chapter-item__btn--locked {
+  background: transparent !important;
+  border: none !important;
+  color: var(--text-dim) !important;
+  font-size: 13px !important;
+  padding: 2px 6px !important;
+  opacity: 0.55;
+}
+
 /* ─── Mobile Responsive Media Queries ─────────────────────────── */
 @media (max-width: 768px) {
   /* Navbar */
@@ -1545,21 +1787,54 @@ a:hover { color: #81d4fa; }
   /* Hero & Dashboard */
   .course-hero {
     padding: 20px 16px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
   }
   .course-hero__title {
-    font-size: 20px !important;
+    font-size: 18px !important;
   }
   .course-hero__desc {
-    font-size: 14px;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 14px;
   }
-  .course-stats-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+  .course-hero__cta {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 9px 20px;
+    border-radius: 6px;
+    letter-spacing: 0;
   }
-  .dashboard-phases {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  .course-hero__meta {
+    gap: 8px;
+    font-size: 11px;
+    flex-wrap: wrap;
+  }
+  .course-hero__meta span {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  .course-sidebar {
+    display: none; /* Mobile navigation is via bottom nav and phase tabs */
+  }
+
+  /* Chapter item adjustments on mobile */
+  .chapter-body {
+    padding: 0 6px 10px 6px !important;
+  }
+  .chapter-item {
+    padding: 9px 10px;
+    gap: 8px;
+  }
+  .chapter-item__name {
+    font-size: 13px;
+    line-height: 1.35;
+  }
+  .chapter-item__type {
+    font-size: 10px;
+    min-width: 55px;
   }
 
   /* Lesson Bottom Bar */
@@ -1608,9 +1883,6 @@ a:hover { color: #81d4fa; }
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-  .course-stats-grid {
-    grid-template-columns: 1fr;
   }
 }
 

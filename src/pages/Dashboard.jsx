@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../App';
 import { ROADMAP } from '../data/roadmap';
@@ -17,6 +17,13 @@ const PHASE_DESCRIPTIONS = {
 
 export default function Dashboard() {
   const { stats, isPhaseUnlocked, getPhaseProgress, progress } = useContext(AppContext);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const totalItems = ROADMAP.phases.reduce((sum, p) => {
     return sum + p.weeks.reduce((ws, w) => {
@@ -47,13 +54,13 @@ export default function Dashboard() {
     <div>
       {/* Hero Banner */}
       <div className="course-hero">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 10 }}>
           <div className="course-hero__badge">
-            <PixelSprite name="sword" size={12} style={{ marginRight: 6 }} /> 7-MONTH MASTER QUEST
+            <PixelSprite name="sword" size={12} style={{ marginRight: 4 }} /> 7-MONTH MASTER QUEST
           </div>
           <div className="hero-companion-badge">
-            <PixelSprite name="bot" size={16} animated />
-            <span className="hero-companion-badge__bubble">Bit-Bot Companion Online</span>
+            <PixelSprite name="bot" size={14} animated />
+            <span className="hero-companion-badge__bubble">Bit-Bot Companion</span>
           </div>
         </div>
 
@@ -62,26 +69,33 @@ export default function Dashboard() {
         <p className="course-hero__desc">
           Master software engineering in 28 weeks (7 months) by building real projects, solving LeetCode coding challenges, and conquering quizzes — from Java foundations to full-stack cloud deployment!
         </p>
+
         {continueTarget && (
           <Link to={continueTarget} className="course-hero__cta">
             ▶ Continue Quest
           </Link>
         )}
+
         <div className="course-hero__meta">
-          <span>⏱ 28 weeks (7 months)</span>
-          <span>📘 {totalItems} modules</span>
-          <span>⚡ {stats.totalXp} XP earned</span>
+          <span>⏱ 28 WEEKS</span>
+          <span>📘 {totalItems} MODULES</span>
+          <span>⚡ {stats.totalXp} XP EARNED</span>
         </div>
       </div>
 
-      {/* Two-column layout */}
+      {/* Two-column layout on desktop, Single column on mobile */}
       <div className="course-layout">
-        {/* Left: Chapter list */}
+        {/* Left: Chapter list / Mobile Phase Tabs */}
         <div className="course-main">
-          <ChapterList progress={progress} isPhaseUnlocked={isPhaseUnlocked} getPhaseProgress={getPhaseProgress} />
+          <ChapterList
+            progress={progress}
+            isPhaseUnlocked={isPhaseUnlocked}
+            getPhaseProgress={getPhaseProgress}
+            isMobile={isMobile}
+          />
         </div>
 
-        {/* Right: Sidebar */}
+        {/* Right: Sidebar (hidden on small mobile or stacked at bottom) */}
         <div className="course-sidebar">
           {/* User Card */}
           <div className="sidebar-card user-card">
@@ -146,11 +160,85 @@ function StatRow({ icon, label, value }) {
   );
 }
 
-function ChapterList({ progress, isPhaseUnlocked, getPhaseProgress }) {
-  const [openPhase, setOpenPhase] = useState(
-    // Auto-open the first incomplete phase
-    ROADMAP.phases.findIndex((p, i) => isPhaseUnlocked(i) && getPhaseProgress(p).pct < 100)
-  );
+function ChapterList({ progress, isPhaseUnlocked, getPhaseProgress, isMobile }) {
+  const initialPhase = ROADMAP.phases.findIndex((p, i) => isPhaseUnlocked(i) && getPhaseProgress(p).pct < 100);
+  const [selectedPhase, setSelectedPhase] = useState(initialPhase !== -1 ? initialPhase : 0);
+  const [openPhase, setOpenPhase] = useState(initialPhase !== -1 ? initialPhase : 0);
+
+  if (isMobile) {
+    const activePhase = ROADMAP.phases[selectedPhase] || ROADMAP.phases[0];
+    const activeProgress = getPhaseProgress(activePhase);
+
+    return (
+      <div className="mobile-phase-container">
+        {/* Horizontal Scrollable Phase Switcher Tabs */}
+        <div className="mobile-phase-tabs-wrapper">
+          <div className="mobile-phase-tabs">
+            {ROADMAP.phases.map((phase, i) => {
+              const unlocked = isPhaseUnlocked(i);
+              const { pct } = getPhaseProgress(phase);
+              const isSelected = selectedPhase === i;
+              return (
+                <button
+                  key={phase.id}
+                  className={`mobile-phase-tab ${isSelected ? 'mobile-phase-tab--active' : ''} ${!unlocked ? 'mobile-phase-tab--locked' : ''}`}
+                  onClick={() => unlocked && setSelectedPhase(i)}
+                  disabled={!unlocked}
+                >
+                  <span className="mobile-phase-tab__num">Phase {phase.number}</span>
+                  <span className="mobile-phase-tab__name">{phase.title.split(':')[0]}</span>
+                  {!unlocked ? (
+                    <span className="mobile-phase-tab__status">🔒</span>
+                  ) : pct === 100 ? (
+                    <span className="mobile-phase-tab__status">✅</span>
+                  ) : null}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Selected Phase View */}
+        <div className="mobile-selected-phase-card">
+          <div className="mobile-phase-banner">
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+              <span className="mobile-phase-tag">PHASE {activePhase.number} OF 7</span>
+              <span className="mobile-phase-pct">{activeProgress.pct}% COMPLETED</span>
+            </div>
+            <h2 className="mobile-phase-title">{activePhase.title}</h2>
+            <p className="mobile-phase-desc">{PHASE_DESCRIPTIONS[activePhase.id] || activePhase.subtitle}</p>
+            <div className="sidebar-progress-bar" style={{ height: 5, margin: '12px 0 16px' }}>
+              <div className="sidebar-progress-fill" style={{ width: `${activeProgress.pct}%`, background: 'var(--cyan)' }} />
+            </div>
+          </div>
+
+          <div className="mobile-phase-weeks">
+            {activePhase.weeks.map(week => (
+              <WeekSection key={week.id} week={week} phase={activePhase} progress={progress} />
+            ))}
+          </div>
+
+          {/* Prev/Next Phase Nav */}
+          <div className="mobile-phase-pager">
+            <button
+              className="btn btn-secondary"
+              disabled={selectedPhase === 0}
+              onClick={() => setSelectedPhase(p => Math.max(0, p - 1))}
+            >
+              ← Prev Phase
+            </button>
+            <button
+              className="btn btn-secondary"
+              disabled={selectedPhase === ROADMAP.phases.length - 1 || !isPhaseUnlocked(selectedPhase + 1)}
+              onClick={() => setSelectedPhase(p => Math.min(ROADMAP.phases.length - 1, p + 1))}
+            >
+              Next Phase →
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="chapter-list">
@@ -205,13 +293,10 @@ function WeekSection({ week, phase, progress }) {
   const hasProject = !!week.project;
 
   return (
-    <div style={{ marginBottom: 16 }}>
-      <div style={{
-        fontFamily: 'var(--font-pixel)', fontSize: 8, color: 'var(--text-dim)',
-        letterSpacing: 1, marginBottom: 6, padding: '8px 0 4px',
-        textTransform: 'uppercase',
-      }}>
-        Week {week.number} — {week.title}
+    <div className="week-section-wrapper">
+      <div className="week-section-header">
+        <span className="week-section-badge">WEEK {week.number}</span>
+        <span className="week-section-title">{week.title}</span>
       </div>
       <div className="chapter-items">
         {Array.from({ length: lessonCount }, (_, i) => {
@@ -224,13 +309,15 @@ function WeekSection({ week, phase, progress }) {
               className={`chapter-item ${done ? 'chapter-item--done' : ''}`}
             >
               <span className="chapter-item__type">Lesson {i + 1}</span>
-              <span className="chapter-item__name">{week.title.split(',')[0]}</span>
+              <span className="chapter-item__name">
+                {week.lessons?.[i]?.title || week.title.split(',')[0]}
+              </span>
               {done ? (
                 <span className="chapter-item__status">✅</span>
               ) : isFirst ? (
-                <span className="chapter-item__btn chapter-item__btn--start">Start</span>
+                <span className="chapter-item__btn chapter-item__btn--start">Start →</span>
               ) : (
-                <span className="chapter-item__btn">? ? ?</span>
+                <span className="chapter-item__btn chapter-item__btn--locked" title="Locked">🔒</span>
               )}
             </Link>
           );
@@ -245,8 +332,14 @@ function WeekSection({ week, phase, progress }) {
               className={`chapter-item ${done ? 'chapter-item--done' : ''}`}
             >
               <span className="chapter-item__type">Exercise {i + 1}</span>
-              <span className="chapter-item__name">Practice Challenge</span>
-              {done ? <span className="chapter-item__status">✅</span> : <span className="chapter-item__btn">? ? ?</span>}
+              <span className="chapter-item__name">
+                {week.exercises?.[i]?.title || 'Practice Challenge'}
+              </span>
+              {done ? (
+                <span className="chapter-item__status">✅</span>
+              ) : (
+                <span className="chapter-item__btn chapter-item__btn--locked" title="Locked">🔒</span>
+              )}
             </Link>
           );
         })}
@@ -257,8 +350,12 @@ function WeekSection({ week, phase, progress }) {
             className={`chapter-item ${progress[`${week.id}-quiz`] ? 'chapter-item--done' : ''}`}
           >
             <span className="chapter-item__type">Quiz</span>
-            <span className="chapter-item__name">Knowledge Check</span>
-            {progress[`${week.id}-quiz`] ? <span className="chapter-item__status">✅</span> : <span className="chapter-item__btn">? ? ?</span>}
+            <span className="chapter-item__name">Weekly Knowledge Check</span>
+            {progress[`${week.id}-quiz`] ? (
+              <span className="chapter-item__status">✅</span>
+            ) : (
+              <span className="chapter-item__btn chapter-item__btn--locked" title="Locked">🔒</span>
+            )}
           </Link>
         )}
 
@@ -268,8 +365,12 @@ function WeekSection({ week, phase, progress }) {
             className={`chapter-item ${progress[`${week.id}-project`] ? 'chapter-item--done' : ''}`}
           >
             <span className="chapter-item__type">Project</span>
-            <span className="chapter-item__name">Build Challenge</span>
-            {progress[`${week.id}-project`] ? <span className="chapter-item__status">✅</span> : <span className="chapter-item__btn">? ? ?</span>}
+            <span className="chapter-item__name">Portfolio Capstone</span>
+            {progress[`${week.id}-project`] ? (
+              <span className="chapter-item__status">✅</span>
+            ) : (
+              <span className="chapter-item__btn chapter-item__btn--locked" title="Locked">🔒</span>
+            )}
           </Link>
         )}
       </div>
