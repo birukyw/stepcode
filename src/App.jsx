@@ -9,6 +9,7 @@ import LessonPage from './pages/LessonPage';
 import ExercisePage from './pages/ExercisePage';
 import QuizPage from './pages/QuizPage';
 import ProjectPage from './pages/ProjectPage';
+import TrackPage from './pages/TrackPage';
 import AuthModal from './components/AuthModal';
 import MobileBottomNav from './components/MobileBottomNav';
 import { fetchStats, saveStats } from './utils/api';
@@ -167,15 +168,9 @@ export default function App() {
     }).catch(() => {});
   }
 
-  // Calculate phase unlock status (relative to active track or roadmap)
-  function isPhaseUnlocked(phaseIndex, trackPhases = ROADMAP.phases) {
-    if (phaseIndex === 0) return true;
-    const prevPhase = trackPhases[phaseIndex - 1];
-    if (!prevPhase) return true;
-    const prevItems = getPhaseItems(prevPhase);
-    const completedCount = prevItems.filter(id => progress[id]).length;
-    // Unlock if at least 70% of previous phase in this track is done
-    return completedCount >= Math.floor(prevItems.length * 0.7);
+  // All courses and phases are completely unlocked for free exploration
+  function isPhaseUnlocked() {
+    return true;
   }
 
   function getPhaseItems(phase) {
@@ -214,6 +209,7 @@ export default function App() {
         <main className={`main-content ${isFullWidth ? 'main-content--full' : ''}`}>
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/track/:trackId" element={<TrackPage />} />
             <Route path="/phase/:phaseId" element={<PhasePage />} />
             <Route path="/lesson/:weekId/:lessonIndex" element={<LessonPage />} />
             <Route path="/exercise/:weekId/:exerciseIndex" element={<ExercisePage />} />

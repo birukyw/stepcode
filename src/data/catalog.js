@@ -56,20 +56,41 @@ export const TRACKS = [
     ]
   },
   {
-    id: 'python-backend',
-    title: 'Python & Backend Engineering',
-    tagline: 'Write Pythonic code, design APIs with FastAPI & Django, and manage DBs',
+    id: 'python-intro',
+    alias: 'python-backend',
+    title: 'Introduction to Python',
+    tagline: 'From Hello World & clean syntax to OOP, REST APIs, Data Science & FastAPI',
     icon: '🐍',
-    badge: 'MODERN BACKEND',
+    badge: 'STARTER TO PRO',
     color: '#4fc3f7',
-    difficulty: 'Beginner to Advanced',
-    duration: '8 Weeks',
-    modulesCount: 36,
-    tags: ['Python 3', 'OOP & Dunder', 'SQLAlchemy', 'FastAPI', 'PostgreSQL', 'REST APIs'],
-    description: 'Master the cleanest syntax in software engineering. Learn Python data structures, OOP magic methods, database ORM modeling with SQLAlchemy, and high-performance asynchronous API endpoints.',
+    difficulty: 'Beginner to Intermediate',
+    duration: '11 Modules',
+    modulesCount: 11,
+    tags: ['Python 3', 'Syntax', 'Functions', 'OOP', 'File I/O', 'REST APIs', 'Data Science', 'FastAPI'],
+    description: 'The ultimate zero-to-hero Python masterclass. Start from Hello World and master loops, functions, collections, and classes in Level 1. Then pick and choose standalone applied electives in Level 2: Advanced OOP, File Serialization, Networking/APIs, Data Analytics, and FastAPI Web Development.',
+    levels: [
+      {
+        id: 'beginner',
+        title: 'Level 1: Beginner Foundations',
+        subtitle: 'From Hello World to Loops, Functions, Collections & Classes',
+        badge: 'FOUNDATIONS',
+        icon: '🌱',
+        modulesCount: 6,
+        phases: [ROADMAP.phases[7]] // phase-py-beginner
+      },
+      {
+        id: 'intermediate',
+        title: 'Level 2: Intermediate Ecosystem Electives',
+        subtitle: 'Pick & Choose: Advanced OOP, File I/O, REST APIs, Data Science & FastAPI',
+        badge: 'ELECTIVES',
+        icon: '⚡',
+        modulesCount: 5,
+        phases: [ROADMAP.phases[8]] // phase-py-intermediate
+      }
+    ],
     phases: [
-      ROADMAP.phases[7], // Phase Python: Core & Backend Foundations
-      ROADMAP.phases[3], // Phase 4: Database & SQL
+      ROADMAP.phases[7], // Phase Python Beginner (Modules 1-6)
+      ROADMAP.phases[8], // Phase Python Intermediate Electives (Modules 7-11)
     ]
   },
   {
@@ -85,11 +106,11 @@ export const TRACKS = [
     tags: ['C', 'C++ 17', 'Pointers', 'Stack & Heap', 'Memory Allocation', 'Assembly'],
     description: 'Understand what software is actually doing under the hood. Master pointer arithmetic, dynamic memory allocation with malloc and free, custom data structures from scratch, and C++ OOP abstractions.',
     phases: [
-      ROADMAP.phases[8], // Phase Systems: C Memory Architecture & Systems
+      ROADMAP.phases[9], // Phase Systems: C Memory Architecture & Systems
     ]
   }
 ];
 
 export function getTrack(trackId) {
-  return TRACKS.find(t => t.id === trackId) || TRACKS[0];
+  return TRACKS.find(t => t.id === trackId || t.alias === trackId) || TRACKS[0];
 }
