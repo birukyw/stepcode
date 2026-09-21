@@ -25,11 +25,20 @@ export default function AuthModal({ onClose, onSuccess }) {
     setLoading(true);
     const endpoint = tab === 'login' ? '/api/auth/login' : '/api/auth/register';
 
+    // If registering, carry over any guest XP
+    let initialXp = 0;
+    try {
+      const fallback = JSON.parse(localStorage.getItem('codequest-fallback') || '{}');
+      if (fallback.stats && typeof fallback.stats.totalXp === 'number') {
+        initialXp = fallback.stats.totalXp;
+      }
+    } catch {}
+
     try {
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: username.trim(), password }),
+        body: JSON.stringify({ username: username.trim(), password, initialXp }),
       });
 
       const data = await res.json();
@@ -39,8 +48,9 @@ export default function AuthModal({ onClose, onSuccess }) {
         return;
       }
 
-      // Success
+      // Success: Save token AND user object to localStorage
       localStorage.setItem('codequest_token', data.token);
+      localStorage.setItem('codequest_user', JSON.stringify(data.user));
       if (onSuccess) onSuccess(data.user, data.token);
       onClose();
     } catch (err) {

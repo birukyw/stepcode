@@ -21,53 +21,6 @@ export default function Navbar() {
           </span>
           <GlitchHeader as="span" className="navbar__title" text="CodeQuest" scramble={false} />
         </Link>
-        <Link
-          to="/"
-          className="navbar__track-badge"
-          title="Browse All Career Specializations"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 6,
-            background: 'rgba(255, 255, 255, 0.05)',
-            border: '1px solid var(--border)',
-            borderRadius: 4,
-            padding: '3px 10px',
-            fontSize: 12,
-            color: 'var(--text-secondary)',
-            fontFamily: 'var(--font-mono)',
-            textDecoration: 'none',
-            fontWeight: 600,
-            cursor: 'pointer',
-            transition: 'all 0.15s ease',
-          }}
-        >
-          <span>🗺️ Tracks</span>
-        </Link>
-        <Link
-          to={`/track/${currentTrack.id}`}
-          className="navbar__track-badge"
-          title={`Active Track: ${currentTrack.title}`}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 6,
-            background: 'rgba(0, 229, 255, 0.08)',
-            border: '1px solid rgba(0, 229, 255, 0.25)',
-            borderRadius: 4,
-            padding: '3px 10px',
-            fontSize: 12,
-            color: 'var(--cyan)',
-            fontFamily: 'var(--font-mono)',
-            textDecoration: 'none',
-            fontWeight: 600,
-            cursor: 'pointer',
-            transition: 'all 0.15s ease',
-          }}
-        >
-          <span>{currentTrack.icon} {currentTrack.title.split('&')[0]}</span>
-          <span style={{ fontSize: 9, color: 'var(--text-dim)', letterSpacing: 0.5 }}>SYLLABUS</span>
-        </Link>
       </div>
       <div className="navbar__stats">
         <div className="navbar__stat navbar__stat--theme">

@@ -3173,3 +3173,375 @@ h3.cyber-glitch-header {
   padding: 14px 18px;
   border-top: 1px solid var(--border);
 }
+
+/* ─── Codédex-Style Retro Pixel Course Hero & Layout ─────────────── */
+
+.codedex-hero-banner {
+  position: relative;
+  width: 100%;
+  min-height: 340px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background-size: cover;
+  background-position: right center;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.codedex-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(10, 15, 29, 0.95) 0%,
+    rgba(10, 15, 29, 0.88) 38%,
+    rgba(10, 15, 29, 0.5) 65%,
+    rgba(10, 15, 29, 0.15) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.codedex-hero-scanline {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.12) 0px,
+    rgba(0, 0, 0, 0.12) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.codedex-top-controls {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+}
+
+.codedex-top-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+
+.codedex-top-btn:hover {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.codedex-top-btn--active {
+  background: rgba(250, 204, 21, 0.15);
+  border-color: #facc15;
+  color: #fde047;
+}
+
+.codedex-top-brand {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+.codedex-hero-content {
+  position: relative;
+  z-index: 3;
+  padding: 10px 32px 32px;
+  max-width: 580px;
+}
+
+.codedex-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 9999px;
+  padding: 4px 12px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #e2e8f0;
+  margin-bottom: 12px;
+  backdrop-filter: blur(4px);
+}
+
+.codedex-hero-title {
+  font-family: var(--font-pixel);
+  font-size: 34px;
+  color: #ffffff;
+  margin: 0 0 12px;
+  line-height: 1.25;
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.9);
+  letter-spacing: -0.5px;
+}
+
+.codedex-hero-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #cbd5e1;
+  margin: 0 0 20px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+  font-weight: 400;
+}
+
+.codedex-start-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #facc15;
+  color: #0f172a;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 14px;
+  padding: 11px 22px;
+  border-radius: 6px;
+  border: none;
+  box-shadow: 0 4px 0 #b45309;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.12s ease;
+  user-select: none;
+}
+
+.codedex-start-btn:hover {
+  background: #fde047;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 0 #b45309;
+}
+
+.codedex-start-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #b45309;
+}
+
+.codedex-hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+  font-size: 12px;
+  color: #94a3b8;
+  flex-wrap: wrap;
+}
+
+.codedex-avatar-group {
+  display: inline-flex;
+  align-items: center;
+}
+
+.codedex-avatar-bubble {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #0f172a;
+  margin-left: -6px;
+  image-rendering: pixelated;
+  background: #334155;
+  object-fit: cover;
+}
+
+.codedex-avatar-bubble:first-child {
+  margin-left: 0;
+}
+
+.codedex-profile-card {
+  background: #0f172a;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.codedex-profile-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.codedex-profile-card__name {
+  font-weight: 700;
+  font-size: 15px;
+  color: #ffffff;
+  margin-bottom: 2px;
+}
+
+.codedex-profile-card__level {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+
+.codedex-profile-card__desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin: 12px 0 14px;
+}
+
+.codedex-profile-card__btn {
+  width: 100%;
+  padding: 9px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  transition: all 0.15s ease;
+}
+
+.codedex-profile-card__btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.catalog-card__hero-banner {
+  width: 100%;
+  height: 120px;
+  border-radius: 6px 6px 0 0;
+  background-size: cover;
+  background-position: center;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 14px;
+}
+
+.catalog-card__hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(13, 20, 36, 0.95) 0%, rgba(13, 20, 36, 0.4) 60%, transparent 100%);
+}
+
+/* ─── Compact Track Modules Layout (Retracted / Space-Efficient) ─── */
+.track-compact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 8px;
+}
+
+.track-compact-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  font-size: 12px;
+}
+
+.track-compact-item:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.track-compact-item--done {
+  border-color: rgba(0, 230, 118, 0.35);
+  background: rgba(0, 230, 118, 0.04);
+}
+
+.track-compact-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--cyan);
+  background: rgba(0, 229, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.track-compact-tag--ex {
+  color: var(--green-bright);
+  background: rgba(0, 230, 118, 0.1);
+}
+
+.track-compact-tag--quiz {
+  color: var(--yellow);
+  background: rgba(255, 214, 0, 0.1);
+}
+
+.track-compact-tag--proj {
+  color: #ff80ab;
+  background: rgba(255, 128, 171, 0.1);
+}
+
+.track-compact-name {
+  color: #f1f5f9;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 170px;
+}
+
+.track-compact-status {
+  font-size: 11px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+  margin-left: 6px;
+}
+
+/* ─── Whole Card Clickable Link on Homepage ─── */
+.catalog-card--clickable {
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.catalog-card--clickable:hover {
+  transform: translateY(-4px);
+  border-color: var(--track-color, var(--cyan));
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+}
+
+.catalog-card--clickable:hover .catalog-card__title {
+  color: var(--track-color, var(--cyan));
+}
+
+

@@ -108,11 +108,14 @@ app.post('/api/auth/register', (req, res) => {
 
     const userId = result.lastInsertRowid;
 
-    // Initialize stats
+    // Initialize stats (migrate guest XP if provided, otherwise default to 0)
+    const initXp = typeof req.body.initialXp === 'number' ? req.body.initialXp : 0;
+    const initLevel = Math.max(1, Math.floor(initXp / 200) + 1);
+    const today = new Date().toISOString().split('T')[0];
     db.prepare(`
-      INSERT INTO user_stats_multi (user_id, total_xp, level, current_streak, longest_streak)
-      VALUES (?, 0, 1, 0, 0)
-    `).run(userId);
+      INSERT INTO user_stats_multi (user_id, total_xp, level, current_streak, longest_streak, last_active_date)
+      VALUES (?, ?, ?, 1, 1, ?)
+    `).run(userId, initXp, initLevel, today);
 
     // Create session token
     const token = crypto.randomBytes(32).toString('hex');
@@ -186,11 +189,19 @@ app.get('/api/leaderboard', (req, res) => {
 // GET /api/stats — load current user stats & progress
 app.get('/api/stats', (req, res) => {
   const user = getAuthUser(req);
-  const userId = user ? user.id : 1; // 1 = guest
+  if (!user) {
+    // Unauthenticated guest: return empty defaults (client will use local state/cache)
+    return res.json({
+      stats: { totalXp: 0, level: 1, currentStreak: 0, longestStreak: 0, lastActiveDate: null },
+      progress: {},
+      user: null,
+    });
+  }
 
+  const userId = user.id;
   let stats = db.prepare('SELECT * FROM user_stats_multi WHERE user_id = ?').get(userId);
   if (!stats) {
-    stats = { total_xp: 0, level: 1, current_streak: 0, longest_streak: 0, last_active_date: null };
+    stats = { total_xp: 0, level: 1, current_streak: 1, longest_streak: 1, last_active_date: new Date().toISOString().split('T')[0] };
   }
 
   const progressRows = db.prepare('SELECT * FROM progress_multi WHERE user_id = ?').all(userId);
@@ -213,34 +224,44 @@ app.get('/api/stats', (req, res) => {
       lastActiveDate: stats.last_active_date,
     },
     progress,
-    user: user || null,
+    user,
   });
 });
 
-// PUT /api/stats — update user stats
+// PUT /api/stats — update user stats (authenticated only, with XP protection)
 app.put('/api/stats', (req, res) => {
   const user = getAuthUser(req);
-  const userId = user ? user.id : 1;
+  if (!user) {
+    // Unauthenticated guest stats are maintained in localStorage on the client
+    return res.json({ ok: true });
+  }
+
+  const userId = user.id;
   const { totalXp, level, currentStreak, longestStreak, lastActiveDate } = req.body;
 
+  // Protect XP: NEVER downgrade or zero-out existing user XP
   db.prepare(`
     INSERT INTO user_stats_multi (user_id, total_xp, level, current_streak, longest_streak, last_active_date)
     VALUES (?, ?, ?, ?, ?, ?)
     ON CONFLICT(user_id) DO UPDATE SET
-      total_xp = excluded.total_xp,
-      level = excluded.level,
+      total_xp = MAX(user_stats_multi.total_xp, excluded.total_xp),
+      level = MAX(user_stats_multi.level, excluded.level),
       current_streak = excluded.current_streak,
-      longest_streak = excluded.longest_streak,
+      longest_streak = MAX(user_stats_multi.longest_streak, excluded.longest_streak),
       last_active_date = excluded.last_active_date
   `).run(userId, totalXp || 0, level || 1, currentStreak || 0, longestStreak || 0, lastActiveDate || null);
 
   res.json({ ok: true });
 });
 
-// POST /api/progress — save progress item
+// POST /api/progress — save progress item (authenticated only)
 app.post('/api/progress', (req, res) => {
   const user = getAuthUser(req);
-  const userId = user ? user.id : 1;
+  if (!user) {
+    return res.json({ ok: true });
+  }
+
+  const userId = user.id;
   const { itemId, type, xp, score, codeSnapshot } = req.body;
 
   db.prepare(`

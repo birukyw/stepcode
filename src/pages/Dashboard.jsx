@@ -173,74 +173,65 @@ export default function Dashboard() {
             const isPython = track.id === 'python-intro';
 
             return (
-              <div
+              <Link
                 key={track.id}
-                className={`catalog-card ${isPython ? 'catalog-card--flagship' : ''}`}
+                to={`/track/${track.id}`}
+                className={`catalog-card catalog-card--clickable ${isPython ? 'catalog-card--flagship' : ''}`}
                 style={{ '--track-color': track.color || 'var(--cyan)' }}
               >
-                {/* Top header */}
-                <div className="catalog-card__top">
-                  <div className="catalog-card__icon-box">
-                    <span className="catalog-card__icon">{track.icon}</span>
-                  </div>
-                  <span className="catalog-card__badge" style={{ color: track.color || 'var(--cyan)' }}>
-                    {track.badge}
-                  </span>
-                </div>
-
-                <h3 className="catalog-card__title">{track.title}</h3>
-                <p className="catalog-card__tagline">{track.tagline}</p>
-                <p className="catalog-card__desc">{track.description}</p>
-
-                {/* Level Breakdown Pills (e.g. for Python track) */}
-                {track.levels && (
-                  <div className="catalog-card__levels-box">
-                    {track.levels.map(lvl => (
-                      <div key={lvl.id} className="catalog-card__level-row">
-                        <span style={{ fontSize: 12 }}>{lvl.icon}</span>
-                        <span style={{ fontWeight: 600, color: '#fff', fontSize: 11 }}>{lvl.title}:</span>
-                        <span style={{ color: 'var(--text-dim)', fontSize: 11 }}>{lvl.modulesCount} Modules</span>
-                      </div>
-                    ))}
+                {/* Retro Pixel Art Card Banner */}
+                {track.heroImage && (
+                  <div
+                    className="catalog-card__hero-banner"
+                    style={{ backgroundImage: `url(${track.heroImage})` }}
+                  >
+                    <div className="catalog-card__hero-overlay" />
+                    <div style={{ position: 'absolute', top: 8, right: 10, zIndex: 2 }}>
+                      <span className="catalog-card__badge" style={{ color: track.color || 'var(--cyan)', background: 'rgba(10, 15, 29, 0.85)', backdropFilter: 'blur(4px)' }}>
+                        {track.badge}
+                      </span>
+                    </div>
                   </div>
                 )}
 
+                {/* Card Title & Icon Header */}
+                <div className="catalog-card__top" style={{ marginBottom: 8 }}>
+                  <div className="catalog-card__icon-box">
+                    <span className="catalog-card__icon">{track.icon}</span>
+                  </div>
+                  <h3 className="catalog-card__title" style={{ flex: 1, margin: 0 }}>
+                    {track.title}
+                  </h3>
+                </div>
+
+                {/* Concise Punchy Tagline (No long bloated descriptions) */}
+                <p className="catalog-card__tagline" style={{ marginBottom: 12 }}>
+                  {track.tagline}
+                </p>
+
                 {/* Tech tags */}
-                <div className="catalog-card__tags">
-                  {track.tags.map(t => (
+                <div className="catalog-card__tags" style={{ marginBottom: 14 }}>
+                  {track.tags.slice(0, 4).map(t => (
                     <span key={t} className="catalog-pill">{t}</span>
                   ))}
                 </div>
 
-                {/* Metadata */}
-                <div className="catalog-card__meta">
+                {/* Metadata & Progress */}
+                <div className="catalog-card__meta" style={{ marginTop: 'auto', paddingTop: 10, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                   <span>⏱ {track.duration}</span>
-                  <span>📈 {track.difficulty}</span>
                   <span>📘 {tStats.total} Modules</span>
+                  <span style={{ marginLeft: 'auto', color: 'var(--cyan)', fontWeight: 600 }}>
+                    {tStats.pct > 0 ? `${tStats.pct}% Done` : 'Explore →'}
+                  </span>
                 </div>
 
                 {/* Progress bar */}
-                <div className="catalog-card__progress">
-                  <div className="catalog-card__progress-info">
-                    <span>Progress</span>
-                    <span style={{ fontWeight: 700 }}>{tStats.pct}%</span>
-                  </div>
-                  <div className="sidebar-progress-bar">
+                {tStats.pct > 0 && (
+                  <div className="sidebar-progress-bar" style={{ marginTop: 8 }}>
                     <div className="sidebar-progress-fill" style={{ width: `${tStats.pct}%`, background: track.color || 'var(--cyan)' }} />
                   </div>
-                </div>
-
-                {/* Action button */}
-                <div className="catalog-card__action">
-                  <Link
-                    to={`/track/${track.id}`}
-                    className="btn-catalog-switch"
-                    style={{ textAlign: 'center', textDecoration: 'none', display: 'block' }}
-                  >
-                    📖 View Track Syllabus & Modules →
-                  </Link>
-                </div>
-              </div>
+                )}
+              </Link>
             );
           })}
         </div>

@@ -25,10 +25,18 @@ export default function App() {
     longestStreak: 0,
     lastActiveDate: null,
   });
+  const [statsLoaded, setStatsLoaded] = useState(false);
   const [progress, setProgress] = useState({});
   const [toast, setToast] = useState(null);
   const [levelUp, setLevelUp] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('codequest_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [activeTrackId, setActiveTrackId] = useState(() => {
     try {
@@ -53,9 +61,24 @@ export default function App() {
       fetch('/api/auth/me', {
         headers: { Authorization: `Bearer ${token}` }
       })
-        .then(res => res.ok ? res.json() : null)
+        .then(res => {
+          if (!res.ok) {
+            if (res.status === 401) {
+              localStorage.removeItem('codequest_token');
+              localStorage.removeItem('codequest_user');
+              setCurrentUser(null);
+            }
+            return null;
+          }
+          return res.json();
+        })
         .then(data => {
-          if (data && data.user) setCurrentUser(data.user);
+          if (data && data.user) {
+            setCurrentUser(data.user);
+            try {
+              localStorage.setItem('codequest_user', JSON.stringify(data.user));
+            } catch {}
+          }
         })
         .catch(() => {});
     }
@@ -68,7 +91,12 @@ export default function App() {
       if (data && data.stats) {
         setStats(data.stats);
         setProgress(data.progress || {});
-        if (data.user) setCurrentUser(data.user);
+        if (data.user) {
+          setCurrentUser(data.user);
+          try {
+            localStorage.setItem('codequest_user', JSON.stringify(data.user));
+          } catch {}
+        }
         try {
           localStorage.setItem('codequest-fallback', JSON.stringify(data));
         } catch {}
@@ -79,11 +107,17 @@ export default function App() {
           if (fallback.progress) setProgress(fallback.progress);
         } catch {}
       }
+      setStatsLoaded(true);
+    }).catch(() => {
+      setStatsLoaded(true);
     });
   }
 
   function handleAuthSuccess(user) {
     setCurrentUser(user);
+    try {
+      localStorage.setItem('codequest_user', JSON.stringify(user));
+    } catch {}
     reloadUserData();
     showToast(`Welcome back, ${user.username}! 👾`);
   }
@@ -97,13 +131,23 @@ export default function App() {
       }).catch(() => {});
     }
     localStorage.removeItem('codequest_token');
+    localStorage.removeItem('codequest_user');
+    localStorage.removeItem('codequest-fallback');
     setCurrentUser(null);
-    reloadUserData();
+    setStats({
+      totalXp: 0,
+      level: 1,
+      currentStreak: 0,
+      longestStreak: 0,
+      lastActiveDate: null,
+    });
+    setProgress({});
     showToast('Logged out');
   }
 
-  // Update streak on load
+  // Update streak only AFTER stats are loaded
   useEffect(() => {
+    if (!statsLoaded) return;
     const today = new Date().toISOString().split('T')[0];
     if (stats.lastActiveDate !== today) {
       const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
@@ -111,7 +155,7 @@ export default function App() {
       const updated = {
         ...stats,
         currentStreak: newStreak,
-        longestStreak: Math.max(newStreak, stats.longestStreak),
+        longestStreak: Math.max(newStreak, stats.longestStreak || 0),
         lastActiveDate: today,
       };
       setStats(updated);
@@ -122,7 +166,7 @@ export default function App() {
         localStorage.setItem('codequest-fallback', JSON.stringify(stored));
       } catch {}
     }
-  }, []);
+  }, [statsLoaded]);
 
   function showToast(text) {
     setToast(text);
