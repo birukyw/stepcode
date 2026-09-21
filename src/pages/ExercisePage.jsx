@@ -165,13 +165,28 @@ export default function ExercisePage() {
     : currentLang === 'css' ? 'style.css'
     : 'script.js';
 
+  const themeSprite = weekId?.startsWith('py-') ? 'serpent'
+    : (phase?.id === 'phase-2' || phase?.id === 'phase-3' || ['week-5','week-6','week-7','week-8','week-9','week-10','week-11','week-12'].includes(weekId)) ? 'gladiator'
+    : (phase?.id === 'phase-1' || phase?.id === 'phase-4' || phase?.id === 'phase-5') ? 'wizard'
+    : weekId?.startsWith('sys-') ? 'chip'
+    : 'bot';
+
   const renderInstructions = () => (
     <>
-      <div className="lesson-panel-left__header">
-        <span>Exercise</span>
-        <span style={{ fontSize: 14, color: 'var(--text-dim)' }}>
-          {idx + 1} / {weekContent.exercises.length}
-        </span>
+      <div className="lesson-panel-left__header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <PixelSprite name={themeSprite} size={20} animated={true} />
+          <span>Exercise</span>
+          <span style={{ fontSize: 13, color: 'var(--text-dim)' }}>
+            {idx + 1} / {weekContent.exercises.length}
+          </span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <PixelSprite name={isDone ? 'trophy' : 'sword'} size={14} />
+          <span style={{ fontSize: 11, color: isDone ? 'var(--green-bright)' : 'var(--yellow)', fontFamily: 'var(--font-pixel)' }}>
+            {isDone ? '+20 XP' : '20 XP'}
+          </span>
+        </div>
       </div>
       <div className="lesson-panel-left__scroll">
         <GlitchHeader

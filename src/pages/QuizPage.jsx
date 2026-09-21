@@ -67,7 +67,7 @@ export default function QuizPage() {
           <span className="breadcrumbs__sep">›</span>
           <Link to={`/phase/${phase.id}`}>{phase.title}</Link>
           <span className="breadcrumbs__sep">›</span>
-          <span className="breadcrumbs__current">Week {week.number} · Quiz Results</span>
+          <span className="breadcrumbs__current">Module {week.moduleNumber || week.number} · Quiz Results</span>
         </div>
         <div className="quiz-container">
           <div className="quiz-result">
@@ -103,12 +103,12 @@ export default function QuizPage() {
         <span className="breadcrumbs__sep">›</span>
         <Link to={`/phase/${phase.id}`}>{phase.title}</Link>
         <span className="breadcrumbs__sep">›</span>
-        <span className="breadcrumbs__current">Week {week.number} · Quiz</span>
+        <span className="breadcrumbs__current">Module {week.moduleNumber || week.number} · Quiz</span>
       </div>
 
       <div className="quiz-container">
         <div className="quiz-header">
-          <GlitchHeader as="div" text={`🧪 Week ${week.number} Quiz`} style={{ fontFamily: 'var(--font-pixel)', fontSize: 14, color: 'var(--white)' }} />
+          <GlitchHeader as="div" text={`🧪 Module ${week.moduleNumber || week.number} Quiz`} style={{ fontFamily: 'var(--font-pixel)', fontSize: 14, color: 'var(--white)' }} />
           <div style={{ fontSize: 14, color: 'var(--text-dim)', marginTop: 4 }}>{week.title}</div>
         </div>
 

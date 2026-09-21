@@ -69,6 +69,14 @@ export default function TrackPage() {
     continueLink = `/lesson/${track.phases[0].weeks[0].id}/0`;
   }
 
+  const TRACK_HERO_ASSETS = {
+    'java-spring': { banner: '/images/pixel_java_mage.jpg', sprite: 'wizard', caption: 'SECTOR 01: THE JVM CITADEL & SPRING FORGE' },
+    'python-intro': { banner: '/images/pixel_python_sage.jpg', sprite: 'serpent', caption: 'SECTOR 00: THE EMERALD SERPENT CODEX' },
+    'python-backend': { banner: '/images/pixel_python_sage.jpg', sprite: 'serpent', caption: 'SECTOR 00: THE EMERALD SERPENT CODEX' },
+    'algorithms-dsa': { banner: '/images/pixel_algor_colosseum.jpg', sprite: 'gladiator', caption: 'SECTOR 02: THE GRAND COLOSSEUM OF ALGOR' },
+  };
+  const heroAsset = TRACK_HERO_ASSETS[track.id] || TRACK_HERO_ASSETS[track.alias];
+
   return (
     <div className="track-page-container">
       {/* Back to Catalog Breadcrumb */}
@@ -80,10 +88,20 @@ export default function TrackPage() {
 
       {/* Track Hero Banner */}
       <div className="course-hero track-hero" style={{ borderLeft: `4px solid ${track.color || 'var(--cyan)'}` }}>
+        {heroAsset?.banner && (
+          <div className="lesson-pixel-art" style={{ marginBottom: 16 }}>
+            <img src={heroAsset.banner} alt={track.title} style={{ maxHeight: 240, width: '100%', objectFit: 'cover' }} />
+            <div className="pixel-caption">
+              {heroAsset.caption}
+            </div>
+          </div>
+        )}
+
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10, marginBottom: 12 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-            <div className="course-hero__badge" style={{ color: track.color || 'var(--cyan)' }}>
-              <span style={{ fontSize: 13, marginRight: 6 }}>{track.icon}</span>
+            <div className="course-hero__badge" style={{ color: track.color || 'var(--cyan)', display: 'flex', alignItems: 'center', gap: 6 }}>
+              {heroAsset?.sprite && <PixelSprite name={heroAsset.sprite} size={16} animated />}
+              <span style={{ fontSize: 13, marginRight: 2 }}>{track.icon}</span>
               {track.badge || 'CAREER TRACK'}
             </div>
             <div className="hero-companion-badge">
@@ -284,7 +302,7 @@ function TrackWeekItem({ week, progress, isElective }) {
       <div className="track-week-item__header" onClick={() => setIsOpen(!isOpen)}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <span className="track-week-item__badge">
-            {isElective ? 'ELECTIVE' : `MODULE ${week.number}`}
+            {isElective ? 'ELECTIVE' : `MODULE ${week.moduleNumber || week.number}`}
           </span>
           <span className="track-week-item__title">{week.title}</span>
         </div>

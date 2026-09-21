@@ -48,12 +48,12 @@ export default function ProjectPage() {
         <span className="breadcrumbs__sep">›</span>
         <Link to={`/phase/${phase.id}`}>{phase.title}</Link>
         <span className="breadcrumbs__sep">›</span>
-        <span className="breadcrumbs__current">Week {week.number} · Project</span>
+        <span className="breadcrumbs__current">Module {week.moduleNumber || week.number} · Project</span>
       </div>
 
       <div className="project-header">
         <div className="project-header__tag" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-          <PixelSprite name="sword" size={14} /> Week {week.number} Capstone Quest
+          <PixelSprite name="sword" size={14} /> Module {week.moduleNumber || week.number} Capstone Quest
         </div>
         <GlitchHeader as="div" className="project-header__title" text={project.title} />
         <div className="lesson-content" dangerouslySetInnerHTML={{ __html: project.description }} />

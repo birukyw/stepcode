@@ -1,76 +1,142 @@
-// ─── Phase 2: Data Structures & Algorithms Part 1 — LeetCode Core (Weeks 5–8) ───────────
+// ─── The Trials of Algor: LeetCode & DSA Mastery (Modules 1–4) ─────────────
+// Part 1: Arena Foundations — Pointers, Windows, Lists, Stacks & Binary Search
 
 export const phase2Content = {
   // ════════════════════════════════════════════════════════════════
-  // WEEK 5: Complexity Analysis, Two Pointers & Sliding Window
+  // MODULE 1: The Gates of Algor — Complexity, Two Pointers & Sliding Window
   // ════════════════════════════════════════════════════════════════
   'week-5': {
     lessons: [
       {
-        title: 'Asymptotic Analysis & Big-O Notation',
+        title: 'Asymptotic Analysis & Big-O Battle Metrics',
         language: 'java',
         starterCode: `public class BigO {\n    public static void main(String[] args) {\n        int[] arr = {1, 2, 3, 4, 5};\n\n        // O(1) - Constant time\n        System.out.println("First element: " + arr[0]);\n\n        // O(N) - Linear time\n        for (int x : arr) {\n            System.out.print(x + " ");\n        }\n        System.out.println();\n\n        // O(N^2) - Quadratic time\n        for (int i = 0; i < arr.length; i++) {\n            for (int j = 0; j < arr.length; j++) {\n                System.out.print("(" + arr[i] + "," + arr[j] + ") ");\n            }\n        }\n    }\n}`,
         content: `
-<h2>Complexity Analysis & Big-O Notation</h2>
-<p>Big-O notation describes the <strong>upper bound (worst-case scenario)</strong> of an algorithm's runtime and memory usage as the input size <code>N</code> scales towards infinity.</p>
+<h2>⚔️ Chapter 1: The Gates of Algor — Big-O Battle Metrics</h2>
 
-<h3>Core Time Complexities (From Fastest to Slowest)</h3>
+<div class="lesson-pixel-art">
+  <img src="/images/pixel_algor_colosseum.jpg" alt="The Grand Colosseum of Algor" />
+  <div class="pixel-caption">
+    ⚔️ SECTOR 00: THE GATES OF ALGOR — ENTERING THE ARENA OF BIG-O BATTLES
+  </div>
+</div>
+
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Welcome to the Colosseum of Algor, Gladiator. Here, brute-force O(N²) code is torn to shreds by Big-O monsters. Only algorithms forged with mathematical precision can survive the trials of massive scale. Learn to measure time, space, and amortized efficiency.</em>
+</div>
+
+<p>In the arena of competitive algorithms and technical interviews, an algorithm's prowess is measured not by how fast it runs on a handful of test cases, but by its <strong>Asymptotic Growth Rate</strong> as the input size <code>N</code> scales toward infinity (<code>N → ∞</code>).</p>
+
+<h3>The Hierarchy of Complexity (From Supreme to Lethal)</h3>
+
+<pre class="ascii-diagram">
+Runtime (T)
+   ^
+   |                                     / O(2^N) [Exponential Doom]
+   |                                    /
+   |                                   / O(N^2) [Quadratic - Brute Force]
+   |                                  /
+   |                                 / O(N log N) [Optimal Sorts]
+   |                                /
+   |                             --/ O(N) [Linear Scan]
+   |                        ---/
+   |                   ----/ O(log N) [Binary Search]
+   |  ------------------- O(1) [Constant Lookups]
+   +----------------------------------------------------> Input Size (N)
+</pre>
+
 <ul>
-  <li><strong>O(1) Constant Time:</strong> Direct hash lookups, array index access.</li>
-  <li><strong>O(log N) Logarithmic Time:</strong> Halving search spaces (Binary Search, balanced tree lookups).</li>
-  <li><strong>O(N) Linear Time:</strong> Iterating through a collection once (Two Pointers, Sliding Window).</li>
-  <li><strong>O(N log N) Linearithmic Time:</strong> Optimal comparison sorts (Merge Sort, Quick Sort).</li>
-  <li><strong>O(N^2) Quadratic Time:</strong> Nested loops over the input (Bubble Sort, brute force pair checks).</li>
-  <li><strong>O(2^N) Exponential Time:</strong> Recursive branching without memoization (Generating all subsets).</li>
+  <li><strong>O(1) Constant:</strong> Direct array indexing, HashMap lookups. Speed is entirely independent of input size.</li>
+  <li><strong>O(log N) Logarithmic:</strong> Dividing the search space in half at every step (Binary Search, Balanced BST). Sifting through 1,000,000 items requires merely ~20 operations!</li>
+  <li><strong>O(N) Linear:</strong> Single-pass scans (Two Pointers, Sliding Window, Monotonic Stacks). Traverses each element a bounded number of times.</li>
+  <li><strong>O(N log N) Linearithmic:</strong> The theoretical mathematical lower bound for comparison-based sorting (MergeSort, QuickSort, TimSort).</li>
+  <li><strong>O(N²) Quadratic:</strong> Nested loops over the collection. Acceptable when <code>N ≤ 1,000</code>, but catastrophic when <code>N ≥ 100,000</code>.</li>
+  <li><strong>O(2^N) / O(N!) Exponential:</strong> Generating all permutations or subsets without memoization.</li>
 </ul>
 
-<h3>Space Complexity & Amortized Time</h3>
-<p>Space complexity measures extra memory allocated beyond input storage. For instance, resizing a Java <code>ArrayList</code> takes O(N) when copying to a larger array, but happens so infrequently that its <em>amortized</em> insertion time remains O(1).</p>
-`,
+<h3>Amortized Time vs Worst-Case Guarantees</h3>
+<p>Consider appending an element to a dynamic array (like Java's <code>ArrayList</code> or Python's <code>list</code>). When capacity is full, the array allocates a block twice as large and copies all <code>N</code> items across, taking <code>O(N)</code> time. However, this costly reallocation happens so rarely that spread across all operations, the <strong>amortized time per append is strictly O(1)</strong>.</p>
+        `,
       },
       {
-        title: 'The Two-Pointer Technique',
+        title: 'The Two-Pointer Collision & Floyd Cycles',
         language: 'java',
         starterCode: `import java.util.Arrays;\n\npublic class TwoPointers {\n    public static boolean isPalindrome(String s) {\n        int left = 0;\n        int right = s.length() - 1;\n\n        while (left < right) {\n            while (left < right && !Character.isLetterOrDigit(s.charAt(left))) left++;\n            while (left < right && !Character.isLetterOrDigit(s.charAt(right))) right--;\n            if (Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right))) {\n                return false;\n            }\n            left++;\n            right--;\n        }\n        return true;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(isPalindrome("A man, a plan, a canal: Panama"));\n        System.out.println(isPalindrome("race a car"));\n    }\n}`,
         content: `
-<h2>The Two-Pointer Technique</h2>
-<p>The Two-Pointer technique uses two references traversing a linear structure simultaneously. It eliminates nested O(N^2) loops by exploiting structural properties (such as sorting or symmetry).</p>
+<h2>🎯 Chapter 2: The Two-Pointer Collision Technique</h2>
 
-<h3>The Two Main Variants</h3>
-<ol>
-  <li><strong>Opposite Ends (Collision):</strong> One pointer starts at index 0, the other at <code>length - 1</code>. They step towards each other based on comparison conditions (e.g., Two Sum II in sorted arrays, Palindrome checks, Container With Most Water).</li>
-  <li><strong>Fast & Slow (Floyd's Cycle):</strong> Pointers start together, but one advances at twice the speed of the other (e.g., Finding the middle node of a Linked List, Cycle detection).</li>
-</ol>
-`,
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Why check every pair with nested O(N²) loops when two coordinated pointers can eliminate unnecessary comparisons in a single O(N) sweep? Master pointer convergence and cycle detection.</em>
+</div>
+
+<h3>The Inward Collision Pattern</h3>
+<p>When searching for pairs in a <strong>sorted</strong> array or verifying symmetry (e.g. Palindromes), two pointers begin at opposite frontiers and step inward:</p>
+
+<pre class="ascii-diagram">
+Index:     0    1    2    3    4    5    6
+Array:   [ 2,   7,  11,  15,  19,  24,  30 ]
+           ^                                 ^
+           |                                 |
+       Left Pointer                    Right Pointer
+       (left = 0)                     (right = 6)
+
+Sum: nums[left] + nums[right] = 2 + 30 = 32
+Target: 26 -> Sum too large! Decrement right pointer: right--
+</pre>
+
+<p>Because the array is sorted, if the current sum is greater than the target, no other pairing with <code>nums[right]</code> could possibly equal the target. We safely discard the entire right frontier in O(1) time!</p>
+
+<h3>Floyd's Fast & Slow Pointers (Tortoise & Hare)</h3>
+<p>Two pointers start at the head of a sequence. The <code>slow</code> pointer steps 1 position per cycle while <code>fast</code> steps 2 positions. If a cycle exists, <code>fast</code> is mathematically guaranteed to enter the loop first and lap <code>slow</code> within <code>O(N)</code> steps using <strong>O(1) auxiliary space</strong>.</p>
+        `,
       },
       {
-        title: 'The Sliding Window Pattern',
+        title: 'The Sliding Window: Contiguous Subarrays',
         language: 'java',
         starterCode: `public class SlidingWindow {\n    // Fixed-size window of size k\n    public static int maxSubarraySum(int[] arr, int k) {\n        int windowSum = 0;\n        for (int i = 0; i < k; i++) {\n            windowSum += arr[i];\n        }\n        int maxSum = windowSum;\n\n        for (int i = k; i < arr.length; i++) {\n            windowSum += arr[i] - arr[i - k]; // Slide: add right, drop left\n            maxSum = Math.max(maxSum, windowSum);\n        }\n        return maxSum;\n    }\n\n    public static void main(String[] args) {\n        int[] nums = {2, 1, 5, 1, 3, 2};\n        System.out.println("Max sum window of size 3: " + maxSubarraySum(nums, 3));\n    }\n}`,
         content: `
-<h2>The Sliding Window Pattern</h2>
-<p>The Sliding Window pattern is used for finding optimal contiguous subarrays or substrings without redundant recalculations.</p>
+<h2>🪟 Chapter 3: The Sliding Window Dynamic Frame</h2>
 
-<h3>Types of Sliding Windows</h3>
-<ul>
-  <li><strong>Fixed Size:</strong> The window length <code>k</code> remains constant. Slide by adding the new incoming element and subtracting the outgoing left element in O(1) time.</li>
-  <li><strong>Dynamic / Variable Size:</strong> Expand the right pointer <code>R</code> to satisfy a condition, then shrink the left pointer <code>L</code> to find the minimal valid window (or maximize when invalid).</li>
-</ul>
-<div class="callout callout--tip">
-  <strong>LeetCode Rule of Thumb:</strong> When a question asks for "longest contiguous substring with constraint X" or "minimum subarray sum ≥ target", think <strong>Sliding Window</strong> immediately.
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Contiguous subarrays often trigger O(N²) recalculations if analyzed naively. A sliding window maintains the state of a moving frame, updating boundary elements in O(1) time as it glides across the array.</em>
 </div>
-`,
+
+<h3>Fixed vs Dynamic Sliding Windows</h3>
+
+<pre class="ascii-diagram">
+Initial Window of size k=3:
+[ 2,  1,  5 ], 1,  3,  2    --> sum = 8
+
+Slide Right by 1:
+  2, [ 1,  5,  1 ], 3,  2   --> sum = 8 - (dropped 2) + (added 1) = 7
+       ^       ^
+       L       R
+</pre>
+
+<ul>
+  <li><strong>Fixed Window:</strong> The window width <code>k</code> is constant. You slide the window by adding the incoming element at <code>R</code> and subtracting the outgoing element at <code>L = R - k</code> in <code>O(1)</code> time.</li>
+  <li><strong>Dynamic Window:</strong> Used when finding the <em>longest or shortest valid subarray</em> satisfying a constraint. Expand <code>R</code> until the window is valid, then contract <code>L</code> until the condition breaks.</li>
+</ul>
+        `,
       },
       {
-        title: 'Prefix Sums & Difference Arrays',
+        title: 'Prefix Sums & Range Query Acceleration',
         language: 'java',
         starterCode: `import java.util.Arrays;\n\npublic class PrefixSumDemo {\n    public static void main(String[] args) {\n        int[] nums = {3, 1, 4, 1, 5, 9};\n        int[] prefix = new int[nums.length + 1];\n\n        for (int i = 0; i < nums.length; i++) {\n            prefix[i + 1] = prefix[i] + nums[i];\n        }\n\n        System.out.println("Prefix Array: " + Arrays.toString(prefix));\n        // Range sum [2, 4] -> prefix[5] - prefix[2]\n        int sum = prefix[5] - prefix[2];\n        System.out.println("Sum of range [2, 4]: " + sum);\n    }\n}`,
         content: `
-<h2>Prefix Sum Technique</h2>
-<p>A prefix sum precomputes cumulative totals in O(N) time so that any range sum query <code>sum(L...R)</code> can be computed in <strong>O(1) constant time</strong> using:</p>
+<h2>⚡ Chapter 4: Prefix Sums & Difference Arrays</h2>
+
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>When queries demand the sum of elements between arbitrary indices L and R, a naive loop takes O(N) per query. Precomputing a Prefix Sum array answers any range query in instant O(1) time!</em>
+</div>
+
+<p>A Prefix Sum array stores running cumulative totals:</p>
+<pre><code>prefix[0] = 0
+prefix[i + 1] = prefix[i] + nums[i]</code></pre>
+
+<p>Any arbitrary range sum from index <code>L</code> to <code>R</code> inclusive is calculated with a single subtraction:</p>
 <pre><code>sum(L, R) = prefix[R + 1] - prefix[L]</code></pre>
-<p>Combined with a <code>HashMap</code>, Prefix Sum solves problems like LeetCode #560: <em>Subarray Sum Equals K</em> in O(N) linear time!</p>
-`,
+        `,
       }
     ],
     exercises: [
@@ -135,54 +201,71 @@ export const phase2Content = {
   },
 
   // ════════════════════════════════════════════════════════════════
-  // WEEK 6: Singly/Doubly Linked Lists & Fast-Slow Pointers
+  // MODULE 2: The Labyrinth of Pointers — Linked Lists & Fast-Slow Cycles
   // ════════════════════════════════════════════════════════════════
   'week-6': {
     lessons: [
       {
-        title: 'Linked List Architecture & Pointer Manipulation',
+        title: 'Linked List Architecture & Heap Pointer Manipulation',
         language: 'java',
         starterCode: `class ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\n\npublic class LinkedListBasics {\n    public static void main(String[] args) {\n        ListNode head = new ListNode(10);\n        head.next = new ListNode(20);\n        head.next.next = new ListNode(30);\n\n        ListNode curr = head;\n        while (curr != null) {\n            System.out.print(curr.val + (curr.next != null ? " -> " : "\\n"));\n            curr = curr.next;\n        }\n    }\n}`,
         content: `
-<h2>Linked Lists: Non-Contiguous Memory</h2>
-<p>Unlike arrays, linked lists store elements as independent heap objects called <strong>Nodes</strong>. Each node holds data and a reference to the next node.</p>
+<h2>🔗 Chapter 5: The Labyrinth of Pointers — Linked Lists</h2>
 
-<h3>Key Tradeoffs: Array vs Linked List</h3>
-<table style="width:100%; font-size:13px; border-collapse:collapse; margin-top:12px;">
-  <tr style="border-bottom:1px solid var(--border);">
-    <th style="text-align:left; padding:6px;">Operation</th>
-    <th style="text-align:left; padding:6px;">Array</th>
-    <th style="text-align:left; padding:6px;">Singly Linked List</th>
-  </tr>
-  <tr><td style="padding:6px;">Index Access (k-th)</td><td style="padding:6px;">O(1)</td><td style="padding:6px;">O(N)</td></tr>
-  <tr><td style="padding:6px;">Prepend (Head Insert)</td><td style="padding:6px;">O(N)</td><td style="padding:6px;">O(1)</td></tr>
-  <tr><td style="padding:6px;">Append (Tail with pointer)</td><td style="padding:6px;">O(1) amortized</td><td style="padding:6px;">O(1)</td></tr>
-  <tr><td style="padding:6px;">Mid-List Insertion (given node)</td><td style="padding:6px;">O(N) (shifting)</td><td style="padding:6px;">O(1)</td></tr>
-</table>
-`,
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Unlike contiguous arrays, linked lists are dynamic chains scattered across heap memory. Master pointer rewiring, sentinel dummy nodes, and in-place link reversal without losing references.</em>
+</div>
+
+<h3>Array vs Linked List Memory Model</h3>
+
+<pre class="ascii-diagram">
+Array Memory (Contiguous block):
+[ Index 0: 10 ][ Index 1: 20 ][ Index 2: 30 ]  <-- Fast O(1) index, slow O(N) insert
+
+Linked List Memory (Dispersed Nodes on Heap):
+[ Node @0x04A ]       [ Node @0x8F1 ]       [ Node @0x12B ]
+| val: 10     | ----> | val: 20     | ----> | val: 30     | ----> null
+| next: 0x8F1 |       | next: 0x12B |       | next: null  |
+</pre>
+        `,
       },
       {
         title: 'Floyd\'s Cycle Detection (Tortoise & Hare)',
         language: 'java',
         starterCode: `public class CycleDetection {\n    static class ListNode {\n        int val;\n        ListNode next;\n        ListNode(int val) { this.val = val; }\n    }\n\n    public static boolean hasCycle(ListNode head) {\n        ListNode slow = head;\n        ListNode fast = head;\n\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n            if (slow == fast) return true; // Cycle detected!\n        }\n        return false;\n    }\n\n    public static void main(String[] args) {\n        ListNode n1 = new ListNode(1);\n        ListNode n2 = new ListNode(2);\n        ListNode n3 = new ListNode(3);\n        n1.next = n2;\n        n2.next = n3;\n        n3.next = n2; // Loop\n\n        System.out.println("Has cycle: " + hasCycle(n1));\n    }\n}`,
         content: `
-<h2>Floyd's Cycle-Finding Algorithm</h2>
-<p>To detect a loop in a linked list without allocating O(N) memory in a <code>HashSet</code>, use two pointers moving at different speeds:</p>
-<ul>
-  <li><code>slow</code> moves 1 step per iteration.</li>
-  <li><code>fast</code> moves 2 steps per iteration.</li>
-</ul>
-<p>If there is a cycle, <code>fast</code> is guaranteed to lap and collide with <code>slow</code> inside the loop in O(N) time with <strong>O(1) auxiliary space</strong>.</p>
-`,
+<h2>🐢 Chapter 6: Floyd's Cycle-Finding Algorithm</h2>
+
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>How can you detect an infinite loop in a linked list without allocating an auxiliary HashSet? Floyd's cycle detection uses relative velocities to catch loops in O(1) space.</em>
+</div>
+
+<p>Imagine two runners on a circular track. Even if one starts ahead, if runner B runs at twice the speed of runner A, runner B is mathematically guaranteed to lap runner A!</p>
+        `,
       },
       {
-        title: 'The Sentinel (Dummy Node) Technique',
+        title: 'The Sentinel (Dummy Node) Architecture',
         language: 'java',
         starterCode: `public class DummyNodeDemo {\n    static class ListNode {\n        int val; ListNode next;\n        ListNode(int val) { this.val = val; }\n    }\n\n    public static ListNode removeElements(ListNode head, int val) {\n        ListNode dummy = new ListNode(0);\n        dummy.next = head;\n        ListNode curr = dummy;\n\n        while (curr.next != null) {\n            if (curr.next.val == val) {\n                curr.next = curr.next.next; // Bypass node\n            } else {\n                curr = curr.next;\n            }\n        }\n        return dummy.next;\n    }\n\n    public static void main(String[] args) {\n        ListNode h = new ListNode(1);\n        h.next = new ListNode(2);\n        h.next.next = new ListNode(1);\n        ListNode res = removeElements(h, 1);\n        System.out.println("Filtered head: " + res.val);\n    }\n}`,
         content: `
-<h2>Why Dummy (Sentinel) Nodes?</h2>
-<p>When deleting or inserting nodes, the <strong>head node</strong> is often a troublesome special case because it has no predecessor. Creating a temporary <code>dummy</code> node where <code>dummy.next = head</code> unifies your pointer logic so every real node is treated identically.</p>
-`,
+<h2>🛡️ Chapter 7: The Sentinel Dummy Node Technique</h2>
+
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Modifying or deleting the head node is the number one source of NullPointerExceptions in coding interviews. A sentinel dummy node standardizes all operations so every node has a predecessor.</em>
+</div>
+
+<pre class="ascii-diagram">
+Without Dummy:
+[ Head ] -> [ Node 2 ] -> [ Node 3 ]
+If Head must be deleted, you must rewrite 'head = head.next'.
+
+With Dummy Node:
+[ Dummy(-1) ] -> [ Head ] -> [ Node 2 ] -> [ Node 3 ]
+                 ^
+                 Target for removal!
+Just execute: dummy.next = dummy.next.next! Return dummy.next at the end.
+</pre>
+        `,
       }
     ],
     exercises: [
@@ -229,7 +312,7 @@ export const phase2Content = {
   },
 
   // ════════════════════════════════════════════════════════════════
-  // WEEK 7: Stacks, Queues & The Monotonic Stack Pattern
+  // MODULE 3: The Iron Crucible — Stacks, Queues & Monotonic Stacks
   // ════════════════════════════════════════════════════════════════
   'week-7': {
     lessons: [
@@ -238,20 +321,39 @@ export const phase2Content = {
         language: 'java',
         starterCode: `import java.util.ArrayDeque;\nimport java.util.Deque;\n\npublic class StackQueueDemo {\n    public static void main(String[] args) {\n        // Preferred Stack implementation in modern Java\n        Deque<Integer> stack = new ArrayDeque<>();\n        stack.push(10);\n        stack.push(20);\n        System.out.println("Stack Pop: " + stack.pop()); // 20 (LIFO)\n\n        // Queue\n        Deque<Integer> queue = new ArrayDeque<>();\n        queue.offer(10);\n        queue.offer(20);\n        System.out.println("Queue Poll: " + queue.poll()); // 10 (FIFO)\n    }\n}`,
         content: `
-<h2>Stacks and Queues</h2>
-<p><strong>Stack (LIFO - Last-In, First-Out):</strong> Like a stack of plates. <code>push()</code> and <code>pop()</code> execute at the top in O(1) time. In modern Java, always use <code>ArrayDeque</code> rather than legacy <code>java.util.Stack</code>.</p>
-<p><strong>Queue (FIFO - First-In, First-Out):</strong> Like a supermarket line. Elements are added at the rear (<code>offer()</code>) and removed from the front (<code>poll()</code>) in O(1) time.</p>
-`,
+<h2>🥞 Chapter 8: The Iron Crucible — Stacks & Queues</h2>
+
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Stacks (LIFO) and Queues (FIFO) govern function calls, undo buffers, expression parsing, and breadth-first search. In modern Java, never use the legacy java.util.Stack class; master ArrayDeque.</em>
+</div>
+
+<h3>Why java.util.Stack is Deprecated in Modern Engineering</h3>
+<p>Java's original <code>Stack</code> class extends <code>Vector</code>, meaning every single method (<code>push</code>, <code>pop</code>, <code>peek</code>) is synchronized with expensive thread locks. <code>ArrayDeque</code> is unsynchronized, resizes dynamically without array copying overhead, and is significantly faster on modern hardware.</p>
+        `,
       },
       {
-        title: 'The Monotonic Stack Pattern',
+        title: 'The Monotonic Stack Pattern & O(N) Lookups',
         language: 'java',
         starterCode: `import java.util.ArrayDeque;\nimport java.util.Arrays;\nimport java.util.Deque;\n\npublic class MonotonicStack {\n    public static int[] nextGreaterElements(int[] nums) {\n        int[] result = new int[nums.length];\n        Arrays.fill(result, -1);\n        Deque<Integer> stack = new ArrayDeque<>(); // stores indices\n\n        for (int i = 0; i < nums.length; i++) {\n            while (!stack.isEmpty() && nums[i] > nums[stack.peek()]) {\n                int prevIndex = stack.pop();\n                result[prevIndex] = nums[i];\n            }\n            stack.push(i);\n        }\n        return result;\n    }\n\n    public static void main(String[] args) {\n        int[] arr = {2, 1, 2, 4, 3};\n        System.out.println(Arrays.toString(nextGreaterElements(arr)));\n    }\n}`,
         content: `
-<h2>The Monotonic Stack Pattern</h2>
-<p>A <strong>Monotonic Stack</strong> maintains elements in strictly increasing or decreasing order. Whenever a new element violates the monotonicity, elements are popped until the invariant holds.</p>
-<p><strong>Key Use Case:</strong> Finding the <em>Next Greater Element</em> or <em>Next Smaller Element</em> for every position in an array in <strong>O(N) linear time</strong> instead of O(N^2).</p>
-`,
+<h2>🏔️ Chapter 9: The Monotonic Stack Pattern</h2>
+
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Finding the 'Next Greater Element' for every element in an array naively takes O(N²) quadratic time. A Monotonic Stack preserves elements in strictly increasing or decreasing order, solving this in pure O(N) linear time!</em>
+</div>
+
+<pre class="ascii-diagram">
+Input: [ 2, 1, 2, 4, 3 ]
+Stack stores INDICES whose "next greater" has not yet been discovered:
+
+i=0 (val 2): Stack = [0]
+i=1 (val 1): 1 &lt; 2, push 1. Stack = [0, 1]
+i=2 (val 2): 2 &gt; 1! Pop index 1! nextGreater[1] = 2. Push 2. Stack = [0, 2]
+i=3 (val 4): 4 &gt; 2! Pop 2 (nextGreater[2]=4). 4 &gt; 2! Pop 0 (nextGreater[0]=4).
+            Push 3. Stack = [3]
+i=4 (val 3): 3 &lt; 4, push 4. Stack = [3, 4]
+</pre>
+        `,
       }
     ],
     exercises: [
@@ -313,7 +415,7 @@ export const phase2Content = {
   },
 
   // ════════════════════════════════════════════════════════════════
-  // WEEK 8: Hash Tables, String Hashing & Binary Search Mastery
+  // MODULE 4: The Oracle's Vault — Hash Tables & Binary Search Invariants
   // ════════════════════════════════════════════════════════════════
   'week-8': {
     lessons: [
@@ -322,29 +424,32 @@ export const phase2Content = {
         language: 'java',
         starterCode: `import java.util.HashMap;\nimport java.util.Map;\n\npublic class HashMapInternals {\n    public static void main(String[] args) {\n        Map<String, Integer> map = new HashMap<>();\n        map.put("Hero", 100);\n        map.put("Mage", 80);\n        System.out.println("Hero HP: " + map.get("Hero"));\n    }\n}`,
         content: `
-<h2>How Java HashMap Works Under the Hood</h2>
-<p>A Java <code>HashMap</code> maintains an array of Node buckets:</p>
-<ol>
-  <li><strong>Hash Calculation:</strong> Computes <code>key.hashCode()</code> and runs a bit-shift mixer to distribute hashes across bucket indices.</li>
-  <li><strong>Collision Resolution:</strong> When two keys hash to the same bucket index, Java initially stores them as a <strong>LinkedList</strong>.</li>
-  <li><strong>Treeification:</strong> If a bucket exceeds 8 entries (TREEIFY_THRESHOLD) and the map capacity is ≥ 64, Java converts that bucket into a <strong>Red-Black Balanced Tree</strong>, reducing collision lookup from O(N) down to O(log N).</li>
-</ol>
-`,
+<h2>🔮 Chapter 10: The Oracle's Vault — Hash Tables</h2>
+
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Hash tables turn keys of arbitrary size into array indices in O(1) time. Explore hash collisions, load factors, and how Java 8's treeification prevents DoS attacks.</em>
+</div>
+
+<p>When two keys generate the same bucket index, Java stores them in a linked chain. If a bucket exceeds <strong>8 entries</strong> (TREEIFY_THRESHOLD) and map capacity is ≥ 64, Java converts that chain into a <strong>Red-Black Balanced BST</strong>, bounding lookup to <code>O(log N)</code>!</p>
+        `,
       },
       {
-        title: 'Binary Search: Invariants & Boundary Precision',
+        title: 'Binary Search: Boundaries & Rotated Arrays',
         language: 'java',
         starterCode: `public class BinarySearchInvariants {\n    public static int binarySearch(int[] nums, int target) {\n        int left = 0;\n        int right = nums.length - 1;\n\n        while (left <= right) {\n            // Prevent integer overflow: left + (right - left) / 2\n            int mid = left + (right - left) / 2;\n            if (nums[mid] == target) return mid;\n            else if (nums[mid] < target) left = mid + 1;\n            else right = mid - 1;\n        }\n        return -1;\n    }\n\n    public static void main(String[] args) {\n        int[] sorted = {-1, 0, 3, 5, 9, 12};\n        System.out.println("Index of 9: " + binarySearch(sorted, 9));\n    }\n}`,
         content: `
-<h2>Mastering Binary Search</h2>
-<p>Binary Search eliminates 50% of the remaining search space at every step, delivering <strong>O(log N)</strong> time complexity.</p>
+<h2>🎯 Chapter 11: Binary Search Boundary Invariants</h2>
 
-<h3>Critical Invariants</h3>
-<ul>
-  <li><strong>Midpoint Calculation:</strong> Never use <code>(left + right) / 2</code> in production because it can cause 32-bit signed integer overflow. Always write <code>left + (right - left) / 2</code>.</li>
-  <li><strong>Loop Condition:</strong> <code>while (left <= right)</code> searches the closed range <code>[left, right]</code>.</li>
-</ul>
-`,
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Binary search sounds simple, yet 90% of engineers introduce boundary bugs or integer overflows. Master the midpoint calculation and rotated array invariants.</em>
+</div>
+
+<div class="callout callout--warn">
+  <strong>⚠️ The Midpoint Integer Overflow Trap:</strong>
+  In Java and C++, writing <code>(left + right) / 2</code> can cause 32-bit signed integer overflow if <code>left + right &gt; 2,147,483,647</code>! Always write:
+  <pre><code>int mid = left + (right - left) / 2;</code></pre>
+</div>
+        `,
       }
     ],
     exercises: [

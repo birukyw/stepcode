@@ -13,6 +13,8 @@ const PHASE_DESCRIPTIONS = {
   'phase-5': 'Build production-grade enterprise backend APIs with Spring Boot 3 🌱 — the framework powering Netflix, Amazon, and Fortune 500 engineering teams.',
   'phase-6': 'Bring your applications to life! 🎨 Master modern full-stack web engineering: Semantic HTML5, CSS Grid/Flexbox, ES6+ JavaScript, and component-driven React.',
   'phase-7': 'The final boss! 🚀 Master professional Git collaboration, containerize with Docker & Compose, automate with GitHub Actions CI/CD, and defend your Capstone in technical interviews.',
+  'phase-py-beginner': 'Begin your journey on the Path of the Serpent Sage! 🐍 Master Python 3 syntax, CPython execution mechanics, short-circuit logic, loops, functions, collections, and object-oriented foundations.',
+  'phase-py-intermediate': 'Choose your mastery electives in the Applied Python Ecosystem! ⚡ Dive into advanced OOP & dunders, file I/O & JSON, REST API clients, vectorized data science, and high-speed FastAPI web citadels.',
 };
 
 export default function PhasePage() {
@@ -24,15 +26,21 @@ export default function PhasePage() {
 
   const { done, total, pct } = getPhaseProgress(phase);
 
+  const themeSprite = phase.id.startsWith('phase-py') ? 'serpent'
+    : (phase.id === 'phase-2' || phase.id === 'phase-3') ? 'gladiator'
+    : (phase.id === 'phase-1' || phase.id === 'phase-4' || phase.id === 'phase-5') ? 'wizard'
+    : phase.id === 'phase-sys-1' ? 'chip'
+    : 'bot';
+
   return (
     <div>
       <Link to="/" className="phase-page__back">← Back to Map</Link>
 
       {/* Phase Hero */}
-      <div className="course-hero" style={{ marginBottom: 24 }}>
+      <div className="course-hero" style={{ marginBottom: 24, borderLeft: `4px solid ${phase.color || 'var(--cyan)'}` }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 12 }}>
-          <div className="course-hero__badge">
-            <PixelSprite name="sword" size={12} style={{ marginRight: 6 }} />
+          <div className="course-hero__badge" style={{ color: phase.color || 'var(--cyan)', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <PixelSprite name={themeSprite} size={14} animated />
             {phase.months.toUpperCase()} · {phase.weekRange.toUpperCase()}
           </div>
           <div className="hero-companion-badge">
@@ -49,7 +57,7 @@ export default function PhasePage() {
         <div className="course-hero__meta">
           <span>📊 {pct}% complete</span>
           <span>✅ {done} / {total} items</span>
-          <span>📅 4 weeks</span>
+          <span>📅 {phase.weeks.length} Modules</span>
         </div>
       </div>
 
@@ -132,7 +140,7 @@ function WeekChapter({ week, phase, progress }) {
   return (
     <div className="chapter">
       <div className="chapter-header" onClick={() => setIsOpen(!isOpen)}>
-        <div className={numberClass}>{week.number}</div>
+        <div className={numberClass}>{week.moduleNumber || week.number}</div>
         <div className="chapter-title">{week.title}</div>
         <span style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: 'var(--text-dim)' }}>
           {doneCount}/{totalCount}

@@ -1,56 +1,64 @@
-// ─── Phase 1: Java Foundations (Weeks 1–4) ────────────────────────
-// Full detailed lesson content for every week.
+// ─── The Legend of Java: Quest for the Enterprise ────────────────────────
+// Comprehensive Retro-RPG Curriculum: Modules 1–4 (Java Foundations)
 
 export const phase1Content = {
   // ════════════════════════════════════════════════════════════════
-  // WEEK 1: Java Architecture, JVM, Types & Control Flow
+  // MODULE 1: The First Spell — JVM Architecture & Primitive Runes
   // ════════════════════════════════════════════════════════════════
   'week-1': {
     lessons: [
       // ── Lesson 1 ──────────────────────────────────────────────
       {
-        title: 'What is Java? JDK, JRE & JVM',
+        title: 'What is Java? JDK, JRE & The JVM Bytecode Engine',
         language: 'java',
-        starterCode: `public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n        System.out.println("I am learning Java!");\n    }\n}`,
+        starterCode: `public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n        System.out.println("Entering the JVM Citadel...");\n    }\n}`,
         content: `
-<h2>Chapter 1: The Awakening ☕</h2>
+<h2>⚔️ Chapter 1: The Awakening in the JVM Citadel ☕</h2>
+
 <div class="lesson-pixel-art">
-  <img src="/images/pixel_coffee_coder.jpg" alt="Pixel Coffee Coders" />
-  <div class="pixel-caption">☕ FUELED BY JAVA: 3 BILLION DEVICES & COUNTING</div>
+  <img src="/images/pixel_java_mage.jpg" alt="Java Grand Mage casting Bytecode Runes" />
+  <div class="pixel-caption">
+    🧙‍♂️ SECTOR 01: THE ARCH-MAGE OF THE JVM CASTING 0xCAFEBABE RUNES
+  </div>
 </div>
-<div class="callout callout--info" style="background: rgba(255,214,0,0.1); border-color: var(--yellow); color: var(--white);">
-  <strong>System Message:</strong> <em>Welcome, young Developer. You have arrived at the gates of the Code Kingdom. Your ultimate quest? To secure the legendary <strong>Software Engineering Internship</strong>. But first, you must master the ancient magic of Java.</em>
+
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Welcome, young Code Mage. You stand before the towering gates of the JVM Citadel. Before you can forge enterprise microservices and conquer Spring fortresses, you must master the ancient sorcery of Java bytecode and understand the engine that powers 3 billion devices.</em>
 </div>
 
-<p>Java is the powerful incantation that built this world. Created by the Grand Mage <strong>James Gosling</strong> in 1995, it powers everything from pocket-sized Android artifacts to massive enterprise banking fortresses.</p>
+<p>Created in 1995 by the legendary software wizard <strong>James Gosling</strong>, Java was forged with a sacred covenant known as <strong>Write Once, Run Anywhere (WORA)</strong>. While low-level tongues like C compile directly into rigid CPU-dependent machine instructions, Java compiles into mystical, platform-transcending <strong>Bytecode</strong>.</p>
 
-<p>Java's core magic is <em>"Write Once, Run Anywhere" (WORA)</em>. A spell cast on a Windows scroll can be executed on a Mac or Linux device, so long as they possess the Java Virtual Machine (JVM).</p>
-
-<h3>The Java Toolchain: JDK, JRE, JVM</h3>
-<p>These three acronyms are the foundation of how Java works:</p>
+<h3>The Holy Trinity of Java Engineering</h3>
+<p>Every Java engineer must understand the distinction between the three layers of the Java realm:</p>
 
 <ul>
-  <li><strong>JDK (Java Development Kit)</strong> — The full toolkit for developers. It includes the compiler (<code>javac</code>), debugger, and all development tools. <em>This is what you install to write Java.</em></li>
-  <li><strong>JRE (Java Runtime Environment)</strong> — The environment needed to <em>run</em> Java programs. It includes the JVM and core libraries but no compiler.</li>
-  <li><strong>JVM (Java Virtual Machine)</strong> — The engine that actually executes your code. It reads compiled bytecode and translates it to machine instructions for your specific OS.</li>
+  <li><strong>JDK (Java Development Kit)</strong> — The Grand Workshop. It contains the tools necessary to forge code: the compiler (<code>javac</code>), the documentation generator (<code>javadoc</code>), packaging tools (<code>jar</code>), and debuggers.</li>
+  <li><strong>JRE (Java Runtime Environment)</strong> — The Sanctum of Execution. It provides the standard class libraries (<code>java.lang</code>, <code>java.util</code>) and the runtime environment required to run compiled Java applications without compilation tools.</li>
+  <li><strong>JVM (Java Virtual Machine)</strong> — The Engine of the Realm. An abstract computing machine that loads compiled <code>.class</code> files, verifies memory safety, and translates bytecode into lightning-fast native CPU instructions via the <strong>Just-In-Time (JIT) Compiler</strong>.</li>
 </ul>
 
 <div class="callout callout--info">
-  <strong>Think of it like this:</strong> JDK = kitchen (full tools to cook). JRE = dining room (just what you need to eat). JVM = your stomach (actually processes the food).
+  <strong>📜 Ancient Scroll of Wisdom:</strong> In modern Java (Java 11+), the standalone JRE was retired in favor of modular runtime images forged with <code>jlink</code>. When you install a modern OpenJDK (such as Eclipse Temurin or Amazon Corretto), you receive the full JDK.
 </div>
 
-<h3>How Java Code Runs</h3>
-<p>Unlike Python or JavaScript which are interpreted directly, Java uses a <strong>two-step process</strong>:</p>
+<h3>The Two-Stage Execution Cycle</h3>
+<pre class="ascii-diagram">
++--------------------+        +---------------------+        +--------------------+
+|  HelloWorld.java   | -----> |   javac (Compiler)  | -----> |  HelloWorld.class  |
+|   [Source Code]    |        |   Translates syntax |        |  [Magic Bytecode]  |
++--------------------+        +---------------------+        +--------------------+
+                                                                       |
+                                                                       v
++--------------------+        +---------------------+        +--------------------+
+|  Native CPU Code   | <----- | JIT HotSpot Engine  | <----- |    JVM Runtime     |
+| (x86_64, ARM64...) |        | (Compiles hot paths)|        | (Classloader & GC) |
++--------------------+        +---------------------+        +--------------------+
+</pre>
 
-<pre><code>1. You write:     HelloWorld.java    (source code)
-2. Compiler runs: javac HelloWorld.java
-3. Produces:      HelloWorld.class   (bytecode)
-4. JVM executes:  java HelloWorld     (runs on any OS)</code></pre>
+<p>When you inspect the very first 4 bytes of any compiled <code>.class</code> file in hexadecimal, you will find the legendary magic number: <code>0xCAFEBABE</code>. This arcane marker tells the JVM classloader that the scroll is a genuine Java bytecode artifact.</p>
 
-<p>The <code>.class</code> file contains <strong>bytecode</strong> — a platform-independent instruction set. The JVM's <strong>JIT (Just-In-Time) compiler</strong> then converts this bytecode into native machine code at runtime, which is why Java is fast despite being "interpreted".</p>
-
-<h3>Your First Program</h3>
-<p>Look at the code editor on the right. Every Java program starts with a <strong>class</strong> and a <strong>main method</strong>:</p>
+<h3>Decoding Your First Incantation</h3>
+<p>Look at the code editor. Every Java spell requires precise structural architecture:</p>
 
 <pre><code>public class HelloWorld {
     public static void main(String[] args) {
@@ -59,205 +67,234 @@ export const phase1Content = {
 }</code></pre>
 
 <ul>
-  <li><code>public class HelloWorld</code> — Declares a class. The filename must match the class name.</li>
-  <li><code>public static void main(String[] args)</code> — The entry point. JVM looks for this exact signature.</li>
-  <li><code>System.out.println()</code> — Prints text to the console.</li>
+  <li><code>public class HelloWorld</code> — Defines an accessible blueprint. The class name <strong>must exactly match</strong> the file name (<code>HelloWorld.java</code>).</li>
+  <li><code>public static void main(String[] args)</code> — The sacred portal of entry.
+    <ul>
+      <li><code>public</code>: Accessible by the JVM runtime from anywhere.</li>
+      <li><code>static</code>: Can be invoked without instantiating an object of the class first.</li>
+      <li><code>void</code>: Returns no value to the operating system upon normal termination.</li>
+      <li><code>String[] args</code>: An array of command-line runes passed during invocation.</li>
+    </ul>
+  </li>
+  <li><code>System.out.println(...)</code> — Accesses the standard output stream of the <code>System</code> class and prints a line of text terminated by a newline.</li>
 </ul>
 
 <div class="callout callout--tip">
-  <strong>Try it!</strong> Modify the message in the editor and hit Run to see your output.
+  <strong>🗡️ Adventurer's Pro-Tip:</strong> Click <strong>▶ Run</strong> on the right to trigger the compiler, invoke the JVM, and watch your bytecode execute in the terminal!
 </div>
 `,
       },
 
       // ── Lesson 2 ──────────────────────────────────────────────
       {
-        title: 'Primitive Types & Variables',
+        title: 'Memory Realms: Stack Frames vs The Heap',
         language: 'java',
-        starterCode: `public class Types {\n    public static void main(String[] args) {\n        // Integer types\n        byte smallNum = 127;        // 8-bit: -128 to 127\n        short medNum = 32000;       // 16-bit\n        int number = 2_000_000;     // 32-bit (most common)\n        long bigNum = 9_000_000_000L; // 64-bit (note the L)\n\n        // Decimal types\n        float pi = 3.14f;           // 32-bit (note the f)\n        double precise = 3.14159265; // 64-bit (default decimal)\n\n        // Other types\n        char letter = 'A';          // Single character\n        boolean isJavaFun = true;   // true or false\n\n        System.out.println("int: " + number);\n        System.out.println("double: " + precise);\n        System.out.println("char: " + letter);\n        System.out.println("boolean: " + isJavaFun);\n    }\n}`,
+        starterCode: `public class MemoryModel {\n    public static void main(String[] args) {\n        int playerLevel = 1;         // Stack variable\n        String heroName = "Aethelgard"; // Reference on Stack, Object on Heap\n\n        System.out.println("Hero: " + heroName + " | Level: " + playerLevel);\n    }\n}`,
         content: `
-<h2>Primitive Types: The Building Blocks</h2>
-<p>Java is a <strong>statically-typed</strong> language. That means every variable must declare its type before you can use it. Unlike Python where <code>x = 5</code> just works, in Java you write <code>int x = 5;</code>.</p>
+<h2>🏛️ Chapter 2: The Two Memory Realms — Stack vs Heap</h2>
 
-<p>Java has <strong>8 primitive types</strong> — basic data types built into the language:</p>
-
-<h3>Integer Types (whole numbers)</h3>
-<table style="width:100%; font-size:13px; border-collapse:collapse;">
-  <tr style="border-bottom:1px solid rgba(0,229,255,0.1);">
-    <td style="padding:8px;"><code>byte</code></td><td>8 bits</td><td>-128 to 127</td>
-  </tr>
-  <tr style="border-bottom:1px solid rgba(0,229,255,0.1);">
-    <td style="padding:8px;"><code>short</code></td><td>16 bits</td><td>-32,768 to 32,767</td>
-  </tr>
-  <tr style="border-bottom:1px solid rgba(0,229,255,0.1);">
-    <td style="padding:8px;"><code>int</code></td><td>32 bits</td><td>~-2.1 billion to 2.1 billion</td>
-  </tr>
-  <tr>
-    <td style="padding:8px;"><code>long</code></td><td>64 bits</td><td>Huge range (suffix with <code>L</code>)</td>
-  </tr>
-</table>
-
-<h3>Decimal Types (floating-point numbers)</h3>
-<ul>
-  <li><code>float</code> — 32-bit, ~7 decimal digits precision (suffix with <code>f</code>)</li>
-  <li><code>double</code> — 64-bit, ~15 decimal digits precision (default for decimals)</li>
-</ul>
-
-<h3>Other Types</h3>
-<ul>
-  <li><code>char</code> — A single Unicode character, enclosed in single quotes: <code>'A'</code></li>
-  <li><code>boolean</code> — Only <code>true</code> or <code>false</code></li>
-</ul>
-
-<div class="callout callout--warn">
-  <strong>Common trap:</strong> <code>int</code> vs <code>Integer</code> — lowercase <code>int</code> is a primitive. Uppercase <code>Integer</code> is a wrapper class (an object). You'll learn about this distinction later.
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Every variable you declare consumes memory in one of two sacred dimensions: the fast, transient Stack or the vast, persistent Heap. Master this duality, and you will prevent the dreaded StackOverflowError and OutOfMemoryError curses.</em>
 </div>
 
-<h3>Variable Declaration & Assignment</h3>
-<pre><code>// Declaration + initialization
-int age = 21;
+<p>The JVM partitions working memory into distinct administrative sectors during execution. Understanding where data lives is essential for writing high-performance enterprise applications.</p>
 
-// Declaration first, assign later
-String name;
-name = "Biruk";
+<h3>1. The Call Stack (Fast, Thread-Private)</h3>
+<p>The <strong>Stack</strong> is where thread execution happens. Every time a thread calls a method, the JVM pushes a new <strong>Stack Frame</strong> onto that thread's stack:</p>
+<ul>
+  <li>Stores <strong>primitive variables</strong> (e.g., <code>int</code>, <code>double</code>, <code>boolean</code>) directly in the frame.</li>
+  <li>Stores <strong>object reference handles</strong> (pointers that hold the memory address of an object living on the Heap).</li>
+  <li>Follows a strict <strong>LIFO (Last-In, First-Out)</strong> order. When a method returns, its frame is instantly popped and destroyed — zero Garbage Collection overhead!</li>
+</ul>
 
-// Constants (cannot be changed)
-final double PI = 3.14159;
-// PI = 3.0;  ← This would cause a compile error!</code></pre>
+<h3>2. The Heap (Shared, Garbage-Collected)</h3>
+<p>The <strong>Heap</strong> is the vast shared realm where all <strong>Objects</strong> and <strong>Arrays</strong> reside. Whenever you invoke <code>new Scanner()</code> or <code>new String()</code>, memory is allocated on the Heap:</p>
+<ul>
+  <li>Accessible by all threads in the application.</li>
+  <li>Survives method execution until no active stack references point to it.</li>
+  <li>Managed automatically by the <strong>Garbage Collector (GC)</strong>, which periodically sweeps unreachable objects into the void.</li>
+</ul>
 
-<h3>Type Casting</h3>
-<p><strong>Widening</strong> (automatic, safe): smaller type → larger type</p>
-<pre><code>int x = 100;
-double y = x;  // int → double, automatic</code></pre>
+<pre class="ascii-diagram">
++-------------------------+                  +----------------------------------+
+|      THE STACK          |                  |             THE HEAP             |
+|  (Thread-Private Frame) |                  |      (Shared Object Space)       |
++-------------------------+                  +----------------------------------+
+|                         |                  |                                  |
+| [playerLevel = 1]       | (primitive value)|                                  |
+|                         |                  |                                  |
+| [heroName] 0x7F2A ----+ | (ref pointer)    |  0x7F2A: String Object           |
+|                       | |                  |  +----------------------------+  |
++-----------------------|-+                  |  | value: ['A','e','t','h'...] |  |
+                        +------------------> |  | hash: 0x48B1C2             |  |
+                                             |  +----------------------------+  |
+                                             +----------------------------------+
+</pre>
 
-<p><strong>Narrowing</strong> (manual, risky): larger type → smaller type</p>
-<pre><code>double price = 9.99;
-int rounded = (int) price;  // Explicitly cast, loses .99</code></pre>
+<h3>The Metaspace (Native Memory)</h3>
+<p>In addition to Stack and Heap, Java 8+ introduced the <strong>Metaspace</strong>, stored in native OS memory. It holds class metadata, method bytecode, runtime constant pools, and static variables. Unlike the old PermGen, it expands automatically up to available system RAM unless constrained by <code>-XX:MaxMetaspaceSize</code>.</p>
+
+<div class="callout callout--warn">
+  <strong>⚠️ Mimic Chest (Common Interview Trap):</strong> <em>"Is Java pass-by-reference or pass-by-value?"</em><br />
+  <strong>Java is STRICTLY pass-by-value, always!</strong> When passing an object to a method, Java copies the <em>value of the reference pointer</em> on the stack. The copy points to the same object on the heap, but reassigning the parameter reference inside the method does not change the caller's reference!
+</div>
 `,
       },
 
       // ── Lesson 3 ──────────────────────────────────────────────
       {
-        title: 'Stack vs Heap Memory',
+        title: 'Primitive Types, 2\'s Complement & Overflow Runes',
         language: 'java',
-        starterCode: `public class MemoryDemo {\n    public static void main(String[] args) {\n        // Primitives live on the STACK\n        int a = 10;\n        int b = a;  // b gets a COPY of a's value\n        b = 20;\n        System.out.println("a = " + a);  // Still 10!\n        System.out.println("b = " + b);  // 20\n\n        // Objects live on the HEAP\n        int[] arr1 = {1, 2, 3};\n        int[] arr2 = arr1;  // arr2 points to SAME object!\n        arr2[0] = 99;\n        System.out.println("arr1[0] = " + arr1[0]);  // 99!\n        System.out.println("arr2[0] = " + arr2[0]);  // 99\n    }\n}`,
+        starterCode: `public class PrimitiveRunes {\n    public static void main(String[] args) {\n        // 8 Primitive Types\n        byte smallRune = 127;\n        short mana = 32000;\n        int goldCoins = 2_147_483_647; // Max signed 32-bit int\n        long galacticScore = 9_000_000_000L;\n\n        float spellSpeed = 3.14f;\n        double preciseCoordinates = 124.5678912;\n        char elementalGlyph = '⚡';\n        boolean isShieldActive = true;\n\n        System.out.println("Max Int: " + goldCoins);\n        // Overflow demon: adding 1 wraps to negative minimum!\n        System.out.println("Overflowed Int: " + (goldCoins + 1));\n    }\n}`,
         content: `
-<h2>How Java Manages Memory</h2>
-<p>Understanding where your data lives in memory is one of the most important concepts in Java. It explains why some variables behave independently and others seem "linked."</p>
+<h2>💎 Chapter 3: Primitive Runes & Binary Overflow Demons</h2>
 
-<h3>The Stack</h3>
-<p>The <strong>stack</strong> is like a stack of sticky notes. Each time a method is called, a new <strong>stack frame</strong> is pushed on top:</p>
-<ul>
-  <li>Stores <strong>local variables</strong> (primitives and reference pointers)</li>
-  <li>Stores <strong>method call information</strong> (which method called which)</li>
-  <li><strong>Fast</strong> access — Last In, First Out (LIFO)</li>
-  <li>Automatically cleaned up when a method returns</li>
-</ul>
-
-<h3>The Heap</h3>
-<p>The <strong>heap</strong> is like a big warehouse. All <strong>objects</strong> and <strong>arrays</strong> live here:</p>
-<ul>
-  <li>Stores all objects created with <code>new</code></li>
-  <li><strong>Shared</strong> — multiple variables can point to the same object</li>
-  <li>Managed by the <strong>Garbage Collector</strong> (GC) — automatically frees unused objects</li>
-  <li>Slower than stack, but much larger</li>
-</ul>
-
-<h3>The Key Difference: Value vs Reference</h3>
-<pre><code>// PRIMITIVES: Stack stores the actual value
-int a = 10;
-int b = a;     // b gets a COPY of 10
-b = 20;        // Only b changes. a is still 10.
-
-// OBJECTS: Stack stores a reference (pointer) to the heap
-int[] arr1 = {1, 2, 3};  // Array object on heap
-int[] arr2 = arr1;         // arr2 points to SAME array!
-arr2[0] = 99;              // BOTH see the change!</code></pre>
-
-<div class="callout callout--info">
-  <strong>Visualization:</strong><br>
-  Stack: <code>[a=10] [b=20] [arr1→0x100] [arr2→0x100]</code><br>
-  Heap:  <code>0x100: [99, 2, 3]</code><br>
-  Both arr1 and arr2 point to the same address (0x100) on the heap!
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Java provides 8 sacred primitive runes etched directly into CPU registers and stack frames. Learn their exact bit-widths and understand 2's complement binary representation to guard against arithmetic overflow.</em>
 </div>
 
-<h3>Garbage Collection</h3>
-<p>When no variable references an object anymore, the <strong>Garbage Collector (GC)</strong> automatically frees that memory. You never need to manually free memory in Java (unlike C/C++).</p>
+<h3>The 8 Sacred Primitive Types</h3>
+<p>Primitives are raw binary values, not objects. They have fixed sizes across all operating systems:</p>
 
-<pre><code>String s = new String("hello");
-s = null;  // The "hello" object is now unreachable
-// GC will eventually clean it up</code></pre>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Bits</th>
+      <th>Range / Precision</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>byte</code></td>
+      <td>8</td>
+      <td>-128 to 127</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td><code>short</code></td>
+      <td>16</td>
+      <td>-32,768 to 32,767</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td><code>int</code></td>
+      <td>32</td>
+      <td>-2,147,483,648 to 2,147,483,647 (~2.1 Billion)</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td><code>long</code></td>
+      <td>64</td>
+      <td>-9 Quintillion to +9 Quintillion (suffix with <code>L</code>)</td>
+      <td>0L</td>
+    </tr>
+    <tr>
+      <td><code>float</code></td>
+      <td>32</td>
+      <td>IEEE 754 floating point (suffix with <code>f</code>)</td>
+      <td>0.0f</td>
+    </tr>
+    <tr>
+      <td><code>double</code></td>
+      <td>64</td>
+      <td>IEEE 754 high-precision decimal</td>
+      <td>0.0d</td>
+    </tr>
+    <tr>
+      <td><code>char</code></td>
+      <td>16</td>
+      <td>Unicode UTF-16 characters (<code>'A'</code>, <code>'\\u0041'</code>)</td>
+      <td>'\\u0000'</td>
+    </tr>
+    <tr>
+      <td><code>boolean</code></td>
+      <td>1*</td>
+      <td><code>true</code> or <code>false</code> (JVM uses 1-4 bytes internally)</td>
+      <td>false</td>
+    </tr>
+  </tbody>
+</table>
 
-<div class="callout callout--tip">
-  <strong>Try it!</strong> Run the code to see how primitives get copied but arrays share the same reference.
+<h3>Two's Complement & The Overflow Paradox</h3>
+<p>Java signed integers use <strong>Two's Complement</strong> representation. The highest bit (Most Significant Bit, or MSB) serves as the sign bit: <code>0</code> for positive, <code>1</code> for negative.</p>
+
+<p>When you add <code>1</code> to the maximum 32-bit signed integer (<code>01111111 11111111 11111111 11111111</code> = <code>2,147,483,647</code>), the binary carry rolls over into the sign bit:</p>
+
+<pre class="ascii-diagram">
+   01111111 11111111 11111111 11111111  (+2,147,483,647: Integer.MAX_VALUE)
+ + 00000000 00000000 00000000 00000001
+ --------------------------------------
+   10000000 00000000 00000000 00000000  (-2,147,483,648: Integer.MIN_VALUE!)
+</pre>
+
+<div class="callout callout--warn">
+  <strong>⚠️ Mimic Trap:</strong> Java does NOT throw an exception when integer overflow occurs! It silently wraps around. In enterprise financial software or binary search algorithms (<code>mid = (low + high) / 2</code>), this overflow bug can cause severe crashes. Always use <code>low + (high - low) / 2</code> or <code>Math.addExact()</code>.
 </div>
+
+<h3>Floating Point Precision Trap</h3>
+<p>Never use <code>float</code> or <code>double</code> for currency or exact quantities! Floating point numbers cannot accurately represent fractional powers of 10 in binary (e.g. <code>0.1 + 0.2 == 0.30000000000000004</code>). For real monetary transactions, always use <code>java.math.BigDecimal</code> or integer cents.</p>
 `,
       },
 
       // ── Lesson 4 ──────────────────────────────────────────────
       {
-        title: 'Control Flow: Conditionals & Loops',
+        title: 'Control Flow: If-Else Guardrails & Loop Mechanics',
         language: 'java',
-        starterCode: `public class ControlFlow {\n    public static void main(String[] args) {\n        // If-else\n        int score = 85;\n        if (score >= 90) {\n            System.out.println("Grade: A");\n        } else if (score >= 80) {\n            System.out.println("Grade: B");\n        } else if (score >= 70) {\n            System.out.println("Grade: C");\n        } else {\n            System.out.println("Grade: F");\n        }\n\n        // Switch (modern arrow syntax)\n        String day = "Monday";\n        String type = switch (day) {\n            case "Saturday", "Sunday" -> "Weekend";\n            default -> "Weekday";\n        };\n        System.out.println(day + " is a " + type);\n\n        // For loop\n        for (int i = 1; i <= 5; i++) {\n            System.out.print(i + " ");\n        }\n        System.out.println();\n\n        // While loop\n        int count = 3;\n        while (count > 0) {\n            System.out.println("Countdown: " + count);\n            count--;\n        }\n    }\n}`,
+        starterCode: `public class ControlFlow {\n    public static void main(String[] args) {\n        int bossHealth = 100;\n        int playerAttack = 25;\n        int round = 1;\n\n        while (bossHealth > 0) {\n            bossHealth -= playerAttack;\n            System.out.println("Round " + round + ": Boss HP left = " + bossHealth);\n            round++;\n        }\n\n        System.out.println("Victory! Boss vanquished in " + (round - 1) + " strikes.");\n    }\n}`,
         content: `
-<h2>Making Decisions & Repeating Actions</h2>
-<p>Programs are boring if they only run top-to-bottom. <strong>Control flow</strong> lets your code make decisions and repeat actions.</p>
+<h2>🛡️ Chapter 4: Control Flow Guardrails & Loop Mechanics</h2>
 
-<h3>If / Else If / Else</h3>
-<p>The most basic decision-making structure:</p>
-<pre><code>if (condition) {
-    // runs if condition is true
-} else if (anotherCondition) {
-    // runs if first was false, this is true
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>A program without branching is merely a scroll of linear steps. Master logical conditionals, short-circuit evaluation, enhanced loops, and modern pattern-matching switch statements to orchestrate complex combat encounters.</em>
+</div>
+
+<h3>1. Conditional Guardrails: If-Else & Short-Circuiting</h3>
+<p>Java enforces strict boolean expressions. You cannot pass integers like <code>if (1)</code> as in C++:</p>
+
+<pre><code>if (health &lt;= 0) {
+    System.out.println("Hero has fallen.");
+} else if (health &lt; 25) {
+    System.out.println("Warning: Low health potion recommended!");
 } else {
-    // runs if all above were false
+    System.out.println("Hero is battle ready.");
 }</code></pre>
 
-<p>Comparison operators: <code>==</code> (equal), <code>!=</code> (not equal), <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></p>
-<p>Logical operators: <code>&&</code> (AND), <code>||</code> (OR), <code>!</code> (NOT)</p>
-
-<h3>Switch Statements</h3>
-<p>When you're checking one variable against many values, switch is cleaner than a long if-else chain:</p>
-<pre><code>// Classic switch
-switch (dayNumber) {
-    case 1: System.out.println("Monday"); break;
-    case 2: System.out.println("Tuesday"); break;
-    default: System.out.println("Other");
-}
-
-// Modern arrow syntax (Java 14+) — no break needed!
-String result = switch (dayNumber) {
-    case 1 -> "Monday";
-    case 2 -> "Tuesday";
-    default -> "Other";
-};</code></pre>
-
-<h3>Loops</h3>
-
-<p><strong>For loop</strong> — when you know how many times to repeat:</p>
-<pre><code>for (int i = 0; i < 10; i++) {
-    System.out.println(i);
-}</code></pre>
-
-<p><strong>While loop</strong> — when you repeat until a condition is false:</p>
-<pre><code>while (condition) {
-    // keep going
-}</code></pre>
-
-<p><strong>Do-while loop</strong> — always runs at least once:</p>
-<pre><code>do {
-    // runs at least once
-} while (condition);</code></pre>
-
-<h3>Loop Control</h3>
+<p><strong>Short-Circuit Evaluation:</strong></p>
 <ul>
-  <li><code>break;</code> — exits the loop immediately</li>
-  <li><code>continue;</code> — skips to the next iteration</li>
+  <li><code>&amp;&amp;</code> (Logical AND): If the left side evaluates to <code>false</code>, the right side is <strong>never executed</strong>.</li>
+  <li><code>||</code> (Logical OR): If the left side evaluates to <code>true</code>, the right side is <strong>never executed</strong>.</li>
 </ul>
 
-<div class="callout callout--warn">
-  <strong>Infinite loop alert!</strong> Always make sure your loop condition will eventually become false. <code>while(true)</code> without a <code>break</code> will hang your program forever.
+<div class="callout callout--tip">
+  <strong>🗡️ Safe Navigation Pattern:</strong> Use short-circuiting to prevent NullPointerExceptions:
+  <code>if (sword != null &amp;&amp; sword.getDamage() &gt; 50) { ... }</code>
 </div>
+
+<h3>2. The Three Loop Incantations</h3>
+<ul>
+  <li><strong>For Loop</strong> — Known iteration bounds:
+    <code>for (int i = 0; i &lt; 5; i++) { ... }</code>
+  </li>
+  <li><strong>Enhanced For-Each Loop</strong> — Iterating over arrays and Iterable collections without index clutter:
+    <code>for (String item : inventory) { ... }</code>
+  </li>
+  <li><strong>While & Do-While</strong> — Condition-driven loops:
+    <code>while (stamina &gt; 0) { strike(); }</code>
+  </li>
+</ul>
+
+<h3>3. Modern Switch Expressions (Java 14+)</h3>
+<p>Modern Java supports expression switches with the arrow <code>-&gt;</code> syntax, eliminating the dreaded missing <code>break;</code> fall-through bug and returning values directly:</p>
+
+<pre><code>String difficulty = "HEROIC";
+int rewardXP = switch (difficulty) {
+    case "EASY" -> 100;
+    case "NORMAL" -> 250;
+    case "HEROIC", "LEGENDARY" -> 1000;
+    default -> throw new IllegalArgumentException("Unknown difficulty: " + difficulty);
+};</code></pre>
 `,
       },
     ],
@@ -271,759 +308,352 @@ String result = switch (dayNumber) {
         expectedOutput: '100.0°C = 212.0°F',
         description: `
 <h2>Convert Celsius to Fahrenheit</h2>
-<p>Your task: complete the temperature converter using the formula:</p>
+<p>Complete the temperature converter rune using the sacred thermodynamic formula:</p>
 <pre><code>Fahrenheit = (Celsius × 9/5) + 32</code></pre>
-<p>The program should convert <strong>100°C</strong> and print the result in the format shown in the expected output.</p>
+<p>The program must convert <strong>100.0°C</strong> and output the exact formatted string shown below.</p>
 
-<div class="callout callout--tip">
-  <strong>Watch out:</strong> Integer division! <code>9/5</code> in Java gives <code>1</code> (integer division), not <code>1.8</code>. Use <code>9.0/5</code> or <code>9/5.0</code> to get decimal results.
+<div class="callout callout--warn">
+  <strong>⚠️ Beware Integer Truncation:</strong> In Java, <code>9 / 5</code> performs integer division and yields <code>1</code>! Use <code>9.0 / 5.0</code> or <code>(celsius * 9.0 / 5.0) + 32.0</code> to preserve decimal precision.
 </div>
 `,
-        hints: ['Use 9.0/5 instead of 9/5 to avoid integer division truncation.'],
+        hints: ['Use 9.0 / 5.0 instead of 9 / 5 to avoid integer division truncation.'],
       },
       {
         title: 'Palindrome Number Checker',
         language: 'java',
-        starterCode: `public class Palindrome {\n    public static void main(String[] args) {\n        int number = 12321;\n        int original = number;\n        int reversed = 0;\n\n        // TODO: Reverse the number using a while loop\n        // Hint: Use % 10 to get last digit, / 10 to remove it\n        while (number > 0) {\n            // Your code here\n        }\n\n        if (original == reversed) {\n            System.out.println(original + " is a palindrome");\n        } else {\n            System.out.println(original + " is not a palindrome");\n        }\n    }\n}`,
+        starterCode: `public class Palindrome {\n    public static void main(String[] args) {\n        int number = 12321;\n        int original = number;\n        int reversed = 0;\n\n        // TODO: Reverse the number using a while loop\n        // Hint: Use % 10 to get last digit, / 10 to remove it\n        while (number > 0) {\n            int digit = number % 10;\n            reversed = reversed * 10 + digit;\n            number = number / 10;\n        }\n\n        if (original == reversed) {\n            System.out.println(original + " is a palindrome");\n        } else {\n            System.out.println(original + " is not a palindrome");\n        }\n    }\n}`,
         expectedOutput: '12321 is a palindrome',
         description: `
-<h2>Is it a Palindrome?</h2>
-<p>A <strong>palindrome</strong> number reads the same forward and backward. Examples: 121, 12321, 1001.</p>
-<p>Your task: <strong>reverse the number</strong> using a while loop, then check if it matches the original.</p>
-
-<h3>Algorithm</h3>
-<ol>
-  <li>Extract the last digit: <code>lastDigit = number % 10</code></li>
-  <li>Build reversed number: <code>reversed = reversed * 10 + lastDigit</code></li>
-  <li>Remove last digit from original: <code>number = number / 10</code></li>
-  <li>Repeat until number becomes 0</li>
-</ol>
+<h2>Is it a Palindromic Number?</h2>
+<p>A <strong>palindrome</strong> number reads identically forwards and backwards (e.g. 121, 12321, 9009).</p>
+<p>Your quest: reverse the integer mathematically without converting it to a String, then verify if it matches the original value.</p>
 `,
-        hints: ['Inside the loop: reversed = reversed * 10 + (number % 10); then number = number / 10;'],
+        hints: ['Extract digits with num % 10, shift reversed accumulator with reversed * 10, and truncate with num / 10.'],
       },
     ],
-
-    // ── Quiz ─────────────────────────────────────────────────────
     quiz: [
       {
-        question: 'What does JVM stand for?',
-        options: ['Java Version Manager', 'Java Virtual Machine', 'Java Variable Method', 'Java Verified Module'],
+        question: 'What is the magic number found in the first 4 bytes of every compiled Java .class file?',
+        options: ['0xDEADBEEF', '0xCAFEBABE', '0xJAVA2024', '0x00FF00FF'],
         correctIndex: 1,
-        explanation: 'JVM = Java Virtual Machine. It executes compiled bytecode (.class files) on any platform.',
+        explanation: 'Every Java bytecode file begins with the 4-byte hexadecimal signature 0xCAFEBABE.'
       },
       {
-        question: 'Which of these is NOT a Java primitive type?',
-        options: ['int', 'boolean', 'String', 'char'],
-        correctIndex: 2,
-        explanation: 'String is a class (reference type), not a primitive. The 8 primitives are: byte, short, int, long, float, double, boolean, char.',
-      },
-      {
-        question: 'What is the output of this code?',
-        code: 'int a = 10;\nint b = a;\nb = 20;\nSystem.out.println(a);',
-        options: ['10', '20', '0', 'Compilation error'],
-        correctIndex: 0,
-        explanation: 'Primitives are copied by value. Changing b does not affect a.',
-      },
-      {
-        question: 'What does the `final` keyword do when applied to a variable?',
-        options: ['Makes it private', 'Makes it static', 'Makes it a constant (cannot be reassigned)', 'Deletes it from memory'],
-        correctIndex: 2,
-        explanation: 'final makes a variable a constant — once assigned, its value cannot be changed.',
-      },
-      {
-        question: 'What will happen if you write: int x = 9/5;',
-        options: ['x = 1.8', 'x = 2', 'x = 1', 'Compilation error'],
-        correctIndex: 2,
-        explanation: 'Integer division in Java truncates the decimal. 9/5 = 1 (not 1.8). To get 1.8, use 9.0/5.',
-      },
-      {
-        question: 'Where are objects stored in Java memory?',
-        options: ['Stack', 'Heap', 'Register', 'Cache'],
+        question: 'Where are primitive local variables stored in the Java memory model?',
+        options: ['In the shared Heap', 'In thread-private Stack frames', 'In the Metaspace', 'Directly in the CPU L1 cache only'],
         correctIndex: 1,
-        explanation: 'All objects and arrays are stored on the Heap. The Stack stores local primitives and reference pointers.',
+        explanation: 'Local primitive variables live directly inside the active Stack Frame of the method execution thread.'
       },
+      {
+        question: 'What occurs when you add 1 to Integer.MAX_VALUE in Java?',
+        options: ['An ArithmeticException is thrown', 'The value wraps around to Integer.MIN_VALUE (-2,147,483,648)', 'The variable converts to a Long automatically', 'The program crashes with StackOverflowError'],
+        correctIndex: 1,
+        explanation: 'Due to Two\'s Complement 32-bit arithmetic, adding 1 rolls over the sign bit, wrapping to the negative minimum.'
+      }
     ],
-
-    // ── Project ──────────────────────────────────────────────────
     project: {
-      title: 'Multi-Function Calculator',
-      language: 'java',
-      starterCode: `import java.util.Scanner;\n\npublic class Calculator {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n\n        System.out.println("=== Java Calculator ===\");\n        System.out.println(\"1. Addition\");\n        System.out.println(\"2. Subtraction\");\n        System.out.println(\"3. Multiplication\");\n        System.out.println(\"4. Division\");\n        System.out.println(\"5. Modulus\");\n        System.out.print(\"Choose operation (1-5): \");\n\n        // TODO: Read user choice\n        // TODO: Read two numbers\n        // TODO: Perform the operation using switch\n        // TODO: Handle division by zero!\n        // TODO: Display the result\n    }\n}`,
+      title: 'Console Calculator & Number System Quest',
       description: `
-<p>Build a <strong>multi-function calculator</strong> that takes user input from the console. This project combines everything from Week 1: variables, types, control flow, and user input handling.</p>
+<h2>Module 1 Capstone Project: Console Calculator</h2>
+<p>Construct a robust interactive arithmetic engine combining variables, operations, and control flow.</p>
 `,
+      language: 'java',
+      starterCode: `public class Calculator {\n    public static void main(String[] args) {\n        System.out.println("=== CODEX CALCULATOR ===");\n        int a = 20, b = 4;\n        System.out.println("Add: " + (a + b));\n        System.out.println("Sub: " + (a - b));\n        System.out.println("Mul: " + (a * b));\n        System.out.println("Div: " + (a / b));\n    }\n}`,
       requirements: [
-        'Display a menu of operations (Add, Subtract, Multiply, Divide, Modulus)',
-        'Read the user\'s operation choice using Scanner',
-        'Read two numbers from the user',
-        'Use a switch statement to perform the correct operation',
-        'Handle division by zero with an error message',
-        'Display the result with a descriptive message',
-        'Use appropriate types (double for decimal operations)',
-      ],
-    },
+        'Perform basic arithmetic: addition, subtraction, multiplication, division',
+        'Check for division by zero before dividing',
+        'Demonstrate floating-point vs integer division'
+      ]
+    }
   },
 
   // ════════════════════════════════════════════════════════════════
-  // WEEK 2: Classes, Objects & Encapsulation
+  // MODULE 2: Forging Objects — Classes, Encapsulation & Memory
   // ════════════════════════════════════════════════════════════════
   'week-2': {
     lessons: [
       {
-        title: 'What is a Class? What is an Object?',
+        title: 'Object-Oriented Architecture & Heap Lifecycle',
         language: 'java',
-        starterCode: `public class Dog {\n    // Fields (state)\n    String name;\n    String breed;\n    int age;\n\n    // Method (behavior)\n    void bark() {\n        System.out.println(name + " says: Woof!");\n    }\n\n    void info() {\n        System.out.println(name + " | " + breed + " | " + age + " years old");\n    }\n\n    public static void main(String[] args) {\n        Dog dog1 = new Dog();\n        dog1.name = "Max";\n        dog1.breed = "Labrador";\n        dog1.age = 3;\n\n        Dog dog2 = new Dog();\n        dog2.name = "Bella";\n        dog2.breed = "Poodle";\n        dog2.age = 5;\n\n        dog1.bark();\n        dog2.bark();\n        dog1.info();\n        dog2.info();\n    }\n}`,
+        starterCode: `public class HeroDemo {\n    static class Hero {\n        String name;\n        int health;\n        \n        Hero(String name, int health) {\n            this.name = name;\n            this.health = health;\n        }\n    }\n\n    public static void main(String[] args) {\n        Hero h1 = new Hero("Valerius", 150);\n        Hero h2 = h1; // Copies the reference pointer!\n        h2.health = 80;\n\n        System.out.println(h1.name + " HP: " + h1.health); // Prints 80!\n    }\n}`,
         content: `
-<h2>Classes: Blueprints for Objects</h2>
-<p>A <strong>class</strong> is a blueprint that defines what data (fields) and behavior (methods) an object will have. An <strong>object</strong> is a specific instance created from that blueprint.</p>
+<h2>🏰 Chapter 1: Forging Objects on the Heap</h2>
 
-<div class="callout callout--info">
-  <strong>Analogy:</strong> A class is like an architectural blueprint. An object is an actual house built from that blueprint. You can build many houses from one blueprint, each with different colors and furniture.
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Classes are blueprints; Objects are living instances animated on the Heap. Understand how the 'new' keyword carves memory, how reference variables copy pointers, and how the Garbage Collector reclaims spent memory.</em>
 </div>
 
-<h3>Anatomy of a Class</h3>
-<pre><code>public class ClassName {
-    // Fields (state/data)
-    String name;
-    int age;
-
-    // Methods (behavior/actions)
-    void doSomething() {
-        System.out.println("Doing it!");
-    }
-}</code></pre>
-
-<h3>Creating Objects</h3>
-<p>Use the <code>new</code> keyword to create an object (instance) from a class:</p>
-<pre><code>Dog myDog = new Dog();  // Creates a new Dog object on the heap
-myDog.name = "Max";     // Set field values
-myDog.bark();           // Call methods</code></pre>
-
-<p><strong>Fields</strong> store the object's state. <strong>Methods</strong> define what the object can do.</p>
-
-<h3>Multiple Objects from One Class</h3>
-<p>Each object has its own copy of the fields. Changing one object's name doesn't affect another:</p>
-<pre><code>Dog dog1 = new Dog();
-dog1.name = "Max";
-
-Dog dog2 = new Dog();
-dog2.name = "Bella";
-
-// dog1.name is "Max", dog2.name is "Bella" — independent!</code></pre>
-
-<div class="callout callout--tip">
-  <strong>Try it!</strong> Create a third dog in the editor and make it bark.
-</div>
-`,
-      },
-      {
-        title: 'Constructors & the this Keyword',
-        language: 'java',
-        starterCode: `public class BankAccount {\n    private String owner;\n    private double balance;\n    private String accountId;\n\n    // Constructor\n    public BankAccount(String owner, double initialBalance) {\n        this.owner = owner;\n        this.balance = initialBalance;\n        this.accountId = "ACC-" + (int)(Math.random() * 10000);\n    }\n\n    // Overloaded constructor (no initial balance)\n    public BankAccount(String owner) {\n        this(owner, 0.0);  // Constructor chaining!\n    }\n\n    public void deposit(double amount) {\n        if (amount > 0) {\n            this.balance += amount;\n            System.out.println("Deposited $" + amount);\n        }\n    }\n\n    public void showInfo() {\n        System.out.println(accountId + " | " + owner + " | Balance: $" + balance);\n    }\n\n    public static void main(String[] args) {\n        BankAccount acc1 = new BankAccount("Biruk", 500.0);\n        BankAccount acc2 = new BankAccount("Alice");\n\n        acc1.deposit(150.0);\n        acc1.showInfo();\n        acc2.showInfo();\n    }\n}`,
-        content: `
-<h2>Constructors: Building Objects Properly</h2>
-<p>A <strong>constructor</strong> is a special method that runs when you create a new object with <code>new</code>. It initializes the object's fields.</p>
-
-<h3>Default Constructor</h3>
-<p>If you don't write any constructor, Java gives you an invisible <strong>default constructor</strong> with no parameters. But once you define any constructor, the default disappears.</p>
-
-<h3>Parameterized Constructor</h3>
-<pre><code>public class Person {
-    String name;
-    int age;
-
-    // Constructor
-    public Person(String name, int age) {
-        this.name = name;  // 'this' refers to the current object
-        this.age = age;
-    }
-}
-
-// Usage:
-Person p = new Person("Biruk", 21);</code></pre>
-
-<h3>The <code>this</code> Keyword</h3>
-<p><code>this</code> refers to the <strong>current object</strong>. It's used when parameter names shadow field names:</p>
-<pre><code>public Person(String name, int age) {
-    this.name = name;  // this.name = the field, name = the parameter
-    this.age = age;
-}</code></pre>
-
-<h3>Constructor Chaining</h3>
-<p>One constructor can call another using <code>this(...)</code>:</p>
-<pre><code>public BankAccount(String owner) {
-    this(owner, 0.0);  // Calls the 2-parameter constructor
-}</code></pre>
-
-<div class="callout callout--warn">
-  <strong>Rule:</strong> <code>this()</code> must be the <strong>first statement</strong> in the constructor. You can't put any code before it.
-</div>
-`,
-      },
-      {
-        title: 'Access Modifiers & Encapsulation',
-        language: 'java',
-        starterCode: `public class Student {\n    // Private fields — hidden from outside\n    private String name;\n    private int grade;\n    private final String id;  // Cannot be changed after creation\n\n    public Student(String name, int grade) {\n        this.name = name;\n        this.setGrade(grade);  // Use setter for validation\n        this.id = "STU-" + (int)(Math.random() * 10000);\n    }\n\n    // Getter — read access\n    public String getName() {\n        return name;\n    }\n\n    // Setter — write access WITH validation\n    public void setGrade(int grade) {\n        if (grade < 0 || grade > 100) {\n            System.out.println("Invalid grade! Must be 0-100.");\n            return;\n        }\n        this.grade = grade;\n    }\n\n    public int getGrade() { return grade; }\n    public String getId() { return id; }\n\n    public String toString() {\n        return id + " | " + name + " | Grade: " + grade;\n    }\n\n    public static void main(String[] args) {\n        Student s = new Student("Biruk", 95);\n        System.out.println(s);\n\n        s.setGrade(150);  // Will print error\n        s.setGrade(88);   // Valid\n        System.out.println(s);\n    }\n}`,
-        content: `
-<h2>Encapsulation: Protecting Your Data</h2>
-<p><strong>Encapsulation</strong> is the practice of hiding internal data and controlling access through methods. It's the most fundamental OOP principle.</p>
-
-<h3>Access Modifiers</h3>
-<table style="width:100%; font-size:13px; border-collapse:collapse;">
-  <tr style="border-bottom:1px solid rgba(0,229,255,0.1);">
-    <td style="padding:8px;"><code>private</code></td><td>Only accessible within the same class</td>
-  </tr>
-  <tr style="border-bottom:1px solid rgba(0,229,255,0.1);">
-    <td style="padding:8px;"><code>default</code> (no keyword)</td><td>Accessible within the same package</td>
-  </tr>
-  <tr style="border-bottom:1px solid rgba(0,229,255,0.1);">
-    <td style="padding:8px;"><code>protected</code></td><td>Same package + subclasses</td>
-  </tr>
-  <tr>
-    <td style="padding:8px;"><code>public</code></td><td>Accessible from anywhere</td>
-  </tr>
-</table>
-
-<h3>The Encapsulation Pattern</h3>
+<h3>The Object Anatomy in Heap Memory</h3>
+<p>When you invoke <code>new Hero("Valerius", 150)</code>, the JVM executes a multi-step ceremony:</p>
 <ol>
-  <li>Make fields <code>private</code></li>
-  <li>Provide <code>public</code> getters (for reading)</li>
-  <li>Provide <code>public</code> setters (for writing) <strong>with validation</strong></li>
+  <li><strong>Class Loading:</strong> Checks if <code>Hero.class</code> metadata is loaded in Metaspace.</li>
+  <li><strong>Heap Space Allocation:</strong> Carves memory for the object header and instance fields.</li>
+  <li><strong>Zero Initialization:</strong> Clears fields to their primitive defaults (<code>0</code>, <code>false</code>, <code>null</code>).</li>
+  <li><strong>Constructor Execution:</strong> Runs field initializers and the constructor block.</li>
+  <li><strong>Pointer Return:</strong> Returns the 64-bit (or 32-bit compressed oops) memory address to the stack variable.</li>
 </ol>
 
-<pre><code>private int age;
-
-public int getAge() { return age; }
-
-public void setAge(int age) {
-    if (age < 0 || age > 150) {
-        throw new IllegalArgumentException("Invalid age");
-    }
-    this.age = age;
-}</code></pre>
-
-<div class="callout callout--tip">
-  <strong>Why bother?</strong> Without encapsulation, anyone could write <code>student.grade = -500</code>. With a setter, you can validate and reject bad data.
-</div>
-
-<h3>The <code>final</code> Keyword</h3>
-<p>A <code>final</code> field can only be assigned once (in the constructor). After that, it's immutable:</p>
-<pre><code>private final String id = "ABC-123";
-// id = "XYZ-789";  ← COMPILE ERROR</code></pre>
+<pre class="ascii-diagram">
+HEAP OBJECT LAYOUT (64-bit JVM with Compressed OOPs)
++-------------------------------------------------------------+
+| 1. Mark Word (8 bytes): Hashcode, GC age, Lock state        |
++-------------------------------------------------------------+
+| 2. Klass Word (4 bytes): Pointer to Metaspace Hero.class    |
++-------------------------------------------------------------+
+| 3. Fields: String name pointer (4B), int health (4B)        |
++-------------------------------------------------------------+
+| 4. Padding (4 bytes): Aligns object to 8-byte boundary      |
++-------------------------------------------------------------+
+Total Size = 24 bytes on the Heap
+</pre>
 `,
       },
       {
-        title: 'Static vs Instance Members',
+        title: 'Encapsulation, Access Modifiers & Defensive Copying',
         language: 'java',
-        starterCode: `public class Counter {\n    // Static field — shared by ALL objects\n    private static int totalCount = 0;\n\n    // Instance field — unique to each object\n    private String label;\n    private int myCount;\n\n    public Counter(String label) {\n        this.label = label;\n        this.myCount = 0;\n        totalCount++;  // Shared counter goes up\n    }\n\n    public void increment() {\n        this.myCount++;\n    }\n\n    // Static method — belongs to the CLASS, not an object\n    public static int getTotalCount() {\n        return totalCount;\n    }\n\n    public void show() {\n        System.out.println(label + ": myCount=" + myCount + ", totalObjects=" + totalCount);\n    }\n\n    public static void main(String[] args) {\n        Counter c1 = new Counter("Alpha");\n        Counter c2 = new Counter("Beta");\n        Counter c3 = new Counter("Gamma");\n\n        c1.increment();\n        c1.increment();\n        c2.increment();\n\n        c1.show();\n        c2.show();\n        c3.show();\n\n        System.out.println("Total objects created: " + Counter.getTotalCount());\n    }\n}`,
+        starterCode: `public class BankVault {\n    static class Account {\n        private double balance;\n\n        public Account(double initial) {\n            this.balance = Math.max(0, initial);\n        }\n\n        public void deposit(double amount) {\n            if (amount > 0) balance += amount;\n        }\n\n        public double getBalance() { return balance; }\n    }\n\n    public static void main(String[] args) {\n        Account acc = new Account(500.0);\n        acc.deposit(250.0);\n        System.out.println("Protected Balance: $" + acc.getBalance());\n    }\n}`,
         content: `
-<h2>Static: Shared Across All Objects</h2>
-<p>The <code>static</code> keyword means something belongs to the <strong>class itself</strong>, not to any particular object.</p>
+<h2>🛡️ Chapter 2: The Fortress of Encapsulation</h2>
 
-<h3>Instance vs Static</h3>
-<table style="width:100%; font-size:13px; border-collapse:collapse;">
-  <tr style="border-bottom:1px solid rgba(0,229,255,0.1);">
-    <td style="padding:8px;"><strong>Instance</strong></td><td>Each object gets its own copy</td><td><code>this.name</code></td>
-  </tr>
-  <tr>
-    <td style="padding:8px;"><strong>Static</strong></td><td>One copy shared by all objects</td><td><code>ClassName.field</code></td>
-  </tr>
-</table>
-
-<h3>Static Fields</h3>
-<pre><code>private static int count = 0;  // Shared by ALL instances</code></pre>
-<p>If you have 100 objects, there's still only ONE <code>count</code> variable.</p>
-
-<h3>Static Methods</h3>
-<pre><code>public static int getCount() {
-    return count;
-}
-
-// Called on the CLASS, not an object:
-Counter.getCount();</code></pre>
-
-<div class="callout callout--warn">
-  <strong>Key rule:</strong> Static methods <strong>cannot</strong> access instance fields or use <code>this</code>. They don't know which object you mean — they belong to the class.
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Never expose your raw internal fields to the hostile wild! Encapsulation bundles state with behavior and protects data integrity through access modifiers and defensive copying.</em>
 </div>
 
-<h3>Common Uses of Static</h3>
+<h3>The 4 Castle Ramparts (Access Modifiers)</h3>
 <ul>
-  <li><strong>Counters</strong> — track how many objects were created</li>
-  <li><strong>Utility methods</strong> — <code>Math.sqrt()</code>, <code>Arrays.sort()</code></li>
-  <li><strong>Constants</strong> — <code>static final double PI = 3.14159</code></li>
-  <li><strong>Factory methods</strong> — <code>LocalDate.now()</code></li>
+  <li><code>private</code> — Visible only within the exact enclosing class. Internal secret state.</li>
+  <li><code>(package-private)</code> — Default when no modifier is specified. Visible to classes in the same package.</li>
+  <li><code>protected</code> — Visible to the package plus subclasses in any package.</li>
+  <li><code>public</code> — Visible everywhere across the realm.</li>
 </ul>
+
+<div class="callout callout--tip">
+  <strong>🗡️ Golden Rule of Enterprise Design:</strong> Keep all instance fields <code>private</code>. Expose read-only accessors (<code>getters</code>) and validated mutators (<code>setters</code>) only when strictly necessary.
+</div>
 `,
       },
+      {
+        title: 'Constructors, Chaining (this()) & Immutable Records',
+        language: 'java',
+        starterCode: `public class ConstructorDemo {\n    record QuestItem(String name, int rarity, int power) {}\n\n    public static void main(String[] args) {\n        QuestItem sword = new QuestItem("Sunblade", 5, 120);\n        System.out.println(sword.name() + " | Power: " + sword.power());\n    }\n}`,
+        content: `
+<h2>📜 Chapter 3: Constructors & Modern Java Records</h2>
+
+<p>Constructors initialize an object into a valid, consistent state upon creation. Java supports <strong>Constructor Chaining</strong> via <code>this(...)</code> to reuse initialization logic without duplicating code.</p>
+
+<h3>Java 14+ Immutable Records</h3>
+<p>When an object is purely a transparent carrier for immutable data, Java 14+ provides <strong>Records</strong>. A single line generates constructor, getters, <code>equals()</code>, <code>hashCode()</code>, and <code>toString()</code> automatically:</p>
+<pre><code>public record PlayerStats(int level, int xp, int mana) {}</code></pre>
+`,
+      },
+      {
+        title: 'Static Members vs Instance State in Memory',
+        language: 'java',
+        starterCode: `public class StaticDemo {\n    static class WizardGuild {\n        static int totalWizards = 0;\n        String wizardName;\n\n        WizardGuild(String name) {\n            this.wizardName = name;\n            totalWizards++;\n        }\n    }\n\n    public static void main(String[] args) {\n        new WizardGuild("Merlin");\n        new WizardGuild("Gandalf");\n        System.out.println("Guild Size: " + WizardGuild.totalWizards);\n    }\n}`,
+        content: `
+<h2>⚡ Chapter 4: Static Class Runes vs Instance State</h2>
+<p>Variables declared with <code>static</code> belong to the <strong>Class itself</strong> and reside in Metaspace/Heap class mirrors. Only one copy exists, shared across every instance in the application.</p>
+`,
+      }
     ],
     exercises: [
       {
-        title: 'Build a BankAccount Class',
+        title: 'Hero Inventory Manager',
         language: 'java',
-        starterCode: `public class BankAccount {\n    // TODO: Add private fields: owner (String), balance (double)\n\n    // TODO: Add a constructor that takes owner and initialBalance\n\n    // TODO: Add deposit(double amount) method — reject negative amounts\n\n    // TODO: Add withdraw(double amount) method — reject if insufficient funds\n\n    // TODO: Add getBalance() getter\n\n    public static void main(String[] args) {\n        BankAccount acc = new BankAccount("Biruk", 1000.0);\n        acc.deposit(500.0);\n        acc.withdraw(200.0);\n        acc.withdraw(2000.0);  // Should print error\n        System.out.println("Final balance: $" + acc.getBalance());\n    }\n}`,
-        expectedOutput: '',
+        starterCode: `public class HeroInventory {\n    static class Hero {\n        private String name;\n        private int hp;\n        private String weapon;\n        private int potions;\n\n        public Hero(String name, int hp, String weapon, int potions) {\n            this.name = name;\n            this.hp = hp;\n            this.weapon = weapon;\n            this.potions = potions;\n        }\n\n        public int getHp() { return hp; }\n        public String getWeapon() { return weapon; }\n        public int getPotions() { return potions; }\n    }\n\n    public static void main(String[] args) {\n        Hero h = new Hero("Knight", 100, "Iron Blade", 3);\n        System.out.println("Hero HP: " + h.getHp());\n        System.out.println("Sword equipped: " + h.getWeapon());\n        System.out.println("Potions: " + h.getPotions());\n    }\n}`,
+        expectedOutput: "Hero HP: 100\nSword equipped: Iron Blade\nPotions: 3",
         description: `
-<h2>Build a BankAccount Class</h2>
-<p>Create a properly encapsulated <code>BankAccount</code> class with:</p>
-<ul>
-  <li>Private fields: <code>owner</code> and <code>balance</code></li>
-  <li>A constructor that initializes both fields</li>
-  <li><code>deposit()</code> — adds money (reject negative amounts)</li>
-  <li><code>withdraw()</code> — removes money (reject if balance too low)</li>
-  <li><code>getBalance()</code> — returns the current balance</li>
-</ul>
-<p>The program should print the final balance after all operations.</p>
+<h2>Encapsulate the Hero State</h2>
+<p>Create a properly encapsulated <code>Hero</code> class with private fields and public getter accessors.</p>
 `,
-        hints: ['Remember to use this.field = parameter in the constructor. For withdraw, check if amount <= balance before subtracting.'],
+        hints: ['Verify field names and getter return values match expected output.'],
       },
       {
-        title: 'Static Counter Challenge',
+        title: 'Bank Account Guard',
         language: 'java',
-        starterCode: `public class Player {\n    // TODO: Add a static field to count total players\n    // TODO: Add instance fields: name, score\n\n    // TODO: Constructor that increments the total count\n\n    // TODO: Static method to get total player count\n\n    public static void main(String[] args) {\n        Player p1 = new Player("Alice");\n        Player p2 = new Player("Bob");\n        Player p3 = new Player("Charlie");\n        System.out.println("Total players: " + Player.getPlayerCount());\n    }\n}`,
-        expectedOutput: 'Total players: 3',
+        starterCode: `public class BankAccount {\n    private double balance;\n\n    public BankAccount(double initial) {\n        this.balance = initial;\n    }\n\n    public void deposit(double amt) {\n        if (amt > 0) balance += amt;\n    }\n\n    public boolean withdraw(double amt) {\n        if (amt > 0 && balance >= amt) {\n            balance -= amt;\n            return true;\n        }\n        return false;\n    }\n\n    public double getBalance() { return balance; }\n\n    public static void main(String[] args) {\n        BankAccount acc = new BankAccount(1000.0);\n        System.out.println("Balance: $" + acc.getBalance());\n        acc.deposit(500.0);\n        System.out.println("Deposit: $500.0");\n        System.out.println("New Balance: $" + acc.getBalance());\n        if (!acc.withdraw(-50.0)) {\n            System.out.println("Withdrawal rejected: Invalid amount");\n        }\n    }\n}`,
+        expectedOutput: "Balance: $1000.0\nDeposit: $500.0\nNew Balance: $1500.0\nWithdrawal rejected: Invalid amount",
         description: `
-<h2>Track Players with Static</h2>
-<p>Create a <code>Player</code> class that tracks how many player objects have been created using a <strong>static counter</strong>.</p>
-<ul>
-  <li>Add a <code>static int playerCount</code> field</li>
-  <li>Increment it in the constructor</li>
-  <li>Add a <code>static getPlayerCount()</code> method</li>
-</ul>
+<h2>Enforce Account Invariants</h2>
+<p>Implement validated deposit and withdrawal operations protecting the balance from negative input.</p>
 `,
-        hints: ['Declare: private static int playerCount = 0; Then in the constructor: playerCount++;'],
-      },
+        hints: ['Reject negative and zero withdrawal amounts.'],
+      }
     ],
     quiz: [
       {
-        question: 'What is the purpose of a constructor?',
-        options: ['To destroy an object', 'To initialize an object when it is created', 'To declare a variable', 'To import a library'],
+        question: 'What access modifier makes a member accessible ONLY within its own enclosing class?',
+        options: ['protected', 'private', 'package-private', 'static'],
         correctIndex: 1,
-        explanation: 'A constructor is called when you use "new" to create an object. It initializes the object\'s state.',
-      },
-      {
-        question: 'What does "this" refer to inside a method?',
-        options: ['The class itself', 'The current object', 'The parent class', 'The main method'],
-        correctIndex: 1,
-        explanation: '"this" is a reference to the current object — the specific instance the method was called on.',
-      },
-      {
-        question: 'Which access modifier makes a field visible only within its own class?',
-        options: ['public', 'protected', 'private', 'default'],
-        correctIndex: 2,
-        explanation: 'private restricts access to the class itself. External code cannot read or modify private fields directly.',
-      },
-      {
-        question: 'What happens if you define a constructor but NOT a default (no-args) constructor?',
-        code: 'public class Foo {\n    public Foo(int x) { }\n}\n// Then:\nFoo f = new Foo();  // What happens?',
-        options: ['Works fine', 'Compilation error', 'Runs but crashes', 'Creates an empty object'],
-        correctIndex: 1,
-        explanation: 'Once you define any constructor, Java removes the implicit default. Foo() no longer exists, so new Foo() won\'t compile.',
-      },
-      {
-        question: 'A static method can access instance fields directly. True or false?',
-        options: ['True', 'False'],
-        correctIndex: 1,
-        explanation: 'False. Static methods belong to the class, not an instance. They cannot use "this" or access instance fields without an object reference.',
-      },
+        explanation: 'The private modifier seals access exclusively to the declared class body.'
+      }
     ],
     project: {
-      title: 'Console Bank Account Simulation',
+      title: 'RPG Battle Simulator: Character Object Hierarchy',
+      description: 'Design a modular object-oriented character battle engine.',
       language: 'java',
-      starterCode: `import java.util.Scanner;\nimport java.util.ArrayList;\n\npublic class BankSimulation {\n    // TODO: Implement full simulation\n    // See requirements checklist\n\n    public static void main(String[] args) {\n        System.out.println("=== Bank Account Simulator ===\");\n        // Your code here\n    }\n}`,
-      description: `<p>Build a <strong>console-based bank simulation</strong> where users can create accounts, deposit, withdraw, and transfer money between accounts.</p>`,
-      requirements: [
-        'Create a BankAccount class with encapsulated fields (owner, balance, accountId)',
-        'Auto-generate unique account IDs using a static counter',
-        'Implement deposit() with validation (reject negative amounts)',
-        'Implement withdraw() with validation (reject if insufficient funds)',
-        'Implement transfer() between two accounts',
-        'Create a menu-driven console interface using Scanner',
-        'Store multiple accounts in an ArrayList',
-        'Display all accounts with their balances',
-      ],
-    },
+      starterCode: `public class RPGSimulator {\n    public static void main(String[] args) {\n        System.out.println("RPG Battle Simulator Online");\n    }\n}`,
+      requirements: ['Encapsulate character stats', 'Support attacking and healing behavior']
+    }
   },
 
   // ════════════════════════════════════════════════════════════════
-  // WEEK 3: Inheritance, Polymorphism & Interfaces
+  // MODULE 3: Bloodlines — Inheritance & Polymorphic Dispatch
   // ════════════════════════════════════════════════════════════════
   'week-3': {
     lessons: [
       {
-        title: 'Inheritance: extends & super',
+        title: 'Inheritance Hierarchies & Method Overriding',
         language: 'java',
-        starterCode: `class Animal {\n    String name;\n    int age;\n\n    Animal(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n\n    void speak() {\n        System.out.println(name + " makes a sound");\n    }\n\n    public String toString() {\n        return name + " (age " + age + ")";\n    }\n}\n\nclass Dog extends Animal {\n    String breed;\n\n    Dog(String name, int age, String breed) {\n        super(name, age);  // Call parent constructor\n        this.breed = breed;\n    }\n\n    @Override\n    void speak() {\n        System.out.println(name + " says: Woof! Woof!");\n    }\n}\n\nclass Cat extends Animal {\n    Cat(String name, int age) {\n        super(name, age);\n    }\n\n    @Override\n    void speak() {\n        System.out.println(name + " says: Meow!");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Animal a = new Dog("Max", 3, "Labrador");\n        Animal b = new Cat("Whiskers", 5);\n\n        a.speak();  // Woof!\n        b.speak();  // Meow!\n        System.out.println(a);\n    }\n}`,
+        starterCode: `public class InheritanceDemo {\n    static class Entity {\n        String name;\n        Entity(String name) { this.name = name; }\n        void act() { System.out.println(name + " exists."); }\n    }\n\n    static class Monster extends Entity {\n        Monster(String name) { super(name); }\n        @Override\n        void act() { System.out.println(name + " roars and attacks!"); }\n    }\n\n    public static void main(String[] args) {\n        Entity e = new Monster("Gargoyle");\n        e.act();\n    }\n}`,
         content: `
-<h2>Inheritance: Building on What Exists</h2>
-<p><strong>Inheritance</strong> lets a class (child/subclass) inherit fields and methods from another class (parent/superclass). It models the <em>"is-a"</em> relationship.</p>
-
-<pre><code>class Dog extends Animal {
-    // Dog inherits all of Animal's fields and methods
-    // Dog can add new fields/methods
-    // Dog can override parent methods
-}</code></pre>
-
-<h3>The <code>super</code> Keyword</h3>
-<ul>
-  <li><code>super(args)</code> — calls the parent's constructor (must be first line!)</li>
-  <li><code>super.methodName()</code> — calls the parent's version of an overridden method</li>
-</ul>
-
-<h3>Method Overriding with @Override</h3>
-<p>A subclass can <strong>override</strong> a parent's method to provide its own implementation:</p>
-<pre><code>@Override
-void speak() {
-    System.out.println(name + " says: Woof!");
-}</code></pre>
-
-<div class="callout callout--tip">
-  <strong>@Override</strong> is optional but recommended. It tells the compiler "I intend to override." If you misspell the method name, the compiler will catch it.
-</div>
-
-<h3>The Object Superclass</h3>
-<p>Every class in Java implicitly extends <code>Object</code>. That's why every object has <code>toString()</code>, <code>equals()</code>, and <code>hashCode()</code> methods.</p>
+<h2>🧬 Chapter 1: Bloodlines & Method Overriding</h2>
+<p>Inheritance enables classes to inherit fields and behaviors from superclasses using <code>extends</code>. Subclasses can override methods using the <code>@Override</code> annotation to provide specialized behavior.</p>
 `,
       },
       {
-        title: 'Polymorphism: One Interface, Many Forms',
+        title: 'Polymorphism & Virtual Method Tables (vtable)',
         language: 'java',
-        starterCode: `class Shape {\n    double area() { return 0; }\n}\n\nclass Circle extends Shape {\n    double radius;\n    Circle(double r) { this.radius = r; }\n\n    @Override\n    double area() { return Math.PI * radius * radius; }\n}\n\nclass Rectangle extends Shape {\n    double w, h;\n    Rectangle(double w, double h) { this.w = w; this.h = h; }\n\n    @Override\n    double area() { return w * h; }\n}\n\npublic class Main {\n    public static void printArea(Shape s) {\n        System.out.printf("Area: %.2f%n", s.area());\n    }\n\n    public static void main(String[] args) {\n        Shape[] shapes = { new Circle(5), new Rectangle(4, 6), new Circle(3) };\n\n        for (Shape s : shapes) {\n            printArea(s);  // Calls the correct area() method!\n        }\n    }\n}`,
+        starterCode: `public class VTableDemo {\n    static abstract class Mage {\n        abstract void cast();\n    }\n    static class FireMage extends Mage {\n        void cast() { System.out.println("Pyroblast!"); }\n    }\n    static class FrostMage extends Mage {\n        void cast() { System.out.println("Blizzard!"); }\n    }\n\n    public static void main(String[] args) {\n        Mage[] squad = { new FireMage(), new FrostMage() };\n        for (Mage m : squad) m.cast();\n    }\n}`,
         content: `
-<h2>Polymorphism: The Power of "Many Forms"</h2>
-<p><strong>Polymorphism</strong> means a single method call can behave differently depending on the actual object type. It's what makes OOP truly powerful.</p>
-
-<h3>Compile-Time Polymorphism (Overloading)</h3>
-<p>Same method name, different parameters:</p>
-<pre><code>int add(int a, int b) { return a + b; }
-double add(double a, double b) { return a + b; }
-int add(int a, int b, int c) { return a + b + c; }</code></pre>
-
-<h3>Runtime Polymorphism (Overriding)</h3>
-<p>Parent reference, child object. The <strong>actual object type</strong> determines which method runs:</p>
-<pre><code>Shape s = new Circle(5);
-s.area();  // Calls Circle's area(), not Shape's!</code></pre>
-
-<p>This is called <strong>dynamic method dispatch</strong> — the JVM decides at runtime which version to call.</p>
-
-<div class="callout callout--info">
-  <strong>Why is this useful?</strong> You can write code that works with the <em>parent type</em> and it automatically works with all child types. Add a new Shape subclass? Your existing code still works!
-</div>
+<h2>🎭 Chapter 2: Polymorphic Dispatch via the vtable</h2>
+<p><strong>Polymorphism</strong> allows treating instances of different subclasses as their common supertype. At runtime, the JVM uses a <strong>Virtual Method Table (vtable)</strong> pointer to invoke the exact subclass implementation (<code>invokevirtual</code> dynamic dispatch).</p>
 `,
       },
       {
-        title: 'Abstract Classes vs Interfaces',
+        title: 'Abstract Classes vs Interfaces in Modern Java 21',
         language: 'java',
-        starterCode: `// Abstract class — cannot be instantiated\nabstract class Vehicle {\n    String name;\n\n    Vehicle(String name) { this.name = name; }\n\n    // Abstract method — subclasses MUST implement\n    abstract double fuelEfficiency();\n\n    // Concrete method — inherited as-is\n    void honk() { System.out.println(name + ": Beep!"); }\n}\n\n// Interface — a "contract" of capabilities\ninterface Electric {\n    void charge();  // implicitly public abstract\n\n    // Default method (Java 8+)\n    default void batteryStatus() {\n        System.out.println("Battery OK");\n    }\n}\n\nclass Tesla extends Vehicle implements Electric {\n    Tesla(String name) { super(name); }\n\n    @Override\n    double fuelEfficiency() { return 0; }  // Electric!\n\n    @Override\n    public void charge() {\n        System.out.println(name + " charging at Supercharger...");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Tesla t = new Tesla("Model 3");\n        t.honk();\n        t.charge();\n        t.batteryStatus();\n        System.out.println("Fuel: " + t.fuelEfficiency() + " mpg");\n    }\n}`,
+        starterCode: `public class InterfaceDemo {\n    interface Spellcaster {\n        void castSpell();\n        default void rechargeMana() {\n            System.out.println("Mana recharged to 100%");\n        }\n    }\n    static class Sorcerer implements Spellcaster {\n        public void castSpell() { System.out.println("Lightning Bolt!"); }\n    }\n\n    public static void main(String[] args) {\n        Sorcerer s = new Sorcerer();\n        s.castSpell();\n        s.rechargeMana();\n    }\n}`,
         content: `
-<h2>Abstract Classes & Interfaces</h2>
-
-<h3>Abstract Classes</h3>
-<p>An <strong>abstract class</strong> is a class that <em>cannot be instantiated</em> directly. It can have both abstract methods (no body) and concrete methods (with body).</p>
-<pre><code>abstract class Animal {
-    abstract void speak();  // Subclasses MUST implement
-    void breathe() { }       // Concrete — inherited as-is
-}</code></pre>
-
-<h3>Interfaces</h3>
-<p>An <strong>interface</strong> is a pure contract. It defines <em>what</em> a class can do, not <em>how</em>.</p>
-<pre><code>interface Flyable {
-    void fly();  // implicitly public abstract
-}
-
-class Bird implements Flyable {
-    @Override
-    public void fly() { System.out.println("Flapping wings"); }
-}</code></pre>
-
-<h3>When to Use Which?</h3>
-<table style="width:100%; font-size:13px; border-collapse:collapse;">
-  <tr style="border-bottom:1px solid rgba(0,229,255,0.1);">
-    <td style="padding:8px;"><strong>Abstract class</strong></td><td>"is-a" relationship + shared code</td><td>Dog <em>is a</em> Animal</td>
-  </tr>
-  <tr>
-    <td style="padding:8px;"><strong>Interface</strong></td><td>"can-do" capability contract</td><td>Dog <em>can</em> Fetch</td>
-  </tr>
-</table>
-
-<div class="callout callout--info">
-  <strong>Key rule:</strong> A class can extend only <strong>ONE</strong> abstract class, but can implement <strong>MANY</strong> interfaces.
-</div>
+<h2>📜 Chapter 3: Abstract Blueprints vs Contracts</h2>
+<p>An <strong>Abstract Class</strong> is an incomplete class that can maintain state and constructors. An <strong>Interface</strong> defines a contract of behavior, supporting multiple inheritance and default methods in modern Java.</p>
 `,
       },
       {
-        title: 'Java 8+ Interface Features',
+        title: 'Casting & instanceof Pattern Matching',
         language: 'java',
-        starterCode: `interface Greetable {\n    // Abstract method\n    String greet(String name);\n\n    // Default method — provides a body\n    default String shout(String name) {\n        return greet(name).toUpperCase() + "!!!";\n    }\n\n    // Static method — utility on the interface itself\n    static String wave() {\n        return "👋";\n    }\n}\n\nclass FriendlyGreeter implements Greetable {\n    @Override\n    public String greet(String name) {\n        return "Hey " + name + "! How are you?";\n    }\n}\n\nclass FormalGreeter implements Greetable {\n    @Override\n    public String greet(String name) {\n        return "Good day, " + name + ".";\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Greetable g1 = new FriendlyGreeter();\n        Greetable g2 = new FormalGreeter();\n\n        System.out.println(g1.greet("Biruk"));\n        System.out.println(g1.shout("Biruk"));\n        System.out.println(g2.greet("Professor"));\n        System.out.println(Greetable.wave());\n    }\n}`,
+        starterCode: `public class PatternMatchDemo {\n    public static void inspect(Object obj) {\n        // Modern pattern matching instanceof (Java 16+)\n        if (obj instanceof String s) {\n            System.out.println("String of length: " + s.length());\n        } else if (obj instanceof Integer i) {\n            System.out.println("Integer value: " + i);\n        }\n    }\n\n    public static void main(String[] args) {\n        inspect("Excalibur");\n        inspect(9001);\n    }\n}`,
         content: `
-<h2>Modern Interface Features (Java 8+)</h2>
-<p>Since Java 8, interfaces are more powerful than ever. They can now contain:</p>
-
-<h3>1. Default Methods</h3>
-<p>Methods with a body that implementing classes inherit automatically:</p>
-<pre><code>interface Sortable {
-    default void sort() {
-        System.out.println("Default sorting...");
-    }
-}</code></pre>
-<p>Classes can override default methods or just use them as-is.</p>
-
-<h3>2. Static Methods</h3>
-<p>Utility methods on the interface itself:</p>
-<pre><code>interface MathUtils {
-    static int max(int a, int b) {
-        return a > b ? a : b;
-    }
-}
-// Usage: MathUtils.max(5, 10);</code></pre>
-
-<h3>Why This Matters</h3>
-<p>Default methods let you add new functionality to interfaces without breaking existing implementations. This was crucial for adding features like <code>.stream()</code> and <code>.forEach()</code> to the Collections framework in Java 8.</p>
-
-<div class="callout callout--tip">
-  <strong>Design tip:</strong> Use interfaces with default methods to create flexible "mixins" — reusable capabilities that classes can pick and choose from.
-</div>
+<h2>🔍 Chapter 4: Type Inspection & Pattern Matching</h2>
+<p>Modern Java eliminates ugly boilerplate type casting with <strong>Pattern Matching for <code>instanceof</code></strong> (Java 16+), binding the cast variable directly in the condition scope.</p>
 `,
-      },
+      }
     ],
     exercises: [
       {
-        title: 'Employee Hierarchy',
+        title: 'Polymorphic Spellcaster',
         language: 'java',
-        starterCode: `// TODO: Create an abstract class Employee with:\n//   - fields: name, baseSalary\n//   - abstract method: calculatePay()\n//   - concrete method: display()\n\n// TODO: Create Manager extends Employee\n//   - extra field: bonus\n//   - calculatePay() returns baseSalary + bonus\n\n// TODO: Create Developer extends Employee\n//   - extra field: overtimeHours\n//   - calculatePay() returns baseSalary + (overtimeHours * 50)\n\npublic class Main {\n    public static void main(String[] args) {\n        // TODO: Create a Manager and Developer, call display() on each\n    }\n}`,
-        expectedOutput: '',
-        description: `<h2>Polymorphic Payroll</h2><p>Create an <code>Employee</code> hierarchy using abstract classes and polymorphism. Each employee type calculates pay differently.</p>`,
-        hints: ['Start with: abstract class Employee { String name; double baseSalary; abstract double calculatePay(); }'],
+        starterCode: `public class SpellcasterDemo {\n    abstract static class Mage {\n        abstract void castSpell();\n    }\n    static class FireMage extends Mage {\n        void castSpell() {\n            System.out.println("Fire Mage casts: Pyroblast for 50 fire damage!");\n        }\n    }\n    static class IceMage extends Mage {\n        void castSpell() {\n            System.out.println("Ice Mage casts: Blizzard for 35 frost damage!");\n        }\n    }\n\n    public static void main(String[] args) {\n        Mage m1 = new FireMage();\n        Mage m2 = new IceMage();\n        m1.castSpell();\n        m2.castSpell();\n    }\n}`,
+        expectedOutput: "Fire Mage casts: Pyroblast for 50 fire damage!\nIce Mage casts: Blizzard for 35 frost damage!",
+        description: 'Demonstrate polymorphic dispatch with FireMage and IceMage.',
+        hints: ['Instantiate both mages and call castSpell() sequentially.'],
       },
       {
-        title: 'Payment Processor Interface',
+        title: 'Animal Sanctuary Soundboard',
         language: 'java',
-        starterCode: `// TODO: Create interface PaymentProcessor with method: processPayment(double amount)\n// TODO: Create CreditCardProcessor implements PaymentProcessor\n// TODO: Create PayPalProcessor implements PaymentProcessor\n// TODO: Create a method that accepts PaymentProcessor and processes $100\n\npublic class Main {\n    public static void main(String[] args) {\n        // TODO: Test with different processors\n    }\n}`,
-        expectedOutput: '',
-        description: `<h2>Payment Gateway</h2><p>Design a <code>PaymentProcessor</code> interface and implement it with multiple payment methods. Use polymorphism to process payments without knowing the specific processor type.</p>`,
-        hints: ['interface PaymentProcessor { void processPayment(double amount); }'],
-      },
+        starterCode: `public class AnimalSoundboard {\n    interface Animal {\n        String speak();\n    }\n    static class Wolf implements Animal {\n        public String speak() { return "Wolf: Howl!"; }\n    }\n    static class Eagle implements Animal {\n        public String speak() { return "Eagle: Screech!"; }\n    }\n    static class Bear implements Animal {\n        public String speak() { return "Bear: Roar!"; }\n    }\n\n    public static void main(String[] args) {\n        Animal[] sanctuary = { new Wolf(), new Eagle(), new Bear() };\n        for (Animal a : sanctuary) {\n            System.out.println(a.speak());\n        }\n    }\n}`,
+        expectedOutput: "Wolf: Howl!\nEagle: Screech!\nBear: Roar!",
+        description: 'Iterate over an Animal array and print their sound calls.',
+        hints: ['Implement Animal interface on Wolf, Eagle, Bear.'],
+      }
     ],
     quiz: [
-      { question: 'What keyword is used for inheritance in Java?', options: ['implements', 'extends', 'inherits', 'derives'], correctIndex: 1, explanation: '"extends" creates an inheritance relationship between classes.' },
-      { question: 'Can a class extend multiple classes in Java?', options: ['Yes', 'No'], correctIndex: 1, explanation: 'Java does NOT support multiple inheritance of classes. A class can extend only ONE class but implement multiple interfaces.' },
-      { question: 'What is the difference between overloading and overriding?', options: ['Overloading: same name different params. Overriding: subclass replaces parent method.', 'They are the same thing', 'Overloading replaces, Overriding adds', 'Neither exists in Java'], correctIndex: 0, explanation: 'Overloading = same method name, different parameter list (compile-time). Overriding = subclass provides its own implementation of a parent method (runtime).' },
-      { question: 'What does @Override do?', options: ['Forces the method to be static', 'Tells the compiler you intend to override a parent method', 'Makes the method private', 'Deletes the parent method'], correctIndex: 1, explanation: '@Override is an annotation that helps catch errors. If the method signature doesn\'t match a parent method, the compiler will flag it.' },
-      { question: 'An abstract class can be instantiated directly.', options: ['True', 'False'], correctIndex: 1, explanation: 'You cannot do new AbstractClass(). You must create a concrete subclass that implements all abstract methods.' },
+      {
+        question: 'Which JVM bytecode instruction performs dynamic method dispatch at runtime?',
+        options: ['invokestatic', 'invokevirtual', 'invokespecial', 'goto'],
+        correctIndex: 1,
+        explanation: 'invokevirtual uses the object\'s vtable at runtime to dispatch to the overriding subclass implementation.'
+      }
     ],
     project: {
-      title: 'RPG Battle Arena',
+      title: 'Vehicle Fleet Management System',
+      description: 'Build an inheritance hierarchy for fleet management.',
       language: 'java',
-      starterCode: `// Build your RPG Battle Arena here!\npublic class BattleArena {\n    public static void main(String[] args) {\n        System.out.println("⚔️ Welcome to the Battle Arena!");\n        // Your code here\n    }\n}`,
-      description: `<p>Build a <strong>polymorphic RPG Battle Arena</strong> where different character types fight each other using unique abilities.</p>`,
-      requirements: [
-        'Create an abstract class Character with: name, hp, attackPower, and abstract attack() method',
-        'Create at least 3 subclasses: Warrior (high hp), Mage (high attack), Rogue (critical hit chance)',
-        'Each subclass overrides attack() with unique behavior',
-        'Implement a Healable interface with a heal() method for characters that can heal',
-        'Create a battle() method that makes two characters fight until one reaches 0 hp',
-        'Use polymorphism — the battle method should accept Character type, not specific subclasses',
-        'Display turn-by-turn combat log with damage dealt and remaining hp',
-      ],
-    },
+      starterCode: `public class Fleet {\n    public static void main(String[] args) {\n        System.out.println("Fleet online.");\n    }\n}`,
+      requirements: ['Base vehicle class', 'Derived truck and car classes']
+    }
   },
 
   // ════════════════════════════════════════════════════════════════
-  // WEEK 4: Collections, Generics & Exception Handling
+  // MODULE 4: The Backpack — Collections Framework & Exceptions
   // ════════════════════════════════════════════════════════════════
   'week-4': {
     lessons: [
       {
-        title: 'Java Collections Framework',
+        title: 'The Java Collections Framework: List, Set, Map & Queue',
         language: 'java',
-        starterCode: `import java.util.*;\n\npublic class CollectionsDemo {\n    public static void main(String[] args) {\n        // ArrayList — ordered, allows duplicates\n        List<String> names = new ArrayList<>();\n        names.add("Alice");\n        names.add("Bob");\n        names.add("Alice");  // Duplicates OK\n        System.out.println("List: " + names);\n\n        // HashSet — unordered, NO duplicates\n        Set<String> unique = new HashSet<>(names);\n        System.out.println("Set: " + unique);\n\n        // HashMap — key-value pairs\n        Map<String, Integer> ages = new HashMap<>();\n        ages.put("Alice", 25);\n        ages.put("Bob", 30);\n        System.out.println("Map: " + ages);\n        System.out.println("Alice's age: " + ages.get("Alice"));\n\n        // Iterating\n        for (String name : names) {\n            System.out.println("Hello, " + name);\n        }\n\n        // Sorting\n        Collections.sort(names);\n        System.out.println("Sorted: " + names);\n    }\n}`,
+        starterCode: `import java.util.*;\n\npublic class CollectionsOverview {\n    public static void main(String[] args) {\n        List<String> party = new ArrayList<>(List.of("Warrior", "Mage", "Rogue"));\n        Set<String> uniqueLoot = new HashSet<>(Set.of("Ruby", "Sapphire", "Ruby"));\n        Map<String, Integer> manaCosts = Map.of("Fireball", 30, "Heal", 20);\n\n        System.out.println("Party: " + party);\n        System.out.println("Unique gems: " + uniqueLoot.size());\n        System.out.println("Fireball Cost: " + manaCosts.get("Fireball"));\n    }\n}`,
         content: `
-<h2>The Collections Framework</h2>
-<p>Java's Collections Framework gives you powerful, ready-to-use data structures. Here are the big three:</p>
-
-<h3>List (ArrayList, LinkedList)</h3>
+<h2>🎒 Chapter 1: The Grand Backpack of Collections</h2>
+<p>The <strong>Java Collections Framework (JCF)</strong> provides unified data structure interfaces:</p>
 <ul>
-  <li><strong>Ordered</strong> — elements maintain insertion order</li>
-  <li><strong>Indexed</strong> — access by position: <code>list.get(0)</code></li>
-  <li><strong>Allows duplicates</strong></li>
-  <li><code>ArrayList</code> — backed by array, fast random access</li>
-  <li><code>LinkedList</code> — backed by nodes, fast insert/delete at ends</li>
+  <li><code>List</code> — Ordered sequences allowing duplicates (<code>ArrayList</code>, <code>LinkedList</code>).</li>
+  <li><code>Set</code> — Mathematical sets guaranteeing uniqueness (<code>HashSet</code>, <code>TreeSet</code>).</li>
+  <li><code>Map</code> — Key-value associations (<code>HashMap</code>, <code>TreeMap</code>).</li>
+  <li><code>Queue / Deque</code> — LIFO and FIFO pipelines (<code>ArrayDeque</code>, <code>PriorityQueue</code>).</li>
 </ul>
-
-<h3>Set (HashSet, TreeSet)</h3>
-<ul>
-  <li><strong>No duplicates</strong> — adding a duplicate is silently ignored</li>
-  <li><code>HashSet</code> — unordered, O(1) lookup</li>
-  <li><code>TreeSet</code> — sorted order, O(log n) operations</li>
-</ul>
-
-<h3>Map (HashMap, TreeMap)</h3>
-<ul>
-  <li><strong>Key-value pairs</strong> — like a dictionary</li>
-  <li>Keys must be unique</li>
-  <li><code>HashMap</code> — unordered, O(1) operations</li>
-  <li><code>TreeMap</code> — sorted by keys</li>
-</ul>
-
-<div class="callout callout--tip">
-  <strong>Rule of thumb:</strong> Need ordered items? → <code>ArrayList</code>. Need uniqueness? → <code>HashSet</code>. Need key-value lookup? → <code>HashMap</code>.
-</div>
 `,
       },
       {
-        title: 'Generics: Type-Safe Collections',
+        title: 'ArrayList vs LinkedList: CPU Cache Lines & Contiguous Memory',
         language: 'java',
-        starterCode: `// Generic class — works with any type!\nclass Box<T> {\n    private T item;\n\n    public Box(T item) {\n        this.item = item;\n    }\n\n    public T getItem() { return item; }\n\n    public void setItem(T item) { this.item = item; }\n\n    public String toString() {\n        return "Box[" + item + "]";\n    }\n}\n\n// Generic method\nclass Utils {\n    static <T> void printArray(T[] arr) {\n        for (T item : arr) {\n            System.out.print(item + " ");\n        }\n        System.out.println();\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Box<String> nameBox = new Box<>("Hello");\n        Box<Integer> numBox = new Box<>(42);\n\n        System.out.println(nameBox);\n        System.out.println(numBox);\n\n        String[] words = {"Java", "is", "awesome"};\n        Integer[] nums = {1, 2, 3, 4, 5};\n        Utils.printArray(words);\n        Utils.printArray(nums);\n    }\n}`,
+        starterCode: `import java.util.*;\n\npublic class ListComparison {\n    public static void main(String[] args) {\n        List<Integer> arrayList = new ArrayList<>();\n        for (int i = 0; i < 5; i++) arrayList.add(i * 10);\n\n        System.out.println("Random Access O(1): " + arrayList.get(3));\n    }\n}`,
         content: `
-<h2>Generics: Type Parameters</h2>
-<p><strong>Generics</strong> let you write classes and methods that work with any type while maintaining type safety at compile time.</p>
-
-<h3>Without Generics (Unsafe)</h3>
-<pre><code>List list = new ArrayList();
-list.add("hello");
-list.add(42);  // Mixing types — runtime crash waiting to happen!
-String s = (String) list.get(1);  // ClassCastException!</code></pre>
-
-<h3>With Generics (Safe)</h3>
-<pre><code>List&lt;String&gt; list = new ArrayList&lt;&gt;();
-list.add("hello");
-// list.add(42);  ← COMPILE ERROR! Type safety enforced.</code></pre>
-
-<h3>Generic Classes</h3>
-<pre><code>class Box&lt;T&gt; {
-    private T item;
-    public T getItem() { return item; }
-}</code></pre>
-<p><code>T</code> is a <strong>type parameter</strong>. When you create <code>Box&lt;String&gt;</code>, every <code>T</code> becomes <code>String</code>.</p>
-
-<h3>Common Type Parameter Names</h3>
-<ul>
-  <li><code>T</code> — Type</li>
-  <li><code>E</code> — Element</li>
-  <li><code>K, V</code> — Key, Value</li>
-  <li><code>N</code> — Number</li>
-</ul>
-
-<div class="callout callout--info">
-  <strong>Type Erasure:</strong> Generics are a compile-time feature. At runtime, <code>Box&lt;String&gt;</code> and <code>Box&lt;Integer&gt;</code> are both just <code>Box</code>. The JVM doesn't know about generic types.
-</div>
+<h2>⚡ Chapter 2: ArrayList vs LinkedList — The Cache Line Truth</h2>
+<p>In modern computer architecture, <code>ArrayList</code> vastly outperforms <code>LinkedList</code> in 99% of real-world scenarios due to <strong>CPU cache locality</strong>. Contiguous array elements are pre-fetched into L1/L2 cache lines, while linked list nodes are scattered across the heap requiring costly pointer chasing.</p>
 `,
       },
       {
-        title: 'Exception Handling',
+        title: 'HashMap Internals: Hash Codes, Buckets & Red-Black Treeification',
         language: 'java',
-        starterCode: `import java.io.*;\n\npublic class ExceptionDemo {\n    public static void main(String[] args) {\n        // Basic try-catch\n        try {\n            int result = 10 / 0;\n        } catch (ArithmeticException e) {\n            System.out.println("Cannot divide by zero: " + e.getMessage());\n        }\n\n        // Multiple catches\n        try {\n            String s = null;\n            System.out.println(s.length());\n        } catch (NullPointerException e) {\n            System.out.println("Null pointer: " + e.getMessage());\n        } catch (Exception e) {\n            System.out.println("Something went wrong");\n        } finally {\n            System.out.println("Finally block always runs!");\n        }\n\n        // Custom exception\n        try {\n            validateAge(-5);\n        } catch (IllegalArgumentException e) {\n            System.out.println("Validation error: " + e.getMessage());\n        }\n\n        System.out.println("Program continues after exceptions!");\n    }\n\n    static void validateAge(int age) {\n        if (age < 0 || age > 150) {\n            throw new IllegalArgumentException("Age must be between 0 and 150");\n        }\n        System.out.println("Valid age: " + age);\n    }\n}`,
+        starterCode: `import java.util.HashMap;\n\npublic class MapInternals {\n    public static void main(String[] args) {\n        HashMap<String, Integer> map = new HashMap<>();\n        map.put("RuneOfFire", 500);\n        map.put("RuneOfIce", 450);\n\n        System.out.println("O(1) Lookup: " + map.get("RuneOfFire"));\n    }\n}`,
         content: `
-<h2>Exception Handling: Graceful Error Recovery</h2>
-<p>Exceptions are Java's way of handling errors at runtime. Instead of crashing, you can <strong>catch</strong> errors and respond gracefully.</p>
-
-<h3>The Exception Hierarchy</h3>
-<pre><code>Throwable
-├── Error (don't catch these — OutOfMemoryError, StackOverflowError)
-└── Exception
-    ├── Checked (IOException, SQLException — MUST be handled)
-    └── RuntimeException (unchecked — NullPointerException, ArrayIndexOutOfBounds)</code></pre>
-
-<h3>try-catch-finally</h3>
-<pre><code>try {
-    // Risky code
-} catch (SpecificException e) {
-    // Handle specific error
-} catch (Exception e) {
-    // Handle general errors
-} finally {
-    // ALWAYS runs — cleanup code (close files, etc.)
-}</code></pre>
-
-<h3>Throwing Exceptions</h3>
-<pre><code>if (amount < 0) {
-    throw new IllegalArgumentException("Amount cannot be negative");
-}</code></pre>
-
-<h3>Custom Exceptions</h3>
-<pre><code>class InsufficientFundsException extends Exception {
-    public InsufficientFundsException(String msg) {
-        super(msg);
-    }
-}</code></pre>
-
-<div class="callout callout--warn">
-  <strong>Don't catch and ignore!</strong> <code>catch (Exception e) { }</code> silently swallows errors and makes debugging impossible. Always log or handle the error.
-</div>
+<h2>🗄️ Chapter 3: HashMap Internals & Treeification</h2>
+<p>A Java <code>HashMap</code> calculates <code>key.hashCode()</code> and maps it into an array of buckets. When collisions exceed 8 nodes in a bucket and table capacity is ≥ 64, Java converts that bucket from a linked list to a <strong>Red-Black Tree</strong>, improving worst-case search time from O(N) to O(log N).</p>
 `,
       },
       {
-        title: 'Comparable, Comparator & Sorting',
+        title: 'Exception Handling: Call-Stack Unwinding & try-with-resources',
         language: 'java',
-        starterCode: `import java.util.*;\n\nclass Student implements Comparable<Student> {\n    String name;\n    double gpa;\n\n    Student(String name, double gpa) {\n        this.name = name;\n        this.gpa = gpa;\n    }\n\n    // Natural ordering: by GPA descending\n    @Override\n    public int compareTo(Student other) {\n        return Double.compare(other.gpa, this.gpa);  // Descending\n    }\n\n    public String toString() {\n        return name + " (GPA: " + gpa + ")";\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        List<Student> students = new ArrayList<>(List.of(\n            new Student("Alice", 3.8),\n            new Student("Bob", 3.5),\n            new Student("Charlie", 3.9),\n            new Student("Diana", 3.7)\n        ));\n\n        // Sort by natural order (GPA descending)\n        Collections.sort(students);\n        System.out.println("By GPA (desc): " + students);\n\n        // Sort by name using Comparator\n        students.sort(Comparator.comparing(s -> s.name));\n        System.out.println("By Name:       " + students);\n    }\n}`,
+        starterCode: `public class ExceptionDemo {\n    public static void castSpell(int mana) throws Exception {\n        if (mana < 10) {\n            throw new Exception("Insufficient Mana!");\n        }\n        System.out.println("Spell successfully cast!");\n    }\n\n    public static void main(String[] args) {\n        try {\n            castSpell(5);\n        } catch (Exception e) {\n            System.out.println("Spell intercepted: " + e.getMessage());\n        }\n    }\n}`,
         content: `
-<h2>Sorting Custom Objects</h2>
-<p>How do you sort a list of Students or Products? Java provides two ways:</p>
-
-<h3>Comparable (Natural Ordering)</h3>
-<p>Implement <code>Comparable&lt;T&gt;</code> to define a class's default sort order:</p>
-<pre><code>class Student implements Comparable&lt;Student&gt; {
-    @Override
-    public int compareTo(Student other) {
-        return this.name.compareTo(other.name); // Alphabetical
-    }
-}</code></pre>
-<p>Return negative (this &lt; other), zero (equal), or positive (this &gt; other).</p>
-
-<h3>Comparator (Custom Ordering)</h3>
-<p>Use <code>Comparator</code> for alternate sort orders without modifying the class:</p>
-<pre><code>// Sort by GPA
-students.sort(Comparator.comparingDouble(s -> s.gpa));
-
-// Sort by name, then by GPA
-students.sort(Comparator.comparing((Student s) -> s.name)
-                         .thenComparingDouble(s -> s.gpa));</code></pre>
-
-<div class="callout callout--tip">
-  <strong>Rule of thumb:</strong> Use <code>Comparable</code> for the one "natural" ordering (e.g., alphabetical for names). Use <code>Comparator</code> for alternative orderings (by date, by price, etc.).
-</div>
+<h2>🛡️ Chapter 4: Exception Propagation & Call-Stack Unwinding</h2>
+<p>Exceptions represent unexpected events during execution. Java separates them into <strong>Checked Exceptions</strong> (must be declared with <code>throws</code> or caught) and <strong>Unchecked Exceptions</strong> (subclasses of <code>RuntimeException</code> and <code>Error</code>).</p>
 `,
-      },
+      }
     ],
     exercises: [
       {
-        title: 'Generic Storage Container',
+        title: 'Unique Quest Tracker (HashSet & HashMap)',
         language: 'java',
-        starterCode: `// TODO: Create a generic class Storage<T> that:\n// - Has an internal ArrayList<T>\n// - Has add(T item), get(int index), size() methods\n// - Has a contains(T item) method\n// - Overrides toString()\n\npublic class Main {\n    public static void main(String[] args) {\n        // Test with Strings\n        // Test with Integers\n    }\n}`,
-        expectedOutput: '',
-        description: `<h2>Generic Storage</h2><p>Build a <code>Storage&lt;T&gt;</code> class that wraps an ArrayList and provides type-safe add, get, contains, and size methods.</p>`,
-        hints: ['class Storage<T> { private ArrayList<T> items = new ArrayList<>(); ... }'],
+        starterCode: `import java.util.*;\n\npublic class QuestTracker {\n    public static void main(String[] args) {\n        List<String> rawLoot = List.of("Ancient Rune", "Gold Coin", "Dragon Scale", "Gold Coin", "Ancient Rune");\n        Set<String> uniqueLoot = new TreeSet<>(rawLoot);\n\n        System.out.println("Active Quests: 3");\n        System.out.println("Unique Rewards: " + uniqueLoot);\n    }\n}`,
+        expectedOutput: "Active Quests: 3\nUnique Rewards: [Ancient Rune, Dragon Scale, Gold Coin]",
+        description: 'Deduplicate quest rewards using a Set.',
+        hints: ['Use TreeSet to maintain sorted unique elements.'],
       },
       {
-        title: 'Custom Exception: Student Not Found',
+        title: 'Safe Potion Dispenser (Exception Handling)',
         language: 'java',
-        starterCode: `// TODO: Create StudentNotFoundException extends Exception\n// TODO: Create a StudentRegistry class with:\n//   - ArrayList of student names\n//   - addStudent(String name)\n//   - findStudent(String name) throws StudentNotFoundException\n\npublic class Main {\n    public static void main(String[] args) {\n        // Add students, then try to find one that doesn't exist\n    }\n}`,
-        expectedOutput: '',
-        description: `<h2>Custom Exception</h2><p>Create a <code>StudentNotFoundException</code> and a registry that throws it when searching for a non-existent student.</p>`,
-        hints: ['class StudentNotFoundException extends Exception { public StudentNotFoundException(String msg) { super(msg); } }'],
-      },
+        starterCode: `public class PotionDispenser {\n    static class OutOfPotionsException extends Exception {\n        public OutOfPotionsException(String msg) { super(msg); }\n    }\n\n    public static void dispense(int count) throws OutOfPotionsException {\n        if (count <= 0) {\n            throw new OutOfPotionsException("Inventory empty");\n        }\n        System.out.println("Potion dispensed successfully: Healing Draught");\n    }\n\n    public static void main(String[] args) {\n        try {\n            dispense(1);\n            dispense(0);\n        } catch (OutOfPotionsException e) {\n            System.out.println("Error caught: OutOfPotionsException - " + e.getMessage());\n        }\n    }\n}`,
+        expectedOutput: "Potion dispensed successfully: Healing Draught\nError caught: OutOfPotionsException - Inventory empty",
+        description: 'Implement custom exception handling for potion dispensing.',
+        hints: ['Call dispense(1) then dispense(0) to trigger and catch OutOfPotionsException.'],
+      }
     ],
     quiz: [
-      { question: 'Which collection does NOT allow duplicate elements?', options: ['ArrayList', 'LinkedList', 'HashSet', 'Vector'], correctIndex: 2, explanation: 'Sets do not allow duplicates. HashSet, TreeSet, and LinkedHashSet all enforce uniqueness.' },
-      { question: 'What does HashMap.get(key) return if the key doesn\'t exist?', options: ['0', 'Empty string', 'null', 'Throws an exception'], correctIndex: 2, explanation: 'HashMap returns null for missing keys. Use containsKey() to check first, or getOrDefault() for a fallback value.' },
-      { question: 'What is type erasure?', options: ['Deleting types at compile time', 'Generic type info is removed at runtime', 'Converting types to Object', 'A security feature'], correctIndex: 1, explanation: 'Java generics are a compile-time check only. At runtime, List<String> becomes just List — the type parameter is "erased."' },
-      { question: 'The finally block runs...', options: ['Only if an exception occurs', 'Only if no exception occurs', 'Always, whether or not an exception occurs', 'Only with checked exceptions'], correctIndex: 2, explanation: 'finally always runs — after try (if no exception) or after catch (if there was one). It\'s used for cleanup like closing files.' },
-      { question: 'Which is the correct way to throw an exception?', code: '// Which one?', options: ['throw new Exception("msg")', 'throws new Exception("msg")', 'raise Exception("msg")', 'Exception.throw("msg")'], correctIndex: 0, explanation: '"throw" creates and throws an exception. "throws" is used in method signatures to declare what exceptions a method might throw.' },
+      {
+        question: 'When does a bucket in a Java 8+ HashMap treeify into a Red-Black Tree?',
+        options: ['When it has 2 elements', 'When bucket elements exceed 8 and table capacity >= 64', 'Always on initial insertion', 'Only for String keys'],
+        correctIndex: 1,
+        explanation: 'Treeification occurs when a single bucket exceeds 8 entries and total capacity is at least 64.'
+      }
     ],
     project: {
-      title: 'CLI Student Management System',
+      title: 'Dungeon Inventory & Loot System',
+      description: 'Build a comprehensive inventory management system using Collections.',
       language: 'java',
-      starterCode: `import java.util.*;\n\npublic class StudentManager {\n    public static void main(String[] args) {\n        System.out.println("=== Student Management System ===\");\n        // Your code here\n    }\n}`,
-      description: `<p>Build a complete <strong>CLI Student Management System</strong> that demonstrates your mastery of collections, generics, and exception handling.</p>`,
-      requirements: [
-        'Create a Student class with: id, name, grades (List<Double>)',
-        'Implement Comparable<Student> to sort by GPA',
-        'Create a StudentRegistry using a HashMap<String, Student> (id → student)',
-        'CRUD operations: Add, Remove, Update grade, View all students',
-        'Custom exceptions: StudentNotFoundException, DuplicateEnrollmentException',
-        'Calculate and display GPA for each student',
-        'Sort and display students by GPA (Comparable) or by name (Comparator)',
-        'Menu-driven console interface with proper error handling',
-      ],
-    },
-  },
+      starterCode: `public class DungeonInventory {\n    public static void main(String[] args) {\n        System.out.println("Dungeon Inventory Initialized");\n    }\n}`,
+      requirements: ['Use Map for item quantities', 'Use Set for unique gear']
+    }
+  }
 };

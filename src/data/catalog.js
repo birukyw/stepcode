@@ -4,20 +4,20 @@ import { ROADMAP } from './roadmap.js';
 export const TRACKS = [
   {
     id: 'java-spring',
-    title: 'Java & Enterprise Spring Boot',
-    tagline: 'From JVM internals and OOP to production Spring Boot 3 microservices',
-    icon: '☕',
-    badge: 'CORE ENTERPRISE',
+    title: 'The Legend of Java: Quest for the Enterprise',
+    tagline: 'From JVM Bytecode Runes & Memory Realms to Spring Boot 3 Citadels',
+    icon: '🧙‍♂️',
+    badge: 'ENTERPRISE QUEST',
     color: 'var(--cyan)',
     difficulty: 'Beginner to Advanced',
-    duration: '10 Weeks',
+    duration: '10 Modules',
     modulesCount: 48,
-    tags: ['Java 21', 'OOP', 'SQL & JDBC', 'Spring Boot 3', 'Hibernate', 'JWT Auth'],
-    description: 'The premier enterprise engineering track. Start with Java syntax, object-oriented design patterns, memory model, and collections, transition into database persistence with PostgreSQL & JDBC, and build production-grade REST APIs with Spring Boot 3.',
+    tags: ['Java 21', 'JVM Internals', 'OOP Sorcery', 'SQL & JDBC', 'Spring Boot 3', 'Microservices'],
+    description: 'The premier enterprise engineering odyssey. Enter the JVM Citadel mastering memory runes, object-oriented architecture, and collections alchemy. Transition into relational vaults with PostgreSQL & JDBC, and forge production-grade microservices with Spring Boot 3.',
     phases: [
-      ROADMAP.phases[0], // Phase 1: Java Foundations (Weeks 1-4)
-      ROADMAP.phases[3], // Phase 4: SQL & PostgreSQL (Weeks 13-16)
-      ROADMAP.phases[4], // Phase 5: Spring Boot 3 (Weeks 17-20)
+      ROADMAP.phases[0], // Phase 1: Java Foundations (Modules 1-4)
+      ROADMAP.phases[3], // Phase 4: SQL & PostgreSQL (Modules 13-16)
+      ROADMAP.phases[4], // Phase 5: Spring Boot 3 (Modules 17-20)
     ]
   },
   {
@@ -40,38 +40,38 @@ export const TRACKS = [
   },
   {
     id: 'algorithms-dsa',
-    title: 'DSA and Leetcode Mastery',
-    tagline: 'Master high-yield algorithm patterns in Python, Java, C++, or JavaScript',
-    icon: '🧩',
-    badge: 'FAANG INTERVIEWS',
+    title: 'The Trials of Algor: LeetCode & DSA Mastery',
+    tagline: 'Enter the Colosseum of Code: Slay Complexity Monsters with Pointers, Stacks, Trees & DP',
+    icon: '⚔️',
+    badge: 'COLOSSEUM ARENA',
     color: 'var(--green-bright)',
-    difficulty: 'Intermediate',
-    duration: '8 Weeks',
+    difficulty: 'Intermediate to Advanced',
+    duration: '8 Modules',
     modulesCount: 44,
     tags: ['Big-O', 'Two Pointers', 'Sliding Window', 'Binary Search', 'Trees', 'Graphs', 'DP'],
-    description: 'Crack technical coding interviews with pattern-based problem solving. Solve algorithm challenges with interactive multi-language switching between Java, Python, C++, and JavaScript.',
+    description: 'Step into the Grand Arena of Algor. Conquer high-yield algorithmic trial chambers across Big-O battle metrics, two-pointer duels, linked list labyrinths, monotonic stacks, binary search trees, and dynamic programming spells with multi-language execution in Python 3, Java, C++, or JavaScript.',
     phases: [
-      ROADMAP.phases[1], // Phase 2: LeetCode Core (Weeks 5-8)
-      ROADMAP.phases[2], // Phase 3: LeetCode Advanced (Weeks 9-12)
+      ROADMAP.phases[1], // Phase 2: LeetCode Core (Modules 1-4)
+      ROADMAP.phases[2], // Phase 3: LeetCode Advanced (Modules 5-8)
     ]
   },
   {
     id: 'python-intro',
     alias: 'python-backend',
-    title: 'Introduction to Python',
-    tagline: 'From Hello World & clean syntax to OOP, REST APIs, Data Science & FastAPI',
+    title: 'Chronicles of Python: Path of the Serpent Sage',
+    tagline: 'Master the Ancient Glyphs of Python 3, Object Forging, Data Alchemy & FastAPI Citadels',
     icon: '🐍',
-    badge: 'STARTER TO PRO',
+    badge: 'SERPENT CODEX',
     color: '#4fc3f7',
     difficulty: 'Beginner to Intermediate',
     duration: '11 Modules',
     modulesCount: 11,
     tags: ['Python 3', 'Syntax', 'Functions', 'OOP', 'File I/O', 'REST APIs', 'Data Science', 'FastAPI'],
-    description: 'The ultimate zero-to-hero Python masterclass. Start from Hello World and master loops, functions, collections, and classes in Level 1. Then pick and choose standalone applied electives in Level 2: Advanced OOP, File Serialization, Networking/APIs, Data Analytics, and FastAPI Web Development.',
+    description: 'The ultimate zero-to-hero Python odyssey. Decode the Serpent\'s Sacred Grammar from Hello World to loops, functions, collections, and classes in Beginner Foundations. Then choose your mastery path in Advanced Ecosystem Electives: Advanced OOP, File Serialization, Networking/APIs, Data Analytics, and FastAPI Web Citadels.',
     levels: [
       {
         id: 'beginner',
-        title: 'Level 1: Beginner Foundations',
+        title: 'Beginner Foundations',
         subtitle: 'From Hello World to Loops, Functions, Collections & Classes',
         badge: 'FOUNDATIONS',
         icon: '🌱',
@@ -80,7 +80,7 @@ export const TRACKS = [
       },
       {
         id: 'intermediate',
-        title: 'Level 2: Intermediate Ecosystem Electives',
+        title: 'Advanced Ecosystem Electives',
         subtitle: 'Pick & Choose: Advanced OOP, File I/O, REST APIs, Data Science & FastAPI',
         badge: 'ELECTIVES',
         icon: '⚡',

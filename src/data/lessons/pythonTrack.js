@@ -1,56 +1,91 @@
-// ─── Introduction to Python: Comprehensive 2-Level Curriculum ─────────────
-// Level 1: Beginner Level (Modules 1-6)
-// Level 2: Intermediate Elective Modules (OOP, File I/O, REST APIs, Data Science, FastAPI)
+// ─── Chronicles of Python: Path of the Serpent Sage ───────────────────────
+// Comprehensive Retro-RPG Curriculum: Modules 1–11
+// Beginner Foundations (Modules 1–6) & Advanced Ecosystem Electives (Modules 7–11)
 
 export const pythonTrackContent = {
   // ════════════════════════════════════════════════════════════════
-  // LEVEL 1: BEGINNER FOUNDATIONS
+  // BEGINNER FOUNDATIONS (Modules 1–6)
   // ════════════════════════════════════════════════════════════════
 
-  // Module 1: Hello World, Syntax & Primitive Data Types
+  // Module 1: The Awakening of the Serpent Sage — Syntax, CPython & Primitives
   'py-week-1': {
     lessons: [
       {
-        title: 'Zen of Python & The First Script',
+        title: 'Zen of Python & The CPython Execution Engine',
         language: 'python',
-        starterCode: `# Welcome to Introduction to Python! 🐍
-# The print() function displays text or values in your terminal.
+        starterCode: `# Welcome to the Chronicles of Python! 🐍
+# The print() function invokes the CPython standard output stream.
 
 print("Hello, World!")
-print("Welcome to CodeQuest: Introduction to Python!")
+print("Awakening the Serpent Sage in the CPython Archives...")
 
 # Python executes line by line from top to bottom.
-# Comments start with a hash (#) and are ignored by Python.
+# Comments start with a hash (#) and are ignored by the compiler.
 `,
         content: `
-<h2>Welcome to Python: The Language of Clarity & Power 🐍</h2>
-<p>Python was created by <strong>Guido van Rossum</strong> with a single guiding principle: <em>code is read much more often than it is written</em>. Python's clean syntax feels like readable English pseudo-code, making it the top choice for software engineering, web backend services, artificial intelligence, and data science.</p>
+<h2>🐍 Chapter 1: The Awakening of the Serpent Sage</h2>
 
-<h3>The Zen of Python</h3>
-<p>Python embodies clear design tenets:</p>
+<div class="lesson-pixel-art">
+  <img src="/images/pixel_python_sage.jpg" alt="Python Serpent Sage in glowing ancient archives" />
+  <div class="pixel-caption">
+    🐍 SECTOR 00: THE EMERALD SERPENT SAGE AWAKENS IN THE CPYTHON ARCHIVES
+  </div>
+</div>
+
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Welcome, initiate of the Serpent Order. You enter the glowing ancient archives where human thought translates directly into executable computation. Before you command machine learning dragons and forge high-speed web citadels, you must master the Serpent's Sacred Grammar and understand how the CPython virtual engine brings your code to life.</em>
+</div>
+
+<p>Conceived in 1989 by the legendary software architect <strong>Guido van Rossum</strong> (the benevolent dictator for life, or BDFL), Python was designed with an uncompromising philosophy: <em>code is read far more frequently than it is written</em>. Unlike verbose tongues requiring heaps of boilerplate classes and semi-colons, Python expresses algorithms in pure, clean executable pseudo-code.</p>
+
+<h3>The Zen of Python (PEP 20)</h3>
+<p>Deep within the Python interpreter lies an ancient philosophical manifesto. If you enter <code>import this</code> into any Python console, the Zen reveals its tenet runes:</p>
+
 <ul>
-  <li><strong>Beautiful is better than ugly.</strong></li>
-  <li><strong>Explicit is better than implicit.</strong></li>
-  <li><strong>Simple is better than complex.</strong></li>
-  <li><strong>Readability counts.</strong></li>
+  <li><strong>Beautiful is better than ugly.</strong> Code should be an aesthetic joy to read.</li>
+  <li><strong>Explicit is better than implicit.</strong> No hidden magic; express intent with crystal clarity.</li>
+  <li><strong>Simple is better than complex.</strong> Prefer straightforward solutions before applying complex machinery.</li>
+  <li><strong>Readability counts.</strong> Clean indentation and intuitive naming preserve software longevity.</li>
+  <li><strong>Errors should never pass silently.</strong> Unless explicitly silenced with deliberate intent.</li>
 </ul>
 
-<h3>Printing Output</h3>
-<p>In Python, you do not need classes or main method boilerplate to print output. You simply call the built-in <code>print()</code> function:</p>
-<pre><code>print("Hello, World!")
-print("Learning Python at CodeQuest")</code></pre>
+<h3>How Python Actually Executes: The CPython Pipeline</h3>
+<p>Many novices mistakenly believe Python is a "purely interpreted" script language. In reality, the standard Python runtime (<strong>CPython</strong>, written in C) is a compiled bytecode engine:</p>
+
+<pre class="ascii-diagram">
++---------------------+        +--------------------+        +---------------------+
+|   script.py         | -----> |   Parser & AST     | -----> |  CPython Bytecode   |
+| [Source Text Runes] |        | (Syntax Tree)      |        | (.pyc in __pycache__|
++---------------------+        +--------------------+        +---------------------+
+                                                                        |
+                                                                        v
++---------------------+        +--------------------+        +---------------------+
+| Operating System    | <----- |  C Runtime & Libs  | <----- | CPython Virtual VM  |
+| (CPU, Memory, I/O)  |        | (Memory Allocator) |        | (Evaluation Loop)   |
++---------------------+        +--------------------+        +---------------------+
+</pre>
+
+<ol>
+  <li><strong>Lexing & Parsing:</strong> Source code is converted into tokens and assembled into an <em>Abstract Syntax Tree (AST)</em>.</li>
+  <li><strong>Bytecode Compilation:</strong> CPython compiles the AST into stack-based bytecode instructions, cached on disk as <code>.pyc</code> files in the <code>__pycache__</code> directory.</li>
+  <li><strong>The Virtual Machine:</strong> The CPython Virtual Machine executes these bytecode instructions one by one inside its main evaluation loop (<code>ceval.c</code>), protected by the <strong>Global Interpreter Lock (GIL)</strong>.</li>
+</ol>
+
+<div class="callout callout--tip">
+  <strong>🔮 Sage Advice:</strong> Click <strong>▶ Run</strong> on the right pane to invoke the interpreter and witness your first incantation echo through the console!
+</div>
         `,
       },
       {
-        title: 'Numbers & Mathematical Arithmetic',
+        title: 'Numbers, Arithmetic & The PyObject Memory Model',
         language: 'python',
-        starterCode: `# Python Math & Numbers
+        starterCode: `# Python Math & Numbers: Precision Arithmetic
 
-# 1. Integers (whole numbers)
+# 1. Arbitrary-Precision Integers (Whole numbers)
 gold = 150
 enemies_defeated = 12
 
-# 2. Floats (decimal numbers)
+# 2. Double-Precision Floating Points (IEEE 754)
 health = 98.5
 crit_multiplier = 1.75
 
@@ -66,32 +101,60 @@ print("Remainder XP:", remaining_xp)
 print("Power Level (2^8):", power_level)
 `,
         content: `
-<h2>Numbers in Python: Integers and Floats 🔢</h2>
-<p>Python features two primary numeric types:</p>
-<ol>
-  <li><strong><code>int</code>:</strong> Whole numbers of arbitrary precision (e.g. <code>42</code>, <code>-10</code>, <code>1000000000000</code>). Unlike Java or C, Python integers never overflow.</li>
-  <li><strong><code>float</code>:</strong> Double-precision floating-point numbers with decimal points (e.g. <code>3.14159</code>, <code>-0.05</code>).</li>
-</ol>
+<h2>🔢 Numbers & The PyObject Memory Architecture</h2>
 
-<h3>Arithmetic Operators</h3>
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>In the kingdom of C or Java, an integer is a simple 32-bit slot in memory that overflows if it crosses 2,147,483,647. In Python, numbers are celestial beings called PyObjects. Learn how Python handles numbers of infinite size and why floating-point decimals require respect.</em>
+</div>
+
+<h3>The Anatomy of a Python Integer (PyLongObject)</h3>
+<p>In Python, <strong>everything is an object allocated on the heap</strong>. Even a tiny number like <code>42</code> is a full C structure:</p>
+
+<pre class="ascii-diagram">
+           PyLongObject Memory Layout for integer 42
++-------------------------------------------------------------+
+| ob_refcnt : 8 bytes (Reference count for Garbage Collection)|
+| ob_type   : 8 bytes (Pointer to &PyLong_Type class object)   |
+| ob_size   : 8 bytes (Sign and number of digit chunks)       |
+| ob_digit  : 4 bytes (The actual value digits array: [42])   |
++-------------------------------------------------------------+
+Total: 28 bytes for a single integer! (Compared to 4 bytes in C)
+</pre>
+
+<p><strong>Arbitrary Precision:</strong> Because Python stores digits in dynamic arrays, integers <em>never overflow</em>! You can calculate <code>2 ** 10000</code> without crashing. The only limit is your machine's physical RAM.</p>
+
+<div class="callout callout--info">
+  <strong>🧠 The Small Integer Cache (-5 to 256):</strong> To avoid churning memory, CPython pre-allocates an array of singleton integer objects for numbers between <code>-5</code> and <code>256</code> when the interpreter boots. Comparing <code>a = 100</code> and <code>b = 100</code> with <code>a is b</code> yields <code>True</code> because both names point to the exact same physical heap address!
+</div>
+
+<h3>Floating-Point Numbers (IEEE 754)</h3>
+<p>Floats in Python represent double-precision decimal numbers. Because computers represent decimals in base-2 binary, certain fractional numbers cannot be represented with exact precision:</p>
+
+<pre><code>0.1 + 0.2  # Returns 0.30000000000000004!</code></pre>
+
+<div class="callout callout--warn">
+  <strong>⚠️ Financial Caution:</strong> Never use standard <code>float</code> types for banking or currency calculations! Instead, import the standard library's <code>from decimal import Decimal</code> module for exact base-10 arithmetic.
+</div>
+
+<h3>Arithmetic Operators Master Table</h3>
 <table class="lesson-table">
-  <thead><tr><th>Operator</th><th>Meaning</th><th>Example</th></tr></thead>
+  <thead><tr><th>Operator</th><th>Operation</th><th>Mathematical Example</th><th>CPython Dunder Method</th></tr></thead>
   <tbody>
-    <tr><td><code>+</code></td><td>Addition</td><td><code>10 + 5 = 15</code></td></tr>
-    <tr><td><code>-</code></td><td>Subtraction</td><td><code>20 - 8 = 12</code></td></tr>
-    <tr><td><code>*</code></td><td>Multiplication</td><td><code>4 * 7 = 28</code></td></tr>
-    <tr><td><code>/</code></td><td>Float Division</td><td><code>7 / 2 = 3.5</code></td></tr>
-    <tr><td><code>//</code></td><td>Floor Division (truncates decimal)</td><td><code>7 // 2 = 3</code></td></tr>
-    <tr><td><code>%</code></td><td>Modulo (Remainder)</td><td><code>7 % 2 = 1</code></td></tr>
-    <tr><td><code>**</code></td><td>Exponentiation (Power)</td><td><code>3 ** 3 = 27</code></td></tr>
+    <tr><td><code>+</code></td><td>Addition</td><td><code>10 + 5 = 15</code></td><td><code>__add__</code></td></tr>
+    <tr><td><code>-</code></td><td>Subtraction</td><td><code>20 - 8 = 12</code></td><td><code>__sub__</code></td></tr>
+    <tr><td><code>*</code></td><td>Multiplication</td><td><code>4 * 7 = 28</code></td><td><code>__mul__</code></td></tr>
+    <tr><td><code>/</code></td><td>True Float Division</td><td><code>7 / 2 = 3.5</code></td><td><code>__truediv__</code></td></tr>
+    <tr><td><code>//</code></td><td>Floor Division (truncates toward -infinity)</td><td><code>7 // 2 = 3</code></td><td><code>__floordiv__</code></td></tr>
+    <tr><td><code>%</code></td><td>Modulo (Remainder)</td><td><code>7 % 2 = 1</code></td><td><code>__mod__</code></td></tr>
+    <tr><td><code>**</code></td><td>Exponentiation (Power)</td><td><code>2 ** 8 = 256</code></td><td><code>__pow__</code></td></tr>
   </tbody>
 </table>
         `,
       },
       {
-        title: 'Strings, Slicing & Formatted F-Strings',
+        title: 'Strings, Slicing & Modern Formatted F-Strings',
         language: 'python',
-        starterCode: `# Python Strings and Formatting
+        starterCode: `# Python Strings, Immutability & Slicing
 
 hero_name = "Kaelen Shadowblade"
 realm = "Eldoria"
@@ -101,11 +164,11 @@ level = 14
 first_name = hero_name[:6]
 last_name = hero_name[7:]
 
-# String Methods
+# String Methods (Return brand-new string objects)
 shout = hero_name.upper()
 clean = "   extra whitespace   ".strip()
 
-# Formatted F-Strings (Python 3.6+)
+# Formatted F-Strings (PEP 498 - Fast, Readable Interpolation)
 status_card = f"⚔️ Hero: {hero_name} | Realm: {realm} | Level: {level}"
 
 print("First Name:", first_name)
@@ -115,39 +178,59 @@ print("Cleaned:", clean)
 print(status_card)
 `,
         content: `
-<h2>Strings & Modern String Formatting 📜</h2>
-<p>Strings in Python (<code>str</code>) are immutable sequences of Unicode characters enclosed in single quotes (<code>'text'</code>) or double quotes (<code>"text"</code>).</p>
+<h2>📜 Strings, Immutability & Advanced Slicing</h2>
 
-<h3>String Slicing (<code>[start:stop:step]</code>)</h3>
-<p>You can extract sub-strings using index slices (0-indexed):</p>
-<pre><code>word = "Python"
-word[0]      # 'P'
-word[0:2]    # 'Py' (from index 0 up to, but not including, index 2)
-word[:4]     # 'Pyth' (from start up to index 4)
-word[2:]     # 'thon' (from index 2 to end)
-word[::-1]   # 'nohtyP' (reversed string!)</code></pre>
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Text in Python is not a mere array of ASCII bytes. Strings are immutable Unicode arrays capable of expressing every human language, math symbol, and emoji in existence. Learn the master art of string slicing and f-string interpolation.</em>
+</div>
 
-<h3>F-Strings: The Gold Standard for Formatting</h3>
-<p>Prefixing a string with <code>f</code> allows you to interpolate Python expressions directly inside curly braces <code>{expression}</code>:</p>
-<pre><code>name = "Astra"
-hp = 100
-print(f"Hero {name} has {hp} HP. In 10 turns: {hp + 50} HP.")</code></pre>
+<h3>Strings are Immutable (Cannot Be Mutated in Place)</h3>
+<p>In Python, once a <code>str</code> object is allocated in memory, its characters <strong>can never be changed</strong>. If you attempt <code>s = "Python"; s[0] = "J"</code>, Python raises a <code>TypeError: 'str' object does not support item assignment</code>.</p>
+
+<p>Every operation that transforms a string (like <code>.upper()</code>, <code>.strip()</code>, or <code>.replace()</code>) builds a <strong>brand new string object</strong> in heap memory and returns a reference to it.</p>
+
+<h3>The Power of String Slicing: <code>[start:stop:step]</code></h3>
+<p>Slicing is one of Python's most elegant features. It allows you to extract sub-sequences without writing manual loops:</p>
+
+<pre class="ascii-diagram">
+String:    ' P   y   t   h   o   n '
+Positive:    0   1   2   3   4   5
+Negative:   -6  -5  -4  -3  -2  -1
+</pre>
+
+<ul>
+  <li><code>word[0:2]</code> — Index 0 up to (excluding) 2: <code>'Py'</code></li>
+  <li><code>word[:4]</code> — From the start up to index 4: <code>'Pyth'</code></li>
+  <li><code>word[2:]</code> — From index 2 to the very end: <code>'thon'</code></li>
+  <li><code>word[-3:]</code> — The last 3 characters: <code>'hon'</code></li>
+  <li><code>word[::2]</code> — Every second character: <code>'Pto'</code></li>
+  <li><code>word[::-1]</code> — Step backwards by 1: <code>'nohtyP'</code> (Reverse in O(N) time!)</li>
+</ul>
+
+<h3>Formatted F-Strings (PEP 498)</h3>
+<p>Introduced in Python 3.6, formatted string literals (f-strings) evaluate expressions directly inside string literals at runtime. They are significantly faster than older <code>%</code> formatting or <code>.format()</code> methods because the bytecode compiler optimizes the expression evaluations directly into opcode instructions:</p>
+
+<pre><code>mana = 75
+max_mana = 100
+# Format with inline calculations and precision specifiers:
+print(f"Mana: {mana}/{max_mana} ({mana / max_mana:.1%})")
+# Output: Mana: 75/100 (75.0%)</code></pre>
         `,
       },
       {
-        title: 'Booleans, Type Inspection & Casting',
+        title: 'Booleans, Dynamic Namespaces & Type Casting',
         language: 'python',
-        starterCode: `# Booleans & Type Casting
+        starterCode: `# Booleans & Dynamic Type Casting
 
 is_warrior = True
 has_magic = False
 
-# type() inspection
+# type() inspection reveals the underlying class
 print("Type of is_warrior:", type(is_warrior))
 print("Type of 42:", type(42))
 print("Type of 'Hello':", type("Hello"))
 
-# Type Casting (Converting types)
+# Type Casting (Invoking the type constructor)
 raw_input_age = "25"         # str
 age = int(raw_input_age)     # converted to int
 pi_str = str(3.14)           # converted to str
@@ -157,17 +240,35 @@ print("Age next year:", age + 1)
 print("Is Online:", is_online)
 `,
         content: `
-<h2>Booleans & Type Casting ⚖️</h2>
-<p>A boolean (<code>bool</code>) represents truth values: <code>True</code> and <code>False</code> (note the capital T and F).</p>
+<h2>⚖️ Booleans, Dynamic Typing & Namespaces</h2>
 
-<h3>Type Inspection & Type Casting</h3>
-<p>Python is dynamically typed, meaning variables can change types. You can inspect an object's type with <code>type(obj)</code>.</p>
-<p>To convert from one type to another, call the type constructor:</p>
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Python is strongly and dynamically typed. Variables are not memory boxes; they are nametags bound to heap objects. Understand how Python looks up types and safely convert data between forms.</em>
+</div>
+
+<h3>Variables as Nametags (References)</h3>
+<p>In languages like C or C++, declaring <code>int x = 5</code> allocates a dedicated 4-byte box in memory labeled <code>x</code>. In Python, variables are <strong>references (pointers)</strong> bound to objects in the heap:</p>
+
+<pre class="ascii-diagram">
+Namespace (Name Table)                   Heap Memory
++--------------------+              +------------------------+
+| hero               | -----------> | PyUnicodeObject        |
+|                    |              | Value: "Astra"         |
++--------------------+              +------------------------+
+                                                ^
++--------------------+                          |
+| player_one         | -------------------------+ (Points to same object!)
++--------------------+
+</pre>
+
+<p>When you reassign <code>hero = 100</code>, the nametag <code>hero</code> simply detaches from <code>"Astra"</code> and attaches to the <code>PyLongObject</code> for <code>100</code>. Python is <strong>strongly typed</strong> because it refuses to silently perform illogical operations (e.g. <code>"5" + 5</code> raises a <code>TypeError</code> rather than coercing into <code>"55"</code> like JavaScript).</p>
+
+<h3>Explicit Type Constructors (Casting)</h3>
 <ul>
-  <li><code>int("100")</code> converts the string <code>"100"</code> to integer <code>100</code>.</li>
-  <li><code>float(5)</code> converts integer <code>5</code> to float <code>5.0</code>.</li>
-  <li><code>str(42)</code> converts integer <code>42</code> to string <code>"42"</code>.</li>
-  <li><code>bool(0)</code> converts to <code>False</code>, while <code>bool(1)</code> converts to <code>True</code>.</li>
+  <li><code>int("100")</code> — Parses base-10 string into an integer. (Pass base as second arg: <code>int("1010", 2) == 10</code>).</li>
+  <li><code>float("3.14")</code> — Parses decimal string into an IEEE float.</li>
+  <li><code>str(12345)</code> — Converts any object into its string representation via <code>__str__</code>.</li>
+  <li><code>bool(x)</code> — Evaluates the truthiness of <code>x</code>.</li>
 </ul>
         `,
       },
@@ -220,13 +321,13 @@ print("Is Online:", is_online)
     ],
   },
 
-  // Module 2: Control Flow & Decision Making
+  // Module 2: Control Flow, Logic & Decision Making
   'py-week-2': {
     lessons: [
       {
-        title: 'Comparison & Logical Operators',
+        title: 'Comparison Operators & Short-Circuit Boolean Logic',
         language: 'python',
-        starterCode: `# Comparison & Logical Operators
+        starterCode: `# Comparison & Logical Operators in Python
 
 player_level = 25
 has_boss_key = True
@@ -236,6 +337,7 @@ is_poisoned = False
 can_challenge_dungeon = player_level >= 20
 
 # Logical Operators: and, or, not
+# Python evaluates logical operators with short-circuiting!
 can_enter_boss_room = player_level >= 20 and has_boss_key
 needs_cure = is_poisoned or player_level < 5
 is_healthy = not is_poisoned
@@ -246,27 +348,37 @@ print("Needs cure potion:", needs_cure)
 print("Is healthy:", is_healthy)
 `,
         content: `
-<h2>Comparison & Logical Operators 🔀</h2>
-<p>Decision making allows your programs to execute different code depending on runtime conditions.</p>
+<h2>🔀 Chapter 2: The Crossroads of Fate — Logic & Operators</h2>
 
-<h3>Comparison Operators</h3>
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Every great program is a labyrinth of decisions. In Python, control flow is driven by clean English conjunctions: and, or, and not. Learn how short-circuit evaluation saves CPU cycles and protects your software from null pointer exceptions.</em>
+</div>
+
+<h3>Short-Circuit Evaluation: The Shield of Safety</h3>
+<p>Python evaluates logical expressions from left to right and terminates evaluation as soon as the outcome is mathematically guaranteed:</p>
+
 <ul>
-  <li><code>==</code> (equal to), <code>!=</code> (not equal to)</li>
-  <li><code>&lt;</code> (less than), <code>&gt;</code> (greater than)</li>
-  <li><code>&lt;=</code> (less than or equal), <code>&gt;=</code> (greater than or equal)</li>
+  <li><code>A and B</code> — If <code>A</code> is falsy, Python immediately returns <code>A</code> without evaluating <code>B</code>.</li>
+  <li><code>A or B</code> — If <code>A</code> is truthy, Python immediately returns <code>A</code> without evaluating <code>B</code>.</li>
 </ul>
 
-<h3>Logical Operators</h3>
-<p>Python uses plain English words rather than symbols (unlike Java's <code>&&</code>, <code>||</code>, <code>!</code>):</p>
-<ul>
-  <li><code>and</code>: Returns <code>True</code> only if both operands are true.</li>
-  <li><code>or</code>: Returns <code>True</code> if at least one operand is true.</li>
-  <li><code>not</code>: Inverts the boolean value.</li>
-</ul>
+<div class="callout callout--tip">
+  <strong>🛡️ The Guard Pattern:</strong> Short-circuiting allows safe attribute or key checks without crashing:
+  <pre><code>user = None
+# This will NOT raise AttributeError because user is None stops at the first check!
+if user is not None and user.is_active:
+    print("Welcome back!")</code></pre>
+</div>
+
+<h3>Truth Values of <code>and</code> and <code>or</code></h3>
+<p>Unlike languages that strictly return <code>true</code> or <code>false</code>, Python's <code>and</code> and <code>or</code> return the <strong>actual operand value</strong> that decided the outcome:</p>
+<pre><code>x = "Hero" or "Default"  # Returns "Hero" (first truthy value)
+y = "" or "Default"      # Returns "Default" (since "" is falsy)
+z = [1, 2] and "Success" # Returns "Success" (both are truthy)</code></pre>
         `,
       },
       {
-        title: 'Conditional Statements: if, elif, and else',
+        title: 'Conditional Branching: if, elif, else & Match-Case',
         language: 'python',
         starterCode: `# Conditional Branching in Python
 
@@ -282,26 +394,53 @@ else:
     grade = "F (Novice - Needs Practice)"
 
 print(f"Final Grade: {grade}")
+
+# Python 3.10+ Structural Pattern Matching (match-case)
+command = "TELEPORT NORTH"
+match command.split():
+    case ["TELEPORT", destination]:
+        print(f"Warping directly to {destination}...")
+    case ["ATTACK", target]:
+        print(f"Striking {target}!")
+    case _:
+        print("Unknown incantation.")
 `,
         content: `
-<h2>Branching: if, elif, and else 🌿</h2>
-<p>Python uses <strong>indentation (4 spaces)</strong> to define code blocks, eliminating curly braces <code>{}</code>.</p>
+<h2>🌿 Conditional Branching & Structural Pattern Matching</h2>
 
-<h3>Syntax Structure:</h3>
-<pre><code>if condition1:
-    # Runs when condition1 is True
-elif condition2:
-    # Runs when condition1 is False and condition2 is True
-else:
-    # Runs when all preceding conditions are False</code></pre>
-
-<div class="callout callout--info">
-  <strong>Indentation Rule:</strong> In Python, whitespace is syntax! Always indent blocks with consistent 4 spaces.
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Python eliminates messy brackets and braces using four spaces of indentation. Explore chained conditionals and discover Python 3.10's modern superpower: Structural Pattern Matching (match-case).</em>
 </div>
+
+<h3>Indentation as Syntax (The Off-Side Rule)</h3>
+<p>In Python, blocks of code are defined strictly by whitespace indentation (PEP 8 standard is <strong>4 spaces</strong> per indentation level). This forces every Python codebase in the world to maintain clean visual structure.</p>
+
+<pre class="ascii-diagram">
+if score >= 90:
+    [4 spaces] grade = "A+"    <-- Branch A
+elif score >= 80:
+    [4 spaces] grade = "B"     <-- Branch B
+else:
+    [4 spaces] grade = "C"     <-- Fallback
+</pre>
+
+<h3>Modern Python 3.10+: <code>match-case</code> (PEP 634)</h3>
+<p>Traditional languages use primitive <code>switch</code> statements limited to integers or strings. Python's <code>match-case</code> is a full <strong>Structural Pattern Matcher</strong> capable of destructuring sequences, dictionaries, and class instances simultaneously:</p>
+
+<pre><code>def process_event(event):
+    match event:
+        case {"type": "CLICK", "x": x, "y": y}:
+            return f"Clicked coordinates ({x}, {y})"
+        case {"type": "KEYPRESS", "key": key} if key == "ESCAPE":
+            return "Menu opened"
+        case [first, *rest]:
+            return f"List with head {first} and {len(rest)} tail items"
+        case _:
+            return "Unmatched pattern"</code></pre>
         `,
       },
       {
-        title: 'Truthy & Falsy Values',
+        title: 'Truthy & Falsy Evaluation Internals',
         language: 'python',
         starterCode: `# Truthy and Falsy evaluation
 
@@ -324,17 +463,30 @@ else:
     print("Inbox is all caught up!")
 `,
         content: `
-<h2>Truthy & Falsy Values 💡</h2>
-<p>In Python, every object has an inherent boolean truth value when evaluated in an <code>if</code> statement:</p>
+<h2>💡 Truthy & Falsy Evaluation Mechanics</h2>
 
-<h3>Falsy Values:</h3>
-<ul>
-  <li><code>False</code></li>
-  <li><code>None</code></li>
-  <li>Zero of any numeric type: <code>0</code>, <code>0.0</code></li>
-  <li>Empty sequences and collections: <code>""</code> (empty string), <code>[]</code> (empty list), <code>{}</code> (empty dict), <code>set()</code></li>
-</ul>
-<p><strong>Everything else is Truthy!</strong> Any non-empty string, non-zero number, or populated list evaluates to <code>True</code>.</p>
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>In Python, you rarely write <code>if len(items) > 0:</code> or <code>if is_active == True:</code>. Python evaluates the inherent truth value of any object automatically. Learn the rules of truthiness.</em>
+</div>
+
+<h3>The Complete Falsy Checklist</h3>
+<p>In Python, every object is either Truthy or Falsy. There are exactly six categories of Falsy objects; <strong>everything else in Python is Truthy</strong>:</p>
+
+<table class="lesson-table">
+  <thead><tr><th>Falsy Category</th><th>Examples</th><th>Why It Is Falsy</th></tr></thead>
+  <tbody>
+    <tr><td>Boolean False</td><td><code>False</code></td><td>Native falsy boolean literal</td></tr>
+    <tr><td>Null Reference</td><td><code>None</code></td><td>Absence of a value</td></tr>
+    <tr><td>Zero Numbers</td><td><code>0</code>, <code>0.0</code>, <code>0j</code>, <code>Decimal(0)</code></td><td>Zero numerical quantity</td></tr>
+    <tr><td>Empty Sequences</td><td><code>""</code> (str), <code>[]</code> (list), <code>()</code> (tuple)</td><td>Length is 0</td></tr>
+    <tr><td>Empty Mappings</td><td><code>{}</code> (dict), <code>set()</code></td><td>No keys / items</td></tr>
+    <tr><td>Custom Objects</td><td>Objects defining <code>__bool__() == False</code> or <code>__len__() == 0</code></td><td>Protocol hook</td></tr>
+  </tbody>
+</table>
+
+<div class="callout callout--tip">
+  <strong>🐍 Pythonic Idiom:</strong> Instead of writing <code>if len(my_list) == 0:</code>, simply write <code>if not my_list:</code>. It is cleaner, faster, and idiomatic Python.
+</div>
         `,
       },
     ],
@@ -347,6 +499,7 @@ else:
 <ul>
   <li>Age under 12: <code>8</code></li>
   <li>Age 12 to 64: <code>15</code></li>
+  <li>Age 65 and older: <code>10</code></li>
   <li>Age 65 and older: <code>10</code></li>
 </ul>
         `,
@@ -382,11 +535,11 @@ else:
     ],
   },
 
-  // Module 3: Loops & Iteration
+  // Module 3: Loops & Iteration Patterns
   'py-week-3': {
     lessons: [
       {
-        title: 'The while Loop & Infinite Loop Guards',
+        title: 'The while Loop & Loop Invariants',
         language: 'python',
         starterCode: `# The while loop executes as long as a condition evaluates to True
 
@@ -397,23 +550,61 @@ while countdown > 0:
     countdown -= 1  # Decrement to prevent infinite loop!
 
 print("🚀 Blastoff!")
+
+# The while-else clause (Executes ONLY if loop completes without break)
+target = 7
+current = 1
+while current < 5:
+    if current == target:
+        print(f"Found {target}!")
+        break
+    current += 1
+else:
+    print(f"Target {target} was not reached in loop iterations.")
 `,
         content: `
-<h2>The while Loop 🔄</h2>
-<p>A <code>while</code> loop repeatedly executes a block of code as long as its condition remains <code>True</code>.</p>
-<pre><code>count = 0
-while count < 3:
-    print(count)
-    count += 1</code></pre>
-<div class="callout callout--warning">
-  <strong>Infinite Loop Hazard:</strong> Always ensure the loop's body modifies variables involved in the condition so that the loop eventually terminates.
+<h2>🔄 Chapter 3: The Cycles of Eternity — Loops & Invariants</h2>
+
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Repetition is the engine of automation. Explore how while loops maintain computational invariants and unlock the rare secret of Python's while-else construct.</em>
 </div>
+
+<h3>The Anatomy of a While Loop</h3>
+<p>A <code>while</code> loop repeatedly evaluates a conditional predicate before every iteration. As long as the predicate remains truthy, the indented suite executes:</p>
+
+<pre class="ascii-diagram">
+        +-------------------+
+        | Evaluate Predicate|
+        +-------------------+
+              |       |
+      [True]  |       | [False]
+              v       v
+      +------------+  +-----------------+
+      | Loop Body  |  | Exit / else:    |
+      +------------+  +-----------------+
+              |
+              +---- Re-evaluate
+</pre>
+
+<h3>The Secret of <code>while-else</code> / <code>for-else</code></h3>
+<p>Python features a syntax construct found in almost no other major programming language: an <code>else</code> block attached directly to a loop! The <code>else</code> block executes <strong>only if the loop terminated naturally</strong> without hitting a <code>break</code> statement:</p>
+
+<pre><code># Searching for a prime factor
+n = 17
+d = 2
+while d * d <= n:
+    if n % d == 0:
+        print(f"{n} is composite ({d} * {n // d})")
+        break
+    d += 1
+else:
+    print(f"{n} is a prime number!")</code></pre>
         `,
       },
       {
-        title: 'The for Loop with range()',
+        title: 'The for Loop, range() & The Iterator Protocol',
         language: 'python',
-        starterCode: `# The for loop iterates over sequences or ranges
+        starterCode: `# The for loop iterates over sequences, generators & ranges
 
 # 1. range(stop) -> 0 to 4
 print("Count to 5:")
@@ -427,30 +618,38 @@ for val in range(10, 31, 5):
     print(val, end=" ")
 print()
 
-# 3. Iterating over a string
+# 3. Iterating over a string sequence
 print("\nSpell out:")
 for char in "Python":
     print(char, end="-")
 print()
 `,
         content: `
-<h2>The for Loop & range() 🎯</h2>
-<p>In Python, <code>for</code> loops iterate over iterable objects (lists, strings, tuples, dictionaries, and ranges).</p>
+<h2>🎯 The for Loop & The Iterator Protocol</h2>
 
-<h3>The range() Function:</h3>
-<ul>
-  <li><code>range(n)</code>: Generates numbers from <code>0</code> up to <code>n - 1</code>.</li>
-  <li><code>range(start, stop)</code>: Generates numbers from <code>start</code> up to <code>stop - 1</code>.</li>
-  <li><code>range(start, stop, step)</code>: Increments by <code>step</code> each iteration.</li>
-</ul>
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>In C or Java, a for loop is an arithmetic index counter (for int i = 0; i &lt; n; i++). In Python, every for loop is a sophisticated iterator consumer. Discover how Python streams data element by element.</em>
+</div>
+
+<h3>How Python's <code>for</code> Loop Works Under the Hood</h3>
+<p>When you write <code>for item in collection:</code>, Python executes the <strong>Iterator Protocol</strong>:</p>
+
+<ol>
+  <li>Python calls <code>iter(collection)</code>, which invokes <code>collection.__iter__()</code> to obtain an iterator object.</li>
+  <li>On each iteration, Python calls <code>next(iterator)</code>, which invokes <code>iterator.__next__()</code>.</li>
+  <li>When elements are exhausted, the iterator raises a <code>StopIteration</code> exception, which the <code>for</code> loop catches internally to gracefully terminate!</li>
+</ol>
+
+<h3>The <code>range()</code> Generator</h3>
+<p>In Python 3, <code>range(1_000_000)</code> does <strong>not</strong> create a list of one million integers in memory! Instead, it is an immutable sequence object that computes each number on the fly in <code>O(1)</code> memory.</p>
         `,
       },
       {
-        title: 'Loop Control: break, continue, and pass',
+        title: 'Loop Control Flow: break, continue, pass',
         language: 'python',
         starterCode: `# Loop Control Keywords
 
-# 1. break: Immediately exits the loop
+# 1. break: Immediately terminates the innermost enclosing loop
 print("Search for first multiple of 7:")
 for n in range(1, 25):
     if n % 7 == 0:
@@ -464,13 +663,22 @@ for n in range(10):
         continue
     print(n, end=" ")
 print()
+
+# 3. pass: Syntactic no-op placeholder
+class UnfinishedFeature:
+    pass
 `,
         content: `
-<h2>Loop Control: break, continue, pass ⏹️</h2>
+<h2>⏹️ Master Loop Control: break, continue & pass</h2>
+
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Interrupt cycles at will. Use break to abandon search loops, continue to bypass unwanted iterations, and pass to create flawless architectural stubs.</em>
+</div>
+
 <ul>
-  <li><strong><code>break</code>:</strong> Exits the current loop immediately.</li>
-  <li><strong><code>continue</code>:</strong> Skips the rest of the current iteration and jumps to the next iteration.</li>
-  <li><strong><code>pass</code>:</strong> A null statement used as a placeholder where syntax requires code but no action is needed.</li>
+  <li><code>break</code> — Immediately breaks out of the innermost loop. The loop's optional <code>else:</code> block will <strong>not</strong> execute.</li>
+  <li><code>continue</code> — Immediately aborts the remaining statements in the current iteration and jumps to the next cycle.</li>
+  <li><code>pass</code> — A complete syntactic no-op. Because Python relies on indentation, an empty block (like an empty class or function) is a syntax error without <code>pass</code>.</li>
 </ul>
         `,
       },
@@ -513,13 +721,13 @@ print()
     ],
   },
 
-  // Module 4: Functions & Variable Scope
+  // Module 4: Functions, Scopes & Parameter Protocols
   'py-week-4': {
     lessons: [
       {
-        title: 'Defining Functions, Parameters & Return',
+        title: 'Function Invocations, Return Values & First-Class Citizens',
         language: 'python',
-        starterCode: `# Functions package reusable logic
+        starterCode: `# Functions package reusable logic and are first-class citizens in Python
 
 def calculate_xp(level, multiplier=1.0):
     """Calculates total required XP for a player level."""
@@ -531,21 +739,50 @@ xp2 = calculate_xp(5, 1.5)
 
 print("Level 5 Normal XP:", xp1)
 print("Level 5 Boosted XP:", xp2)
+
+# First-class citizens: Functions can be stored in variables or passed as args!
+calculator_fn = calculate_xp
+print("Invoked via variable:", calculator_fn(3, 2.0))
 `,
         content: `
-<h2>Functions in Python 📦</h2>
-<p>Functions are defined using the <code>def</code> keyword, followed by the function name, parentheses for arguments, and a colon:</p>
-<pre><code>def greet(name):
-    return f"Hello, {name}!"</code></pre>
-<p>Functions return values using the <code>return</code> statement. If no return statement is reached, Python implicitly returns <code>None</code>.</p>
+<h2>📦 Chapter 4: The Tome of Functions — Scopes & Invocations</h2>
+
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Functions in Python are not just procedures; they are first-class citizens. They can be passed as arguments, returned from other functions, stored in dictionaries, and adorned with decorators. Learn how to wield functional power.</em>
+</div>
+
+<h3>The LEGB Scoping Rule</h3>
+<p>When a variable name is referenced inside a function, Python searches four concentric scope rings in a strict hierarchy known as <strong>LEGB</strong>:</p>
+
+<pre class="ascii-diagram">
++-------------------------------------------------------+
+|  B - Built-in Scope (len, range, print, sum, int...)  |
+|   +-----------------------------------------------+   |
+|   |  G - Global Scope (Module-level definitions)  |   |
+|   |   +---------------------------------------+   |   |
+|   |   |  E - Enclosing Scope (Outer function) |   |   |
+|   |   |   +-------------------------------+   |   |   |
+|   |   |   |  L - Local Scope (This func)  |   |   |   |
+|   |   |   +-------------------------------+   |   |   |
+|   |   +---------------------------------------+   |   |
+|   +-----------------------------------------------+   |
++-------------------------------------------------------+
+</pre>
+
+<ol>
+  <li><strong>Local (L):</strong> Names assigned inside the current function body.</li>
+  <li><strong>Enclosing (E):</strong> Names in the local scope of any enclosing/outer functions (closures).</li>
+  <li><strong>Global (G):</strong> Names declared at the top module level.</li>
+  <li><strong>Built-in (B):</strong> Names built into the Python language runtime.</li>
+</ol>
         `,
       },
       {
-        title: 'Flexible Arguments: *args and **kwargs',
+        title: 'Flexible Arguments: *args, **kwargs & The Mutable Default Trap',
         language: 'python',
         starterCode: `# Arbitrary Arguments with *args and **kwargs
 
-# *args gathers extra positional arguments into a tuple
+# *args gathers extra positional arguments into an immutable tuple
 def sum_all(*numbers):
     total = 0
     for n in numbers:
@@ -562,11 +799,36 @@ print("Sum:", sum_all(10, 20, 30, 40))
 print_profile("Astra", role="Engineer", location="Orbit", level=42)
 `,
         content: `
-<h2>*args and **kwargs: True Flexibility 🤹</h2>
+<h2>🤹 Flexible Parameters & The Mutable Default Argument Trap</h2>
+
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Python functions can accept dynamic configurations through *args and **kwargs. But beware the most notorious rookie bug in Python history: the mutable default parameter.</em>
+</div>
+
+<h3>Arbitrary Argument Gathering</h3>
 <ul>
-  <li><code>*args</code>: Collects extra positional arguments into a <strong>tuple</strong>.</li>
-  <li><code>**kwargs</code>: Collects extra keyword arguments into a <strong>dictionary</strong>.</li>
+  <li><code>*args</code> — Packs arbitrary positional parameters into an <strong>immutable tuple</strong>.</li>
+  <li><code>**kwargs</code> — Packs arbitrary keyword arguments (e.g. <code>role="Warrior", hp=100</code>) into a <strong>standard dictionary</strong>.</li>
 </ul>
+
+<div class="callout callout--warn">
+  <strong>⚠️ The Dangerous Mutable Default Argument Trap:</strong>
+  In Python, default arguments are evaluated <strong>once when the function is defined</strong>, NOT each time the function is called!
+  <pre><code># BUGGY: The same list is shared across all function invocations!
+def add_player(name, team=[]):
+    team.append(name)
+    return team
+
+print(add_player("Alice"))  # ['Alice']
+print(add_player("Bob"))    # ['Alice', 'Bob'] <-- BUG! Alice is still in team!</code></pre>
+
+  <strong>The Pythonic Solution: Use None as Sentinel Value:</strong>
+  <pre><code>def add_player(name, team=None):
+    if team is None:
+        team = []
+    team.append(name)
+    return team</code></pre>
+</div>
         `,
       },
     ],
@@ -601,40 +863,56 @@ print_profile("Astra", role="Engineer", location="Orbit", level=42)
   'py-week-5': {
     lessons: [
       {
-        title: 'Lists, Tuples, Dictionaries & Sets',
+        title: 'Lists, Tuples, Dictionaries & Sets: Internal Architecture',
         language: 'python',
         starterCode: `# Python Built-in Collections
 
-# 1. Lists (Ordered, mutable)
+# 1. Lists (Ordered, mutable array of pointer references)
 spells = ["Fireball", "Frost Nova", "Lightning Bolt"]
 spells.append("Teleport")
 
-# 2. Dictionaries (Key-Value hash maps)
+# 2. Dictionaries (High-speed hash tables with O(1) average lookup)
 stats = {"health": 100, "mana": 50, "armor": 25}
 stats["mana"] += 25
 
-# 3. Sets (Unique elements)
+# 3. Sets (Unique elements powered by hash tables)
 equipped_items = {"Sword", "Shield", "Boots"}
-equipped_items.add("Sword")  # Ignored, duplicate!
+equipped_items.add("Sword")  # Duplicate ignored!
 
 print("Spells:", spells)
 print("Stats:", stats)
 print("Unique Items:", equipped_items)
 `,
         content: `
-<h2>Python Collections 🎒</h2>
+<h2>🎒 Chapter 5: The Vault of Collections — Data Structures</h2>
+
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Python provides four foundational collection primitives built directly into CPython. Understand their memory layout, amortized time complexities, and hash table internals.</em>
+</div>
+
+<h3>The Four Great Collection Archetypes</h3>
+
 <ol>
-  <li><strong>Lists (<code>[]</code>):</strong> Ordered, mutable arrays with O(1) amortized appends.</li>
-  <li><strong>Tuples (<code>()</code>):</strong> Immutable sequences. Perfect for fixed records.</li>
-  <li><strong>Dictionaries (<code>{}</code>):</strong> O(1) key-value hash maps.</li>
-  <li><strong>Sets (<code>set()</code>):</strong> Unordered collections of unique items with O(1) membership testing.</li>
+  <li><strong>List (<code>[item1, item2]</code>):</strong> Dynamic array of object references. Supports <code>O(1)</code> indexed access and <code>O(1)</code> amortized append. Pre-allocates extra memory to prevent resizing on every insertion.</li>
+  <li><strong>Tuple (<code>(item1, item2)</code>):</strong> Immutable sequence. Because tuples cannot change size or contents, CPython optimizes them with minimal memory overhead. Tuples containing only hashable objects are themselves hashable and can be used as dictionary keys!</li>
+  <li><strong>Dictionary (<code>{key: value}</code>):</strong> High-performance hash table. Starting in Python 3.6, Python uses a <strong>compact dictionary layout</strong>:
+    <pre class="ascii-diagram">
+Hash Indices:  [-1,  0, -1,  1, -1]  <-- Sparse table of small integer indices
+Entries Array: [                     <-- Dense array storing insertion order!
+  {"hash": 1284, "key": "health", "value": 100},
+  {"hash": 9831, "key": "mana",   "value": 75}
+]
+    </pre>
+    This revolutionary architecture reduced dictionary memory consumption by 25% while preserving insertion order!
+  </li>
+  <li><strong>Set (<code>{item1, item2}</code>):</strong> Unordered collection of unique items. Backed by a hash table with dummy values, providing blazing fast <code>O(1)</code> membership testing (<code>if item in my_set:</code>).</li>
 </ol>
         `,
       },
       {
-        title: 'List & Dictionary Comprehensions',
+        title: 'List, Dict & Set Comprehensions vs Lazy Generators',
         language: 'python',
-        starterCode: `# Pythonic Comprehensions
+        starterCode: `# Pythonic Comprehensions & Generator Expressions
 
 # 1. List Comprehension: [expression for item in iterable if condition]
 numbers = [1, 2, 3, 4, 5, 6, 7, 8]
@@ -644,20 +922,39 @@ even_squares = [x ** 2 for x in numbers if x % 2 == 0]
 players = ["Alice", "Bob", "Charlie"]
 scores = {name: len(name) * 10 for name in players}
 
+# 3. Generator Expression (Lazy Memory Streaming)
+# Notice parentheses instead of brackets: computes values on-demand!
+lazy_squares = (x ** 2 for x in range(1_000_000))
+
 print("Even Squares:", even_squares)
 print("Scores Dict:", scores)
+print("First lazy value:", next(lazy_squares))
+print("Second lazy value:", next(lazy_squares))
 `,
         content: `
-<h2>Comprehensions: Pythonic Elegance ⚡</h2>
-<p>Comprehensions allow you to transform and filter collections in a single expressive line:</p>
-<pre><code># Traditional loop (4 lines)
-result = []
+<h2>⚡ Comprehensions & Generator Expressions</h2>
+
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Transform and filter collections in a single expressive line. Compare eager memory allocation with lazy generator streaming.</em>
+</div>
+
+<h3>List Comprehensions vs Traditional Loops</h3>
+<p>Comprehensions are not merely syntax sugar; they execute at C-speed inside the CPython evaluation loop because they bypass repeated method calls to <code>.append()</code>:</p>
+
+<pre><code># Traditional loop (4 lines, slower attribute lookup)
+squares = []
 for x in range(10):
     if x % 2 == 0:
-        result.append(x * 2)
+        squares.append(x * x)
 
-# Pythonic comprehension (1 line)
-result = [x * 2 for x in range(10) if x % 2 == 0]</code></pre>
+# Pythonic comprehension (1 line, C-level loop)
+squares = [x * x for x in range(10) if x % 2 == 0]</code></pre>
+
+<h3>The Memory Showdown: Lists vs Generators</h3>
+<ul>
+  <li><code>[x for x in range(10_000_000)]</code> — Allocates an eager list in RAM consuming <strong>~80 Megabytes</strong> of memory.</li>
+  <li><code>(x for x in range(10_000_000))</code> — Creates an iterator generator object consuming only <strong>112 bytes</strong> of memory, streaming values one at a time via <code>next()</code>!</li>
+</ul>
         `,
       },
     ],
@@ -687,17 +984,17 @@ result = [x * 2 for x in range(10) if x % 2 == 0]</code></pre>
   'py-week-6': {
     lessons: [
       {
-        title: 'Classes, Objects, and the self Keyword',
+        title: 'Classes, Objects, self & Instance Dictionaries',
         language: 'python',
         starterCode: `# Object-Oriented Programming (OOP) in Python
 
 class Hero:
-    # Class attribute (shared by all instances)
+    # Class attribute (shared across all instances via class namespace)
     universe = "Arcadia"
 
-    # Constructor method
+    # Constructor method (__init__ initializes newly allocated instances)
     def __init__(self, name, role, health=100):
-        # Instance attributes (unique to each instance)
+        # Instance attributes stored in instance __dict__
         self.name = name
         self.role = role
         self.health = health
@@ -712,16 +1009,38 @@ hero2 = Hero("Zephyr", "Rogue", 85)
 
 hero1.take_damage(30)
 print(f"{hero1.name} belongs to universe: {hero1.universe}")
+print("Instance dictionary (__dict__):", hero1.__dict__)
 `,
         content: `
-<h2>Classes & Objects: Introduction to OOP 🏰</h2>
-<p>Classes are blueprints for creating objects. An object bundles state (attributes) and behavior (methods) together.</p>
+<h2>🏰 Chapter 6: Forging Object Golems — Classes & Namespaces</h2>
 
-<h3>The __init__ Constructor and self</h3>
-<ul>
-  <li><code>__init__</code>: Special initialization method called automatically when creating a new instance.</li>
-  <li><code>self</code>: Reference to the current instance of the class. It must be the first parameter of any instance method.</li>
-</ul>
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Object-Oriented Programming binds state and logic into reusable blueprints. Explore how Python creates objects, unpacks self, and manages class vs instance namespaces.</em>
+</div>
+
+<h3>The Architecture of a Python Class</h3>
+<p>In Python, classes are themselves objects created by the <code>type</code> metaclass. When you define attributes inside a class, they live in the class's dictionary. When you instantiate an object, an instance dictionary (<code>__dict__</code>) is attached to it:</p>
+
+<pre class="ascii-diagram">
+Class Hero (Hero.__dict__)
++------------------------------------+
+| universe: "Arcadia"                |
+| take_damage: &lt;function take_damage&gt;|
++------------------------------------+
+              ^
+              | (Fallback attribute lookup)
+              |
+Instance hero1 (hero1.__dict__)
++------------------------------------+
+| name: "Astra", role: "Warrior"     |
+| health: 90                         |
++------------------------------------+
+</pre>
+
+<h3>What is <code>self</code>?</h3>
+<p>Unlike languages that secretly pass a hidden <code>this</code> pointer behind the scenes, Python follows its Zen: <em>Explicit is better than implicit</em>. When you invoke <code>hero1.take_damage(30)</code>, Python translates it directly into:</p>
+<pre><code>Hero.take_damage(hero1, 30)</code></pre>
+<p>The <code>self</code> argument simply binds the specific instance into the first parameter position!</p>
         `,
       },
     ],
@@ -734,7 +1053,7 @@ print(f"{hero1.name} belongs to universe: {hero1.universe}")
 <p>Implement methods:</p>
 <ul>
   <li><code>deposit(amount)</code>: Adds amount to balance.</li>
-  <li><code>withdraw(amount)</code>: Subtracts amount if balance is sufficient, otherwise prints "Insufficient funds".</li>
+  <li><code>withdraw(amount)</code>: Subtracts amount if balance is sufficient, otherwise leaves balance unchanged.</li>
   <li><code>get_balance()</code>: Returns current balance.</li>
 </ul>
         `,
@@ -776,16 +1095,16 @@ print(f"{hero1.name} belongs to universe: {hero1.universe}")
   },
 
   // ════════════════════════════════════════════════════════════════
-  // LEVEL 2: INTERMEDIATE ELECTIVE MODULES (ECOSYSTEM & APPLIED)
+  // ADVANCED ECOSYSTEM ELECTIVES (Modules 7–11)
   // ════════════════════════════════════════════════════════════════
 
-  // Module 7: Advanced OOP & Magic Methods
+  // Module 7: Advanced OOP, Magic Methods & Metaprogramming
   'py-mod-oop': {
     lessons: [
       {
-        title: 'Inheritance, Polymorphism & super()',
+        title: 'Inheritance, Polymorphism & The MRO (Method Resolution Order)',
         language: 'python',
-        starterCode: `# Advanced OOP: Inheritance & Polymorphism
+        starterCode: `# Advanced OOP: Inheritance, Polymorphism & super()
 
 class Character:
     def __init__(self, name, health):
@@ -797,7 +1116,7 @@ class Character:
 
 class Mage(Character):
     def __init__(self, name, health, mana):
-        super().__init__(name, health)  # Call parent constructor
+        super().__init__(name, health)  # Delegate to parent constructor
         self.mana = mana
 
     def attack(self):
@@ -805,15 +1124,27 @@ class Mage(Character):
 
 m = Mage("Merlin", 80, 100)
 print(m.attack())
+print("Method Resolution Order (MRO):", [cls.__name__ for cls in Mage.__mro__])
 `,
         content: `
-<h2>Inheritance and Polymorphism in Python 🧬</h2>
-<p>Inheritance allows a child class to inherit methods and attributes from a parent class. Call <code>super().__init__(...)</code> to execute the parent constructor.</p>
-<p><strong>Polymorphism</strong> allows child classes to override parent methods while sharing a unified interface.</p>
+<h2>🧬 Chapter 7: The Master Architect — Advanced OOP & MRO</h2>
+
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Enter the advanced realm of object inheritance. Learn how Python resolves method calls in complex class hierarchies using the C3 Linearization algorithm and write clean, cooperative multiple inheritance.</em>
+</div>
+
+<h3>Method Resolution Order (MRO) with C3 Linearization</h3>
+<p>When a method is called on an instance, Python must determine which class in the inheritance chain provides the implementation. It traverses the class's <strong>MRO tuple</strong> (inspectable via <code>ClassName.__mro__</code>).</p>
+
+<p>Python utilizes the <strong>C3 Linearization algorithm</strong> (introduced in Python 2.3) to resolve the diamond inheritance problem, guaranteeing two fundamental properties:</p>
+<ol>
+  <li><strong>Subclasses come before parent classes.</strong></li>
+  <li><strong>Order of appearance in the inheritance tuple is strictly preserved.</strong></li>
+</ol>
         `,
       },
       {
-        title: 'Magic (Dunder) Methods & Operator Overloading',
+        title: 'Magic Dunder Protocols & Operator Overloading',
         language: 'python',
         starterCode: `# Magic / Dunder Methods: Hooking into Python's Operator Protocols
 
@@ -822,9 +1153,13 @@ class Vector2D:
         self.x = x
         self.y = y
 
-    # String representation: print(v)
+    # String representation for end-users: print(v)
     def __str__(self):
         return f"Vector({self.x}, {self.y})"
+
+    # Formal unambiguous representation for debugging: repr(v)
+    def __repr__(self):
+        return f"Vector2D(x={self.x}, y={self.y})"
 
     # Operator overloading: v1 + v2
     def __add__(self, other):
@@ -842,14 +1177,24 @@ print("v1 + v2 =", v3)
 print("Is v1 == v2?", v1 == v2)
 `,
         content: `
-<h2>Dunder (Double-Underscore) Magic Methods 🪄</h2>
-<p>Python classes customize behavior by overriding special methods:</p>
+<h2>🪄 Dunder Magic Protocols & Operator Overloading</h2>
+
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Double-underscore (dunder) methods allow custom classes to integrate seamlessly with Python's core operators and built-in functions. Turn your objects into native-feeling data types.</em>
+</div>
+
+<h3>Core Dunder Protocol Categories</h3>
+
 <ul>
-  <li><code>__str__</code>: Human-readable string for <code>print()</code>.</li>
-  <li><code>__repr__</code>: Detailed unambiguous representation for debugging.</li>
-  <li><code>__add__</code>: Implements the <code>+</code> operator.</li>
-  <li><code>__len__</code>: Implements <code>len(object)</code>.</li>
-  <li><code>__eq__</code>: Implements <code>==</code> equality.</li>
+  <li><strong>String Representation:</strong>
+    <ul>
+      <li><code>__str__</code>: Human-readable text returned by <code>print()</code> and <code>str()</code>.</li>
+      <li><code>__repr__</code>: Detailed developer representation returned in the REPL and debugger. (Best practice: should look like valid Python code to recreate the object).</li>
+    </ul>
+  </li>
+  <li><strong>Arithmetic Protocols:</strong> <code>__add__</code> (+), <code>__sub__</code> (-), <code>__mul__</code> (*), <code>__truediv__</code> (/).</li>
+  <li><strong>Container Protocol:</strong> <code>__len__</code>, <code>__getitem__</code>, <code>__setitem__</code>, <code>__contains__</code> (enables <code>item in obj</code>!).</li>
+  <li><strong>Context Managers:</strong> <code>__enter__</code> and <code>__exit__</code> (enables <code>with obj:</code>).</li>
 </ul>
         `,
       },
@@ -876,11 +1221,11 @@ print("Is v1 == v2?", v1 == v2)
     ],
   },
 
-  // Module 8: File Handling & Serialization
+  // Module 8: File Handling, Serialization & Context Managers
   'py-mod-files': {
     lessons: [
       {
-        title: 'File I/O with Context Managers & JSON',
+        title: 'File I/O with Context Managers & JSON Serialization',
         language: 'python',
         starterCode: `# File Handling and JSON serialization
 
@@ -904,18 +1249,35 @@ parsed_data = json.loads(json_str)
 print("\nParsed App Name:", parsed_data["app_name"])
 `,
         content: `
-<h2>File I/O and JSON in Python 📁</h2>
-<p>Working with persistent data and configuration is a cornerstone of backend engineering.</p>
+<h2>📁 Chapter 8: The Arcane Scrolls of I/O & Serialization</h2>
 
-<h3>Context Managers (<code>with open</code>)</h3>
-<pre><code>with open("log.txt", "w") as f:
-    f.write("Server initialized.\\n")</code></pre>
-<p>The <code>with</code> statement guarantees the file is automatically closed when execution finishes or if an error occurs.</p>
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Persistent storage and data transmission require converting volatile in-memory objects into serialized byte streams. Master context managers and the standard JSON engine.</em>
+</div>
 
-<h3>The <code>json</code> Module</h3>
+<h3>Context Managers: The <code>with</code> Statement (PEP 343)</h3>
+<p>Opening files manually with <code>f = open("file.txt")</code> creates file descriptor leaks if exceptions occur before <code>f.close()</code> is reached. The <code>with</code> statement encapsulates the <strong>RAII (Resource Acquisition Is Initialization)</strong> pattern:</p>
+
+<pre class="ascii-diagram">
++---------------------+
+| with open(...) as f:| ----> Calls f.__enter__() (Acquires file descriptor)
++---------------------+
+           |
+           v
++---------------------+
+|  Read/Write Data    | ----> Execute operations in protected block
++---------------------+
+           |
+           v
++---------------------+
+| Block Exits / Error | ----> Calls f.__exit__() (Guaranteed closure even on crash!)
++---------------------+
+</pre>
+
+<h3>JSON vs Pickle: Security Considerations</h3>
 <ul>
-  <li><code>json.dumps(obj)</code>: Serializes a Python object into a JSON formatted string.</li>
-  <li><code>json.loads(str)</code>: Parses a JSON string into Python dictionaries and lists.</li>
+  <li><strong><code>json</code>:</strong> Human-readable, language-agnostic text serialization. Perfectly safe for untrusted network input.</li>
+  <li><strong><code>pickle</code>:</strong> Python-specific binary serialization. <span style="color:var(--pink);">Never unpickle untrusted data!</span> Pickle can execute arbitrary malicious code via the <code>__reduce__</code> protocol during deserialization.</li>
 </ul>
         `,
       },
@@ -977,22 +1339,32 @@ else:
     print("Failed to fetch API data.")
 `,
         content: `
-<h2>REST APIs and HTTP in Python 🌐</h2>
-<p>REST (Representational State Transfer) is the standard architectural protocol of modern web and cloud APIs.</p>
+<h2>🌐 Chapter 9: Astral Signals — Networking & Consuming REST APIs</h2>
 
-<h3>Key HTTP Methods:</h3>
-<ul>
-  <li><code>GET</code>: Retrieve data from a server without modifying state.</li>
-  <li><code>POST</code>: Send data to the server to create a new resource.</li>
-  <li><code>PUT</code> / <code>PATCH</code>: Update an existing resource.</li>
-  <li><code>DELETE</code>: Remove a resource.</li>
-</ul>
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Modern software does not exist in isolation. Connect your Python programs to cloud web services, microservices, and external data feeds via REST protocols.</em>
+</div>
 
-<h3>Status Codes:</h3>
+<h3>HTTP Request/Response Architecture</h3>
+<pre class="ascii-diagram">
+Client (Python script)                       REST API Server
++-------------------------+                 +------------------------+
+| GET /api/v1/players/42  | --------------> | Validates Token & Auth |
+| Authorization: Bearer x |                 | Queries Database       |
++-------------------------+                 +------------------------+
+                                                        |
++-------------------------+                             v
+| 200 OK                  | &lt;-------------- | Serializes JSON        |
+| {"id": 42, "xp": 9500}  |                 | Returns HTTP Response  |
++-------------------------+                 +------------------------+
+</pre>
+
+<h3>HTTP Status Code Families</h3>
 <ul>
-  <li><code>200 OK</code>, <code>201 Created</code>: Success!</li>
-  <li><code>400 Bad Request</code>, <code>401 Unauthorized</code>, <code>404 Not Found</code>: Client errors.</li>
-  <li><code>500 Internal Server Error</code>: Backend server malfunction.</li>
+  <li><code>2xx (Success):</code> <code>200 OK</code>, <code>201 Created</code>, <code>204 No Content</code>.</li>
+  <li><code>3xx (Redirection):</code> <code>301 Moved Permanently</code>, <code>304 Not Modified</code>.</li>
+  <li><code>4xx (Client Error):</code> <code>400 Bad Request</code>, <code>401 Unauthorized</code>, <code>403 Forbidden</code>, <code>404 Not Found</code>, <code>429 Rate Limited</code>.</li>
+  <li><code>5xx (Server Error):</code> <code>500 Internal Server Error</code>, <code>502 Bad Gateway</code>, <code>503 Service Unavailable</code>.</li>
 </ul>
         `,
       },
@@ -1023,7 +1395,7 @@ else:
   'py-mod-datasci': {
     lessons: [
       {
-        title: 'Tabular Data, Vectors & Aggregations',
+        title: 'Vectorized Computing & Tabular Aggregations',
         language: 'python',
         starterCode: `# Data Science in Python: Working with Tabular Records
 
@@ -1046,16 +1418,24 @@ print("Total Revenue: $" + str(total_revenue))
 print("Tech Category Revenue: $" + str(tech_revenue))
 `,
         content: `
-<h2>Python for Data Science 📊</h2>
-<p>Python is the #1 language for data analysis, business intelligence, and machine learning thanks to libraries like <strong>NumPy</strong> and <strong>Pandas</strong>.</p>
+<h2>📊 Chapter 10: The Alchemical Laboratory — Data Science</h2>
 
-<h3>Core Data Science Concepts:</h3>
-<ul>
-  <li><strong>Tabular Data:</strong> Rows (observations) and columns (features/attributes).</li>
-  <li><strong>Aggregations:</strong> Computing summary metrics (sum, mean, median, standard deviation).</li>
-  <li><strong>Filtering & Masking:</strong> Selecting subsets of data based on criteria.</li>
-  <li><strong>Grouping:</strong> Partitioning records by categorical fields to analyze patterns.</li>
-</ul>
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>Python is the undisputed king of Data Science and Machine Learning. Discover why libraries like NumPy and Pandas process millions of records in milliseconds through C-level vectorization.</em>
+</div>
+
+<h3>Why Vectorization Beats Pure Python Loops</h3>
+<p>In standard Python, looping over a list of 10 million floats requires 10 million PyObject pointer lookups and type checks. In <strong>NumPy</strong>, numbers are stored in <strong>contiguous C memory buffers</strong>:</p>
+
+<pre class="ascii-diagram">
+Python List: [Pointer] -> [PyObject: 1.5]
+             [Pointer] -> [PyObject: 2.5]   (Scattered in heap memory, cache misses)
+             [Pointer] -> [PyObject: 3.5]
+
+NumPy Array: | 1.5 | 2.5 | 3.5 | 4.5 | 5.5 | (Contiguous 64-bit IEEE floats, SIMD enabled)
+</pre>
+
+<p>By executing CPU <strong>SIMD (Single Instruction, Multiple Data)</strong> vector instructions, NumPy performs mathematical operations 50x to 100x faster than standard Python loops!</p>
         `,
       },
     ],
@@ -1085,7 +1465,7 @@ print("Tech Category Revenue: $" + str(tech_revenue))
   'py-mod-fastapi': {
     lessons: [
       {
-        title: 'Modern API Architecture with FastAPI',
+        title: 'Modern API Architecture with FastAPI & Pydantic',
         language: 'python',
         starterCode: `# FastAPI Architecture: Modern, High-Performance Python Web APIs
 # FastAPI uses Python type hints for automatic validation & OpenAPI docs
@@ -1120,15 +1500,26 @@ print("Registered Routes:", list(app.routes.keys()))
 print("Health Check Call:", app.routes[("GET", "/api/health")]())
 `,
         content: `
-<h2>Web Development with FastAPI ⚡</h2>
-<p>While Django is a full-featured "batteries included" framework and Flask is a microframework, <strong>FastAPI</strong> has become the modern gold standard for API engineering in Python.</p>
+<h2>⚡ Chapter 11: The High-Speed Citadel — FastAPI Web Services</h2>
 
-<h3>Why FastAPI?</h3>
-<ul>
-  <li><strong>Blazing Fast:</strong> Built on top of Starlette and Pydantic with asynchronous (<code>async</code>/<code>await</code>) performance comparable to Node.js and Go.</li>
-  <li><strong>Automatic Docs:</strong> Generates interactive Swagger UI documentation at <code>/docs</code> with zero configuration.</li>
-  <li><strong>Data Validation:</strong> Leverages standard Python 3.10+ type hints to automatically validate incoming JSON request payloads.</li>
-</ul>
+<div class="callout callout--quest">
+  <strong>⚔️ QUEST BRIEFING:</strong> <em>FastAPI has become the modern gold standard for Python backend engineering. Built on ASGI (Asynchronous Server Gateway Interface) and powered by Pydantic validation, it delivers Node/Go-level throughput with automatic Swagger UI documentation.</em>
+</div>
+
+<h3>The Three Pillars of FastAPI</h3>
+
+<ol>
+  <li><strong>Blazing Fast Asynchronous Engine (Starlette):</strong> Unlike older WSGI frameworks (Django, Flask) that block a thread per request, FastAPI runs on ASGI (via <strong>Uvicorn</strong>) utilizing non-blocking <code>async</code> / <code>await</code> event loops.</li>
+  <li><strong>Type Safety & Validation (Pydantic):</strong> By simply annotating function signatures with Python types (<code>item: ItemSchema</code>), incoming JSON request bodies are automatically validated, coerced, and documented.</li>
+  <li><strong>Automatic Interactive OpenAPI Docs:</strong> Zero configuration required! Visiting <code>/docs</code> serves a live interactive Swagger UI where frontend teams can test endpoints directly.</li>
+</ol>
+
+<pre class="ascii-diagram">
+HTTP Request --> Uvicorn (ASGI) --> FastAPI Router --> Pydantic Validator --> Route Handler
+                                                             |
+                                                     [Invalid? 422 Unprocessable Entity]
+                                                     [Valid? Process & return Response]
+</pre>
         `,
       },
     ],
