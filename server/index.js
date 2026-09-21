@@ -74,7 +74,8 @@ function verifyPassword(password, hash, salt) {
 function getAuthUser(req) {
   const auth = req.headers.authorization;
   if (!auth || !auth.startsWith('Bearer ')) return null;
-  const token = auth.slice(7);
+  const token = auth.slice(7).trim();
+  if (!token) return null;
   const session = db.prepare('SELECT user_id FROM sessions WHERE token = ?').get(token);
   if (!session) return null;
   return db.prepare('SELECT id, username, avatar, created_at FROM users WHERE id = ?').get(session.user_id);
@@ -85,18 +86,18 @@ function getAuthUser(req) {
 // POST /api/auth/register
 app.post('/api/auth/register', (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, initialXp, localProgress } = req.body;
     if (!username || typeof username !== 'string' || username.trim().length < 3) {
       return res.status(400).json({ error: 'Username must be at least 3 characters.' });
     }
     if (!password || typeof password !== 'string' || password.length < 4) {
-      return res.status(400).json({ error: 'Password must be at least 4 characters.' });
+      return res.status(400).json({ error: 'Passcode must be at least 4 characters.' });
     }
 
     const cleanUser = username.trim();
     const existing = db.prepare('SELECT id FROM users WHERE username = ?').get(cleanUser);
     if (existing) {
-      return res.status(400).json({ error: 'Username already taken. Choose another handle!' });
+      return res.status(400).json({ error: `Character "${cleanUser}" already exists! Switch to "Sign In" tab to log in.` });
     }
 
     const { hash, salt } = hashPassword(password);
@@ -109,13 +110,24 @@ app.post('/api/auth/register', (req, res) => {
     const userId = result.lastInsertRowid;
 
     // Initialize stats (migrate guest XP if provided, otherwise default to 0)
-    const initXp = typeof req.body.initialXp === 'number' ? req.body.initialXp : 0;
+    const initXp = typeof initialXp === 'number' ? Math.max(0, initialXp) : 0;
     const initLevel = Math.max(1, Math.floor(initXp / 200) + 1);
     const today = new Date().toISOString().split('T')[0];
     db.prepare(`
       INSERT INTO user_stats_multi (user_id, total_xp, level, current_streak, longest_streak, last_active_date)
       VALUES (?, ?, ?, 1, 1, ?)
     `).run(userId, initXp, initLevel, today);
+
+    // Sync any local progress items immediately into database
+    if (localProgress && typeof localProgress === 'object') {
+      const insertStmt = db.prepare(`
+        INSERT OR REPLACE INTO progress_multi (user_id, item_id, item_type, xp_earned, score, code_snapshot, completed_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+      `);
+      for (const [itemId, itemData] of Object.entries(localProgress)) {
+        insertStmt.run(userId, itemId, itemData.type || 'lesson', itemData.xpEarned || 10, 0, null, itemData.completedAt || now);
+      }
+    }
 
     // Create session token
     const token = crypto.randomBytes(32).toString('hex');
@@ -133,14 +145,39 @@ app.post('/api/auth/register', (req, res) => {
 // POST /api/auth/login
 app.post('/api/auth/login', (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, initialXp, localProgress } = req.body;
     if (!username || !password) {
-      return res.status(400).json({ error: 'Username and password required.' });
+      return res.status(400).json({ error: 'Username and passcode required.' });
     }
 
-    const user = db.prepare('SELECT * FROM users WHERE username = ?').get(username.trim());
-    if (!user || !verifyPassword(password, user.password_hash, user.salt)) {
-      return res.status(401).json({ error: 'Invalid username or password.' });
+    const cleanUser = username.trim();
+    const user = db.prepare('SELECT * FROM users WHERE username = ?').get(cleanUser);
+    if (!user) {
+      return res.status(404).json({ error: `Character "${cleanUser}" not found. Switch to "Create Character" tab above to register!` });
+    }
+    if (!verifyPassword(password, user.password_hash, user.salt)) {
+      return res.status(401).json({ error: `Incorrect passcode for "${cleanUser}". Please try again or reset your passcode.` });
+    }
+
+    // Merge any guest XP if the guest had earned XP before logging in
+    if (typeof initialXp === 'number' && initialXp > 0) {
+      db.prepare(`
+        UPDATE user_stats_multi
+        SET total_xp = MAX(total_xp, ?), level = MAX(level, ?)
+        WHERE user_id = ?
+      `).run(initialXp, Math.max(1, Math.floor(initialXp / 200) + 1), user.id);
+    }
+
+    // Sync any local progress items immediately into database
+    if (localProgress && typeof localProgress === 'object') {
+      const insertStmt = db.prepare(`
+        INSERT OR REPLACE INTO progress_multi (user_id, item_id, item_type, xp_earned, score, code_snapshot, completed_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+      `);
+      const now = new Date().toISOString();
+      for (const [itemId, itemData] of Object.entries(localProgress)) {
+        insertStmt.run(user.id, itemId, itemData.type || 'lesson', itemData.xpEarned || 10, 0, null, itemData.completedAt || now);
+      }
     }
 
     const token = crypto.randomBytes(32).toString('hex');
@@ -155,11 +192,42 @@ app.post('/api/auth/login', (req, res) => {
   }
 });
 
+// POST /api/auth/reset — reset passcode for character handle
+app.post('/api/auth/reset', (req, res) => {
+  try {
+    const { username, newPassword } = req.body;
+    if (!username || !newPassword || newPassword.length < 4) {
+      return res.status(400).json({ error: 'Username and new passcode (min 4 characters) required.' });
+    }
+
+    const cleanUser = username.trim();
+    const user = db.prepare('SELECT * FROM users WHERE username = ?').get(cleanUser);
+    if (!user) {
+      return res.status(404).json({ error: `Character "${cleanUser}" not found. Switch to "Create Character" tab above to register.` });
+    }
+
+    const { hash, salt } = hashPassword(newPassword);
+    db.prepare('UPDATE users SET password_hash = ?, salt = ? WHERE id = ?').run(hash, salt, user.id);
+
+    // Create fresh session token
+    const token = crypto.randomBytes(32).toString('hex');
+    db.prepare('INSERT INTO sessions (token, user_id, created_at) VALUES (?, ?, ?)').run(token, user.id, new Date().toISOString());
+
+    res.json({
+      token,
+      user: { id: user.id, username: user.username, avatar: user.avatar },
+      message: 'Passcode updated successfully!'
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // POST /api/auth/logout
 app.post('/api/auth/logout', (req, res) => {
   const auth = req.headers.authorization;
   if (auth && auth.startsWith('Bearer ')) {
-    const token = auth.slice(7);
+    const token = auth.slice(7).trim();
     db.prepare('DELETE FROM sessions WHERE token = ?').run(token);
   }
   res.json({ ok: true });

@@ -12,7 +12,7 @@ import ProjectPage from './pages/ProjectPage';
 import TrackPage from './pages/TrackPage';
 import AuthModal from './components/AuthModal';
 import MobileBottomNav from './components/MobileBottomNav';
-import { fetchStats, saveStats } from './utils/api';
+import { fetchStats, saveStats, saveProgress } from './utils/api';
 import { ROADMAP } from './data/roadmap';
 
 export const AppContext = createContext();
@@ -63,7 +63,9 @@ export default function App() {
       })
         .then(res => {
           if (!res.ok) {
+            // Only clear credentials if the server explicitly returned 401 Unauthorized
             if (res.status === 401) {
+              console.warn('[auth] Session token expired or invalid on server.');
               localStorage.removeItem('codequest_token');
               localStorage.removeItem('codequest_user');
               setCurrentUser(null);
@@ -80,7 +82,9 @@ export default function App() {
             } catch {}
           }
         })
-        .catch(() => {});
+        .catch(err => {
+          console.warn('[auth] Could not verify session with server, keeping cached profile:', err);
+        });
     }
 
     reloadUserData();
@@ -88,36 +92,75 @@ export default function App() {
 
   function reloadUserData() {
     fetchStats().then((data) => {
+      let localFallback = {};
+      try {
+        localFallback = JSON.parse(localStorage.getItem('codequest-fallback') || '{}');
+      } catch {}
+
       if (data && data.stats) {
-        setStats(data.stats);
-        setProgress(data.progress || {});
+        // Safe Merge: Never wipe local completed progress with an empty server progress array!
+        const mergedProgress = { ...(localFallback.progress || {}), ...(data.progress || {}) };
+        const finalXp = Math.max(data.stats.totalXp || 0, localFallback.stats?.totalXp || 0);
+        const finalLevel = Math.max(data.stats.level || 1, Math.floor(finalXp / 200) + 1);
+
+        const mergedStats = {
+          ...data.stats,
+          totalXp: finalXp,
+          level: finalLevel,
+        };
+
+        setStats(mergedStats);
+        setProgress(mergedProgress);
+
         if (data.user) {
           setCurrentUser(data.user);
           try {
             localStorage.setItem('codequest_user', JSON.stringify(data.user));
           } catch {}
         }
+
         try {
-          localStorage.setItem('codequest-fallback', JSON.stringify(data));
+          localStorage.setItem('codequest-fallback', JSON.stringify({ stats: mergedStats, progress: mergedProgress }));
         } catch {}
       } else {
-        try {
-          const fallback = JSON.parse(localStorage.getItem('codequest-fallback') || '{}');
-          if (fallback.stats) setStats(fallback.stats);
-          if (fallback.progress) setProgress(fallback.progress);
-        } catch {}
+        if (localFallback.stats) setStats(localFallback.stats);
+        if (localFallback.progress) setProgress(localFallback.progress);
       }
       setStatsLoaded(true);
     }).catch(() => {
+      try {
+        const fallback = JSON.parse(localStorage.getItem('codequest-fallback') || '{}');
+        if (fallback.stats) setStats(fallback.stats);
+        if (fallback.progress) setProgress(fallback.progress);
+      } catch {}
       setStatsLoaded(true);
     });
   }
 
-  function handleAuthSuccess(user) {
+  function handleAuthSuccess(user, token) {
+    if (token) {
+      try {
+        localStorage.setItem('codequest_token', token);
+      } catch {}
+    }
     setCurrentUser(user);
     try {
       localStorage.setItem('codequest_user', JSON.stringify(user));
     } catch {}
+
+    // Sync any local progress & stats to this user in backend database!
+    try {
+      const fallback = JSON.parse(localStorage.getItem('codequest-fallback') || '{}');
+      if (fallback.progress) {
+        Object.entries(fallback.progress).forEach(([itemId, itemData]) => {
+          saveProgress(itemId, itemData.type || 'lesson', itemData.xpEarned || 10);
+        });
+      }
+      if (fallback.stats) {
+        saveStats(fallback.stats);
+      }
+    } catch {}
+
     reloadUserData();
     showToast(`Welcome back, ${user.username}! 👾`);
   }
@@ -204,12 +247,8 @@ export default function App() {
       localStorage.setItem('codequest-fallback', JSON.stringify(stored));
     } catch {}
 
-    // Persist to SQLite server database
-    fetch('/api/progress', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ itemId, type, xp, ...extra }),
-    }).catch(() => {});
+    // Persist to SQLite server database with Authorization header!
+    saveProgress(itemId, type, xp, extra);
   }
 
   // All courses and phases are completely unlocked for free exploration
