@@ -27,7 +27,7 @@ export const TRACKS = [
   },
   {
     id: 'web-fullstack',
-    title: 'Web & Full-Stack Development',
+    title: 'Web & Full-Stack Development: The Cyberpunk Web Foundry',
     shortTitle: 'Full-Stack Web',
     heroImage: '/images/retro_fullstack_bg.png',
     heroBadge: 'FULLSTACK · COURSE',
@@ -38,14 +38,12 @@ export const TRACKS = [
     badge: 'HIGH DEMAND',
     color: 'var(--yellow)',
     difficulty: 'Beginner to Full-Stack',
-    duration: '10 Weeks',
-    modulesCount: 52,
-    tags: ['HTML5 / CSS3', 'JavaScript ES6+', 'React', 'SQL & DBs', 'Node.js / Express', 'Docker'],
-    description: 'Build complete web software from pixel to database. Master semantic HTML5, CSS Grid/Flexbox, modern React with Hooks, relational database schema design with SQL, and secure backend RESTful APIs with Node.js and Docker.',
+    duration: '6 Modules',
+    modulesCount: 6,
+    tags: ['HTML5 / CSS3', 'JavaScript ES6+', 'React & TS', 'PostgreSQL', 'Node.js / Express', 'Docker & CI/CD'],
+    description: 'Build production-grade web software from pixel to database. Master semantic HTML5 & modern CSS Grid, core JavaScript interactivity & V8 runtime, declarative React with TypeScript, relational database architecture with PostgreSQL, RESTful microservices with Node.js & Express, and containerized cloud deployment with Docker & GitHub Actions.',
     phases: [
-      ROADMAP.phases[5], // Phase 6: Modern Frontend & React (Weeks 21-24)
-      ROADMAP.phases[3], // Phase 4: Relational Databases & SQL (Weeks 13-16) - User request: include DB in fullstack!
-      ROADMAP.phases[6], // Phase 7: DevOps, Docker & Capstone (Weeks 25-28)
+      ROADMAP.phases.find(p => p.id === 'phase-web-fullstack') || ROADMAP.phases[10],
     ]
   },
   {

@@ -8,6 +8,7 @@ import { phase6Content } from './lessons/phase6.js';
 import { phase7Content } from './lessons/phase7.js';
 import { pythonTrackContent } from './lessons/pythonTrack.js';
 import { systemsTrackContent } from './lessons/systemsTrack.js';
+import { webTrackContent } from './lessons/webTrack.js';
 
 const contentMap = {
   ...phase1Content,
@@ -19,6 +20,7 @@ const contentMap = {
   ...phase7Content,
   ...pythonTrackContent,
   ...systemsTrackContent,
+  ...webTrackContent,
 };
 
 export function getWeekContent(weekId) {
@@ -186,6 +188,26 @@ export const ROADMAP = {
       weeks: [
         { id: 'sys-week-1', number: 1, title: 'Memory Model, Pointers & Dynamic Allocation',
           lessons: [{},{}], exercises: [{}], quiz: [1], project: false },
+      ],
+    },
+    {
+      id: 'phase-web-fullstack', number: 11,
+      title: 'Web & Full-Stack Development: The Cyberpunk Web Foundry',
+      subtitle: 'HTML5/CSS3, JavaScript, React, TypeScript, PostgreSQL, Node.js & DevOps',
+      icon: '🌐', months: 'Full-Stack Web', weekRange: 'Modules 1–6', color: '#ffea00',
+      weeks: [
+        { id: 'web-week-1', number: 1, moduleNumber: 1, title: 'The Canvas of the Web: HTML5 Architecture & Modern CSS3',
+          lessons: [{},{},{},{}], exercises: [{},{}], quiz: [1,2,3], project: true },
+        { id: 'web-week-2', number: 2, moduleNumber: 2, title: 'The Neural Engine: Core JavaScript & Dynamic Interactivity',
+          lessons: [{},{},{},{}], exercises: [{},{}], quiz: [1,2,3], project: true },
+        { id: 'web-week-3', number: 3, moduleNumber: 3, title: 'The Component Citadel: React & TypeScript Modern Architecture',
+          lessons: [{},{},{},{}], exercises: [{},{}], quiz: [1,2,3], project: true },
+        { id: 'web-week-4', number: 4, moduleNumber: 4, title: 'The Vault of Persistence: Relational Databases & PostgreSQL Mastery',
+          lessons: [{},{},{},{}], exercises: [{},{}], quiz: [1,2,3], project: true },
+        { id: 'web-week-5', number: 5, moduleNumber: 5, title: 'The Server Forge: Node.js, Express & Database Integration',
+          lessons: [{},{},{},{}], exercises: [{},{}], quiz: [1,2,3], project: true },
+        { id: 'web-week-6', number: 6, moduleNumber: 6, title: 'The Production Ascent: DevOps, Docker & Capstone Launch',
+          lessons: [{},{},{},{}], exercises: [{},{}], quiz: [1,2,3], project: true },
       ],
     },
   ],
