@@ -7,6 +7,7 @@ import PixelSprite from '../components/PixelSprite';
 import GlitchHeader from '../components/GlitchHeader';
 import { runCode } from '../utils/api';
 import Split from 'react-split';
+import { isLeetCodeCareer, getLeetCodeStarterCodeMap } from '../data/leetcodeTemplates';
 
 export default function LessonPage() {
   const { weekId, lessonIndex } = useParams();
@@ -35,18 +36,60 @@ export default function LessonPage() {
   const totalLessons = weekContent.lessons.length;
   const itemId = `${weekId}-lesson-${idx}`;
   const isDone = !!progress[itemId];
-  const lang = lesson.language || 'javascript';
+  const isLeetCode = isLeetCodeCareer(phase?.id, weekId);
 
-  const [code, setCode] = useState(lesson.starterCode || '');
+  const [currentLang, setCurrentLang] = useState(() => {
+    if (isLeetCode) {
+      return localStorage.getItem('codequest_leetcode_lang') || 'python';
+    }
+    return lesson.language || 'javascript';
+  });
+
+  const [langCodeMap, setLangCodeMap] = useState(() => {
+    if (isLeetCode) {
+      return getLeetCodeStarterCodeMap(lesson);
+    }
+    return { [lesson.language || 'javascript']: lesson.starterCode || '' };
+  });
+
+  const [code, setCode] = useState(() => {
+    if (isLeetCode) {
+      const templates = getLeetCodeStarterCodeMap(lesson);
+      const initialLang = localStorage.getItem('codequest_leetcode_lang') || 'python';
+      return templates[initialLang] || lesson.starterCode || '';
+    }
+    return lesson.starterCode || '';
+  });
+
   const [output, setOutput] = useState('');
   const [isRunning, setIsRunning] = useState(false);
+
+  const handleLanguageChange = (newLang) => {
+    setLangCodeMap(prev => ({ ...prev, [currentLang]: code }));
+    setCurrentLang(newLang);
+    setCode(langCodeMap[newLang] || '');
+    setOutput('');
+    try {
+      localStorage.setItem('codequest_leetcode_lang', newLang);
+    } catch {}
+  };
+
+  const handleReset = () => {
+    if (isLeetCode) {
+      const templates = getLeetCodeStarterCodeMap(lesson);
+      setCode(templates[currentLang] || '');
+    } else {
+      setCode(lesson.starterCode || '');
+    }
+    setOutput('');
+  };
 
   const handleRun = useCallback(async () => {
     setIsRunning(true);
     setOutput('Running...');
     if (isMobile) setMobileTab('terminal');
 
-    if (lang === 'javascript') {
+    if (currentLang === 'javascript') {
       try {
         let logs = [];
         const fakeConsole = {
@@ -60,12 +103,12 @@ export default function LessonPage() {
         setOutput(`Error: ${err.message}`);
       }
     } else {
-      const result = await runCode(code, lang);
+      const result = await runCode(code, currentLang);
       if (result.error) setOutput(result.error);
       else setOutput(result.output || '(no output)');
     }
     setIsRunning(false);
-  }, [code, isMobile, lang]);
+  }, [code, isMobile, currentLang]);
 
   const handleComplete = () => {
     if (!isDone) completeItem(itemId, 'lesson', 15);
@@ -76,11 +119,13 @@ export default function LessonPage() {
     }
   };
 
-  const fileName = lang === 'java' ? 'Main.java'
-    : lang === 'sql' ? 'query.sql'
-    : lang === 'html' ? 'index.html'
-    : lang === 'css' ? 'style.css'
-    : 'script.js';
+  const fileName = currentLang === 'java' ? 'Solution.java'
+    : currentLang === 'python' || currentLang === 'python3' ? 'solution.py'
+    : currentLang === 'cpp' ? 'solution.cpp'
+    : currentLang === 'sql' ? 'query.sql'
+    : currentLang === 'html' ? 'index.html'
+    : currentLang === 'css' ? 'style.css'
+    : 'solution.js';
 
   const renderLesson = () => (
     <>
@@ -108,19 +153,38 @@ export default function LessonPage() {
 
   const renderEditor = () => (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
-      {/* File tab */}
-      <div className="editor-tab-bar">
+      {/* File tab bar */}
+      <div className="editor-tab-bar" style={isLeetCode ? { display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: 12 } : {}}>
         <div className="editor-tab">
           <span className="editor-tab__icon">📄</span>
           {fileName}
         </div>
+        {/* LeetCode Multi-Language Switcher (Only for DSA & LeetCode Career) */}
+        {isLeetCode && (
+          <div className="editor-lang-picker" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: 10, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: 0.5, fontFamily: 'var(--font-pixel)' }}>
+              Lang:
+            </span>
+            <select
+              value={currentLang}
+              onChange={(e) => handleLanguageChange(e.target.value)}
+              className="editor-lang-select"
+              title="Switch programming language (LeetCode style)"
+            >
+              <option value="python">🐍 Python 3</option>
+              <option value="java">☕ Java</option>
+              <option value="cpp">⚡ C++ 17</option>
+              <option value="javascript">🟨 JavaScript</option>
+            </select>
+          </div>
+        )}
       </div>
 
       {/* Code Editor */}
       <div className="editor-area">
         <CodeEditor
           code={code}
-          language={lang}
+          language={currentLang}
           onChange={setCode}
         />
       </div>
@@ -128,7 +192,7 @@ export default function LessonPage() {
       {/* Action bar */}
       <div className="editor-action-bar">
         <div className="editor-action-bar__left">
-          <button className="btn btn-secondary btn--reset" onClick={() => setCode(lesson.starterCode || '')}>
+          <button className="btn btn-secondary btn--reset" onClick={handleReset}>
             ↺ Reset
           </button>
         </div>

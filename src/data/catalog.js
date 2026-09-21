@@ -40,8 +40,8 @@ export const TRACKS = [
   },
   {
     id: 'algorithms-dsa',
-    title: 'LeetCode & Algorithms Mastery',
-    tagline: 'Master high-yield algorithm patterns in Java, Python, C++, or JavaScript',
+    title: 'DSA and Leetcode Mastery',
+    tagline: 'Master high-yield algorithm patterns in Python, Java, C++, or JavaScript',
     icon: '🧩',
     badge: 'FAANG INTERVIEWS',
     color: 'var(--green-bright)',

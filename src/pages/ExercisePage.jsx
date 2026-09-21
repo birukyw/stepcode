@@ -7,6 +7,7 @@ import PixelSprite from '../components/PixelSprite';
 import GlitchHeader from '../components/GlitchHeader';
 import { runCode } from '../utils/api';
 import Split from 'react-split';
+import { isLeetCodeCareer, getLeetCodeStarterCodeMap } from '../data/leetcodeTemplates';
 
 export default function ExercisePage() {
   const { weekId, exerciseIndex } = useParams();
@@ -34,28 +35,54 @@ export default function ExercisePage() {
   const exercise = weekContent.exercises[idx];
   const itemId = `${weekId}-exercise-${idx}`;
   const isDone = !!progress[itemId];
-  const lang = exercise.language || 'javascript';
+  const isLeetCode = isLeetCodeCareer(phase?.id, weekId);
 
-  const [currentLang, setCurrentLang] = useState(exercise.language || 'java');
-  const [langCodeMap, setLangCodeMap] = useState(() => ({
-    [exercise.language || 'java']: exercise.starterCode || '',
-    python: `# Python 3 Solution\n# Problem: ${exercise.title}\nprint("Solution running in Python...")\n`,
-    cpp: `#include <iostream>\nusing namespace std;\n\n// Problem: ${exercise.title}\nint main() {\n    cout << "Solution running in C++..." << endl;\n    return 0;\n}\n`,
-    javascript: `// JavaScript Solution\n// Problem: ${exercise.title}\nconsole.log("Solution running in JavaScript...");\n`,
-    java: `// Java Solution\n// Problem: ${exercise.title}\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println("Solution running in Java...");\n    }\n}\n`,
-  }));
+  const [currentLang, setCurrentLang] = useState(() => {
+    if (isLeetCode) {
+      return localStorage.getItem('codequest_leetcode_lang') || 'python';
+    }
+    return exercise.language || 'javascript';
+  });
 
-  const [code, setCode] = useState(exercise.starterCode || '');
+  const [langCodeMap, setLangCodeMap] = useState(() => {
+    if (isLeetCode) {
+      return getLeetCodeStarterCodeMap(exercise);
+    }
+    return { [exercise.language || 'javascript']: exercise.starterCode || '' };
+  });
+
+  const [code, setCode] = useState(() => {
+    if (isLeetCode) {
+      const templates = getLeetCodeStarterCodeMap(exercise);
+      const initialLang = localStorage.getItem('codequest_leetcode_lang') || 'python';
+      return templates[initialLang] || exercise.starterCode || '';
+    }
+    return exercise.starterCode || '';
+  });
+
   const [output, setOutput] = useState('');
   const [result, setResult] = useState(null);
   const [showHint, setShowHint] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
 
   const handleLanguageChange = (newLang) => {
-    // Preserve current code before switching
     setLangCodeMap(prev => ({ ...prev, [currentLang]: code }));
     setCurrentLang(newLang);
     setCode(langCodeMap[newLang] || '');
+    setOutput('');
+    setResult(null);
+    try {
+      localStorage.setItem('codequest_leetcode_lang', newLang);
+    } catch {}
+  };
+
+  const handleReset = () => {
+    if (isLeetCode) {
+      const templates = getLeetCodeStarterCodeMap(exercise);
+      setCode(templates[currentLang] || '');
+    } else {
+      setCode(exercise.starterCode || '');
+    }
     setOutput('');
     setResult(null);
   };
@@ -215,29 +242,30 @@ export default function ExercisePage() {
 
   const renderEditor = () => (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
-      <div className="editor-tab-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: 12 }}>
+      <div className="editor-tab-bar" style={isLeetCode ? { display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: 12 } : {}}>
         <div className="editor-tab">
           <span className="editor-tab__icon">📄</span>
           {fileName}
         </div>
-        <div className="editor-lang-picker" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontSize: 10, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: 0.5, fontFamily: 'var(--font-pixel)' }}>
-            Lang:
-          </span>
-          <select
-            value={currentLang}
-            onChange={(e) => handleLanguageChange(e.target.value)}
-            className="editor-lang-select"
-            title="Switch programming language (LeetCode style)"
-          >
-            <option value="java">☕ Java</option>
-            <option value="python">🐍 Python 3</option>
-            <option value="cpp">⚡ C++ 17</option>
-            <option value="javascript">🟨 JavaScript</option>
-            <option value="c">⚙️ C</option>
-            <option value="sql">🗄️ SQL</option>
-          </select>
-        </div>
+        {/* LeetCode Multi-Language Switcher (Only for DSA and Leetcode Mastery Career) */}
+        {isLeetCode && (
+          <div className="editor-lang-picker" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: 10, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: 0.5, fontFamily: 'var(--font-pixel)' }}>
+              Lang:
+            </span>
+            <select
+              value={currentLang}
+              onChange={(e) => handleLanguageChange(e.target.value)}
+              className="editor-lang-select"
+              title="Switch programming language (LeetCode style)"
+            >
+              <option value="python">🐍 Python 3</option>
+              <option value="java">☕ Java</option>
+              <option value="cpp">⚡ C++ 17</option>
+              <option value="javascript">🟨 JavaScript</option>
+            </select>
+          </div>
+        )}
       </div>
 
       <div className="editor-area">
@@ -246,7 +274,7 @@ export default function ExercisePage() {
 
       <div className="editor-action-bar">
         <div className="editor-action-bar__left">
-          <button className="btn btn-secondary btn--reset" onClick={() => { setCode(langCodeMap[currentLang] || exercise.starterCode || ''); setResult(null); setOutput(''); }}>
+          <button className="btn btn-secondary btn--reset" onClick={handleReset}>
             ↺ Reset
           </button>
         </div>
