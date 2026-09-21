@@ -11,11 +11,15 @@ import QuizPage from './pages/QuizPage';
 import ProjectPage from './pages/ProjectPage';
 import TrackPage from './pages/TrackPage';
 import AuthModal from './components/AuthModal';
+import TinyShopModal from './components/TinyShopModal';
 import MobileBottomNav from './components/MobileBottomNav';
 import { fetchStats, saveStats, saveProgress } from './utils/api';
 import { ROADMAP } from './data/roadmap';
 
 export const AppContext = createContext();
+
+export const MAX_LEVEL = 50;
+export const MAX_COURSE_XP = 6000;
 
 export default function App() {
   const [stats, setStats] = useState({
@@ -24,6 +28,8 @@ export default function App() {
     currentStreak: 0,
     longestStreak: 0,
     lastActiveDate: null,
+    hearts: 1,
+    coins: 0,
   });
   const [statsLoaded, setStatsLoaded] = useState(false);
   const [progress, setProgress] = useState({});
@@ -38,11 +44,12 @@ export default function App() {
     }
   });
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [shopModalOpen, setShopModalOpen] = useState(false);
   const [activeTrackId, setActiveTrackId] = useState(() => {
     try {
-      return localStorage.getItem('codequest_active_track') || 'java-spring';
+      return localStorage.getItem('codequest_active_track') || 'python-intro';
     } catch {
-      return 'java-spring';
+      return 'python-intro';
     }
   });
 
@@ -101,12 +108,16 @@ export default function App() {
         // Safe Merge: Never wipe local completed progress with an empty server progress array!
         const mergedProgress = { ...(localFallback.progress || {}), ...(data.progress || {}) };
         const finalXp = Math.max(data.stats.totalXp || 0, localFallback.stats?.totalXp || 0);
-        const finalLevel = Math.max(data.stats.level || 1, Math.floor(finalXp / 200) + 1);
+        const finalLevel = Math.min(MAX_LEVEL, Math.max(data.stats.level || 1, Math.floor(finalXp / 120) + 1));
+        const finalHearts = data.stats.hearts !== undefined ? Math.min(5, Math.max(0, data.stats.hearts)) : (localFallback.stats?.hearts !== undefined ? localFallback.stats.hearts : 1);
+        const finalCoins = data.stats.coins !== undefined ? Math.max(0, data.stats.coins) : (localFallback.stats?.coins || 0);
 
         const mergedStats = {
           ...data.stats,
           totalXp: finalXp,
           level: finalLevel,
+          hearts: finalHearts,
+          coins: finalCoins,
         };
 
         setStats(mergedStats);
@@ -183,22 +194,41 @@ export default function App() {
       currentStreak: 0,
       longestStreak: 0,
       lastActiveDate: null,
+      hearts: 1,
+      coins: 0,
     });
     setProgress({});
     showToast('Logged out');
   }
 
-  // Update streak only AFTER stats are loaded
+  // Update streak & handle Heart protection only AFTER stats are loaded
   useEffect(() => {
     if (!statsLoaded) return;
     const today = new Date().toISOString().split('T')[0];
-    if (stats.lastActiveDate !== today) {
+    if (stats.lastActiveDate && stats.lastActiveDate !== today) {
       const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-      const newStreak = stats.lastActiveDate === yesterday ? stats.currentStreak + 1 : 1;
+      let newStreak = stats.currentStreak || 0;
+      let newHearts = stats.hearts !== undefined ? stats.hearts : 1;
+
+      if (stats.lastActiveDate === yesterday) {
+        newStreak += 1;
+      } else {
+        // Missed at least 1 day! Check if user has hearts to shield the streak
+        if (newHearts > 0) {
+          newHearts = Math.max(0, newHearts - 1);
+          newStreak = Math.max(1, stats.currentStreak || 1);
+          showToast(`❤️ Streak Shield! 1 Heart protected your ${newStreak}-day streak!`);
+        } else {
+          newStreak = 1;
+          showToast('Streak reset to 1d. Visit the Tiny Shop to buy hearts! ❤️');
+        }
+      }
+
       const updated = {
         ...stats,
         currentStreak: newStreak,
         longestStreak: Math.max(newStreak, stats.longestStreak || 0),
+        hearts: newHearts,
         lastActiveDate: today,
       };
       setStats(updated);
@@ -208,6 +238,15 @@ export default function App() {
         stored.stats = updated;
         localStorage.setItem('codequest-fallback', JSON.stringify(stored));
       } catch {}
+    } else if (!stats.lastActiveDate) {
+      const updated = {
+        ...stats,
+        currentStreak: 1,
+        longestStreak: Math.max(1, stats.longestStreak || 0),
+        lastActiveDate: today,
+      };
+      setStats(updated);
+      saveStats(updated);
     }
   }, [statsLoaded]);
 
@@ -218,7 +257,7 @@ export default function App() {
 
   function awardXP(amount, source) {
     const newXP = stats.totalXp + amount;
-    const newLevel = Math.floor(newXP / 200) + 1;
+    const newLevel = Math.min(MAX_LEVEL, Math.floor(newXP / 120) + 1);
     const didLevelUp = newLevel > stats.level;
     const updated = { ...stats, totalXp: newXP, level: newLevel };
     setStats(updated);
@@ -232,6 +271,51 @@ export default function App() {
     if (didLevelUp) {
       setTimeout(() => setLevelUp({ level: newLevel, source }), 600);
     }
+  }
+
+  function buyHeartWithCoins(cost = 50) {
+    const currentCoins = stats.coins || 0;
+    const currentHearts = stats.hearts !== undefined ? stats.hearts : 1;
+
+    if (currentHearts >= 5) {
+      showToast('Maximum 5 hearts reached! ❤️');
+      return false;
+    }
+    if (currentCoins < cost) {
+      showToast(`Need ${cost - currentCoins} more coins! 🪙`);
+      return false;
+    }
+
+    const newCoins = currentCoins - cost;
+    const newHearts = Math.min(5, currentHearts + 1);
+    const updated = { ...stats, coins: newCoins, hearts: newHearts };
+    setStats(updated);
+    saveStats(updated);
+    try {
+      const stored = JSON.parse(localStorage.getItem('codequest-fallback') || '{}');
+      stored.stats = updated;
+      localStorage.setItem('codequest-fallback', JSON.stringify(stored));
+    } catch {}
+    showToast(`❤️ Heart Acquired! (${newHearts}/5)`);
+    return true;
+  }
+
+  function exchangeXpForCoins(xpAmount, coinAmount) {
+    if ((stats.totalXp || 0) < xpAmount) {
+      showToast(`Need ${xpAmount} XP to exchange! ⚡`);
+      return false;
+    }
+    const newCoins = (stats.coins || 0) + coinAmount;
+    const updated = { ...stats, coins: newCoins };
+    setStats(updated);
+    saveStats(updated);
+    try {
+      const stored = JSON.parse(localStorage.getItem('codequest-fallback') || '{}');
+      stored.stats = updated;
+      localStorage.setItem('codequest-fallback', JSON.stringify(stored));
+    } catch {}
+    showToast(`🪙 +${coinAmount} Coins Minted! (Balance: ${newCoins})`);
+    return true;
   }
 
   function completeItem(itemId, type, xp = 10, extra = {}) {
@@ -280,6 +364,9 @@ export default function App() {
     isPhaseUnlocked, getPhaseProgress, getPhaseItems,
     setLevelUp,
     activeTrackId, changeActiveTrack,
+    shopModalOpen, openShopModal: () => setShopModalOpen(true), closeShopModal: () => setShopModalOpen(false),
+    buyHeartWithCoins, exchangeXpForCoins,
+    MAX_LEVEL, MAX_COURSE_XP,
   };
 
   const location = useLocation();
@@ -306,6 +393,11 @@ export default function App() {
           <AuthModal
             onClose={() => setAuthModalOpen(false)}
             onSuccess={handleAuthSuccess}
+          />
+        )}
+        {shopModalOpen && (
+          <TinyShopModal
+            onClose={() => setShopModalOpen(false)}
           />
         )}
         <MobileBottomNav />

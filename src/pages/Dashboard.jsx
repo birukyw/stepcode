@@ -6,7 +6,10 @@ import PixelSprite from '../components/PixelSprite';
 import GlitchHeader from '../components/GlitchHeader';
 
 export default function Dashboard() {
-  const { stats, getPhaseProgress, progress, activeTrackId } = useContext(AppContext);
+  const { stats, getPhaseProgress, progress, activeTrackId, openShopModal, MAX_LEVEL = 50, MAX_COURSE_XP = 6000 } = useContext(AppContext);
+  const hearts = stats.hearts !== undefined ? stats.hearts : 1;
+  const coins = stats.coins || 0;
+  const maxLevelPct = Math.min(100, Math.round((stats.totalXp / MAX_COURSE_XP) * 100));
 
   // Helper to compute stats per track
   const getTrackStats = (track) => {
@@ -63,19 +66,56 @@ export default function Dashboard() {
           Master computer science and modern engineering from scratch. Every specialization is <strong>100% unlocked</strong> with browser-based compilers, LeetCode multi-language challenges, quizzes, and portfolio projects.
         </p>
 
-        {/* Global User Metric Quick-Bar */}
+        {/* Global User Metric Quick-Bar & Level Progression */}
         <div className="catalog-global-stats">
           <div className="catalog-global-stat-item">
             <PixelSprite name="chip" size={14} />
-            <span><strong>{stats.totalXp}</strong> XP Earned</span>
+            <span><strong>{stats.totalXp}</strong> / {MAX_COURSE_XP} XP</span>
           </div>
           <div className="catalog-global-stat-item">
             <PixelSprite name="trophy" size={14} />
-            <span>Level <strong>{stats.level}</strong> Hacker</span>
+            <span>Level <strong>{stats.level}</strong> <span style={{ opacity: 0.65 }}>/ {MAX_LEVEL}</span></span>
           </div>
-          <div className="catalog-global-stat-item">
+          <div className="catalog-global-stat-item" title="Streaks are shielded by hearts!">
+            <span style={{ fontSize: 13, marginRight: 2 }}>🔥</span>
+            <span><strong>{stats.currentStreak}</strong>d Streak</span>
+          </div>
+          <div
+            className="catalog-global-stat-item catalog-global-stat-item--clickable"
+            onClick={openShopModal}
+            title="Click to visit Tiny Shop and buy more hearts!"
+            style={{ cursor: 'pointer' }}
+          >
             <PixelSprite name="heart" size={14} />
-            <span><strong>{stats.currentStreak}</strong> Day Streak</span>
+            <span style={{ color: 'var(--red, #f43f5e)' }}><strong>{hearts}/5</strong> Hearts</span>
+          </div>
+          <div
+            className="catalog-global-stat-item catalog-global-stat-item--clickable"
+            onClick={openShopModal}
+            title="Click to open The Pixel Bazaar shop!"
+            style={{ cursor: 'pointer' }}
+          >
+            <PixelSprite name="coin" size={14} />
+            <span style={{ color: 'var(--yellow, #facc15)' }}><strong>{coins}</strong> Coins</span>
+            <span className="navbar__shop-badge" style={{ marginLeft: 6 }}>SHOP 🛒</span>
+          </div>
+        </div>
+
+        {/* Overall Mastery Progress Bar toward Max Level 50 */}
+        <div className="catalog-level-progress-bar-container">
+          <div className="catalog-level-progress-bar-header">
+            <span>Course Mastery Progress to Max Level {MAX_LEVEL}</span>
+            <span style={{ color: 'var(--cyan)' }}>{maxLevelPct}% Complete</span>
+          </div>
+          <div className="sidebar-progress-bar" style={{ height: 6, borderRadius: 3, background: 'rgba(255,255,255,0.08)' }}>
+            <div
+              className="sidebar-progress-fill"
+              style={{
+                width: `${Math.max(2, maxLevelPct)}%`,
+                background: 'linear-gradient(90deg, var(--cyan) 0%, var(--green-bright) 50%, var(--yellow) 100%)',
+                boxShadow: '0 0 8px rgba(0, 240, 255, 0.4)'
+              }}
+            />
           </div>
         </div>
       </div>

@@ -198,19 +198,6 @@ export default function PixelSprite({
           </svg>
         );
 
-      case 'heart': // 8-bit Heart
-        return (
-          <svg viewBox="0 0 16 16" width={size} height={size} shapeRendering="crispEdges">
-            <rect x="3" y="3" width="4" height="2" fill="#ef4444" />
-            <rect x="9" y="3" width="4" height="2" fill="#ef4444" />
-            <rect x="2" y="5" width="12" height="4" fill="#ef4444" />
-            <rect x="3" y="5" width="2" height="2" fill="#fca5a5" />
-            <rect x="3" y="9" width="10" height="2" fill="#dc2626" />
-            <rect x="5" y="11" width="6" height="2" fill="#b91c1c" />
-            <rect x="7" y="13" width="2" height="2" fill="#991b1b" />
-          </svg>
-        );
-
       case 'wizard': // Java Grand Mage with hood, glowing eyes & rune staff
         return (
           <svg viewBox="0 0 16 16" width={size} height={size} shapeRendering="crispEdges">
@@ -357,6 +344,103 @@ export default function PixelSprite({
             <rect x="6" y="4" width="4" height="8" fill="#fef08a" />
             <rect x="4" y="6" width="8" height="4" fill="#fef08a" />
             <rect x="7" y="7" width="2" height="2" fill="#ffffff" />
+          </svg>
+        );
+
+      case 'heart': // Vibrant 16-bit Ruby Pixel Heart
+        return (
+          <svg viewBox="0 0 16 16" width={size} height={size} shapeRendering="crispEdges">
+            {/* Top Lobes */}
+            <rect x="3" y="2" width="4" height="2" fill="#e11d48" />
+            <rect x="9" y="2" width="4" height="2" fill="#e11d48" />
+            <rect x="2" y="4" width="6" height="3" fill="#f43f5e" />
+            <rect x="8" y="4" width="6" height="3" fill="#f43f5e" />
+            {/* Glossy White Highlight */}
+            <rect x="4" y="3" width="2" height="2" fill="#ffffff" />
+            <rect x="3" y="4" width="1" height="2" fill="#ffe4e6" />
+            {/* Mid & Lower Body */}
+            <rect x="2" y="7" width="12" height="2" fill="#e11d48" />
+            <rect x="3" y="9" width="10" height="2" fill="#be123c" />
+            <rect x="5" y="11" width="6" height="2" fill="#9f1239" />
+            <rect x="7" y="13" width="2" height="2" fill="#881337" />
+          </svg>
+        );
+
+      case 'heart-empty': // Depleted / Hollow Pixel Heart Container
+        return (
+          <svg viewBox="0 0 16 16" width={size} height={size} shapeRendering="crispEdges">
+            {/* Outline */}
+            <rect x="3" y="2" width="4" height="1" fill="#475569" />
+            <rect x="9" y="2" width="4" height="1" fill="#475569" />
+            <rect x="2" y="3" width="1" height="4" fill="#475569" />
+            <rect x="7" y="3" width="2" height="2" fill="#475569" />
+            <rect x="13" y="3" width="1" height="4" fill="#475569" />
+            <rect x="2" y="7" width="1" height="2" fill="#475569" />
+            <rect x="13" y="7" width="1" height="2" fill="#475569" />
+            <rect x="3" y="9" width="2" height="1" fill="#334155" />
+            <rect x="11" y="9" width="2" height="1" fill="#334155" />
+            <rect x="5" y="10" width="2" height="2" fill="#334155" />
+            <rect x="9" y="10" width="2" height="2" fill="#334155" />
+            <rect x="7" y="12" width="2" height="2" fill="#1e293b" />
+            {/* Dark Inner Hollow */}
+            <rect x="3" y="3" width="4" height="4" fill="#0f172a" />
+            <rect x="9" y="3" width="4" height="4" fill="#0f172a" />
+            <rect x="3" y="7" width="10" height="2" fill="#0f172a" />
+            <rect x="5" y="9" width="6" height="2" fill="#0f172a" />
+          </svg>
+        );
+
+      case 'coin': // 16-bit Golden Arcade Coin with pixel shine
+        return (
+          <svg viewBox="0 0 16 16" width={size} height={size} shapeRendering="crispEdges">
+            {/* Outer Border */}
+            <rect x="4" y="1" width="8" height="1" fill="#b45309" />
+            <rect x="2" y="2" width="2" height="2" fill="#b45309" />
+            <rect x="12" y="2" width="2" height="2" fill="#b45309" />
+            <rect x="1" y="4" width="1" height="8" fill="#b45309" />
+            <rect x="14" y="4" width="1" height="8" fill="#b45309" />
+            <rect x="2" y="12" width="2" height="2" fill="#78350f" />
+            <rect x="12" y="12" width="2" height="2" fill="#78350f" />
+            <rect x="4" y="14" width="8" height="1" fill="#78350f" />
+            {/* Gold Body */}
+            <rect x="4" y="2" width="8" height="12" fill="#facc15" />
+            <rect x="2" y="4" width="12" height="8" fill="#facc15" />
+            {/* Highlight & Specular */}
+            <rect x="4" y="3" width="6" height="1" fill="#fef08a" />
+            <rect x="3" y="4" width="2" height="4" fill="#fef08a" />
+            <rect x="4" y="4" width="2" height="2" fill="#ffffff" />
+            {/* Inner Coin Stamp */}
+            <rect x="6" y="5" width="4" height="6" fill="#ca8a04" />
+            <rect x="7" y="6" width="2" height="4" fill="#eab308" />
+          </svg>
+        );
+
+      case 'shop': // 16-bit Pixel Merchant Stand
+        return (
+          <svg viewBox="0 0 16 16" width={size} height={size} shapeRendering="crispEdges">
+            {/* Striped Canopy / Awning */}
+            <rect x="1" y="2" width="14" height="2" fill="#f43f5e" />
+            <rect x="3" y="2" width="2" height="2" fill="#f8fafc" />
+            <rect x="7" y="2" width="2" height="2" fill="#f8fafc" />
+            <rect x="11" y="2" width="2" height="2" fill="#f8fafc" />
+            <rect x="1" y="4" width="14" height="2" fill="#be123c" />
+            <rect x="3" y="4" width="2" height="2" fill="#cbd5e1" />
+            <rect x="7" y="4" width="2" height="2" fill="#cbd5e1" />
+            <rect x="11" y="4" width="2" height="2" fill="#cbd5e1" />
+            {/* Scallops */}
+            <rect x="1" y="6" width="2" height="1" fill="#be123c" />
+            <rect x="3" y="6" width="2" height="1" fill="#cbd5e1" />
+            <rect x="5" y="6" width="2" height="1" fill="#be123c" />
+            <rect x="7" y="6" width="2" height="1" fill="#cbd5e1" />
+            <rect x="9" y="6" width="2" height="1" fill="#be123c" />
+            <rect x="11" y="6" width="2" height="1" fill="#cbd5e1" />
+            <rect x="13" y="6" width="2" height="1" fill="#be123c" />
+            {/* Wooden Counter */}
+            <rect x="2" y="8" width="12" height="2" fill="#92400e" />
+            <rect x="3" y="10" width="10" height="4" fill="#78350f" />
+            <rect x="4" y="11" width="8" height="2" fill="#451a03" />
+            {/* Gold Item on Counter */}
+            <rect x="7" y="7" width="2" height="2" fill="#facc15" />
           </svg>
         );
 

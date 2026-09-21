@@ -60,6 +60,14 @@ db.exec(`
   );
 `);
 
+// Safe migrations for gamification stats (hearts & coins)
+try {
+  db.exec(`ALTER TABLE user_stats_multi ADD COLUMN hearts INTEGER DEFAULT 1;`);
+} catch {}
+try {
+  db.exec(`ALTER TABLE user_stats_multi ADD COLUMN coins INTEGER DEFAULT 0;`);
+} catch {}
+
 // ─── Auth Helper Functions ───────────────────────────────────────
 function hashPassword(password, salt = crypto.randomBytes(16).toString('hex')) {
   const hash = crypto.scryptSync(password, salt, 64).toString('hex');
@@ -260,7 +268,7 @@ app.get('/api/stats', (req, res) => {
   if (!user) {
     // Unauthenticated guest: return empty defaults (client will use local state/cache)
     return res.json({
-      stats: { totalXp: 0, level: 1, currentStreak: 0, longestStreak: 0, lastActiveDate: null },
+      stats: { totalXp: 0, level: 1, currentStreak: 0, longestStreak: 0, lastActiveDate: null, hearts: 1, coins: 0 },
       progress: {},
       user: null,
     });
@@ -269,7 +277,7 @@ app.get('/api/stats', (req, res) => {
   const userId = user.id;
   let stats = db.prepare('SELECT * FROM user_stats_multi WHERE user_id = ?').get(userId);
   if (!stats) {
-    stats = { total_xp: 0, level: 1, current_streak: 1, longest_streak: 1, last_active_date: new Date().toISOString().split('T')[0] };
+    stats = { total_xp: 0, level: 1, current_streak: 1, longest_streak: 1, last_active_date: new Date().toISOString().split('T')[0], hearts: 1, coins: 0 };
   }
 
   const progressRows = db.prepare('SELECT * FROM progress_multi WHERE user_id = ?').all(userId);
@@ -290,6 +298,8 @@ app.get('/api/stats', (req, res) => {
       currentStreak: stats.current_streak,
       longestStreak: stats.longest_streak,
       lastActiveDate: stats.last_active_date,
+      hearts: stats.hearts !== undefined && stats.hearts !== null ? stats.hearts : 1,
+      coins: stats.coins !== undefined && stats.coins !== null ? stats.coins : 0,
     },
     progress,
     user,
@@ -305,19 +315,30 @@ app.put('/api/stats', (req, res) => {
   }
 
   const userId = user.id;
-  const { totalXp, level, currentStreak, longestStreak, lastActiveDate } = req.body;
+  const { totalXp, level, currentStreak, longestStreak, lastActiveDate, hearts, coins } = req.body;
 
   // Protect XP: NEVER downgrade or zero-out existing user XP
   db.prepare(`
-    INSERT INTO user_stats_multi (user_id, total_xp, level, current_streak, longest_streak, last_active_date)
-    VALUES (?, ?, ?, ?, ?, ?)
+    INSERT INTO user_stats_multi (user_id, total_xp, level, current_streak, longest_streak, last_active_date, hearts, coins)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(user_id) DO UPDATE SET
       total_xp = MAX(user_stats_multi.total_xp, excluded.total_xp),
       level = MAX(user_stats_multi.level, excluded.level),
       current_streak = excluded.current_streak,
       longest_streak = MAX(user_stats_multi.longest_streak, excluded.longest_streak),
-      last_active_date = excluded.last_active_date
-  `).run(userId, totalXp || 0, level || 1, currentStreak || 0, longestStreak || 0, lastActiveDate || null);
+      last_active_date = excluded.last_active_date,
+      hearts = excluded.hearts,
+      coins = excluded.coins
+  `).run(
+    userId,
+    totalXp || 0,
+    level || 1,
+    currentStreak || 0,
+    longestStreak || 0,
+    lastActiveDate || null,
+    hearts !== undefined ? Math.min(5, Math.max(0, hearts)) : 1,
+    coins !== undefined ? Math.max(0, coins) : 0
+  );
 
   res.json({ ok: true });
 });
