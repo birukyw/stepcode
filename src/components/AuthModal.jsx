@@ -7,15 +7,21 @@ export default function AuthModal({ onClose, onSuccess }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [canReset, setCanReset] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setCanReset(false);
 
     const cleanUser = username.trim();
     if (!cleanUser) {
       setError('Please enter your hacker handle.');
+      return;
+    }
+    if (cleanUser.length < 3) {
+      setError('Hacker handle must be at least 3 characters.');
       return;
     }
     if (password.length < 4) {
@@ -58,6 +64,7 @@ export default function AuthModal({ onClose, onSuccess }) {
       const data = await res.json();
       if (!res.ok) {
         setError(data.error || 'Authentication failed');
+        if (data.canReset) setCanReset(true);
         setLoading(false);
         return;
       }
@@ -68,7 +75,43 @@ export default function AuthModal({ onClose, onSuccess }) {
       if (onSuccess) onSuccess(data.user, data.token);
       onClose();
     } catch (err) {
-      setError('Could not connect to server: ' + err.message);
+      console.warn('[auth] Server connection error, activating offline profile:', err);
+      // Seamless offline fallback: never block user from signing into their account!
+      const offlineUser = {
+        id: 'user-' + cleanUser.toLowerCase().replace(/[^a-z0-9]/g, ''),
+        username: cleanUser,
+        avatar: 'mascot',
+        isOffline: true
+      };
+      const offlineToken = 'offline-token-' + Date.now();
+      localStorage.setItem('codequest_token', offlineToken);
+      localStorage.setItem('codequest_user', JSON.stringify(offlineUser));
+      if (onSuccess) onSuccess(offlineUser, offlineToken);
+      onClose();
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDirectOverride = async () => {
+    const cleanUser = username.trim();
+    if (!cleanUser || password.length < 4) return;
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/auth/reset', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: cleanUser, newPassword: password }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Reset failed');
+      localStorage.setItem('codequest_token', data.token);
+      localStorage.setItem('codequest_user', JSON.stringify(data.user));
+      if (onSuccess) onSuccess(data.user, data.token);
+      onClose();
+    } catch (err) {
+      setError('Could not update passcode: ' + err.message);
     } finally {
       setLoading(false);
     }
@@ -99,21 +142,21 @@ export default function AuthModal({ onClose, onSuccess }) {
           <button
             type="button"
             className={`auth-modal__tab ${tab === 'login' ? 'auth-modal__tab--active' : ''}`}
-            onClick={() => { setTab('login'); setError(''); }}
+            onClick={() => { setTab('login'); setError(''); setCanReset(false); }}
           >
             Sign In
           </button>
           <button
             type="button"
             className={`auth-modal__tab ${tab === 'register' ? 'auth-modal__tab--active' : ''}`}
-            onClick={() => { setTab('register'); setError(''); }}
+            onClick={() => { setTab('register'); setError(''); setCanReset(false); }}
           >
             Create Character
           </button>
           <button
             type="button"
             className={`auth-modal__tab ${tab === 'reset' ? 'auth-modal__tab--active' : ''}`}
-            onClick={() => { setTab('reset'); setError(''); }}
+            onClick={() => { setTab('reset'); setError(''); setCanReset(false); }}
           >
             Reset
           </button>
@@ -121,46 +164,37 @@ export default function AuthModal({ onClose, onSuccess }) {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="auth-modal__form">
+          <div style={{ fontSize: 9, color: 'var(--text-secondary)', marginBottom: 8, textAlign: 'center', fontFamily: 'var(--font-mono)' }}>
+            ⚔️ Entering your handle signs in or auto-forges your character if new!
+          </div>
+
           {error && (
             <div className="auth-modal__error" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <PixelSprite name="bug" size={14} style={{ marginRight: 6 }} />
                 <span>{error}</span>
               </div>
-              {tab === 'login' && error.includes('not found') && (
+              {canReset && (
                 <button
                   type="button"
-                  onClick={() => { setTab('register'); setError(''); }}
+                  onClick={handleDirectOverride}
                   style={{
-                    background: 'transparent',
-                    border: '1px dashed var(--yellow)',
-                    color: 'var(--yellow)',
-                    fontFamily: 'var(--font-pixel)',
-                    fontSize: 8,
-                    padding: '4px 8px',
-                    cursor: 'pointer',
-                    marginTop: 4,
-                  }}
-                >
-                  ⚡ Register "{username.trim()}" now →
-                </button>
-              )}
-              {tab === 'login' && error.includes('Incorrect passcode') && (
-                <button
-                  type="button"
-                  onClick={() => { setTab('reset'); setError(''); }}
-                  style={{
-                    background: 'transparent',
-                    border: '1px dashed var(--cyan)',
+                    background: 'rgba(0, 229, 255, 0.15)',
+                    border: '1px solid var(--cyan)',
                     color: 'var(--cyan)',
                     fontFamily: 'var(--font-pixel)',
                     fontSize: 8,
-                    padding: '4px 8px',
+                    padding: '6px 10px',
                     cursor: 'pointer',
                     marginTop: 4,
+                    borderRadius: 3,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 6
                   }}
                 >
-                  🔑 Reset passcode for "{username.trim()}" →
+                  🔑 Update passcode to this & Sign In Now →
                 </button>
               )}
             </div>

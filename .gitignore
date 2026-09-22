@@ -23,6 +23,8 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # Database & SQLite files
+codequest.db
+*.db
 *.db-journal
 *.db-wal
 *.db-shm

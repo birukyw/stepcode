@@ -62,20 +62,44 @@ export default function App() {
 
   // Load stats and user on mount
   useEffect(() => {
-    // Check if token exists
     const token = localStorage.getItem('codequest_token');
+    const cachedUser = (() => {
+      try {
+        const u = localStorage.getItem('codequest_user');
+        return u ? JSON.parse(u) : null;
+      } catch {
+        return null;
+      }
+    })();
+
     if (token) {
       fetch('/api/auth/me', {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then(res => {
           if (!res.ok) {
-            // Only clear credentials if the server explicitly returned 401 Unauthorized
-            if (res.status === 401) {
-              console.warn('[auth] Session token expired or invalid on server.');
-              localStorage.removeItem('codequest_token');
-              localStorage.removeItem('codequest_user');
-              setCurrentUser(null);
+            // If token invalid/expired, attempt session restore using cached user handle!
+            if (cachedUser && cachedUser.username) {
+              return fetch('/api/auth/session-restore', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: cachedUser.username })
+              })
+                .then(r => r.ok ? r.json() : null)
+                .then(data => {
+                  if (data && data.token && data.user) {
+                    localStorage.setItem('codequest_token', data.token);
+                    localStorage.setItem('codequest_user', JSON.stringify(data.user));
+                    setCurrentUser(data.user);
+                    return data;
+                  }
+                  setCurrentUser(cachedUser);
+                  return null;
+                })
+                .catch(() => {
+                  setCurrentUser(cachedUser);
+                  return null;
+                });
             }
             return null;
           }
@@ -91,6 +115,27 @@ export default function App() {
         })
         .catch(err => {
           console.warn('[auth] Could not verify session with server, keeping cached profile:', err);
+          if (cachedUser) setCurrentUser(cachedUser);
+        });
+    } else if (cachedUser && cachedUser.username) {
+      // User has cached profile: restore session seamlessly!
+      fetch('/api/auth/session-restore', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: cachedUser.username })
+      })
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+          if (data && data.token && data.user) {
+            localStorage.setItem('codequest_token', data.token);
+            localStorage.setItem('codequest_user', JSON.stringify(data.user));
+            setCurrentUser(data.user);
+          } else {
+            setCurrentUser(cachedUser);
+          }
+        })
+        .catch(() => {
+          setCurrentUser(cachedUser);
         });
     }
 
@@ -111,6 +156,9 @@ export default function App() {
         const finalLevel = Math.min(MAX_LEVEL, Math.max(data.stats.level || 1, Math.floor(finalXp / 120) + 1));
         const finalHearts = data.stats.hearts !== undefined ? Math.min(5, Math.max(0, data.stats.hearts)) : (localFallback.stats?.hearts !== undefined ? localFallback.stats.hearts : 1);
         const finalCoins = data.stats.coins !== undefined ? Math.max(0, data.stats.coins) : (localFallback.stats?.coins || 0);
+        const finalStreak = Math.max(data.stats.currentStreak || 0, localFallback.stats?.currentStreak || 0);
+        const finalLongest = Math.max(data.stats.longestStreak || 0, localFallback.stats?.longestStreak || 0);
+        const finalLastActive = data.stats.lastActiveDate || localFallback.stats?.lastActiveDate || new Date().toISOString().split('T')[0];
 
         const mergedStats = {
           ...data.stats,
@@ -118,6 +166,9 @@ export default function App() {
           level: finalLevel,
           hearts: finalHearts,
           coins: finalCoins,
+          currentStreak: finalStreak,
+          longestStreak: finalLongest,
+          lastActiveDate: finalLastActive,
         };
 
         setStats(mergedStats);
