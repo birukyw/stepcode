@@ -1,2364 +1,1182 @@
 // ─── Web & Full-Stack Development: The Cyberpunk Web Foundry ─────────────────────
-// Comprehensive Retro-RPG Curriculum: Modules 1–6
-// Full-Stack Architecture, Frontend, Databases, Backend APIs & DevOps
+// Comprehensive Retro-RPG Curriculum: Modules 1–12 (3 Phases, 60 Lessons)
+// Full-Stack Architecture, Frontend React/TS, Databases, Backend APIs & DevOps
 
 export const webTrackContent = {
-  // ════════════════════════════════════════════════════════════════
-  // MODULE 1: The Canvas of the Web: HTML5 Architecture & Modern CSS3
-  // ════════════════════════════════════════════════════════════════
-  'web-week-1': {
-    lessons: [
+  "web-week-1": {
+    "lessons": [
       {
-        title: 'Anatomy of the Modern Web: Clients, Servers & The Rendering Pipeline',
-        language: 'javascript',
-        starterCode: `// The Anatomy of an HTTP Request / Response Cycle
-console.log("🌐 Initiating DNS Lookup for 'https://cyberquest.dev'...");
-const simulatedDns = { domain: 'cyberquest.dev', ip: '198.51.100.42' };
-console.log(\`Resolved IP: \${simulatedDns.ip}\`);
-
-// TCP 3-Way Handshake -> TLS Handshake -> HTTP GET /
-console.log("Client sends: GET / HTTP/2 -> Server returns: HTML Payload (200 OK)");
-console.log("Browser parsing: HTML Tokens -> DOM Tree -> CSSOM -> Layout -> Paint");
-`,
-        content: `
-<h2>🌐 Chapter 1: Anatomy of the Modern Web</h2>
-
-<div class="lesson-pixel-art">
-  <img src="/images/retro_fullstack_bg.png" alt="Cyberpunk Fullstack Web Foundry" />
-  <div class="pixel-caption">
-    SECTOR 01: THE DIGITAL ETHER — HOW PACKETS BECOME INTERACTIVE PIXELS
-  </div>
-</div>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>Welcome to the Cyberpunk Web Foundry, initiate architect! Before you assemble massive client-side applications, construct relational database vaults, or orchestrate cloud servers, you must understand the bedrock physics of the Internet: what actually happens when a human enters a URL into their browser, and what fundamental components comprise every single website on earth.</em>
-</div>
-
-<h3>The Holy Trinity of the Web</h3>
-<p>Every website you have ever visited—from a humble personal blog to massive platforms like YouTube or GitHub—is forged from three elemental technologies running in the user's browser (the client):</p>
-
-<ul>
-  <li><strong>HTML5 (Structure):</strong> The skeletal blueprint. Defines what content exists on the page: headings, paragraphs, buttons, navigation links, forms, and images.</li>
-  <li><strong>CSS3 (Presentation):</strong> The visual armor and skin. Dictates typography, color palettes, spacing, animations, responsive grid layouts, and visual hierarchy.</li>
-  <li><strong>JavaScript (Behavior):</strong> The neural engine. Powers dynamic interactivity, user clicks, real-time data fetching from remote servers, and client-side application state.</li>
-</ul>
-
-<h3>The Client-Server Dance: From URL to Pixels</h3>
-<p>When you type <code>https://codequest.dev</code> into your address bar and press Enter, a lightning-fast sequence of network events unfolds:</p>
-
-<pre class="ascii-diagram">
-[ Browser Client ]                                     [ Origin Server / CDN ]
-       |                                                         |
-       | --- 1. DNS Query (What is the IP of codequest.dev?) --> | [DNS Resolver]
-       | <-- Returns IP: 104.21.55.2 --------------------------- |
-       |                                                         |
-       | --- 2. TCP 3-Way Handshake (SYN -> SYN-ACK -> ACK) ---> |
-       | --- 3. TLS / SSL Handshake (Cryptographic Keys) ------> |
-       |                                                         |
-       | --- 4. HTTP GET / HTTP/2 Request ---------------------> |
-       | <-- 5. HTTP 200 OK + Raw HTML Byte Stream ------------- | [Web Server]
-       |                                                         |
-</pre>
-
-<h3>The Critical Rendering Path: How Browsers Paint Pixels</h3>
-<p>Once raw bytes arrive over the wire, the browser's rendering engine (such as Blink in Chrome/Edge, Gecko in Firefox, or WebKit in Safari) executes the <strong>Critical Rendering Path</strong>:</p>
-
-<ol>
-  <li><strong>DOM Tree Construction:</strong> Bytes are decoded into characters, tokenized into HTML tags, and assembled into a parent-child tree structure called the <strong>Document Object Model (DOM)</strong>.</li>
-  <li><strong>CSSOM Construction:</strong> External stylesheets and <code>&lt;style&gt;</code> blocks are parsed into the <strong>CSS Object Model (CSSOM)</strong>.</li>
-  <li><strong>Render Tree Synthesis:</strong> The DOM and CSSOM are merged into the <em>Render Tree</em>, discarding hidden elements like <code>&lt;head&gt;</code> or elements styled with <code>display: none</code>.</li>
-  <li><strong>Layout (Reflow):</strong> The browser computes the exact geometric coordinates and pixel dimensions of every visible box on the viewport screen.</li>
-  <li><strong>Painting & Compositing:</strong> Pixels are drawn into layers and rasterized onto the GPU display buffer.</li>
-</ol>
-
-<div class="callout callout--tip">
-  <strong>🔮 Senior Architect Insight:</strong> Modern web performance is won or lost during the Critical Rendering Path! Minimizing render-blocking stylesheets and unoptimized JavaScript allows browsers to achieve instantaneous First Contentful Paint (FCP).
-</div>
-`,
+        "title": "Anatomy of the Modern Web: Clients, Servers & The Rendering Pipeline",
+        "language": "javascript",
+        "starterCode": "// The Anatomy of an HTTP Request / Response Cycle\nconsole.log(\"🌐 Initiating DNS Lookup for 'https://cyberquest.dev'...\");\nconst simulatedDns = { domain: 'cyberquest.dev', ip: '198.51.100.42' };\nconsole.log(`Resolved IP: ${simulatedDns.ip}`);\n\n// TCP 3-Way Handshake -> TLS Handshake -> HTTP GET /\nconsole.log(\"Client sends: GET / HTTP/2 -> Server returns: HTML Payload (200 OK)\");\nconsole.log(\"Browser parsing: HTML Tokens -> DOM Tree -> CSSOM -> Layout -> Paint\");\n",
+        "content": "<h2>🌐 Chapter 1: Anatomy of the Modern Web</h2>\n<div class=\"lesson-pixel-art\">\n  <img src=\"/images/retro_fullstack_bg.png\" alt=\"Cyberpunk Fullstack Web Foundry\" />\n  <div class=\"pixel-caption\">SECTOR 01: THE DIGITAL ETHER — HOW PACKETS BECOME INTERACTIVE PIXELS</div>\n</div>\n<div class=\"callout callout--quest\">\n  <strong>⚔️ QUEST BRIEFING:</strong> <em>Welcome to the Cyberpunk Web Foundry, initiate architect! Before assembling massive client-side applications, you must understand what actually happens when a user types a URL and how packets become interactive pixels.</em>\n</div>\n<h3>The Holy Trinity of the Web</h3>\n<ul>\n  <li><strong>HTML5 (Structure):</strong> The skeletal blueprint: headings, paragraphs, buttons, navigation links, and forms.</li>\n  <li><strong>CSS3 (Presentation):</strong> Visual armor and aesthetics: typography, colors, animations, and responsive layouts.</li>\n  <li><strong>JavaScript (Behavior):</strong> The neural engine: dynamic interactivity, state mutation, and network requests.</li>\n</ul>\n<h3>The Critical Rendering Path</h3>\n<ol>\n  <li><strong>DOM Construction:</strong> Bytes &rarr; Characters &rarr; Tokens &rarr; DOM Nodes &rarr; DOM Tree.</li>\n  <li><strong>CSSOM Construction:</strong> Stylesheets parsed into the CSS Object Model.</li>\n  <li><strong>Render Tree:</strong> Visible DOM nodes paired with matching CSS rules.</li>\n  <li><strong>Layout (Reflow):</strong> Computing exact element coordinates and bounding boxes.</li>\n  <li><strong>Paint & Composite:</strong> Pixels rasterized to layers and composited onto the screen.</li>\n</ol>"
       },
       {
-        title: 'The Structural Skeleton: Semantic HTML5 & Accessibility Runes',
-        language: 'html',
-        starterCode: `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Neon Citadel Guild</title>
-</head>
-<body>
-    <header>
-        <nav aria-label="Main Navigation">
-            <a href="#quests">Active Quests</a>
-            <a href="#armory">Cyber Armory</a>
-        </nav>
-    </header>
-
-    <main>
-        <article>
-            <h1>Contract: Rogue AI Elimination</h1>
-            <p>Level Requirement: Adept (Lvl 15+)</p>
-            <button type="button">Accept Bounty</button>
-        </article>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 Neon Citadel Syndicate. All rights reserved.</p>
-    </footer>
-</body>
-</html>`,
-        content: `
-<h2>🏛️ Semantic HTML5 & Accessible Architecture</h2>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>Before CSS adds neon glimmers or JavaScript adds interactivity, your document must stand solid on semantic foundations. Learn why wrapping everything in generic &lt;div&gt; tags is an architectural sin, and how semantic HTML5 guarantees SEO dominance and universal accessibility.</em>
-</div>
-
-<h3>Why Semantic Elements Matter</h3>
-<p>In the dark ages of the early web, developers structured entire pages using generic division tags: <code>&lt;div id="header"&gt;</code>, <code>&lt;div class="nav"&gt;</code>, <code>&lt;div class="footer"&gt;</code>. These tags convey zero semantic meaning to search engines, screen readers, or browser parsing engines.</p>
-
-<p>HTML5 introduced dedicated semantic landmark tags that state their purpose directly:</p>
-
-<table class="lesson-table">
-  <thead><tr><th>Semantic Tag</th><th>Architectural Purpose</th><th>Accessibility Landmark</th></tr></thead>
-  <tbody>
-    <tr><td><code>&lt;header&gt;</code></td><td>Introductory branding, logo, search bars, or top banners</td><td><code>banner</code></td></tr>
-    <tr><td><code>&lt;nav&gt;</code></td><td>High-level navigation menu links</td><td><code>navigation</code></td></tr>
-    <tr><td><code>&lt;main&gt;</code></td><td>The single, central, non-repeating core content of the document</td><td><code>main</code></td></tr>
-    <tr><td><code>&lt;article&gt;</code></td><td>Self-contained content suitable for independent syndication (blog post, product card)</td><td><code>article</code></td></tr>
-    <tr><td><code>&lt;section&gt;</code></td><td>Thematic grouping of content, typically introduced with a heading tag (<code>&lt;h2&gt;</code>)</td><td><code>region</code></td></tr>
-    <tr><td><code>&lt;aside&gt;</code></td><td>Secondary or tangentially related content (sidebars, related quests, ads)</td><td><code>complementary</code></td></tr>
-    <tr><td><code>&lt;footer&gt;</code></td><td>Closing metadata, copyright, legal terms, and site-map links</td><td><code>contentinfo</code></td></tr>
-  </tbody>
-</table>
-
-<h3>Accessible Forms (a11y) & Input Architecture</h3>
-<p>Forms are how users submit data back to servers. Accessible form inputs <em>must</em> be paired with explicit <code>&lt;label&gt;</code> elements connected via the <code>for</code> and <code>id</code> attributes:</p>
-
-<pre><code>&lt;!-- Proper accessible form binding --&gt;
-&lt;form action="/api/v1/auth/login" method="POST"&gt;
-    &lt;div class="form-group"&gt;
-        &lt;label for="pilot-email"&gt;Pilot Call-Sign Email:&lt;/label&gt;
-        &lt;input 
-            type="email" 
-            id="pilot-email" 
-            name="email" 
-            required 
-            placeholder="cyph3r@matrix.io" 
-            autocomplete="email"
-        /&gt;
-    &lt;/div&gt;
-    &lt;button type="submit"&gt;Engage Uplink&lt;/button&gt;
-&lt;/form&gt;</code></pre>
-
-<div class="callout callout--warn">
-  <strong>⚠️ Accessibility Law:</strong> Never replace a native <code>&lt;button&gt;</code> with a <code>&lt;div onClick="..."&gt;</code>! Native buttons provide automatic keyboard focus via Tab, respond to the Enter and Space keys, and announce their role to screen-reading assistive technologies out of the box.
-</div>
-`,
+        "title": "The Structural Skeleton: Semantic HTML5 & Document Outlines",
+        "language": "html",
+        "starterCode": "<!DOCTYPE html>\n<html lang=\"en\">\n<head><meta charset=\"UTF-8\"><title>Cyber Portal</title></head>\n<body>\n  <header>\n    <nav><a href=\"#home\">Home</a> | <a href=\"#vault\">Vault</a></nav>\n  </header>\n  <main>\n    <article>\n      <h1>Net Runner Protocol</h1>\n      <p>Decentralized nodes activated in Sector 9.</p>\n    </article>\n  </main>\n  <footer><p>&copy; 2088 Cyber Foundry</p></footer>\n</body>\n</html>\n",
+        "content": "<h2>🌐 Chapter 2: Semantic HTML5 & Clean Architecture</h2>\n<p>Ditch the <code>&lt;div&gt;</code> soup! Semantic tags give your page meaning for search engines (SEO) and screen readers:</p>\n<ul>\n  <li><code>&lt;header&gt;</code>: Top banner, branding, primary navigation.</li>\n  <li><code>&lt;nav&gt;</code>: Navigation link collections.</li>\n  <li><code>&lt;main&gt;</code>: Sole central topic of the page (strictly unique per document).</li>\n  <li><code>&lt;article&gt;</code>: Standalone, redistributable card or story.</li>\n  <li><code>&lt;section&gt;</code>: Thematic content block with its own heading.</li>\n  <li><code>&lt;footer&gt;</code>: Page metadata, legal copyright, and secondary links.</li>\n</ul>"
       },
       {
-        title: 'The Box Model Alchemy & Modern CSS Variables',
-        language: 'css',
-        starterCode: `/* Modern CSS Box Model & Design Tokens */
-:root {
-    --color-bg: #0d1117;
-    --color-neon-cyan: #00e5ff;
-    --color-neon-pink: #ff007f;
-    --font-cyber: 'Space Grotesk', system-ui, sans-serif;
-    --border-radius-sm: 6px;
-    --spacing-unit: 8px;
-}
-
-/* Universal box-sizing reset: Border-box is essential! */
-*, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-.quest-card {
-    background: var(--color-bg);
-    color: #ffffff;
-    border: 2px solid var(--color-neon-cyan);
-    border-radius: var(--border-radius-sm);
-    padding: calc(var(--spacing-unit) * 3); /* 24px */
-    margin-bottom: calc(var(--spacing-unit) * 2);
-    box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
-}`,
-        content: `
-<h2>📦 The CSS Box Model & Modern Styling Tokens</h2>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>Every element on a web page is an invisible rectangular box. If you do not master how margin, border, padding, and content dimensions calculate, your layouts will shatter across screens. Learn the universal border-box reset and harness CSS Custom Properties (CSS Variables) to forge clean design systems.</em>
-</div>
-
-<h3>The 4 Layers of the Box Model</h3>
-<p>From inside out, every rendered HTML element comprises four concentric rectangular regions:</p>
-
-<pre class="ascii-diagram">
-+---------------------------------------------------------+
-| MARGIN (Transparent spacing pushing away siblings)     |
-|   +-------------------------------------------------+   |
-|   | BORDER (Visible outline stroke around element)  |   |
-|   |   +-----------------------------------------+   |   |
-|   |   | PADDING (Inner breathing space)         |   |   |
-|   |   |   +---------------------------------+   |   |   |
-|   |   |   | CONTENT (Text, images, widgets) |   |   |   |
-|   |   |   +---------------------------------+   |   |   |
-|   |   +-----------------------------------------+   |   |
-|   +-------------------------------------------------+   |
-+---------------------------------------------------------+
-</pre>
-
-<h3>The Critical Difference: Content-Box vs Border-Box</h3>
-<p>By default, browser stylesheets apply <code>box-sizing: content-box</code>. In this archaic mode, if you specify <code>width: 300px; padding: 20px; border: 5px solid cyan;</code>, the actual computed width on screen becomes:</p>
-<pre><code>300px (content) + 40px (left/right padding) + 10px (left/right border) = 350px!</code></pre>
-
-<p>This causes containers to unexpectedly overflow and break grid alignments! The modern standard applied to 100% of commercial applications is <code>box-sizing: border-box</code>:</p>
-
-<pre><code>*, *::before, *::after {
-    box-sizing: border-box; /* Width includes content, padding, and border! */
-}</code></pre>
-
-<h3>CSS Specificity Wars</h3>
-<p>When multiple rules target the same element, browsers resolve conflicts using <strong>Specificity Weight</strong>:</p>
-<ol>
-  <li><strong>Inline styles (<code>style="..."</code>):</strong> Weight = (1, 0, 0, 0) — Highest priority!</li>
-  <li><strong>IDs (<code>#hero-banner</code>):</strong> Weight = (0, 1, 0, 0)</li>
-  <li><strong>Classes, attributes & pseudo-classes (<code>.active</code>, <code>[type="text"]</code>, <code>:hover</code>):</strong> Weight = (0, 0, 1, 0)</li>
-  <li><strong>Element tags & pseudo-elements (<code>h1</code>, <code>p</code>, <code>::before</code>):</strong> Weight = (0, 0, 0, 1)</li>
-</ol>
-
-<h3>CSS Custom Properties (Variables)</h3>
-<p>Declare reusable variables inside the <code>:root</code> pseudo-class. They cascade through the entire DOM tree and can be dynamically updated via JavaScript at runtime:</p>
-
-<pre><code>:root {
-    --accent-glow: #00e5ff;
-}
-
-.button--primary {
-    background-color: var(--accent-glow);
-    border: 1px solid var(--accent-glow);
-}</code></pre>
-`,
+        "title": "Interactive Forms, Validations & User Input Controls",
+        "language": "html",
+        "starterCode": "<form action=\"/api/register\" method=\"POST\">\n  <fieldset>\n    <legend>Gladiator Registration</legend>\n    <label for=\"handle\">Net Runner Codename:</label>\n    <input type=\"text\" id=\"handle\" name=\"handle\" required minlength=\"3\" maxlength=\"20\">\n\n    <label for=\"email\">Neural Comms Email:</label>\n    <input type=\"email\" id=\"email\" name=\"email\" required>\n\n    <button type=\"submit\">Jack In</button>\n  </fieldset>\n</form>\n",
+        "content": "<h2>🌐 Chapter 3: Form Architecture & Native Validation</h2>\n<p>Forms are the primary interaction portal on the web. Native HTML5 constraints provide instant feedback before network submission:</p>\n<ul>\n  <li><code>required</code>: Blocks submission until filled.</li>\n  <li><code>type=\"email\"</code>: Enforces valid email syntax patterns.</li>\n  <li><code>minlength</code> / <code>maxlength</code>: Bounds string lengths at the browser level.</li>\n  <li><code>&lt;label for=\"id\"&gt;</code>: Connects descriptive text directly to the input target for accessibility.</li>\n</ul>"
       },
       {
-        title: 'Architecting Fluid Layouts: Flexbox & CSS Grid Mastery',
-        language: 'css',
-        starterCode: `/* 1D Alignment: Flexbox for Navigation Bar */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 1rem 2rem;
-}
-
-/* 2D Responsive Dashboard: CSS Grid */
-.dashboard-grid {
-    display: grid;
-    /* Auto-fit responsive columns without media queries! */
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
-}
-
-/* Media Query for Mobile Viewports */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-}`,
-        content: `
-<h2>📐 Modern Layout Engines: Flexbox & CSS Grid</h2>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>Gone are the days of float hacks and HTML table layouts. Today, two layout engines dominate all web design: Flexbox (for 1-dimensional item distribution) and CSS Grid (for 2-dimensional page architecture). Master when and how to wield both.</em>
-</div>
-
-<h3>Flexbox: The 1-Dimensional Powerhouse</h3>
-<p>Flexbox calculates spacing and alignment along a <strong>single axis</strong> (either horizontally as a row, or vertically as a column):</p>
-
-<ul>
-  <li><code>display: flex</code>: Activates the flex formatting context on child elements.</li>
-  <li><code>flex-direction: row | column</code>: Defines the Main Axis direction.</li>
-  <li><code>justify-content</code>: Aligns children along the <strong>Main Axis</strong> (<code>flex-start</code>, <code>center</code>, <code>space-between</code>, <code>space-around</code>).</li>
-  <li><code>align-items</code>: Aligns children along the <strong>Cross Axis</strong> (<code>stretch</code>, <code>center</code>, <code>flex-start</code>, <code>flex-end</code>).</li>
-  <li><code>gap: 16px</code>: Provides consistent spacing between items without needing margin hacks.</li>
-</ul>
-
-<h3>CSS Grid: The 2-Dimensional Blueprint</h3>
-<p>CSS Grid controls both <strong>rows and columns simultaneously</strong>. It is the ultimate tool for dashboards, card lists, and full-page layouts:</p>
-
-<pre><code>.guild-armory-grid {
-    display: grid;
-    /* Magic responsive formula:
-       - repeat(auto-fit, ...): Creates as many columns as fit the screen
-       - minmax(280px, 1fr): Each card is at least 280px, expanding evenly to fill space
-    */
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-}</code></pre>
-
-<h3>The Rule of Thumb: When to Use Which?</h3>
-<table class="lesson-table">
-  <thead><tr><th>Scenario</th><th>Best Choice</th><th>Why?</th></tr></thead>
-  <tbody>
-    <tr><td>Navigation bar / breadcrumbs</td><td><strong>Flexbox</strong></td><td>1-dimensional row where items distribute space based on their content size.</td></tr>
-    <tr><td>Product catalog / photo gallery</td><td><strong>CSS Grid</strong></td><td>2-dimensional matrix where columns and rows must align perfectly across items.</td></tr>
-    <tr><td>Centered modal dialog</td><td><strong>Flexbox or Grid</strong></td><td>Both achieve <code>place-items: center</code> or <code>margin: auto</code> with 2 lines of CSS!</td></tr>
-  </tbody>
-</table>
-`,
+        "title": "Multimedia, Modern Asset Delivery & The Picture Element",
+        "language": "html",
+        "starterCode": "<picture>\n  <source srcset=\"/images/hero.avif\" type=\"image/avif\">\n  <source srcset=\"/images/hero.webp\" type=\"image/webp\">\n  <img src=\"/images/hero.jpg\" alt=\"Cyberpunk City Skyline\" loading=\"lazy\" width=\"800\" height=\"450\">\n</picture>\n",
+        "content": "<h2>🌐 Chapter 4: Modern Image Optimization & The Picture Element</h2>\n<p>Serving modern image formats cuts payload sizes by over 50% without quality loss:</p>\n<ul>\n  <li><strong>AVIF & WebP:</strong> High-compression modern formats supported across evergreen browsers.</li>\n  <li><code>&lt;picture&gt;</code>: Negotiates image formats and responsive viewports automatically.</li>\n  <li><code>loading=\"lazy\"</code>: Postpones downloading offscreen images until scrolled near viewport.</li>\n</ul>"
       },
+      {
+        "title": "Web Accessibility (a11y), ARIA Roles & Screen Reader Semantics",
+        "language": "html",
+        "starterCode": "<div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"modal-title\" class=\"cyber-modal\">\n  <h2 id=\"modal-title\">Overclock Confirmation</h2>\n  <p>Are you sure you want to engage maximum overclock?</p>\n  <button type=\"button\" aria-label=\"Confirm overclock\">Engage</button>\n</div>\n",
+        "content": "<h2>🌐 Chapter 5: Web Accessibility (a11y) & Inclusive Engineering</h2>\n<div class=\"callout callout--quest\">\n  <strong>⚔️ ACCESSIBILITY MANDATE:</strong> <em>The web must be universally operable by everyone, including users relying on keyboard navigation and screen readers.</em>\n</div>\n<p>Follow the Golden Rule: <strong>Never use ARIA when a native semantic HTML element exists.</strong> When building custom dialogs, use <code>role=\"dialog\"</code> and <code>aria-modal=\"true\"</code> to trap assistive focus correctly.</p>"
+      }
     ],
-    exercises: [
+    "exercises": [
       {
-        title: 'DOM Dimension Calculator & Box Model Sizing',
-        language: 'javascript',
-        description: `
-<p>Write a function <code>computeBoxWidth(contentWidth, paddingLeft, paddingRight, borderLeft, borderRight, boxSizing)</code> that calculates the total rendered element width on screen in pixels.</p>
-<ul>
-  <li>If <code>boxSizing === 'content-box'</code>: Total width = content + padding + border.</li>
-  <li>If <code>boxSizing === 'border-box'</code>: Total width is clamped strictly to <code>contentWidth</code> (as padding and border fit inside).</li>
-</ul>
-        `,
-        starterCode: `function computeBoxWidth(contentWidth, paddingLeft, paddingRight, borderLeft, borderRight, boxSizing) {
-    if (boxSizing === 'border-box') {
-        return contentWidth;
-    }
-    return contentWidth + paddingLeft + paddingRight + borderLeft + borderRight;
-}
-
-// Test runs
-console.log("Content-box width:", computeBoxWidth(300, 20, 20, 5, 5, 'content-box'));
-console.log("Border-box width:", computeBoxWidth(300, 20, 20, 5, 5, 'border-box'));
-`,
-        expectedOutput: `Content-box width: 350\nBorder-box width: 300`,
-        hints: ['Remember that border-box absorbs padding and border into the specified content width!'],
-      },
-      {
-        title: 'Flexbox Layout Space Distribution Engine',
-        language: 'javascript',
-        description: `
-<p>Write a function <code>calculateFlexGap(containerWidth, itemCount, itemWidth)</code> that calculates the remaining free space divided evenly as gaps between items (equivalent to <code>justify-content: space-between</code>).</p>
-<p>Formula: <code>(containerWidth - (itemCount * itemWidth)) / (itemCount - 1)</code>. Return the rounded integer gap.</p>
-        `,
-        starterCode: `function calculateFlexGap(containerWidth, itemCount, itemWidth) {
-    const totalItemWidth = itemCount * itemWidth;
-    const freeSpace = containerWidth - totalItemWidth;
-    const gapCount = itemCount - 1;
-    return Math.floor(freeSpace / gapCount);
-}
-
-console.log("Gap on 1000px container with 4 items of 200px:", calculateFlexGap(1000, 4, 200));
-console.log("Gap on 800px container with 3 items of 200px:", calculateFlexGap(800, 3, 200));
-`,
-        expectedOutput: `Gap on 1000px container with 4 items of 200px: 66\nGap on 800px container with 3 items of 200px: 100`,
-        hints: ['Subtract the sum of all item widths from container width, then divide by (itemCount - 1).'],
-      },
-    ],
-    quiz: [
-      {
-        question: 'What is the primary benefit of setting box-sizing: border-box on all elements?',
-        options: [
-          'It automatically converts all block elements into flex items',
-          'Padding and borders are included within the declared element width, preventing unexpected layout overflow',
-          'It makes all elements load asynchronously without blocking the DOM parser',
-          'It forces search engines to index CSS variables with higher priority'
-        ],
-        correctIndex: 1,
-        explanation: 'Under border-box, padding and border do not increase the total rendered width beyond the declared width, eliminating horizontal scrollbars and layout breaks.',
-      },
-      {
-        question: 'Which of the following HTML5 elements provides an accessible landmark for the primary, unique content of a document?',
-        options: ['<section>', '<main>', '<content>', '<div id="main">'],
-        correctIndex: 1,
-        explanation: '<main> is the official HTML5 semantic element that conveys the primary unique content of the page and acts as the "main" landmark for screen readers.',
-      },
-      {
-        question: 'How do you create an auto-wrapping responsive grid of cards that adapts to screen width without any media queries?',
-        options: [
-          'display: flex; flex-direction: auto-fit;',
-          'grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));',
-          'columns: 3 auto;',
-          'grid-template-rows: auto-fill 100%;'
-        ],
-        correctIndex: 1,
-        explanation: 'repeat(auto-fit, minmax(280px, 1fr)) automatically calculates how many columns of at least 280px fit in the available width, wrapping smoothly across all screens.',
-      },
-    ],
-    project: {
-      title: 'Neon Guild Hall Landing Page & Design Token Architecture',
-      description: `
-<h2>Project: Neon Guild Hall Landing Page</h2>
-<p>Construct a fully responsive, semantic HTML5 and modern CSS3 landing page for the <em>Neon Citadel Guild</em>. The application must feature structured semantic tags, a design token system via CSS variables, a responsive navigation header, and a card grid showcasing active mercenary contracts.</p>
-`,
-      language: 'html',
-      starterCode: `<!-- Neon Guild Hall Master Template -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Neon Citadel Syndicate</title>
-</head>
-<body>
-    <!-- TODO: Build semantic header with nav, main contract showcase grid, and accessible footer -->
-    <header class="guild-header">
-        <h1>Neon Citadel Syndicate</h1>
-    </header>
-</body>
-</html>`,
-      requirements: [
-        'Utilize semantic HTML5 structural elements: <header>, <nav>, <main>, <article>, <section>, <footer>',
-        'Implement universal box-sizing: border-box reset with zeroed default margins',
-        'Define a CSS custom property design system (:root) with at least 4 color, spacing, and typography tokens',
-        'Build a responsive 2D CSS Grid for quest contracts using repeat(auto-fit, minmax(...))',
-        'Ensure all interactive elements have accessible labels and hover focus states'
-      ],
-    },
-  },
-
-  // ════════════════════════════════════════════════════════════════
-  // MODULE 2: The Neural Engine: Core JavaScript & Dynamic Interactivity
-  // ════════════════════════════════════════════════════════════════
-  'web-week-2': {
-    lessons: [
-      {
-        title: 'The JavaScript Runtime: V8 Engine, Execution Context & Closures',
-        language: 'javascript',
-        starterCode: `// Execution Context, Lexical Scope & Closures
-function createBankVault(initialBalance) {
-    let secretBalance = initialBalance; // Enclosed in closure memory!
-
-    return {
-        deposit(amount) {
-            secretBalance += amount;
-            return \`Deposited \${amount}. Vault Balance: \${secretBalance}\`;
-        },
-        getBalance() {
-            return secretBalance;
-        }
-    };
-}
-
-const myVault = createBankVault(500);
-console.log(myVault.deposit(250));
-console.log("Current Vault Credits:", myVault.getBalance());
-// Note: secretBalance cannot be directly accessed or modified from outside!
-`,
-        content: `
-<h2>🧠 Chapter 2: The JavaScript Runtime & Memory Model</h2>
-
-<div class="lesson-pixel-art">
-  <img src="/images/retro_fullstack_bg.png" alt="JavaScript Neural Engine" />
-  <div class="pixel-caption">
-    SECTOR 02: THE V8 ENGINE — EXECUTION STACKS, SCOPE CHAINS & CLOSURE VAULTS
-  </div>
-</div>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>JavaScript is the undisputed lingua franca of the web. To write robust, bug-free applications, you must look inside the engine: understand how V8 executes instructions on the Call Stack, manages variables on the Heap, resolves lexical scope chains, and encapsulates private data with closures.</em>
-</div>
-
-<h3>The V8 Engine: Stack vs Heap</h3>
-<p>When JavaScript executes, memory is partitioned into two core structures:</p>
-
-<ul>
-  <li><strong>The Call Stack:</strong> A synchronous Last-In, First-Out (LIFO) stack that tracks the currently running function execution contexts. Primitives (numbers, booleans, small strings) are stored directly on stack frames.</li>
-  <li><strong>The Memory Heap:</strong> A large, unstructured region of physical RAM where complex objects, arrays, and functions reside. Variables on the stack hold reference pointers to these heap memory addresses.</li>
-</ul>
-
-<h3>Variables: const vs let vs var</h3>
-<table class="lesson-table">
-  <thead><tr><th>Keyword</th><th>Scope</th><th>Hoisting Behavior</th><th>Reassignable?</th></tr></thead>
-  <tbody>
-    <tr><td><code>const</code></td><td>Block (<code>{ ... }</code>)</td><td>Hoisted to Temporal Dead Zone (TDZ) — Cannot access before line of declaration</td><td>No (Reference is locked)</td></tr>
-    <tr><td><code>let</code></td><td>Block (<code>{ ... }</code>)</td><td>Hoisted to Temporal Dead Zone (TDZ)</td><td>Yes</td></tr>
-    <tr><td><code>var</code></td><td>Function / Global</td><td>Hoisted with initial value of <code>undefined</code> (Causes subtle bugs)</td><td>Yes (Legacy — avoid in modern code!)</td></tr>
-  </tbody>
-</table>
-
-<h3>Closures: The Superpower of Lexical Scope</h3>
-<p>A <strong>closure</strong> occurs when an inner function retains access to variables declared in its outer enclosing lexical scope, even after that outer function has finished executing and returned!</p>
-
-<pre><code>function createCounter() {
-    let count = 0; // Private state variable
-    return function increment() {
-        count++;
-        return count;
-    };
-}
-
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2</code></pre>
-
-<p>Closures form the theoretical foundation for React hooks (like <code>useState</code>), module patterns, and private object encapsulation in JavaScript.</p>
-`,
-      },
-      {
-        title: 'Awakening the DOM: Dynamic Nodes, Mutation & Event Delegation',
-        language: 'javascript',
-        starterCode: `// DOM Node Querying & Event Delegation Pattern
-/*
-// HTML Context:
-// <ul id="quest-list">
-//   <li data-id="1" class="quest-item">Slay Goblin <button class="complete-btn">Done</button></li>
-// </ul>
-*/
-
-function handleListClick(event) {
-    // Event Delegation: One listener on parent handles all child clicks!
-    const target = event.target;
-    if (target.classList.contains('complete-btn')) {
-        const parentItem = target.closest('.quest-item');
-        const questId = parentItem.dataset.id;
-        console.log(\`Completed Quest ID: \${questId}\`);
-    }
-}
-
-console.log("Event delegation registered on parent container!");
-`,
-        content: `
-<h2>⚡ Manipulating the DOM & Event Delegation</h2>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>The DOM is not a static text file; it is an active object graph living in memory. Learn how to query elements, mutate attributes and styles, handle user clicks, and use the powerful Event Delegation pattern to manage hundreds of interactive elements with zero memory leaks.</em>
-</div>
-
-<h3>Querying and Mutating the DOM</h3>
-<p>Modern browsers provide fast, CSS-selector-based querying methods:</p>
-
-<ul>
-  <li><code>document.querySelector('.card')</code>: Returns the first matching Element node.</li>
-  <li><code>document.querySelectorAll('.card')</code>: Returns a static <code>NodeList</code> of all matching elements.</li>
-  <li><code>element.classList.add('active')</code> / <code>element.classList.toggle('active')</code>: Modifies CSS classes without overwriting existing ones.</li>
-  <li><code>element.setAttribute('aria-expanded', 'true')</code>: Modifies accessibility and custom data attributes.</li>
-</ul>
-
-<h3>The Event Flow: Bubbling & Capturing</h3>
-<p>When an event (like a click) fires on a deeply nested button, it travels through three phases:</p>
-<ol>
-  <li><strong>Capture Phase:</strong> The event descends from the <code>window</code> object down through ancestors to the target.</li>
-  <li><strong>Target Phase:</strong> The event arrives at the clicked element (<code>e.target</code>).</li>
-  <li><strong>Bubbling Phase:</strong> The event bubbles back upwards through parent elements all the way to <code>window</code>.</li>
-</ol>
-
-<h3>Event Delegation: The Professional Pattern</h3>
-<p>Instead of attaching 500 individual event listeners to 500 list items (which burns memory and breaks when new items are added dynamically), you attach <strong>one single listener</strong> to the parent list container and intercept bubbling events:</p>
-
-<pre><code>const questList = document.getElementById('quest-list');
-
-questList.addEventListener('click', (event) => {
-    // Check if the actual clicked element matches the button
-    const deleteBtn = event.target.closest('.delete-btn');
-    if (deleteBtn) {
-        const item = deleteBtn.closest('.quest-item');
-        item.remove(); // Safely removes element from DOM
-    }
-});</code></pre>
-`,
-      },
-      {
-        title: 'The Modern ES6+ Spellbook: Destructuring, Spread & Array Alchemy',
-        language: 'javascript',
-        starterCode: `// ES6+ Array Methods & Functional Transformations
-const adventurers = [
-    { name: 'Kaelen', role: 'Mage', level: 18, active: true },
-    { name: 'Lyra', role: 'Rogue', level: 14, active: false },
-    { name: 'Thorin', role: 'Warrior', level: 22, active: true },
-    { name: 'Seraphina', role: 'Healer', level: 16, active: true }
-];
-
-// 1. Filter: Extract only active adventurers
-const activeParty = adventurers.filter(a => a.active);
-
-// 2. Map: Extract names and upgrade levels
-const rosterCards = activeParty.map(({ name, role, level }) => ({
-    title: \`[\${role.toUpperCase()}] \${name}\`,
-    powerScore: level * 10
-}));
-
-// 3. Reduce: Calculate total party power score
-const totalPower = rosterCards.reduce((sum, hero) => sum + hero.powerScore, 0);
-
-console.log("Roster Cards:", JSON.stringify(rosterCards));
-console.log("Total Party Power:", totalPower);
-`,
-        content: `
-<h2>✨ Functional ES6+ Alchemy: Immutable Transformations</h2>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>Modern JavaScript is deeply functional. Instead of writing cumbersome imperative for-loops that mutate shared arrays, professional engineers wield immutable higher-order array methods (map, filter, reduce) and destructuring patterns.</em>
-</div>
-
-<h3>Higher-Order Array Methods</h3>
-<table class="lesson-table">
-  <thead><tr><th>Method</th><th>Behavior</th><th>Returns</th><th>Mutates Original?</th></tr></thead>
-  <tbody>
-    <tr><td><code>.map(fn)</code></td><td>Transforms every element according to the callback function</td><td>A brand-new array of equal length</td><td>No</td></tr>
-    <tr><td><code>.filter(fn)</code></td><td>Tests each element; retains only elements returning <code>true</code></td><td>A new array with matching elements</td><td>No</td></tr>
-    <tr><td><code>.reduce(fn, init)</code></td><td>Accumulates array values into a single result (number, object, group)</td><td>A single aggregated value</td><td>No</td></tr>
-    <tr><td><code>.find(fn)</code></td><td>Locates the first item matching the predicate</td><td>The element, or <code>undefined</code></td><td>No</td></tr>
-    <tr><td><code>.some(fn)</code> / <code>.every(fn)</code></td><td>Tests if at least one or all items meet a condition</td><td>Boolean (<code>true</code> / <code>false</code>)</td><td>No</td></tr>
-  </tbody>
-</table>
-
-<h3>Destructuring & Spread Operator (<code>...</code>)</h3>
-<p>Destructuring lets you unpack properties from objects and elements from arrays into distinct variables cleanly:</p>
-
-<pre><code>const player = { username: 'Cypher', rank: 'Grandmaster', stats: { hp: 100, mp: 80 } };
-
-// Object Destructuring with nested aliasing:
-const { username, stats: { hp } } = player;
-
-// Immutable Object Clone & Update via Spread:
-const upgradedPlayer = {
-    ...player,
-    rank: 'Overlord',
-    stats: { ...player.stats, hp: 120 }
-};</code></pre>
-`,
-      },
-      {
-        title: 'The Asynchronous Pulse: Event Loop, Promises & Fetching Runes',
-        language: 'javascript',
-        starterCode: `// Asynchronous JavaScript: Promises & Async/Await
-async function fetchMercenaryData(mercenaryId) {
-    console.log(\`[1] Initiating network request for ID: \${mercenaryId}...\`);
-    
-    // Simulate async HTTP request using a Promise
-    const simulatedNetworkResponse = await new Promise((resolve, reject) => {
-        setTimeout(() => {
-            if (mercenaryId > 0) {
-                resolve({ id: mercenaryId, codename: 'Valkyrie-7', status: 'Online' });
-            } else {
-                reject(new Error('Invalid Mercenary ID'));
-            }
-        }, 100);
-    });
-
-    console.log("[2] Response packet received from satellite uplink!");
-    return simulatedNetworkResponse;
-}
-
-// Invoke async function
-fetchMercenaryData(42)
-    .then(data => console.log("[3] Processed Data:", JSON.stringify(data)))
-    .catch(err => console.error("Error:", err.message));
-`,
-        content: `
-<h2>⏱️ The Asynchronous Event Loop & The Fetch API</h2>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>JavaScript is single-threaded: it has only one Call Stack and can execute only one line of code at any given microsecond. How then does a browser download megabytes of images, stream real-time audio, and query remote APIs without freezing the user interface? Enter the Asynchronous Event Loop.</em>
-</div>
-
-<h3>The Event Loop Mechanics</h3>
-<p>When an asynchronous operation (like <code>fetch()</code> or <code>setTimeout()</code>) is invoked:</p>
-<ol>
-  <li>The call is handed off to browser <strong>Web APIs</strong> (running on background C++ threads).</li>
-  <li>The JavaScript main thread continues executing subsequent code on the Call Stack without blocking.</li>
-  <li>When the background operation completes, its callback is placed into the <strong>Task Queue (Macrotasks)</strong> or <strong>Microtask Queue</strong> (Promises).</li>
-  <li>The <strong>Event Loop</strong> continuously checks: <em>"Is the Call Stack empty?"</em> As soon as the stack clears, it pulls tasks from the Microtask queue first, then the Task queue, executing them.</li>
-</ol>
-
-<h3>Promises vs Modern async / await</h3>
-<p>A <strong>Promise</strong> represents a value that is not yet known but will be resolved in the future (in <code>pending</code>, <code>fulfilled</code>, or <code>rejected</code> state). While <code>.then()</code> and <code>.catch()</code> chains work, modern JavaScript prefers <code>async / await</code> for synchronous-looking readability:</p>
-
-<pre><code>async function loadUserProfile(userId) {
-    try {
-        const response = await fetch(\`https://api.cyberquest.dev/users/\${userId}\`);
-        if (!response.ok) {
-            throw new Error(\`HTTP Error! Status: \${response.status}\`);
-        }
-        const user = await response.json();
-        return user;
-    } catch (error) {
-        console.error("Failed to load user profile:", error.message);
-        throw error; // Re-throw or handle gracefully
-    }
-}</code></pre>
-`,
-      },
-    ],
-    exercises: [
-      {
-        title: 'Immutable Inventory Transformation with Map & Filter',
-        language: 'javascript',
-        description: `
-<p>Write a function <code>filterAndBuffWeapons(inventory, minDamage, buffPercent)</code> that takes an array of weapon objects: <code>{ name: string, damage: number, broken: boolean }</code>.</p>
-<ul>
-  <li>Filter out all items where <code>broken === true</code>.</li>
-  <li>Filter out all items where <code>damage < minDamage</code>.</li>
-  <li>Map over remaining weapons to increase their damage by <code>buffPercent</code> (rounded down using <code>Math.floor</code>).</li>
-  <li>Return an array of formatted strings: <code>"\${name}: \${buffedDamage} DMG"</code>.</li>
-</ul>
-        `,
-        starterCode: `function filterAndBuffWeapons(inventory, minDamage, buffPercent) {
-    return inventory
-        .filter(item => !item.broken && item.damage >= minDamage)
-        .map(item => {
-            const buffed = Math.floor(item.damage * (1 + buffPercent / 100));
-            return \`\${item.name}: \${buffed} DMG\`;
-        });
-}
-
-const items = [
-    { name: 'Plasma Katana', damage: 80, broken: false },
-    { name: 'Rusty Pipe', damage: 15, broken: true },
-    { name: 'Pulse Rifle', damage: 120, broken: false },
-    { name: 'Wooden Club', damage: 25, broken: false }
-];
-
-console.log(filterAndBuffWeapons(items, 50, 20).join(', '));
-`,
-        expectedOutput: `Plasma Katana: 96 DMG, Pulse Rifle: 144 DMG`,
-        hints: ['Chain .filter() to discard broken items and items below minDamage, then chain .map() to calculate the buff.'],
-      },
-      {
-        title: 'Asynchronous Response Formatter & Status Parser',
-        language: 'javascript',
-        description: `
-<p>Write a function <code>formatApiResponse(responsePacket)</code> that processes the resolved payload of an asynchronous HTTP request.</p>
-<ul>
-  <li>If <code>responsePacket.status !== 200</code>, return <code>"Error: Network Request Failed (\${responsePacket.status})"</code>.</li>
-  <li>If successful (status 200), return <code>"User \${responsePacket.data.username} (ID: \${responsePacket.data.id}) belongs to guild [\${responsePacket.data.guildTag}]"</code>.</li>
-</ul>
-        `,
-        starterCode: `function formatApiResponse(responsePacket) {
-    if (responsePacket.status !== 200) {
-        return \`Error: Network Request Failed (\${responsePacket.status})\`;
-    }
-    const { id, username, guildTag } = responsePacket.data;
-    return \`User \${username} (ID: \${id}) belongs to guild [\${guildTag}]\`;
-}
-
-const successPacket = {
-    status: 200,
-    data: { id: 101, username: 'NovaGhost', guildTag: 'CYBER-ELITE' }
-};
-
-console.log(formatApiResponse(successPacket));
-`,
-        expectedOutput: `User NovaGhost (ID: 101) belongs to guild [CYBER-ELITE]`,
-        hints: ['Check that status equals 200, unpack data fields, and format the string.'],
-      },
-    ],
-    quiz: [
-      {
-        question: 'What is a JavaScript closure?',
-        options: [
-          'A mechanism to lock the browser window to prevent user navigation',
-          'A function combined with references to its surrounding lexical scope that persists even after the outer function returns',
-          'A method to terminate the Event Loop when an uncaught error occurs',
-          'A special syntax used only within React class components'
-        ],
-        correctIndex: 1,
-        explanation: 'A closure gives a function access to its outer scope variables from an inner function, preserving private state in memory.',
-      },
-      {
-        question: 'Why is Event Delegation considered a best practice for managing dynamic lists?',
-        options: [
-          'It forces events to be processed synchronously on the main thread',
-          'Attaching a single listener to a parent container consumes less memory and automatically handles dynamically inserted child elements',
-          'It bypasses the browser CSSOM rendering pipeline',
-          'It prevents cross-site scripting (XSS) attacks'
-        ],
-        correctIndex: 1,
-        explanation: 'By taking advantage of event bubbling, a single listener on a parent handles clicks for all current and future child elements efficiently.',
-      },
-      {
-        question: 'Which queue in the Event Loop has higher priority and executes before any Macrotasks (like setTimeout)?',
-        options: ['Render Queue', 'Microtask Queue (Promises)', 'Call Stack Queue', 'I/O Polling Queue'],
-        correctIndex: 1,
-        explanation: 'Microtasks (Promise callbacks, queueMicrotask) are drained completely at the end of each execution turn before any Macrotasks (setTimeout, setInterval) can run.',
-      },
-    ],
-    project: {
-      title: 'Interactive Cyberpunk Quest Log & Real-Time Event Board',
-      description: `
-<h2>Project: Cyberpunk Quest Log & Event Board</h2>
-<p>Construct a dynamic, browser-based quest management board. The application must feature real-time item creation, category filtering using functional array methods, event delegation on the task list, and simulated asynchronous server syncing.</p>
-`,
-      language: 'javascript',
-      starterCode: `// Cyberpunk Quest Log Application Architecture
-class QuestManager {
-    constructor() {
-        this.quests = [];
-    }
-
-    addQuest(title, difficulty, bounty) {
-        const newQuest = {
-            id: Date.now(),
-            title,
-            difficulty,
-            bounty,
-            completed: false
-        };
-        this.quests = [...this.quests, newQuest]; // Immutable update
-        return newQuest;
-    }
-
-    toggleComplete(id) {
-        this.quests = this.quests.map(q => q.id === id ? { ...q, completed: !q.completed } : q);
-    }
-}
-
-console.log("⚡ Quest Manager Engine initialized!");
-`,
-      requirements: [
-        'Maintain application state immutably using modern ES6+ object and array spread patterns',
-        'Implement dynamic DOM rendering using document.createElement and template literals',
-        'Use Event Delegation on the container element to handle quest completions and deletions',
-        'Include functional filter controls (All, Active, Completed, High Bounty) using .filter()',
-        'Handle simulated asynchronous data persistence with Promises and loading states'
-      ],
-    },
-  },
-
-  // ════════════════════════════════════════════════════════════════
-  // MODULE 3: The Component Citadel: React & TypeScript Modern Architecture
-  // ════════════════════════════════════════════════════════════════
-  'web-week-3': {
-    lessons: [
-      {
-        title: 'The 3-Tier Web Universe: Frontend, Backend & Database Demystified',
-        language: 'javascript',
-        starterCode: `// Architecture Representation: 3-Tier Enterprise Web Application
-const threeTierArchitecture = {
-    tier1_Presentation: {
-        name: "Frontend Client (React + TypeScript)",
-        runtime: "Web Browser / V8 Engine",
-        role: "Renders visual UI, handles user input, manages local state, executes animations."
-    },
-    tier2_Application: {
-        name: "Backend Server (Node.js + Express)",
-        runtime: "Server-side Cloud Environment / Container",
-        role: "Authenticates users, enforces business rules, processes payments, coordinates transactions."
-    },
-    tier3_Persistence: {
-        name: "Database Vault (PostgreSQL)",
-        runtime: "Relational Database Server / Disk Engine",
-        role: "Guarantees long-term ACID persistence, enforces schema relations, performs indexed queries."
-    }
-};
-
-console.log("3-Tier Architecture System Map:");
-console.log(JSON.stringify(threeTierArchitecture, null, 2));
-`,
-        content: `
-<h2>🏛️ Chapter 3: The 3-Tier Web Architecture Demystified</h2>
-
-<div class="lesson-pixel-art">
-  <img src="/images/retro_fullstack_bg.png" alt="3-Tier Architecture Citadel" />
-  <div class="pixel-caption">
-    SECTOR 03: THE CITADEL OF TIERS — CLIENTS, APPLICATION SERVERS & PERSISTENT VAULTS
-  </div>
-</div>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>Before mastering React or TypeScript, you must understand the grand topology of modern software engineering. A professional web application is not just a single script; it is a distributed system comprising three specialized tiers that communicate over secure network protocols.</em>
-</div>
-
-<h3>The 3-Tier Architecture Paradigm</h3>
-<p>Modern commercial software cleanly separates concerns into three distinct layers:</p>
-
-<pre class="ascii-diagram">
-+--------------------------------------------------------------------+
-| TIER 1: FRONTEND (PRESENTATION LAYER)                              |
-| Tech: React, TypeScript, Modern CSS, Next.js                       |
-| Environment: User's Web Browser or Mobile Device                  |
-| Responsibility: UI components, input forms, state, accessibility  |
-+--------------------------------------------------------------------+
-                                 |
-                     JSON via HTTPS / REST / GraphQL
-                                 v
-+--------------------------------------------------------------------+
-| TIER 2: BACKEND (APPLICATION BUSINESS LOGIC LAYER)                 |
-| Tech: Node.js, Express, Python/FastAPI, Java/Spring Boot           |
-| Environment: Cloud Containers (Docker), Linux Servers              |
-| Responsibility: Authentication, authorization, business rules, APIs|
-+--------------------------------------------------------------------+
-                                 |
-                      SQL TCP Connection Pool (Port 5432)
-                                 v
-+--------------------------------------------------------------------+
-| TIER 3: DATABASE (PERSISTENCE LAYER)                               |
-| Tech: PostgreSQL, SQLite, MySQL, Redis (Cache)                     |
-| Environment: Dedicated Database Cluster, Persistent SSD Disks       |
-| Responsibility: Long-term data integrity, ACID transactions, JOINs |
-+--------------------------------------------------------------------+
-</pre>
-
-<h3>Why Can't the Frontend Talk Directly to the Database?</h3>
-<p>Novice developers often ask: <em>"Why can't my React app connect directly to PostgreSQL?"</em></p>
-<ul>
-  <li><strong>Security Catastrophe:</strong> Any database password or credentials embedded in frontend code are publicly readable by anyone who opens their browser's DevTools Network tab!</li>
-  <li><strong>Business Rule Enforcement:</strong> The client cannot be trusted. If the frontend checked <code>if (user.isAdmin)</code>, a malicious user could tamper with the JavaScript and grant themselves administrator rights. The backend server must independently verify every request.</li>
-  <li><strong>Resource Exhaustion:</strong> Opening 50,000 direct database TCP connections from 50,000 mobile phones would immediately crash any database server. The backend uses a <em>Connection Pool</em> to multiplex requests efficiently.</li>
-</ul>
-`,
-      },
-      {
-        title: 'Why Frameworks? React, Virtual DOM & Declarative JSX',
-        language: 'javascript',
-        starterCode: `// React Declarative Paradigm Simulation
-// Instead of manual DOM manipulation:
-// const el = document.createElement('div'); el.innerText = ...; parent.appendChild(el);
-
-// In React, UI is a Pure Function of State: UI = f(State)
-function renderQuestBadge({ title, rank, isCompleted }) {
-    return {
-        type: 'div',
-        props: {
-            className: \`quest-badge quest-badge--\${rank.toLowerCase()}\`,
-            children: [
-                { type: 'h3', props: { children: title } },
-                { type: 'span', props: { children: isCompleted ? '✅ CLEARED' : '⏳ ACTIVE' } }
-            ]
-        }
-    };
-}
-
-const vdomNode = renderQuestBadge({ title: 'Neon Dragon Bounty', rank: 'S-Class', isCompleted: true });
-console.log("Virtual DOM Tree Node:", JSON.stringify(vdomNode, null, 2));
-`,
-        content: `
-<h2>⚛️ Why React? Declarative UI & The Virtual DOM</h2>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>As web applications grow to include thousands of interactive buttons, live chat feeds, and complex shopping carts, updating the DOM manually using document.querySelector becomes an unmaintainable nightmare known as "Spaghetti Code". Discover how React conquered the web through Declarative Programming and the Virtual DOM.</em>
-</div>
-
-<h3>Imperative vs Declarative Programming</h3>
-<ul>
-  <li><strong>Imperative (Vanilla JS):</strong> You instruct the browser <em>step-by-step how</em> to change the DOM: find element #card, remove class 'hidden', create a span, append it to child #3, update innerText. If one step gets out of sync, your UI corrupts.</li>
-  <li><strong>Declarative (React):</strong> You describe <em>what</em> the UI should look like for any given state: <code>return &lt;Card user={user} /&gt;</code>. When state changes, React handles all the low-level DOM mutations behind the scenes.</li>
-</ul>
-
-<h3>The Virtual DOM & Reconciliation Engine</h3>
-<p>Direct DOM updates in the browser are slow because they trigger expensive Reflow (Layout) and Repaint cycles. React solves this with an in-memory representation called the <strong>Virtual DOM</strong>:</p>
-
-<ol>
-  <li>When a component's state updates, React creates a new lightweight Virtual DOM object tree.</li>
-  <li>React runs a lightning-fast <strong>Diffing Algorithm</strong> comparing the new tree with the previous Virtual DOM snapshot.</li>
-  <li>React calculates the minimal set of changes (the "patch") and updates only the altered DOM elements in a single batched operation. This process is called <strong>Reconciliation</strong>.</li>
-</ol>
-
-<h3>What is JSX? (JavaScript XML)</h3>
-<p>JSX is a syntax extension that allows developers to write HTML-like structures directly inside JavaScript files:</p>
-
-<pre><code>function HeroCard({ name, level, role }) {
-    return (
-        &lt;div className="hero-card"&gt;
-            &lt;h2&gt;{name}&lt;/h2&gt;
-            &lt;p&gt;Level {level} {role}&lt;/p&gt;
-        &lt;/div&gt;
-    );
-}</code></pre>
-<p>A compiler like Babel or Vite transpiles this JSX into standard JavaScript function calls: <code>React.createElement('div', { className: 'hero-card' }, ...)</code>.</p>
-`,
-      },
-      {
-        title: 'The Reactive Heart: State Management with useState & useEffect Hooks',
-        language: 'javascript',
-        starterCode: `// Simulating React Hooks State Architecture
-function createComponentHookEngine() {
-    let stateMemory = [];
-    let stateCursor = 0;
-
-    function useState(initialValue) {
-        const cursorIndex = stateCursor;
-        if (stateMemory[cursorIndex] === undefined) {
-            stateMemory[cursorIndex] = initialValue;
-        }
-
-        const setState = (newValue) => {
-            stateMemory[cursorIndex] = newValue;
-            console.log(\`[Trigger Render] State updated at index \${cursorIndex}: \${newValue}\`);
-        };
-
-        stateCursor++;
-        return [stateMemory[cursorIndex], setState];
-    }
-
-    function resetCursor() {
-        stateCursor = 0;
-    }
-
-    return { useState, resetCursor };
-}
-
-const engine = createComponentHookEngine();
-const [health, setHealth] = engine.useState(100);
-console.log("Initial Health State:", health);
-setHealth(85);
-`,
-        content: `
-<h2>🪝 Mastering React Hooks: useState & useEffect</h2>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>Hooks are the heartbeat of modern functional React. Learn how useState manages dynamic local memory that triggers UI re-renders, and how useEffect synchronizes your components with external side effects like HTTP network requests and browser event listeners.</em>
-</div>
-
-<h3>Managing Local State: useState</h3>
-<p>When a standard variable in a function changes, the UI does not update. <code>useState</code> declares a state variable preserved by React across renders:</p>
-
-<pre><code>import { useState } from 'react';
-
-function CharacterInventory() {
-    const [gold, setGold] = useState(100);
-    const [items, setItems] = useState(['Laser Dagger', 'Medkit']);
-
-    const purchaseItem = (itemName, cost) => {
-        if (gold >= cost) {
-            setGold(prevGold => prevGold - cost);
-            setItems(prevItems => [...prevItems, itemName]); // Always update immutably!
-        }
-    };
-
-    return (
-        &lt;div&gt;
-            &lt;p&gt;Gold Balance: {gold}&lt;/p&gt;
-            &lt;button onClick={() => purchaseItem('EMP Grenade', 50)}&gt;Buy EMP Grenade&lt;/button&gt;
-        &lt;/div&gt;
-    );
-}</code></pre>
-
-<h3>Handling Side Effects: useEffect</h3>
-<p>Components must frequently perform side effects: fetching data from an API, subscribing to WebSockets, or setting document titles. <code>useEffect(callback, dependencies)</code> manages these operations safely:</p>
-
-<table class="lesson-table">
-  <thead><tr><th>Dependency Array</th><th>Execution Behavior</th><th>Common Use Case</th></tr></thead>
-  <tbody>
-    <tr><td><code>useEffect(fn)</code> (No array)</td><td>Runs on initial mount <strong>and after every single re-render</strong></td><td>Debugging (Caution: Avoid API calls here!)</td></tr>
-    <tr><td><code>useEffect(fn, [])</code> (Empty array)</td><td>Runs <strong>once</strong> when component mounts onto the screen</td><td>Initial data fetching, starting timers</td></tr>
-    <tr><td><code>useEffect(fn, [userId])</code></td><td>Runs on mount, and <strong>re-runs whenever userId changes</strong></td><td>Fetching new data when route parameter changes</td></tr>
-    <tr><td>Return cleanup function: <code>return () => {...}</code></td><td>Runs right before component unmounts or before re-running effect</td><td>Clearing intervals, aborting fetch requests</td></tr>
-  </tbody>
-</table>
-`,
-      },
-      {
-        title: 'Fortifying with TypeScript: Static Types, Interfaces & Bulletproof Props',
-        language: 'javascript',
-        starterCode: `// TypeScript Static Type System Simulation
-// In TypeScript:
-/*
-interface Adventurer {
-    id: number;
-    name: string;
-    level: number;
-    role: 'Mage' | 'Warrior' | 'Rogue' | 'Healer'; // Union literal type!
-    isAlive?: boolean; // Optional property
-}
-
-type PartyList = Adventurer[];
-*/
-
-function validateAdventurer(hero) {
-    const allowedRoles = ['Mage', 'Warrior', 'Rogue', 'Healer'];
-    if (typeof hero.id !== 'number') throw new TypeError("ID must be a number!");
-    if (typeof hero.name !== 'string') throw new TypeError("Name must be a string!");
-    if (!allowedRoles.includes(hero.role)) throw new TypeError(\`Invalid role: \${hero.role}\`);
-    return \`Adventurer \${hero.name} [\${hero.role}] is type-safe!\`;
-}
-
-console.log(validateAdventurer({ id: 1, name: 'Lyra', level: 12, role: 'Rogue' }));
-`,
-        content: `
-<h2>🛡️ Fortifying the Frontend: TypeScript Architecture</h2>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>JavaScript is dynamically typed: you can pass a string into a function expecting a number, and the error will not surface until a real user's browser crashes in production with: "Uncaught TypeError: undefined is not a function". TypeScript adds compile-time static type analysis, catching bugs instantly before your code ever leaves your code editor.</em>
-</div>
-
-<h3>What is TypeScript?</h3>
-<p>TypeScript is a syntactic superset of JavaScript developed by Microsoft. Every valid JavaScript line is valid TypeScript, but TypeScript introduces a powerful static type engine:</p>
-
-<ul>
-  <li><strong>Compile-Time Verification:</strong> Code is checked as you type. If you mistype <code>user.namme</code> instead of <code>user.name</code>, the compiler flags the typo instantly with red squiggly lines.</li>
-  <li><strong>Self-Documenting Code:</strong> Hovering over any variable, function, or API response reveals its exact shape, parameters, and return types.</li>
-  <li><strong>Refactoring Confidence:</strong> Renaming a database column or component prop automatically updates or warns every affected file across a massive repository.</li>
-</ul>
-
-<h3>Defining Interfaces & Types</h3>
-<p>Use <code>interface</code> to model object shapes and component props:</p>
-
-<pre><code>// Define the shape of data returned from our backend REST API
-interface QuestItem {
-    id: number;
-    title: string;
-    bountyCredits: number;
-    difficulty: 'EASY' | 'MEDIUM' | 'HARD' | 'NIGHTMARE'; // Strict Union Type
-    tags?: string[]; // Optional array of strings
-}
-
-// Typing React Component Props with TypeScript:
-interface QuestCardProps {
-    quest: QuestItem;
-    onAccept: (questId: number) => void; // Typed callback function!
-}
-
-export function QuestCard({ quest, onAccept }: QuestCardProps) {
-    return (
-        &lt;div className="quest-card"&gt;
-            &lt;h3&gt;{quest.title}&lt;/h3&gt;
-            &lt;p&gt;Reward: {quest.bountyCredits} Credits&lt;/p&gt;
-            &lt;button onClick={() => onAccept(quest.id)}&gt;Accept Bounty&lt;/button&gt;
-        &lt;/div&gt;
-    );
-}</code></pre>
-`,
-      },
-    ],
-    exercises: [
-      {
-        title: 'Simulating React State Hook & Dispatch Action',
-        language: 'javascript',
-        description: `
-<p>Write a reducer function <code>questRosterReducer(state, action)</code> that models React state transitions immutably.</p>
-<ul>
-  <li>Action <code>{ type: 'ADD_HERO', payload: { id, name, level } }</code>: Returns a new state object with the hero appended to the <code>heroes</code> array.</li>
-  <li>Action <code>{ type: 'REMOVE_HERO', payload: id }</code>: Returns a new state object with the hero of that ID filtered out.</li>
-  <li>Action <code>{ type: 'CLEAR' }</code>: Returns state with <code>heroes: []</code>.</li>
-</ul>
-        `,
-        starterCode: `function questRosterReducer(state, action) {
-    switch (action.type) {
-        case 'ADD_HERO':
-            return { ...state, heroes: [...state.heroes, action.payload] };
-        case 'REMOVE_HERO':
-            return { ...state, heroes: state.heroes.filter(h => h.id !== action.payload) };
-        case 'CLEAR':
-            return { ...state, heroes: [] };
-        default:
-            return state;
-    }
-}
-
-let state = { heroes: [] };
-state = questRosterReducer(state, { type: 'ADD_HERO', payload: { id: 1, name: 'Astra', level: 10 } });
-state = questRosterReducer(state, { type: 'ADD_HERO', payload: { id: 2, name: 'Jax', level: 15 } });
-state = questRosterReducer(state, { type: 'REMOVE_HERO', payload: 1 });
-
-console.log("Roster Count:", state.heroes.length);
-console.log("Remaining Hero:", state.heroes[0].name);
-`,
-        expectedOutput: `Roster Count: 1\nRemaining Hero: Jax`,
-        hints: ['Always return a new state object using spread syntax (...state) and return a new array.'],
-      },
-      {
-        title: 'TypeScript Interface & Type Guard Validator',
-        language: 'javascript',
-        description: `
-<p>Write a type guard function <code>isApiSuccess(response)</code> that validates if an API response matches the shape: <code>{ status: 'success', data: Array }</code>.</p>
-<p>Return <code>true</code> if <code>response.status === 'success'</code> and <code>Array.isArray(response.data)</code>, otherwise return <code>false</code>.</p>
-        `,
-        starterCode: `function isApiSuccess(response) {
-    if (!response || typeof response !== 'object') return false;
-    return response.status === 'success' && Array.isArray(response.data);
-}
-
-console.log("Valid Payload:", isApiSuccess({ status: 'success', data: [1, 2, 3] }));
-console.log("Invalid Payload:", isApiSuccess({ status: 'error', message: 'Unauthorized' }));
-console.log("Malformed Payload:", isApiSuccess({ status: 'success', data: 'not-an-array' }));
-`,
-        expectedOutput: `Valid Payload: true\nInvalid Payload: false\nMalformed Payload: false`,
-        hints: ['Check that response is an object, status equals "success", and Array.isArray(response.data) is true.'],
-      },
-    ],
-    quiz: [
-      {
-        question: 'What is the fundamental role of the Backend (Tier 2) in a 3-Tier Architecture?',
-        options: [
-          'To render high-speed HTML5 canvas graphics and CSS Grid layouts',
-          'To securely authenticate users, enforce business logic, and broker safe access to the database',
-          'To replace the browser V8 JavaScript engine with a native C++ compiler',
-          'To store CSS variables in local browser storage'
-        ],
-        correctIndex: 1,
-        explanation: 'The backend serves as the trusted gatekeeper that protects database credentials, validates requests, enforces business rules, and serves structured JSON to clients.',
-      },
-      {
-        question: 'Why does React require that state updates be performed immutably?',
-        options: [
-          'Direct mutations prevent React from detecting that values changed, breaking shallow reference equality checks and stopping re-renders',
-          'JavaScript throws a fatal memory syntax error when modifying object keys',
-          'Immutability is required only when deploying applications inside Docker containers',
-          'Mutable objects cannot be converted into JSON strings'
-        ],
-        correctIndex: 0,
-        explanation: 'React relies on shallow object reference equality (prevProps !== nextProps) to determine if a component needs to re-render. Mutating an object in place keeps the same memory address, preventing updates.',
-      },
-      {
-        question: 'What is the key advantage of TypeScript union literal types (e.g. type Status = "pending" | "success" | "failed")?',
-        options: [
-          'They compress string sizes in physical memory by 50%',
-          'They restrict values strictly to the allowed strings at compile time, eliminating invalid state typos',
-          'They automatically translate English strings into foreign languages',
-          'They convert strings into relational SQL primary keys'
-        ],
-        correctIndex: 1,
-        explanation: 'Union types ensure that only valid, intended values can be assigned, eliminating typos and invalid state transitions across the codebase.',
-      },
-    ],
-    project: {
-      title: 'Full-Stack React & TypeScript Adventurer Portal',
-      description: `
-<h2>Project: React + TypeScript Adventurer Portal</h2>
-<p>Build a production-grade React client component tree configured with TypeScript interfaces. The application must feature strongly typed props, a state-driven inventory manager using <code>useState</code>, and asynchronous API integration using <code>useEffect</code> with loading and error boundaries.</p>
-`,
-      language: 'javascript',
-      starterCode: `// React + TypeScript Adventurer Portal Architecture
-/*
-interface AdventurerProfile {
-    id: string;
-    callsign: string;
-    classType: 'Netrunner' | 'Solo' | 'Techie';
-    cyberwareInstalled: string[];
-    credits: number;
-}
-*/
-
-console.log("🛡️ React + TypeScript Component Citadel configured!");
-`,
-      requirements: [
-        'Define explicit TypeScript interfaces for all data models, component props, and API response envelopes',
-        'Create modular functional components: NavigationBar, ProfileCard, InventoryGrid, and RecruiterForm',
-        'Manage interactive local state immutably using the useState hook',
-        'Handle asynchronous data synchronization with useEffect, including cleanup and error boundaries',
-        'Enforce strict union types for user classifications and contract status badges'
-      ],
-    },
-  },
-
-  // ════════════════════════════════════════════════════════════════
-  // MODULE 4: The Vault of Persistence: Relational Databases & PostgreSQL Mastery
-  // ════════════════════════════════════════════════════════════════
-  'web-week-4': {
-    lessons: [
-      {
-        title: 'The Database Divide: Relational Tables vs Document JSON Stores',
-        language: 'javascript',
-        starterCode: `// Relational (SQL) vs Document (NoSQL) Schema Paradigm
-// 1. Relational Paradigm (PostgreSQL): Strict Normalized Tables with Foreign Key Integrity
-const relationalModel = {
-    users_table: [
-        { id: 1, username: 'cypher_zero', email: 'cypher@nexus.net' }
-    ],
-    orders_table: [
-        { id: 101, user_id: 1, total_amount: 450.00, created_at: '2026-03-15' }
-    ]
-};
-
-// 2. Document Paradigm (MongoDB): Denormalized Nested JSON Trees
-const documentModel = {
-    user_document: {
-        _id: '64a9f1...',
-        username: 'cypher_zero',
-        orders: [
-            { orderId: 101, total_amount: 450.00, items: ['Plasma Rifle'] }
+        "title": "Semantic Document Outlining",
+        "instructions": "Construct a semantic HTML5 page using header, nav, main, article, and footer tags.",
+        "starterCode": "<!-- Build your semantic layout here -->",
+        "solution": "<header><nav><a href=\"/\">Home</a></nav></header><main><article><h1>Cyberpunk</h1></article></main><footer>&copy; 2088</footer>",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed semantic checks"
+          }
         ]
-    }
-};
-
-console.log("Relational: Normalized rows connected by foreign keys (PostgreSQL)");
-console.log("Document: Self-contained nested JSON documents (MongoDB)");
-`,
-        content: `
-<h2>🗄️ Chapter 4: Relational Databases & PostgreSQL Mastery</h2>
-
-<div class="lesson-pixel-art">
-  <img src="/images/retro_fullstack_bg.png" alt="PostgreSQL Relational Vault" />
-  <div class="pixel-caption">
-    SECTOR 04: THE VAULT OF PERSISTENCE — SCHEMAS, CONSTRAINTS & ACID ASSURANCE
-  </div>
-</div>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>RAM is ephemeral: the moment a server restarts or crashes, every variable stored in JavaScript memory vanishes instantly. To build durable software, you must store data in a persistent database. Learn why relational databases (specifically PostgreSQL) are the industry standard for full-stack engineering, and how relational schemas protect data integrity.</em>
-</div>
-
-<h3>Relational (SQL) vs Document (NoSQL)</h3>
-<p>When selecting a database for your application, software architects evaluate two fundamental data paradigms:</p>
-
-<table class="lesson-table">
-  <thead><tr><th>Feature</th><th>Relational Databases (PostgreSQL, MySQL)</th><th>Document Databases (MongoDB)</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Data Model</strong></td><td>Structured tables with defined rows and typed columns</td><td>Hierarchical, flexible JSON-like documents</td></tr>
-    <tr><td><strong>Schema Enforcement</strong></td><td><strong>Strict:</strong> Database rejects data violating data types or constraints</td><td><strong>Loose:</strong> Different documents in the same collection can have different keys</td></tr>
-    <tr><td><strong>Relationships</strong></td><td><strong>First-class:</strong> Foreign keys and multi-table <code>JOIN</code> operations</td><td>Denormalization / duplicated data embedded in documents</td></tr>
-    <tr><td><strong>Data Integrity</strong></td><td><strong>ACID:</strong> Guaranteed transactional atomicity and mathematical consistency</td><td>Often sacrifices consistency for distributed write speed (BASE)</td></tr>
-    <tr><td><strong>Best Used For</strong></td><td>E-commerce, fintech, social networks, SaaS, any relational business data</td><td>Unstructured logs, real-time sensor streams, rapid prototyping</td></tr>
-  </tbody>
-</table>
-
-<h3>Why PostgreSQL is the Gold Standard</h3>
-<p><strong>PostgreSQL</strong> (often simply called Postgres) is widely regarded by senior engineers as the most advanced, reliable open-source database engine in the world. It provides:</p>
-<ul>
-  <li><strong>Uncompromising ACID Compliance:</strong> Financial-grade data safety.</li>
-  <li><strong>Rich Type Ecosystem:</strong> Native support for UUIDs, Geolocation (PostGIS), Arrays, and native <code>JSONB</code> (combining the power of SQL and NoSQL in one engine!).</li>
-  <li><strong>Extensibility & Concurrency:</strong> Multi-Version Concurrency Control (MVCC) allows thousands of concurrent users to read and write without locking tables.</li>
-</ul>
-`,
       },
       {
-        title: 'Forging the Schema: PostgreSQL Data Types, Constraints & Keys',
-        language: 'javascript',
-        starterCode: `// PostgreSQL DDL (Data Definition Language) Blueprint
-const createUsersTableSQL = \`
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    reputation_score INTEGER DEFAULT 100 CHECK (reputation_score >= 0),
-    is_active BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-\`;
-
-console.log("PostgreSQL Table Schema Blueprint:");
-console.log(createUsersTableSQL);
-`,
-        content: `
-<h2>🔨 Forging Schemas: Tables, Primary Keys & Constraints</h2>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>A database is only as strong as its schema constraints. If your tables allow null emails, duplicate usernames, or negative account balances, your software will inevitably corrupt. Learn how to craft bulletproof PostgreSQL tables with strict keys and validation constraints.</em>
-</div>
-
-<h3>Essential PostgreSQL Data Types</h3>
-<ul>
-  <li><code>SERIAL</code> / <code>BIGSERIAL</code>: Auto-incrementing integer (ideal for primary keys).</li>
-  <li><code>UUID</code>: 128-bit Universally Unique Identifier (e.g. <code>a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11</code>). Highly recommended for distributed systems.</li>
-  <li><code>VARCHAR(n)</code>: Variable-length string with a maximum character limit (e.g. <code>VARCHAR(100)</code>).</li>
-  <li><code>TEXT</code>: Unlimited-length text field (for blog posts, bios, messages).</li>
-  <li><code>NUMERIC(precision, scale)</code>: Exact fixed-point decimal numbers (essential for currency, e.g. <code>NUMERIC(10, 2)</code>). Never use floating points for money!</li>
-  <li><code>BOOLEAN</code>: Logical <code>TRUE</code> or <code>FALSE</code>.</li>
-  <li><code>TIMESTAMP WITH TIME ZONE</code> (or <code>TIMESTAMPTZ</code>): Date and time including UTC offset. Always use timezone-aware timestamps in production!</li>
-</ul>
-
-<h3>Database Constraints: Your First Line of Defense</h3>
-<p>Constraints are rules enforced directly by the database engine, rejecting invalid write operations at the hardware level:</p>
-
-<pre><code>CREATE TABLE guild_contracts (
-    id SERIAL PRIMARY KEY,                          -- Uniquely identifies each row
-    title VARCHAR(120) NOT NULL,                    -- Field cannot be NULL
-    bounty_credits NUMERIC(12, 2) NOT NULL,
-    danger_level VARCHAR(20) DEFAULT 'MODERATE',   -- Default value if omitted
-    min_level INTEGER CHECK (min_level >= 1),       -- Rejects invalid level numbers!
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);</code></pre>
-`,
-      },
-      {
-        title: 'The Language of Queries: SQL CRUD, Filtering & Multi-Table JOINs',
-        language: 'javascript',
-        starterCode: `// SQL Query Simulation: Multi-Table INNER JOIN
-const users = [
-    { id: 1, name: 'Kaelen', role: 'Mage' },
-    { id: 2, name: 'Lyra', role: 'Rogue' }
-];
-
-const quests = [
-    { id: 101, user_id: 1, title: 'Harvest Mana Crystals', reward: 300 },
-    { id: 102, user_id: 1, title: 'Banish Shade Wyrm', reward: 850 },
-    { id: 103, user_id: 2, title: 'Infiltrate Cyber Vault', reward: 1200 }
-];
-
-// Equivalent to:
-// SELECT users.name, quests.title, quests.reward
-// FROM users
-// INNER JOIN quests ON users.id = quests.user_id;
-const joinResult = quests.map(q => {
-    const user = users.find(u => u.id === q.user_id);
-    return { adventurer: user.name, quest: q.title, reward: q.reward };
-});
-
-console.log("SQL INNER JOIN Result Rows:");
-console.table(joinResult);
-`,
-        content: `
-<h2>🔍 The Declarative Language: SQL CRUD & Relational JOINs</h2>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>Structured Query Language (SQL) is declarative: you describe what data you want, and PostgreSQL's Query Planner determines the mathematically optimal way to retrieve it from disk. Master the four CRUD operations, filtering predicates, aggregations, and multi-table relational JOINs.</em>
-</div>
-
-<h3>The Four CRUD Operations</h3>
-<ol>
-  <li><strong>Create (INSERT):</strong>
-    <pre><code>INSERT INTO users (username, email, password_hash)
-VALUES ('cypher', 'cypher@matrix.io', '$2b$10$e8...')
-RETURNING id, created_at; -- Returns newly generated primary key!</code></pre>
-  </li>
-  <li><strong>Read (SELECT):</strong>
-    <pre><code>SELECT id, username, email FROM users
-WHERE is_active = TRUE AND reputation_score > 50
-ORDER BY created_at DESC
-LIMIT 10 OFFSET 0; -- Pagination!</code></pre>
-  </li>
-  <li><strong>Update (UPDATE):</strong>
-    <pre><code>UPDATE users
-SET reputation_score = reputation_score + 25
-WHERE id = 42;</code></pre>
-  </li>
-  <li><strong>Delete (DELETE):</strong>
-    <pre><code>DELETE FROM users WHERE id = 42;</code></pre>
-  </li>
-</ol>
-
-<h3>Relational JOINs: Connecting the Dots</h3>
-<p>Real-world data is normalized into separate tables to eliminate redundancy. We connect tables on primary and foreign keys using <strong>JOINs</strong>:</p>
-
-<ul>
-  <li><code>INNER JOIN</code>: Returns only rows where there is a match in <strong>both</strong> tables.</li>
-  <li><code>LEFT JOIN</code>: Returns <strong>all</strong> rows from the left table, plus matched records from the right table (unmatched fields become <code>NULL</code>).</li>
-  <li><code>GROUP BY & Aggregations</code>: Summarizes data using functions like <code>COUNT()</code>, <code>SUM()</code>, <code>AVG()</code>:
-    <pre><code>SELECT users.username, COUNT(orders.id) AS total_orders, SUM(orders.total_amount) AS lifetime_value
-FROM users
-INNER JOIN orders ON users.id = orders.user_id
-GROUP BY users.id, users.username
-HAVING COUNT(orders.id) >= 5;</code></pre>
-  </li>
-</ul>
-`,
-      },
-      {
-        title: 'Relational Integrity: Foreign Key Cascades, Indexing & ACID Transactions',
-        language: 'javascript',
-        starterCode: `// ACID Transaction Emulation (Bank Transfer)
-function executeTransfer(sender, receiver, amount) {
-    console.log("BEGIN TRANSACTION;");
-    
-    try {
-        if (sender.balance < amount) {
-            throw new Error("Insufficient funds!");
+        "title": "Accessible Form with Native Validations",
+        "instructions": "Create a registration form containing email, password, and a submit button.",
+        "starterCode": "<form></form>",
+        "solution": "<form><input type=\"email\" required><input type=\"password\" required minlength=\"8\"><button type=\"submit\">Submit</button></form>",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed form checks"
+          }
+        ]
+      }
+    ],
+    "quiz": {
+      "title": "Module 1 Mastery Quiz: HTML5 & Web Anatomy",
+      "questions": [
+        {
+          "question": "What is the First Rule of ARIA?",
+          "options": [
+            "Always add aria-label to every element",
+            "Do not use ARIA if a native HTML element already exists with the required semantics",
+            "ARIA is only for mobile applications",
+            "ARIA replaces HTML tags"
+          ],
+          "correct": 1,
+          "explanation": "Native HTML elements have built-in accessibility features; ARIA is only for custom widgets."
+        },
+        {
+          "question": "Which step in the browser rendering pipeline calculates element coordinates and sizes?",
+          "options": [
+            "DOM Construction",
+            "CSSOM Parsing",
+            "Layout (Reflow)",
+            "Compositing"
+          ],
+          "correct": 2,
+          "explanation": "Layout (Reflow) computes the exact geometric positions and dimensions of all render tree boxes."
         }
-
-        sender.balance -= amount;
-        console.log(\`UPDATE accounts SET balance = balance - \${amount} WHERE id = \${sender.id};\`);
-
-        receiver.balance += amount;
-        console.log(\`UPDATE accounts SET balance = balance + \${amount} WHERE id = \${receiver.id};\`);
-
-        console.log("COMMIT; -- All changes permanently persisted!");
-        return true;
-    } catch (err) {
-        console.log("ROLLBACK; -- Error encountered, reverting all changes!");
-        return false;
-    }
-}
-
-const alice = { id: 1, balance: 100 };
-const bob = { id: 2, balance: 50 };
-executeTransfer(alice, bob, 40);
-`,
-        content: `
-<h2>💎 Data Integrity: Foreign Keys, Indexes & ACID Transactions</h2>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>What happens if your server crashes in the exact millisecond between deducting money from Account A and adding it to Account B? Without ACID transactions, that money vanishes into the void! Master Foreign Key cascading rules, B-Tree indexes for lightning query speed, and ACID transaction boundaries.</em>
-</div>
-
-<h3>Foreign Keys & Referential Integrity</h3>
-<p>A <strong>Foreign Key</strong> links a column in one table to the Primary Key of another table, guaranteeing that orphaned records cannot exist:</p>
-
-<pre><code>CREATE TABLE orders (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    total_amount NUMERIC(10, 2) NOT NULL
-);</code></pre>
-<ul>
-  <li><code>ON DELETE CASCADE</code>: If a user account is deleted, all their associated orders are automatically deleted.</li>
-  <li><code>ON DELETE RESTRICT</code>: Rejects the user deletion if any orders still reference that user ID!</li>
-</ul>
-
-<h3>B-Tree Indexes: Instant Query Speed</h3>
-<p>Without an index, searching for <code>WHERE email = 'user@nexus.io'</code> requires PostgreSQL to scan every single row on disk (a <strong>Sequential Scan</strong>, O(N) complexity). On a table with 10 million users, this takes seconds!</p>
-
-<p>A <strong>B-Tree Index</strong> creates a sorted, balanced tree on disk, reducing lookup complexity to <strong>O(log N)</strong>:</p>
-<pre><code>CREATE INDEX idx_users_email ON users(email);</code></pre>
-
-<div class="callout callout--warn">
-  <strong>⚠️ Indexing Trade-Off:</strong> Indexes make <code>SELECT</code> queries blazing fast, but slightly slow down <code>INSERT</code>, <code>UPDATE</code>, and <code>DELETE</code> operations because the index tree must be updated on every write. Only index columns frequently used in <code>WHERE</code> clauses and <code>JOIN</code> conditions!
-</div>
-
-<h3>ACID: The Four Pillars of Transactions</h3>
-<ul>
-  <li><strong>Atomicity (All-or-Nothing):</strong> Every statement inside a <code>BEGIN ... COMMIT</code> block succeeds together, or the entire block is undone via <code>ROLLBACK</code>.</li>
-  <li><strong>Consistency:</strong> The database transitions only between valid states conforming to all schema constraints.</li>
-  <li><strong>Isolation:</strong> Concurrent transactions executing at the same time cannot see each other's half-finished modifications.</li>
-  <li><strong>Durability:</strong> Once committed, data is written to the Write-Ahead Log (WAL) on physical disk, surviving power outages and crashes.</li>
-</ul>
-`,
-      },
-    ],
-    exercises: [
-      {
-        title: 'Relational Query Filter & Sort Engine',
-        language: 'javascript',
-        description: `
-<p>Write a function <code>filterAndSortUsers(usersTable, minScore, requiredRole)</code> that simulates a SQL query: <code>SELECT username, score FROM users WHERE role = ? AND score >= ? ORDER BY score DESC</code>.</p>
-<p>Return an array of formatted strings: <code>"\${username} (\${score} pts)"</code>.</p>
-        `,
-        starterCode: `function filterAndSortUsers(usersTable, minScore, requiredRole) {
-    return usersTable
-        .filter(u => u.role === requiredRole && u.score >= minScore)
-        .sort((a, b) => b.score - a.score)
-        .map(u => \`\${u.username} (\${u.score} pts)\`);
-}
-
-const users = [
-    { username: 'Neo', role: 'Hacker', score: 95 },
-    { username: 'Trinity', role: 'Hacker', score: 110 },
-    { username: 'Morpheus', role: 'Captain', score: 130 },
-    { username: 'Cypher', role: 'Hacker', score: 70 }
-];
-
-console.log(filterAndSortUsers(users, 80, 'Hacker').join(', '));
-`,
-        expectedOutput: `Trinity (110 pts), Neo (95 pts)`,
-        hints: ['Filter by role and minScore, sort descending by score (b.score - a.score), and format strings.'],
-      },
-      {
-        title: 'SQL Multi-Table Inner Join Simulator',
-        language: 'javascript',
-        description: `
-<p>Write a function <code>simulateInnerJoin(users, orders)</code> that mimics an <code>INNER JOIN orders ON users.id = orders.user_id</code>.</p>
-<p>Return formatted strings: <code>"[USERNAME] -> Order #[ORDER_ID] ($[AMOUNT])"</code>, sorted ascending by order ID.</p>
-        `,
-        starterCode: `function simulateInnerJoin(users, orders) {
-    const results = [];
-    orders.forEach(order => {
-        const user = users.find(u => u.id === order.user_id);
-        if (user) {
-            results.push(\`\${user.username} -> Order #\${order.id} ($\${order.amount})\`);
-        }
-    });
-    return results;
-}
-
-const users = [
-    { id: 1, username: 'Astra' },
-    { id: 2, username: 'Kael' }
-];
-
-const orders = [
-    { id: 501, user_id: 1, amount: 250 },
-    { id: 502, user_id: 2, amount: 90 },
-    { id: 503, user_id: 1, amount: 120 }
-];
-
-console.log(simulateInnerJoin(users, orders).join('\\n'));
-`,
-        expectedOutput: `Astra -> Order #501 ($250)\nKael -> Order #502 ($90)\nAstra -> Order #503 ($120)`,
-        hints: ['Iterate through orders, match user by user_id, and format each result.'],
-      },
-    ],
-    quiz: [
-      {
-        question: 'Why is PostgreSQL preferred over flat files or in-memory storage for business data?',
-        options: [
-          'PostgreSQL automatically writes frontend CSS files for your website',
-          'PostgreSQL guarantees ACID compliance, relational integrity, disk persistence, and indexed multi-user concurrency',
-          'Flat files cannot be opened on Linux operating systems',
-          'PostgreSQL does not require any CPU or RAM to operate'
-        ],
-        correctIndex: 1,
-        explanation: 'PostgreSQL provides mathematical guarantees of data consistency, multi-user concurrency without file corruption, indexes for fast lookups, and durable persistence.',
-      },
-      {
-        question: 'What is the purpose of an INNER JOIN in SQL?',
-        options: [
-          'To permanently merge two physical tables into a single table on disk',
-          'To query rows from two tables where there is a matching value in both tables based on a join condition',
-          'To delete duplicate records across different database servers',
-          'To encrypt user passwords using bcrypt'
-        ],
-        correctIndex: 1,
-        explanation: 'An INNER JOIN combines records from two tables whenever the specified ON condition (typically primary key = foreign key) evaluates to true.',
-      },
-      {
-        question: 'What happens when a database transaction encounters an error before reaching COMMIT?',
-        options: [
-          'The database reboots automatically and discards all tables',
-          'The entire transaction is reverted via ROLLBACK, ensuring no partial or corrupted data is saved',
-          'Half the query executes and the remaining queries are skipped',
-          'The error is ignored and the transaction commits anyway'
-        ],
-        correctIndex: 1,
-        explanation: 'Atomicity (the A in ACID) guarantees that if any part of a transaction fails, a ROLLBACK restores the database to the exact state it was in before the transaction began.',
-      },
-    ],
-    project: {
-      title: 'The Guild Relational Database Schema & Query Blueprint',
-      description: `
-<h2>Project: PostgreSQL Relational Schema Architecture</h2>
-<p>Design and write a complete PostgreSQL schema script for an enterprise mercenary guild management platform. You will define tables for Users, Mercenary Classes, Contracts, and Bounties, enforcing primary keys, foreign key cascading integrity, check constraints, and B-Tree indexes.</p>
-`,
-      language: 'javascript',
-      starterCode: `// PostgreSQL Enterprise Guild Schema Blueprint
-/*
--- 1. Users Table
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- 2. Guild Contracts Table with Foreign Key
-CREATE TABLE contracts (
-    id SERIAL PRIMARY KEY,
-    contract_code VARCHAR(30) UNIQUE NOT NULL,
-    client_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    bounty_amount NUMERIC(12, 2) NOT NULL CHECK (bounty_amount > 0),
-    status VARCHAR(20) DEFAULT 'OPEN' CHECK (status IN ('OPEN', 'CLAIMED', 'COMPLETED', 'CANCELLED')),
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- 3. B-Tree Indexes for Performance Optimization
-CREATE INDEX idx_contracts_client ON contracts(client_id);
-CREATE INDEX idx_contracts_status ON contracts(status);
-*/
-
-console.log("🗄️ PostgreSQL Relational Schema Blueprint verified!");
-`,
-      requirements: [
-        'Design at least 4 interconnected relational tables with proper primary and foreign keys',
-        'Enforce data integrity using NOT NULL, UNIQUE, DEFAULT, and CHECK constraints',
-        'Configure appropriate foreign key cascading policies (ON DELETE CASCADE or ON DELETE RESTRICT)',
-        'Add B-Tree indexes to optimize columns frequently filtered in WHERE or JOIN operations',
-        'Write complex multi-table SQL queries utilizing INNER JOIN, LEFT JOIN, and GROUP BY aggregations'
-      ],
+      ]
     },
+    "project": {
+      "title": "Cyberpunk Net Terminal Portal",
+      "scenario": "Construct an accessible, fully semantic HTML5 headquarters page for the Net Runner Guild with navigation, picture hero, and registration terminal.",
+      "starterCode": "<!DOCTYPE html>\n<html lang=\"en\">\n<head><meta charset=\"UTF-8\"><title>Net Terminal</title></head>\n<body>\n  <!-- Build semantic portal -->\n</body>\n</html>",
+      "requirements": [
+        "Include header with accessible nav",
+        "Use main with at least two article cards",
+        "Provide a picture element with WebP and fallback",
+        "Include an interactive form with labels and validation"
+      ]
+    }
   },
-
-  // ════════════════════════════════════════════════════════════════
-  // MODULE 5: The Server Forge: Node.js, Express & Database Integration
-  // ════════════════════════════════════════════════════════════════
-  'web-week-5': {
-    lessons: [
+  "web-week-2": {
+    "lessons": [
       {
-        title: 'The Server Runtime: Node.js, V8 Engine & Non-Blocking I/O',
-        language: 'javascript',
-        starterCode: `// Node.js Server Environment Inspection
-console.log("⚡ Node.js Server Runtime initialized!");
-console.log(\`Node Version: \${process.version}\`);
-console.log(\`Process Platform: \${process.platform} (\${process.arch})\`);
-console.log(\`Process PID: \${process.pid}\`);
-
-// Environment Variables via process.env
-const PORT = process.env.PORT || 3001;
-const NODE_ENV = process.env.NODE_ENV || 'development';
-console.log(\`Server configured for port \${PORT} in \${NODE_ENV} mode.\`);
-`,
-        content: `
-<h2>⚙️ Chapter 5: The Server Forge — Node.js & REST APIs</h2>
-
-<div class="lesson-pixel-art">
-  <img src="/images/retro_fullstack_bg.png" alt="Node.js Server Foundry" />
-  <div class="pixel-caption">
-    SECTOR 05: THE SERVER FORGE — NON-BLOCKING I/O, REST PROTOCOLS & DATABASE POOLS
-  </div>
-</div>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>Until 2009, JavaScript was confined exclusively inside web browsers. Ryan Dahl revolutionized computing by extracting Google Chrome's V8 engine and pairing it with a C-based event-driven I/O library called libuv: creating Node.js. Learn how Node.js powers millions of scalable backend microservices worldwide.</em>
-</div>
-
-<h3>What Makes Node.js Unique? Non-Blocking I/O</h3>
-<p>Traditional servers (like Apache running PHP or old Java thread-per-request servers) assign a heavy operating system thread to every incoming HTTP connection. If 10,000 clients connect and wait for slow database queries, the server runs out of RAM and crashes.</p>
-
-<p>Node.js uses a <strong>Single-Threaded Event Loop with Non-Blocking Asynchronous I/O</strong>:</p>
-<ul>
-  <li>When an HTTP request arrives asking for data from PostgreSQL, Node dispatches the query to libuv's background threadpool and immediately frees the main thread to accept more connections!</li>
-  <li>When PostgreSQL finishes reading data from disk, an event signals the main thread to resume, serialize the result to JSON, and send the HTTP response.</li>
-  <li>This enables a single lightweight Node.js process to handle tens of thousands of concurrent connections with minimal RAM overhead.</li>
-</ul>
-
-<h3>Node Modules: CommonJS vs ES Modules</h3>
-<ul>
-  <li><strong>CommonJS (Legacy standard):</strong> Uses <code>const express = require('express');</code> and <code>module.exports = app;</code>.</li>
-  <li><strong>ES Modules (Modern industry standard):</strong> Uses <code>import express from 'express';</code> and <code>export default app;</code> (configured by setting <code>"type": "module"</code> in <code>package.json</code>).</li>
-</ul>
-`,
+        "title": "The Box Model Alchemy & CSS Custom Properties (Variables)",
+        "language": "css",
+        "starterCode": ":root {\n  --neon-cyan: #00f0ff;\n  --neon-pink: #ff0055;\n  --bg-dark: #0a0b10;\n  --font-mono: 'JetBrains Mono', monospace;\n}\n\n* {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n}\n\n.card {\n  background-color: var(--bg-dark);\n  border: 1px solid var(--neon-cyan);\n  padding: 1.5rem;\n  color: #fff;\n}\n",
+        "content": "<h2>🎨 Chapter 1: The Box Model & CSS Variables</h2>\n<p>Every element in CSS is a rectangular box. By default, <code>content-box</code> adds padding and border to the declared width, causing overflow bugs. The modern industry standard is <code>box-sizing: border-box</code>:</p>\n<pre class=\"ascii-diagram\">\n+------------------------------------+\n|  Margin (Transparent spacing)       |\n|  +------------------------------+  |\n|  |  Border (Outline stroke)     |  |\n|  |  +------------------------+  |  |\n|  |  |  Padding (Inner space) |  |  |\n|  |  |  +------------------+  |  |  |\n|  |  |  |  Content (Width) |  |  |  |\n|  |  |  +------------------+  |  |  |\n|  |  +------------------------+  |  |\n|  +------------------------------+  |\n+------------------------------------+\n</pre>\n<p>CSS Custom Properties (Variables) defined under <code>:root</code> enable dynamic theme toggling, maintainable design systems, and rapid responsive adjustments.</p>"
       },
       {
-        title: 'The Rules of the Web: HTTP Protocols, Status Codes & REST Conventions',
-        language: 'javascript',
-        starterCode: `// REST API Endpoint & HTTP Status Code Matrix
-const restApiSpec = [
-    { method: 'GET', path: '/api/v1/heroes', status: 200, action: 'Retrieve list of all heroes' },
-    { method: 'GET', path: '/api/v1/heroes/:id', status: 200, action: 'Retrieve single hero by ID (404 if missing)' },
-    { method: 'POST', path: '/api/v1/heroes', status: 201, action: 'Create new hero from JSON body' },
-    { method: 'PUT', path: '/api/v1/heroes/:id', status: 200, action: 'Replace entire hero record' },
-    { method: 'PATCH', path: '/api/v1/heroes/:id', status: 200, action: 'Partially update hero fields' },
-    { method: 'DELETE', path: '/api/v1/heroes/:id', status: 204, action: 'Delete hero (No Content returned)' }
-];
-
-console.log("RESTful API Endpoint Conventions:");
-console.table(restApiSpec);
-`,
-        content: `
-<h2>📡 The Rules of the Web: HTTP & RESTful Architecture</h2>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>HTTP is the language of the Internet. Representational State Transfer (REST) is the architectural pattern that governs how web servers expose data resources to frontend clients. Learn the HTTP methods, headers, and status codes required to design professional, standardized APIs.</em>
-</div>
-
-<h3>The Anatomy of an HTTP Request & Response</h3>
-<pre class="ascii-diagram">
-CLIENT REQUEST:
-POST /api/v1/guilds HTTP/1.1
-Host: api.cyberquest.dev
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOi...
-
-{ "guildName": "Shadow Syndicate", "realm": "Neon City" }
-
-SERVER RESPONSE:
-HTTP/1.1 201 Created
-Content-Type: application/json
-Location: /api/v1/guilds/42
-
-{ "id": 42, "guildName": "Shadow Syndicate", "created_at": "2026-03-21T18:00:00Z" }
-</pre>
-
-<h3>The 5 HTTP Status Code Families</h3>
-<table class="lesson-table">
-  <thead><tr><th>Range</th><th>Category</th><th>Key Examples</th></tr></thead>
-  <tbody>
-    <tr><td><code>2xx</code></td><td><strong>Success</strong></td><td><code>200 OK</code> (Standard fetch/update), <code>201 Created</code> (Resource created via POST), <code>204 No Content</code> (Successful DELETE)</td></tr>
-    <tr><td><code>3xx</code></td><td><strong>Redirection</strong></td><td><code>301 Moved Permanently</code>, <code>304 Not Modified</code> (Cached content)</td></tr>
-    <tr><td><code>4xx</code></td><td><strong>Client Error</strong></td><td><code>400 Bad Request</code> (Validation failed), <code>401 Unauthorized</code> (Missing or invalid token), <code>403 Forbidden</code> (Authenticated but lacks permissions), <code>404 Not Found</code></td></tr>
-    <tr><td><code>5xx</code></td><td><strong>Server Error</strong></td><td><code>500 Internal Server Error</code> (Unhandled server crash/bug), <code>502 Bad Gateway</code>, <code>503 Service Unavailable</code></td></tr>
-  </tbody>
-</table>
-
-<h3>RESTful Design Principles</h3>
-<ol>
-  <li><strong>Resource-Oriented URIs:</strong> Use plural nouns for resources (e.g. <code>/api/v1/contracts</code>, NOT <code>/api/v1/getContracts</code>).</li>
-  <li><strong>Use Proper Verbs:</strong> Never use <code>GET</code> to modify or delete data! <code>GET</code> requests must be safe and idempotent.</li>
-  <li><strong>Statelessness:</strong> The server does not remember user sessions in RAM between requests; every request must supply its own authentication credentials (such as a JWT token in the <code>Authorization</code> header).</li>
-</ol>
-`,
+        "title": "Responsive Design, Media Queries & Mobile-First Philosophy",
+        "language": "css",
+        "starterCode": "/* Mobile-first base styles (default for all screens) */\n.grid-container {\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n}\n\n/* Tablet breakpoint */\n@media (min-width: 768px) {\n  .grid-container {\n    display: grid;\n    grid-template-columns: repeat(2, 1fr);\n  }\n}\n\n/* Desktop breakpoint */\n@media (min-width: 1024px) {\n  .grid-container {\n    grid-template-columns: repeat(4, 1fr);\n  }\n}\n",
+        "content": "<h2>🎨 Chapter 2: Responsive Design & Mobile-First Media Queries</h2>\n<p>Over 55% of global web traffic originates from mobile devices. The <strong>Mobile-First</strong> strategy writes base CSS for small screens first, then uses <code>min-width</code> media queries to progressively enhance the experience as screen width expands.</p>"
       },
       {
-        title: 'The Express Foundry: Routing Pipelines, Middleware & Request Lifecycle',
-        language: 'javascript',
-        starterCode: `// Express Middleware Pipeline Simulation
-function createExpressApp() {
-    const middlewareStack = [];
-
-    function use(fn) {
-        middlewareStack.push(fn);
-    }
-
-    function handleRequest(req, res) {
-        let index = 0;
-        function next() {
-            if (index < middlewareStack.length) {
-                const currentMiddleware = middlewareStack[index++];
-                currentMiddleware(req, res, next);
-            }
+        "title": "Flexbox Layouts: Alignment, Flex-Grow & Fluid Interfaces",
+        "language": "css",
+        "starterCode": ".navbar {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 1rem 2rem;\n}\n\n.nav-links {\n  display: flex;\n  gap: 1.5rem;\n  list-style: none;\n}\n\n.hero-badge {\n  flex-shrink: 0;\n}\n",
+        "content": "<h2>🎨 Chapter 3: One-Dimensional Layouts with Flexbox</h2>\n<p>Flexbox manages distribution along a single axis (either row or column). Key properties:</p>\n<ul>\n  <li><code>justify-content</code>: Aligns children along the Main Axis (e.g. <code>space-between</code>, <code>center</code>).</li>\n  <li><code>align-items</code>: Aligns children along the Cross Axis (e.g. <code>center</code>, <code>stretch</code>).</li>\n  <li><code>flex-grow</code>, <code>flex-shrink</code>, <code>flex-basis</code>: Dictates how items expand or compress to fill available space.</li>\n</ul>"
+      },
+      {
+        "title": "Two-Dimensional Mastery: CSS Grid, Template Areas & Subgrid",
+        "language": "css",
+        "starterCode": ".dashboard {\n  display: grid;\n  grid-template-columns: 260px 1fr;\n  grid-template-rows: 70px 1fr 50px;\n  grid-template-areas:\n    \"sidebar header\"\n    \"sidebar main\"\n    \"sidebar footer\";\n  min-height: 100vh;\n}\n\n.sidebar { grid-area: sidebar; }\n.header  { grid-area: header; }\n.main    { grid-area: main; }\n.footer  { grid-area: footer; }\n",
+        "content": "<h2>🎨 Chapter 4: Two-Dimensional Grid Architecture</h2>\n<p>CSS Grid handles both rows AND columns simultaneously. With <code>grid-template-areas</code>, you can visually map layout zones with semantic ASCII-like names, producing self-documenting stylesheets.</p>"
+      },
+      {
+        "title": "Modern CSS Transitions, Keyframe Animations & Micro-Interactions",
+        "language": "css",
+        "starterCode": ".cyber-btn {\n  background: #00f0ff;\n  color: #000;\n  border: none;\n  padding: 0.8rem 1.6rem;\n  font-weight: 700;\n  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;\n}\n\n.cyber-btn:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);\n}\n\n@keyframes pulseGlow {\n  0%, 100% { opacity: 1; }\n  50% { opacity: 0.4; }\n}\n.status-led {\n  animation: pulseGlow 2s infinite ease-in-out;\n}\n",
+        "content": "<h2>🎨 Chapter 5: CSS Animations & Tactile Micro-Interactions</h2>\n<p>Smooth transitions give an interface a living, tactile personality. Always animate <strong>composite-friendly properties</strong> (<code>transform</code> and <code>opacity</code>) to leverage GPU hardware acceleration and avoid triggering CPU layout reflows!</p>"
+      }
+    ],
+    "exercises": [
+      {
+        "title": "Responsive Flexbox Navigation Bar",
+        "instructions": "Build a navbar using display: flex with space-between alignment and a gap between items.",
+        "starterCode": ".nav { /* Your styles */ }",
+        "solution": ".nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed flex checks"
+          }
+        ]
+      },
+      {
+        "title": "CSS Grid Dashboard Layout",
+        "instructions": "Define a 3-column auto-fitting responsive grid using repeat(auto-fit, minmax(250px, 1fr)).",
+        "starterCode": ".grid { /* Your styles */ }",
+        "solution": ".grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed grid checks"
+          }
+        ]
+      }
+    ],
+    "quiz": {
+      "title": "Module 2 Mastery Quiz: CSS3, Flexbox & Grid",
+      "questions": [
+        {
+          "question": "Which CSS property allows padding and border to be included in an element's total width and height?",
+          "options": [
+            "box-sizing: border-box",
+            "box-sizing: content-box",
+            "display: flex",
+            "overflow: hidden"
+          ],
+          "correct": 0,
+          "explanation": "border-box includes padding and border within the declared width, preventing layout overflow."
+        },
+        {
+          "question": "Which CSS properties can the browser animate on the GPU without triggering layout or repaint?",
+          "options": [
+            "width and height",
+            "transform and opacity",
+            "margin and padding",
+            "top and left"
+          ],
+          "correct": 1,
+          "explanation": "transform and opacity are composite-only properties processed directly by the GPU."
         }
-        next();
-    }
-
-    return { use, handleRequest };
-}
-
-const app = createExpressApp();
-
-// 1. Logger Middleware
-app.use((req, res, next) => {
-    console.log(\`[\${new Date().toISOString()}] \${req.method} \${req.url}\`);
-    next(); // Pass control to next middleware!
-});
-
-// 2. Auth Middleware
-app.use((req, res, next) => {
-    if (!req.headers['authorization']) {
-        console.log("Middleware check: Anonymous user detected");
-    }
-    next();
-});
-
-// Simulate incoming request
-app.handleRequest({ method: 'GET', url: '/api/v1/adventurers', headers: {} }, {});
-`,
-        content: `
-<h2>🚂 The Express Foundry: Middleware & Routing</h2>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>Express.js is the most popular, time-tested backend web framework for Node.js. Its elegance lies in the Middleware Pipeline: an assembly line through which every HTTP request passes, getting validated, parsed, logged, authenticated, and routed to its destination handler.</em>
-</div>
-
-<h3>What is Middleware?</h3>
-<p>An Express middleware is a function with the signature <code>(req, res, next) =&gt; void</code> that has access to:</p>
-<ul>
-  <li><code>req</code>: The incoming Request object (headers, parameters, query strings, body).</li>
-  <li><code>res</code>: The outgoing Response object (methods to set headers and send JSON).</li>
-  <li><code>next</code>: A function that passes execution control to the next middleware in the chain.</li>
-</ul>
-
-<h3>Essential Middleware Built into Modern Express</h3>
-<pre><code>import express from 'express';
-import cors from 'cors';
-
-const app = express();
-
-// Enable Cross-Origin Resource Sharing (allows frontend to call API)
-app.use(cors());
-
-// Body-Parser: Parses incoming JSON request payloads onto req.body
-app.use(express.json());
-
-// Modular Route Handlers
-app.get('/api/v1/heroes/:id', (req, res) => {
-    const heroId = parseInt(req.params.id, 10);
-    res.json({ id: heroId, name: 'CyberKnight' });
-});
-
-// Centralized Error-Handling Middleware (Must have 4 arguments!)
-app.use((err, req, res, next) => {
-    console.error("Server Crash Caught:", err.stack);
-    res.status(500).json({ error: 'Internal Server Error' });
-});</code></pre>
-`,
-      },
-      {
-        title: 'Bridging Backend & Database: Node.js Connection Pools & SQL Queries',
-        language: 'javascript',
-        starterCode: `// Node.js PostgreSQL Integration (pg library simulation)
-class MockPgPool {
-    constructor(connectionString) {
-        this.connectionString = connectionString;
-    }
-
-    async query(sql, params = []) {
-        console.log(\`[DB Query]: \${sql}\`);
-        console.log(\`[DB Params]: \${JSON.stringify(params)}\`);
-        
-        // Simulating parameterized query execution
-        if (sql.includes('SELECT') && params[0] === 42) {
-            return { rows: [{ id: 42, username: 'cypher_zero', role: 'Netrunner' }] };
-        }
-        return { rows: [] };
-    }
-}
-
-const pool = new MockPgPool('postgresql://admin:secret@localhost:5432/guild_db');
-
-async function getHeroById(id) {
-    // PARAMETERIZED QUERY PREVENTS SQL INJECTION!
-    const queryText = 'SELECT id, username, role FROM users WHERE id = $1';
-    const result = await pool.query(queryText, [id]);
-    return result.rows[0];
-}
-
-getHeroById(42).then(hero => console.log("Retrieved Hero from DB:", hero));
-`,
-        content: `
-<h2>🔌 Bridging Node.js to PostgreSQL: Connection Pools & Security</h2>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>Your Express server and your PostgreSQL database are two separate running processes. To make them communicate, Node uses database client libraries like 'pg' (node-postgres). Learn why connection pooling is essential, and how parameterized queries prevent catastrophic SQL Injection vulnerabilities.</em>
-</div>
-
-<h3>Connection Pools vs Single Connections</h3>
-<p>Opening a new TCP connection to PostgreSQL takes 20–50 milliseconds (handshakes, authentication, allocating process memory). If your API handles 500 requests per second, creating a new connection for every request will overwhelm your database server.</p>
-
-<p>A <strong>Connection Pool (<code>new Pool()</code>)</strong> maintains a pre-allocated cache of reusable database connections:</p>
-<pre><code>import pg from 'pg';
-const { Pool } = pg;
-
-export const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    max: 20, // Maximum 20 simultaneous open connections
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000,
-});</code></pre>
-
-<h3>Preventing SQL Injection Attacks ($1, $2 Parameters)</h3>
-<p>Never, under any circumstances, concatenate unsanitized user input into an SQL query string:</p>
-
-<pre><code>// ❌ VULNERABLE TO SQL INJECTION:
-const query = "SELECT * FROM users WHERE username = '" + req.body.username + "';";
-// If a hacker submits: "' OR '1'='1" -> The query returns every user and password hash in the database!
-
-// ✅ SAFE PARAMETERIZED QUERY:
-const safeQuery = "SELECT id, username, email FROM users WHERE username = $1;";
-const result = await pool.query(safeQuery, [req.body.username]);
-// PostgreSQL treats $1 strictly as literal string data, never as executable SQL code!</code></pre>
-`,
-      },
-    ],
-    exercises: [
-      {
-        title: 'HTTP RESTful Route Dispatcher & Parameter Parser',
-        language: 'javascript',
-        description: `
-<p>Write a function <code>routeDispatcher(method, path)</code> that simulates a backend router matching incoming endpoints.</p>
-<ul>
-  <li>If <code>method === 'GET' && path === '/api/v1/health'</code>, return <code>{ status: 200, body: 'OK' }</code>.</li>
-  <li>If <code>method === 'GET' && path.startsWith('/api/v1/users/')</code>, extract the ID and return <code>{ status: 200, body: { userId: Number(path.split('/')[4]) } }</code>.</li>
-  <li>Otherwise, return <code>{ status: 404, body: 'Route Not Found' }</code>.</li>
-</ul>
-        `,
-        starterCode: `function routeDispatcher(method, path) {
-    if (method === 'GET' && path === '/api/v1/health') {
-        return { status: 200, body: 'OK' };
-    }
-    if (method === 'GET' && path.startsWith('/api/v1/users/')) {
-        const parts = path.split('/');
-        const id = parseInt(parts[4], 10);
-        return { status: 200, body: { userId: id } };
-    }
-    return { status: 404, body: 'Route Not Found' };
-}
-
-console.log("Health Route:", JSON.stringify(routeDispatcher('GET', '/api/v1/health')));
-console.log("User Route:", JSON.stringify(routeDispatcher('GET', '/api/v1/users/88')));
-console.log("Unknown Route:", JSON.stringify(routeDispatcher('POST', '/api/v1/unknown')));
-`,
-        expectedOutput: `Health Route: {"status":200,"body":"OK"}\nUser Route: {"status":200,"body":{"userId":88}}\nUnknown Route: {"status":404,"body":"Route Not Found"}`,
-        hints: ['Check method and exact path or prefix, extract the ID with split, and return status and body.'],
-      },
-      {
-        title: 'Express Middleware Chain & Authentication Interceptor',
-        language: 'javascript',
-        description: `
-<p>Write an authentication middleware function <code>authGuard(req)</code> that validates request headers.</p>
-<p>If <code>req.headers.authorization === 'Bearer secret-token'</code>, set <code>req.user = { id: 1, role: 'admin' }</code> and return <code>{ authorized: true }</code>. Otherwise, return <code>{ authorized: false, status: 401 }</code>.</p>
-        `,
-        starterCode: `function authGuard(req) {
-    const authHeader = req.headers ? req.headers.authorization : null;
-    if (authHeader === 'Bearer secret-token') {
-        req.user = { id: 1, role: 'admin' };
-        return { authorized: true };
-    }
-    return { authorized: false, status: 401 };
-}
-
-const req1 = { headers: { authorization: 'Bearer secret-token' } };
-const req2 = { headers: {} };
-
-console.log("Valid Auth:", authGuard(req1).authorized);
-console.log("Missing Auth:", authGuard(req2).status);
-`,
-        expectedOutput: `Valid Auth: true\nMissing Auth: 401`,
-        hints: ['Inspect the authorization header string and compare against "Bearer secret-token".'],
-      },
-    ],
-    quiz: [
-      {
-        question: 'Why does Node.js achieve high concurrency despite running on a single JavaScript execution thread?',
-        options: [
-          'It automatically duplicates CPU cores using quantum computing',
-          'It delegates slow I/O operations (network, disk, DB queries) to background libuv threads and handles completions via the Event Loop without blocking',
-          'It recompiles all JavaScript into Java bytecode before execution',
-          'It runs exclusively inside Docker containers'
-        ],
-        correctIndex: 1,
-        explanation: 'Node.js is asynchronous and event-driven. Non-blocking I/O operations are offloaded to background threads, leaving the main thread free to handle new requests.',
-      },
-      {
-        question: 'What HTTP status code should be returned when a client successfully creates a new database record via POST?',
-        options: ['200 OK', '201 Created', '204 No Content', '302 Found'],
-        correctIndex: 1,
-        explanation: '201 Created is the official HTTP REST status code indicating that the request succeeded and led to the creation of a new resource.',
-      },
-      {
-        question: 'How do parameterized queries ($1, $2 in node-postgres) prevent SQL Injection attacks?',
-        options: [
-          'They encrypt the database hard drive',
-          'They ensure user input is sent separately from the SQL command, treating input strictly as literal data that can never be executed as code',
-          'They convert SQL queries into CSS selectors',
-          'They restrict database access to localhost only'
-        ],
-        correctIndex: 1,
-        explanation: 'Parameterized queries separate the query structure from the data parameters. The database engine compiles the SQL first, then binds the parameters, preventing malicious SQL code injection.',
-      },
-    ],
-    project: {
-      title: 'Production RESTful API Gateway for PostgreSQL',
-      description: `
-<h2>Project: Production Express REST API Gateway</h2>
-<p>Build a robust Express.js REST API gateway connected to PostgreSQL. Implement CRUD endpoints for mercenary contracts, request validation middleware, JWT-based route authentication guards, and a PostgreSQL connection pool with parameterized queries.</p>
-`,
-      language: 'javascript',
-      starterCode: `// Express REST API Gateway Entrypoint
-import express from 'express';
-
-const app = express();
-app.use(express.json());
-
-app.get('/api/v1/health', (req, res) => {
-    res.json({ status: 'HEALTHY', uptime: process.uptime() });
-});
-
-console.log("⚡ Express Server Gateway online!");
-`,
-      requirements: [
-        'Implement standardized RESTful endpoints following pluralized resource naming conventions',
-        'Use Express middleware for request logging, CORS, body-parsing, and centralized error handling',
-        'Connect to PostgreSQL using a connection pool (Pool) with environment variable configurations',
-        'Enforce parameterized SQL queries ($1, $2) across all CRUD controller endpoints',
-        'Return proper HTTP status codes (200, 201, 400, 401, 404, 500) with descriptive JSON envelopes'
-      ],
+      ]
     },
+    "project": {
+      "title": "Responsive Cyberpunk Dashboard",
+      "scenario": "Assemble a responsive grid dashboard layout with CSS custom property theming, flexbox header, and hover micro-animations.",
+      "starterCode": ".dashboard { /* assemble dashboard */ }",
+      "requirements": [
+        "Use CSS variables for theme palette",
+        "Implement box-sizing: border-box globally",
+        "Build responsive grid with minmax()",
+        "Add smooth GPU-accelerated hover transitions"
+      ]
+    }
   },
-
-  // ════════════════════════════════════════════════════════════════
-  // MODULE 6: The Production Ascent: DevOps, Docker & Capstone Launch
-  // ════════════════════════════════════════════════════════════════
-  'web-week-6': {
-    lessons: [
+  "web-week-3": {
+    "lessons": [
       {
-        title: 'The Version Control Citadel: Advanced Git Workflows & Collaboration',
-        language: 'javascript',
-        starterCode: `// Git Branching & Merge Conflict Resolution Simulation
-const gitRepository = {
-    branch: 'main',
-    commits: [
-        { hash: 'a1b2c3d', message: 'feat: initialize full-stack repository architecture' }
+        "title": "The JavaScript Runtime: V8 Engine, Execution Context & Call Stack",
+        "language": "javascript",
+        "starterCode": "// Call Stack and Execution Context\nfunction first() {\n  console.log(\"Entering first()\");\n  second();\n  console.log(\"Exiting first()\");\n}\n\nfunction second() {\n  console.log(\"Inside second()\");\n}\n\nfirst();\n",
+        "content": "<h2>⚡ Chapter 1: The JavaScript Runtime & Execution Context</h2>\n<p>JavaScript is a single-threaded language powered by an engine (like Google Chrome's V8). When code executes:</p>\n<ol>\n  <li><strong>Creation Phase:</strong> Allocates memory for variables and functions (Hoisting).</li>\n  <li><strong>Execution Phase:</strong> Executes code line by line, pushing and popping frames onto the Call Stack.</li>\n</ol>"
+      },
+      {
+        "title": "Scopes, Lexical Environments & Closure Enchantments",
+        "language": "javascript",
+        "starterCode": "function createCounter(initial = 0) {\n  let count = initial; // Encapsulated in lexical scope\n  return {\n    increment: () => ++count,\n    decrement: () => --count,\n    getCount: () => count\n  };\n}\n\nconst playerXP = createCounter(100);\nconsole.log(playerXP.increment()); // 101\nconsole.log(playerXP.getCount());  // 101\n",
+        "content": "<h2>⚡ Chapter 2: Scopes & Closures</h2>\n<p>A <strong>Closure</strong> is the combination of a function bundled with references to its surrounding state (lexical environment). Closures let inner functions access outer variables even after the outer function has returned, providing true data privacy.</p>"
+      },
+      {
+        "title": "Modern ES6+ Syntax: Destructuring, Spread, Rest & Array Alchemy",
+        "language": "javascript",
+        "starterCode": "const warrior = { id: 42, name: 'Kael', stats: { hp: 500, mp: 200 } };\nconst { name, stats: { hp } } = warrior;\n\nconst inventory = ['Sword', 'Shield', 'Potion'];\nconst [primary, ...rest] = inventory;\nconst newInventory = [...inventory, 'Elixir'];\n\nconst doubleValues = [1, 2, 3].map(n => n * 2); // [2, 4, 6]\n",
+        "content": "<h2>⚡ Chapter 3: ES6+ Syntax: Destructuring, Spread & Functional Arrays</h2>\n<p>Modern JavaScript prioritizes declarative patterns: destructuring unlocks properties cleanly, the spread operator (<code>...</code>) clones data immutably, and array methods (<code>map</code>, <code>filter</code>, <code>reduce</code>) process data without imperative loops.</p>"
+      },
+      {
+        "title": "Awakening the DOM: Selecting, Modifying & Manipulating Nodes",
+        "language": "javascript",
+        "starterCode": "// Modern DOM Selection and Mutation\nconst card = document.querySelector('.player-card');\ncard.classList.add('active');\n\nconst title = document.createElement('h3');\ntitle.textContent = 'Cyber Champion';\ncard.appendChild(title);\n",
+        "content": "<h2>⚡ Chapter 4: DOM Manipulation & Clean Tree Mutation</h2>\n<p>The Document Object Model (DOM) is the programmatic representation of your HTML document. Use <code>document.querySelector</code> to find elements, <code>classList</code> to toggle CSS states, and <code>document.createElement</code> to dynamically assemble UI.</p>"
+      },
+      {
+        "title": "Event Architecture: Bubbling, Capturing & Delegation",
+        "language": "javascript",
+        "starterCode": "// Event Delegation on parent container\nconst list = document.querySelector('#quest-list');\n\nlist.addEventListener('click', (event) => {\n  const target = event.target.closest('.quest-item');\n  if (!target) return;\n  console.log(\"Clicked quest:\", target.dataset.questId);\n});\n",
+        "content": "<h2>⚡ Chapter 5: Event Delegation & Event Bubbling</h2>\n<div class=\"callout callout--quest\">\n  <strong>⚔️ EVENT PROPAGATION:</strong> <em>Events flow down the tree during Capturing, trigger on the target, and bubble back up through ancestors.</em>\n</div>\n<p>Instead of attaching 10,000 click listeners to 10,000 table rows, attach a <strong>single event listener</strong> to the parent element and inspect <code>event.target</code> via <strong>Event Delegation</strong>.</p>"
+      }
     ],
-    createFeatureBranch(branchName) {
-        console.log(\`git checkout -b \${branchName}\`);
-        return \`Switched to new branch '\${branchName}'\`;
-    },
-    mergeBranch(branchName) {
-        console.log(\`git merge \${branchName} --no-ff\`);
-        return \`Branch '\${branchName}' merged into \${this.branch}\`;
-    }
-};
-
-console.log(gitRepository.createFeatureBranch('feature/postgresql-pool'));
-console.log(gitRepository.mergeBranch('feature/postgresql-pool'));
-`,
-        content: `
-<h2>🚀 Chapter 6: The Production Ascent — DevOps & Capstone Launch</h2>
-
-<div class="lesson-pixel-art">
-  <img src="/images/retro_fullstack_bg.png" alt="DevOps Production Ascent" />
-  <div class="pixel-caption">
-    SECTOR 06: THE PRODUCTION ASCENT — GIT WORKFLOWS, DOCKER CONTAINERS & CI/CD PIPELINES
-  </div>
-</div>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>Writing code on your laptop is only half the battle. Professional software engineering requires shipping code reliably to production servers around the world. Master Git branching strategies, Docker containerization, and automated CI/CD deployment pipelines.</em>
-</div>
-
-<h3>Professional Git Workflows (Trunk-Based vs GitFlow)</h3>
-<p>Modern engineering teams collaborate using feature branches and Pull Requests (PRs):</p>
-<ol>
-  <li><strong>Create a Branch:</strong> Never commit directly to <code>main</code>! Branch off: <code>git checkout -b feat/user-authentication</code>.</li>
-  <li><strong>Conventional Commits:</strong> Write clear, standardized commit messages:
-    <ul>
-      <li><code>feat: add JWT authentication middleware</code></li>
-      <li><code>fix: resolve connection pool leak in order controller</code></li>
-      <li><code>refactor: extract database query service into separate module</code></li>
-    </ul>
-  </li>
-  <li><strong>Rebase vs Merge:</strong>
-    <ul>
-      <li><code>git merge</code>: Preserves history with a visible merge commit.</li>
-      <li><code>git rebase main</code>: Re-applies your commits cleanly on top of the latest <code>main</code> commit, creating a linear history.</li>
-    </ul>
-  </li>
-  <li><strong>Pull Request & Code Review:</strong> Teammates review code, automated CI tests run, and upon approval, the branch merges into <code>main</code>.</li>
-</ol>
-`,
+    "exercises": [
+      {
+        "title": "Closure State Factory",
+        "instructions": "Write a function createScoreKeeper that encapsulates score and returns addPoints and getScore methods.",
+        "starterCode": "function createScoreKeeper() {}",
+        "solution": "function createScoreKeeper() { let s = 0; return { addPoints: (p) => s += p, getScore: () => s }; }",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed closure test"
+          }
+        ]
       },
       {
-        title: 'Encapsulating the Monolith: Docker Containerization & Multi-Stage Builds',
-        language: 'javascript',
-        starterCode: `// Dockerfile Multi-Stage Build Blueprint
-const dockerfile = \`
-# Stage 1: Build the React TypeScript Frontend
-FROM node:20-alpine AS frontend-builder
-WORKDIR /app/frontend
-COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
-
-# Stage 2: Production Server Environment
-FROM node:20-alpine AS production
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY --from=frontend-builder /app/frontend/dist ./public
-COPY server/ ./server
-EXPOSE 3001
-CMD ["node", "server/index.js"]
-\`;
-
-console.log("Production Dockerfile Blueprint:");
-console.log(dockerfile);
-`,
-        content: `
-<h2>🐳 Encapsulating Applications with Docker</h2>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>"It works on my machine!" has been the curse of software developers for decades. What if your laptop has Node 20 on macOS, but the production server has Node 16 on Ubuntu Linux? Docker solves this forever by packaging your application, runtime, libraries, and dependencies into an immutable, portable Container.</em>
-</div>
-
-<h3>Containers vs Virtual Machines</h3>
-<ul>
-  <li><strong>Virtual Machines (VMs):</strong> Heavyweight. Each VM bundles a full guest operating system (several gigabytes in size) running on a hypervisor. Takes minutes to boot.</li>
-  <li><strong>Docker Containers:</strong> Lightweight. Containers share the host Linux kernel while isolating processes in their own user-space namespaces. They boot in milliseconds and consume only megabytes of RAM!</li>
-</ul>
-
-<h3>The Multi-Stage Build Pattern</h3>
-<p>In production, you do not want your 2GB development dependencies (TypeScript compilers, linters, test suites) sitting inside your deployed image. <strong>Multi-stage builds</strong> use temporary builder stages and copy only the compiled production artifacts into the final lean image:</p>
-
-<pre><code># Multi-stage build keeps production image under 100MB!
-FROM node:20-alpine AS builder
-WORKDIR /app
-COPY . .
-RUN npm ci && npm run build
-
-FROM node:20-alpine
-WORKDIR /app
-COPY --from=builder /app/dist ./dist
-CMD ["node", "dist/server.js"]</code></pre>
-`,
-      },
-      {
-        title: 'Orchestration & Automation: Docker Compose & GitHub Actions CI/CD',
-        language: 'javascript',
-        starterCode: `// Docker Compose Multi-Container Orchestration Blueprint
-const dockerComposeYaml = \`
-version: '3.8'
-
-services:
-  database:
-    image: postgres:16-alpine
-    restart: always
-    environment:
-      POSTGRES_DB: guild_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: secret_password
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-
-  api-server:
-    build: .
-    restart: always
-    environment:
-      DATABASE_URL: postgres://postgres:secret_password@database:5432/guild_db
-      PORT: 3001
-    ports:
-      - "3001:3001"
-    depends_on:
-      - database
-
-volumes:
-  pgdata:
-\`;
-
-console.log("Docker Compose Multi-Container Network Configuration:");
-console.log(dockerComposeYaml);
-`,
-        content: `
-<h2>🔄 Orchestration with Docker Compose & GitHub Actions CI/CD</h2>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>A real full-stack web application is not just one process: it has an API server and a PostgreSQL database communicating on an internal network. Docker Compose coordinates both with a single command. Meanwhile, GitHub Actions automates testing and deployment on every git push.</em>
-</div>
-
-<h3>Docker Compose: The Local Multi-Container Cloud</h3>
-<p>Instead of manually starting Postgres and setting up environment variables, <code>docker-compose up -d</code> launches your entire multi-service stack:</p>
-<ul>
-  <li>Creates an isolated internal virtual network where containers communicate using service names (e.g. <code>postgres://database:5432/...</code>).</li>
-  <li>Mounts persistent <strong>Named Volumes</strong> so database data survives container restarts.</li>
-  <li>Guarantees identical local development environments for every developer on the team.</li>
-</ul>
-
-<h3>Continuous Integration & Continuous Deployment (CI/CD)</h3>
-<p>CI/CD eliminates manual, error-prone FTP deployments. A <strong>GitHub Actions</strong> workflow executes in the cloud on every pull request:</p>
-
-<pre><code>name: Full-Stack CI/CD Pipeline
-on: [push, pull_request]
-
-jobs:
-  verify:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: '20' }
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run test
-      - run: npm run build</code></pre>
-`,
-      },
-      {
-        title: 'The Full-Stack Capstone Ascent: Production Launch & System Architecture',
-        language: 'javascript',
-        starterCode: `// Full-Stack System Health Check Emulator
-const fullStackSystemStatus = {
-    frontend: { status: 'ONLINE', framework: 'React 18 + TypeScript', bundler: 'Vite' },
-    backend: { status: 'ONLINE', runtime: 'Node.js 20', framework: 'Express' },
-    database: { status: 'CONNECTED', engine: 'PostgreSQL 16', poolActive: true },
-    devops: { containerized: true, ci_cd_pipeline: 'PASSING' }
-};
-
-console.log("Full-Stack Capstone System Status Verification:");
-console.log(JSON.stringify(fullStackSystemStatus, null, 2));
-`,
-        content: `
-<h2>🏆 The Capstone Ascent: Full-Stack Synthesis & Launch</h2>
-
-<div class="callout callout--quest">
-  <strong>⚔️ QUEST BRIEFING:</strong> <em>You have traversed all sectors of modern web engineering: from the atomic physics of HTML5 and CSS3, through the neural logic of JavaScript and React with TypeScript, across relational database schemas in PostgreSQL, into the server fires of Node.js and Express, and up the mountain of DevOps. Now comes the ultimate trial: architecting and launching your end-to-end full-stack capstone application.</em>
-</div>
-
-<h3>The Complete End-to-End Flow</h3>
-<p>Trace the lifecycle of a user action across your newly mastered stack:</p>
-
-<ol>
-  <li><strong>User Interaction (Frontend):</strong> A user enters their email and password into a typed React component and clicks "Login".</li>
-  <li><strong>Validation & HTTP Request:</strong> React validates the form, sets a loading spinner via <code>useState</code>, and invokes <code>fetch('/api/v1/auth/login')</code> with a JSON payload.</li>
-  <li><strong>Server Middleware (Backend):</strong> Express intercepts the request, runs CORS checks, parses the JSON body with <code>express.json()</code>, and logs the request.</li>
-  <li><strong>Database Query (Persistence):</strong> The controller borrows a client from the PostgreSQL connection pool and executes a parameterized SQL query: <code>SELECT * FROM users WHERE email = $1</code>.</li>
-  <li><strong>Password Verification & JWT:</strong> Node verifies the password hash using <code>bcrypt</code>, signs a JSON Web Token (JWT), and returns a <code>200 OK</code> response with the token.</li>
-  <li><strong>Client State Update:</strong> React stores the JWT token, updates global user state, and navigates the user to their private dashboard!</li>
-</ol>
-`,
-      },
+        "title": "Event Delegation Handler",
+        "instructions": "Attach a click event listener to a container that handles button clicks via event.target.matches(\"button\").",
+        "starterCode": "function setupDelegation(el) {}",
+        "solution": "function setupDelegation(el) { el.addEventListener(\"click\", e => { if (e.target.matches(\"button\")) e.target.classList.add(\"clicked\"); }); }",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed delegation test"
+          }
+        ]
+      }
     ],
-    exercises: [
-      {
-        title: 'Docker Compose Service Dependency Resolver',
-        language: 'javascript',
-        description: `
-<p>Write a function <code>resolveServiceStartupOrder(services)</code> that determines the startup order of containerized services based on their <code>depends_on</code> field.</p>
-<p>For example, if API depends on DB, DB must start first. Return an array of service names in order.</p>
-        `,
-        starterCode: `function resolveServiceStartupOrder(services) {
-    // Services without dependencies start first, followed by dependent services
-    const independent = services.filter(s => !s.dependsOn).map(s => s.name);
-    const dependent = services.filter(s => s.dependsOn).map(s => s.name);
-    return [...independent, ...dependent];
-}
-
-const config = [
-    { name: 'api-gateway', dependsOn: 'database' },
-    { name: 'database', dependsOn: null },
-    { name: 'cache-redis', dependsOn: null }
-];
-
-console.log("Startup Order:", resolveServiceStartupOrder(config).join(' -> '));
-`,
-        expectedOutput: `Startup Order: database -> cache-redis -> api-gateway`,
-        hints: ['Separate services with no dependencies and start them before services that have dependencies.'],
-      },
-      {
-        title: 'CI/CD Pipeline Validation & Health Check Emulator',
-        language: 'javascript',
-        description: `
-<p>Write a function <code>runCiPipeline(steps)</code> that iterates through an array of build steps <code>[{ name, pass }]</code>.</p>
-<p>If all pass, return <code>"CI/CD Pipeline Passed: Deployed to Production"</code>. If any fail, return <code>"CI/CD Failed at step: [STEP_NAME]"</code>.</p>
-        `,
-        starterCode: `function runCiPipeline(steps) {
-    for (const step of steps) {
-        if (!step.pass) {
-            return \`CI/CD Failed at step: \${step.name}\`;
+    "quiz": {
+      "title": "Module 3 Mastery Quiz: JS Engine & DOM",
+      "questions": [
+        {
+          "question": "What is a Closure in JavaScript?",
+          "options": [
+            "A function that has no return statement",
+            "A function bundled with references to its surrounding lexical state",
+            "A method to close browser tabs",
+            "A synchronous while loop"
+          ],
+          "correct": 1,
+          "explanation": "Closures allow a function to retain access to variables in its enclosing scope even after that scope has closed."
+        },
+        {
+          "question": "Why is Event Delegation preferred for dynamic lists of items?",
+          "options": [
+            "It prevents all CSS styles from loading",
+            "It attaches one listener to a common ancestor, saving memory and handling future elements automatically",
+            "It disables the browser event loop",
+            "It converts synchronous events into promises"
+          ],
+          "correct": 1,
+          "explanation": "Event delegation handles clicks on existing and newly added children via a single parent listener."
         }
-    }
-    return "CI/CD Pipeline Passed: Deployed to Production";
-}
-
-const passingBuild = [
-    { name: 'lint', pass: true },
-    { name: 'test', pass: true },
-    { name: 'build', pass: true }
-];
-
-const failingBuild = [
-    { name: 'lint', pass: true },
-    { name: 'test', pass: false },
-    { name: 'build', pass: true }
-];
-
-console.log(runCiPipeline(passingBuild));
-console.log(runCiPipeline(failingBuild));
-`,
-        expectedOutput: `CI/CD Pipeline Passed: Deployed to Production\nCI/CD Failed at step: test`,
-        hints: ['Check each step in sequence; halt and return immediately if any step has pass: false.'],
-      },
-    ],
-    quiz: [
-      {
-        question: 'What is the primary advantage of Docker containerization in modern web deployment?',
-        options: [
-          'It replaces all backend databases with static JSON text files',
-          'It packages code and all its dependencies into an immutable container that behaves identically in development, testing, and production environments',
-          'It speeds up JavaScript execution by replacing the V8 engine with machine code',
-          'It allows web pages to be viewed without an internet connection'
-        ],
-        correctIndex: 1,
-        explanation: 'Docker eliminates environmental differences between developer laptops and production servers by bundling the operating system userland, libraries, and application into a single portable container.',
-      },
-      {
-        question: 'Why are multi-stage Docker builds recommended for production web applications?',
-        options: [
-          'They allow containers to run across multiple physical cloud providers at the same time',
-          'They separate the build environment from the runtime environment, resulting in dramatically smaller and more secure production images',
-          'They eliminate the need to write unit tests',
-          'They automatically format frontend CSS stylesheets'
-        ],
-        correctIndex: 1,
-        explanation: 'Multi-stage builds allow you to use heavy compilation tools (TypeScript compiler, test runners) in the build stage, copying only production bundles into the final minimal image.',
-      },
-      {
-        question: 'What is the role of Continuous Integration (CI) in a software development workflow?',
-        options: [
-          'To automatically charge client credit cards on a monthly schedule',
-          'To automatically build, lint, and test code on every commit or pull request, catching bugs before code reaches production',
-          'To generate fake marketing reviews for mobile apps',
-          'To compress database tables into zip archives'
-        ],
-        correctIndex: 1,
-        explanation: 'CI systems (like GitHub Actions) automate quality checks on every push, ensuring broken code or failing tests are caught immediately before merging.',
-      },
-    ],
-    project: {
-      title: 'The Grand Cyberpunk Full-Stack Production Capstone',
-      description: `
-<h2>Capstone Project: The End-to-End Cyberpunk Full-Stack Citadel</h2>
-<p>Architect, build, and deploy an end-to-end full-stack web application. Your system will feature a modern React + TypeScript frontend, a PostgreSQL relational database with parameterized queries, an Express REST API with authentication middleware, and Docker container orchestration.</p>
-`,
-      language: 'javascript',
-      starterCode: `// Grand Full-Stack Production Capstone Manifesto
-console.log("🌟 Full-Stack Capstone Citadel initialized!");
-console.log("Frontend: React + TypeScript (Vite)");
-console.log("Backend: Node.js + Express (REST API)");
-console.log("Database: PostgreSQL 16 (ACID Persistence)");
-console.log("DevOps: Docker Compose & GitHub Actions");
-`,
-      requirements: [
-        'Build a responsive, accessible React frontend with TypeScript type safety and reactive state hooks',
-        'Design a normalized PostgreSQL database schema with constraints, foreign keys, and indexes',
-        'Develop an Express.js REST API with route handlers, body validation, and error-handling middleware',
-        'Connect Express to PostgreSQL using connection pooling and parameterized SQL queries',
-        'Create a docker-compose.yml file orchestrating the web client, API server, and database container',
-        'Configure a GitHub Actions CI workflow that runs linter and automated test suites on push'
-      ],
+      ]
     },
+    "project": {
+      "title": "Dynamic Quest Log App",
+      "scenario": "Build a dynamic interactive quest log in pure JavaScript that utilizes closures for score tracking and event delegation for task completion.",
+      "starterCode": "// Quest Log Application",
+      "requirements": [
+        "Use closures to encapsulate quest progression state",
+        "Implement event delegation for checking off quests",
+        "Use modern ES6 array methods to filter completed quests",
+        "Manipulate DOM nodes dynamically with createElement and appendChild"
+      ]
+    }
   },
+  "web-week-4": {
+    "lessons": [
+      {
+        "title": "The Asynchronous Pulse: Event Loop, Microtasks & Macrotasks",
+        "language": "javascript",
+        "starterCode": "console.log(\"1. Synchronous Code\");\n\nsetTimeout(() => console.log(\"4. Macrotask (setTimeout)\"), 0);\n\nPromise.resolve().then(() => console.log(\"3. Microtask (Promise)\"));\n\nconsole.log(\"2. Synchronous Code End\");\n",
+        "content": "<h2>⚡ Chapter 1: The Event Loop & Microtask Priority</h2>\n<p>JavaScript is single-threaded, yet non-blocking. The <strong>Event Loop</strong> coordinates synchronous execution, the <strong>Microtask Queue</strong> (Promises, <code>queueMicrotask</code>), and the <strong>Macrotask Queue</strong> (<code>setTimeout</code>, DOM events). Microtasks always drain completely before the next macrotask runs!</p>"
+      },
+      {
+        "title": "Promises: Chaining, Error Handling & Combinators",
+        "language": "javascript",
+        "starterCode": "const fetchRune = (id) => new Promise((resolve, reject) => {\n  if (id > 0) resolve({ id, name: 'Fire Rune' });\n  else reject(new Error('Invalid rune ID'));\n});\n\n// Promise.all: Fails fast if any promise rejects\nPromise.all([fetchRune(1), fetchRune(2)])\n  .then(([r1, r2]) => console.log(\"Runes fetched:\", r1, r2))\n  .catch(err => console.error(\"Failed to load runes:\", err));\n",
+        "content": "<h2>⚡ Chapter 2: Promises & Combinators (Promise.all vs allSettled)</h2>\n<p>Promises represent future values with three states: <em>Pending</em>, <em>Fulfilled</em>, or <em>Rejected</em>. Combinators:</p>\n<ul>\n  <li><code>Promise.all</code>: Resolves when all succeed; fails fast if any reject.</li>\n  <li><code>Promise.allSettled</code>: Waits for all to finish, returning status objects for each.</li>\n  <li><code>Promise.race</code>: Resolves or rejects with the earliest settled promise.</li>\n</ul>"
+      },
+      {
+        "title": "Async / Await: Writing Clean Synchronous-Looking Async Code",
+        "language": "javascript",
+        "starterCode": "async function loadPlayerData(playerId) {\n  try {\n    console.log(\"Fetching player profile...\");\n    const res = await fetch(`/api/players/${playerId}`);\n    if (!res.ok) throw new Error(`HTTP error ${res.status}`);\n    const data = await res.json();\n    return data;\n  } catch (err) {\n    console.error(\"Failed to load player:\", err.message);\n    throw err;\n  }\n}\n",
+        "content": "<h2>⚡ Chapter 3: Async/Await & Robust Error Handling</h2>\n<p>Syntactic sugar built over Promises. <code>async</code> functions always return a Promise, and <code>await</code> pauses function execution until the promise settles, without freezing the browser thread!</p>"
+      },
+      {
+        "title": "The Fetch API, Headers, Request / Response Streams & HTTP Statuses",
+        "language": "javascript",
+        "starterCode": "async function postScore(scoreData) {\n  const response = await fetch('/api/leaderboard', {\n    method: 'POST',\n    headers: {\n      'Content-Type': 'application/json',\n      'Authorization': 'Bearer token_abc123'\n    },\n    body: JSON.stringify(scoreData)\n  });\n  return response.json();\n}\n",
+        "content": "<h2>⚡ Chapter 4: Modern Fetch API & HTTP Protocol Fundamentals</h2>\n<p>Understanding HTTP status codes is essential for client-server communication:</p>\n<ul>\n  <li><code>200 OK</code> / <code>201 Created</code>: Success.</li>\n  <li><code>400 Bad Request</code> / <code>401 Unauthorized</code> / <code>403 Forbidden</code> / <code>404 Not Found</code>: Client error.</li>\n  <li><code>500 Internal Server Error</code>: Server crashed during processing.</li>\n</ul>"
+      },
+      {
+        "title": "Browser Storage: LocalStorage, SessionStorage & IndexedDB",
+        "language": "javascript",
+        "starterCode": "// Persisting client settings\nconst settings = { theme: 'cyber-dark', sound: false };\nlocalStorage.setItem('user_settings', JSON.stringify(settings));\n\n// Retrieving\nconst saved = JSON.parse(localStorage.getItem('user_settings') || '{}');\nconsole.log(\"Loaded theme:\", saved.theme);\n",
+        "content": "<h2>⚡ Chapter 5: Client-Side Storage Mechanisms</h2>\n<ul>\n  <li><strong>LocalStorage:</strong> Synchronous key-value storage persisted across browser restarts (5-10MB).</li>\n  <li><strong>SessionStorage:</strong> Cleared when the browser tab closes.</li>\n  <li><strong>Cookies:</strong> Small tokens (4KB) sent with every HTTP request, ideal for session IDs.</li>\n  <li><strong>IndexedDB:</strong> Transactional NoSQL database in the browser for complex offline data.</li>\n</ul>"
+      }
+    ],
+    "exercises": [
+      {
+        "title": "Async Data Fetcher with Error Handling",
+        "instructions": "Write an async function fetchUserData(url) that fetches JSON and throws an error if response.ok is false.",
+        "starterCode": "async function fetchUserData(url) {}",
+        "solution": "async function fetchUserData(url) { const r = await fetch(url); if (!r.ok) throw new Error(\"HTTP error\"); return r.json(); }",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed async test"
+          }
+        ]
+      },
+      {
+        "title": "Safe LocalStorage Cache Helper",
+        "instructions": "Implement saveCache(key, obj) and loadCache(key) using JSON serialization.",
+        "starterCode": "function saveCache(k, v) {} function loadCache(k) {}",
+        "solution": "function saveCache(k, v) { localStorage.setItem(k, JSON.stringify(v)); } function loadCache(k) { return JSON.parse(localStorage.getItem(k) || \"null\"); }",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed cache test"
+          }
+        ]
+      }
+    ],
+    "quiz": {
+      "title": "Module 4 Mastery Quiz: Async JS & Protocols",
+      "questions": [
+        {
+          "question": "Which executes first when the call stack clears: a resolved Promise .then callback or a setTimeout(..., 0)?",
+          "options": [
+            "setTimeout callback (Macrotask)",
+            "Promise .then callback (Microtask)",
+            "They run in random order",
+            "Both run simultaneously on multiple threads"
+          ],
+          "correct": 1,
+          "explanation": "Microtasks (Promises) always run to completion before the next Macrotask (setTimeout) is processed."
+        },
+        {
+          "question": "Which Promise combinator waits for all promises to settle and never rejects early?",
+          "options": [
+            "Promise.all",
+            "Promise.race",
+            "Promise.allSettled",
+            "Promise.any"
+          ],
+          "correct": 2,
+          "explanation": "Promise.allSettled waits for all inputs to either resolve or reject, returning individual status summaries."
+        }
+      ]
+    },
+    "project": {
+      "title": "Real-Time Telemetry Dashboard Client",
+      "scenario": "Create an asynchronous weather/telemetry dashboard that queries a mock REST endpoint using fetch, handles errors with fallbacks, and caches settings in LocalStorage.",
+      "starterCode": "// Asynchronous Telemetry Client",
+      "requirements": [
+        "Use async/await with try/catch blocks",
+        "Implement Promise.all to fetch multiple endpoints in parallel",
+        "Persist user dashboard layout in LocalStorage",
+        "Display error notifications when requests fail"
+      ]
+    }
+  },
+  "web-week-5": {
+    "lessons": [
+      {
+        "title": "The 3-Tier Web Universe & The Case for Declarative UI",
+        "language": "javascript",
+        "starterCode": "// Declarative UI: Describe what the UI should look like for a given state\nfunction HeroBanner({ heroName, level }) {\n  return (\n    <div className=\"hero-banner\">\n      <h2>{heroName}</h2>\n      <span className=\"badge\">Level {level}</span>\n    </div>\n  );\n}\n",
+        "content": "<h2>⚛️ Chapter 1: Declarative UI & The React Paradigm</h2>\n<p>In imperative UI (vanilla DOM), you manually add, remove, and update DOM nodes. In <strong>Declarative UI</strong>, you declare what the interface should look like given the current data state: <code>UI = f(state)</code>.</p>"
+      },
+      {
+        "title": "The Virtual DOM, Reconciliation Engine & Diffing Algorithms",
+        "language": "javascript",
+        "starterCode": "// React Elements are lightweight plain JavaScript objects\nconst element = {\n  type: 'h1',\n  props: {\n    className: 'title',\n    children: 'Cyberpunk Foundry'\n  }\n};\nconsole.log(\"Virtual DOM node:\", element);\n",
+        "content": "<h2>⚛️ Chapter 2: Virtual DOM & The Diffing Algorithm</h2>\n<p>Direct real DOM updates are computationally expensive. React keeps an in-memory <strong>Virtual DOM</strong> representation. When state changes, React diffs the new Virtual DOM against the snapshot and calculates the minimal set of mutations needed on the real DOM.</p>"
+      },
+      {
+        "title": "JSX Under the Hood: React Elements vs HTML",
+        "language": "javascript",
+        "starterCode": "// What you write:\nconst card = <div className=\"card\"><h1>Hero</h1></div>;\n\n// What the compiler outputs:\nconst compiled = React.createElement(\n  'div',\n  { className: 'card' },\n  React.createElement('h1', null, 'Hero')\n);\n",
+        "content": "<h2>⚛️ Chapter 3: JSX Compilation & React.createElement</h2>\n<p>JSX is not HTML; it is syntactic sugar for <code>React.createElement</code> function calls that return virtual node descriptions.</p>"
+      },
+      {
+        "title": "Component Trees, Props & One-Way Data Flow",
+        "language": "javascript",
+        "starterCode": "function CharacterCard({ name, rank, isLeader }) {\n  return (\n    <div className={`card ${isLeader ? 'leader' : ''}`}>\n      <h3>{name}</h3>\n      <p>Rank: {rank}</p>\n    </div>\n  );\n}\n\n// Usage:\n// <CharacterCard name=\"Valkyrie\" rank=\"Commander\" isLeader={true} />\n",
+        "content": "<h2>⚛️ Chapter 4: Props & One-Way Data Flow</h2>\n<p>Data in React flows strictly downward from parent to child via <strong>Props</strong>. Props are read-only and immutable; a child component must never mutate the props passed to it.</p>"
+      },
+      {
+        "title": "Conditional Rendering, Lists & Key Stability Invariants",
+        "language": "javascript",
+        "starterCode": "function InventoryList({ items }) {\n  return (\n    <ul>\n      {items.map(item => (\n        <li key={item.id}>\n          {item.name} {item.isEquipped && <span>🛡️</span>}\n        </li>\n      ))}\n    </ul>\n  );\n}\n",
+        "content": "<h2>⚛️ Chapter 5: List Rendering & The Critical Importance of Keys</h2>\n<div class=\"callout callout--quest\">\n  <strong>⚔️ KEY INVARIANT:</strong> <em>Never use array indexes as keys if the list can be filtered, reordered, or deleted! Use stable, unique IDs so React's reconciler tracks element identity across renders.</em>\n</div>"
+      }
+    ],
+    "exercises": [
+      {
+        "title": "Component Prop Validation",
+        "instructions": "Create a Badge component that renders a span with className and label props.",
+        "starterCode": "function Badge(props) {}",
+        "solution": "function Badge({ label, type = \"info\" }) { return <span className={`badge ${type}`}>{label}</span>; }",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed component test"
+          }
+        ]
+      },
+      {
+        "title": "Conditional List Rendering",
+        "instructions": "Render an unordered list of tasks using task.id as key and show a checkmark if completed.",
+        "starterCode": "function TaskList({ tasks }) {}",
+        "solution": "function TaskList({ tasks }) { return <ul>{tasks.map(t => <li key={t.id}>{t.title} {t.completed && \"✓\"}</li>)}</ul>; }",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed list test"
+          }
+        ]
+      }
+    ],
+    "quiz": {
+      "title": "Module 5 Mastery Quiz: React Architecture & JSX",
+      "questions": [
+        {
+          "question": "Why does React require a unique \"key\" prop on elements rendered in a list?",
+          "options": [
+            "To style elements with CSS",
+            "To help the reconciliation diffing algorithm identify which items changed, were added, or removed",
+            "To bind event listeners to the DOM",
+            "To serialize data into JSON"
+          ],
+          "correct": 1,
+          "explanation": "Keys provide stable identity across renders, allowing React to reuse existing DOM nodes efficiently."
+        },
+        {
+          "question": "What is JSX compiled into before running in the browser?",
+          "options": [
+            "Plain HTML string templates",
+            "React.createElement function calls",
+            "Assembly instructions",
+            "CSSOM rules"
+          ],
+          "correct": 1,
+          "explanation": "JSX tags compile into React.createElement function calls that return plain JavaScript objects."
+        }
+      ]
+    },
+    "project": {
+      "title": "Cyberpunk Character Roster Component",
+      "scenario": "Build a reusable React component library for a character roster with cards, badges, and dynamic list rendering.",
+      "starterCode": "// Character Roster Component",
+      "requirements": [
+        "Define modular functional components",
+        "Pass data via typed props with defaults",
+        "Render dynamic items with stable unique keys",
+        "Implement conditional rendering for leader badges"
+      ]
+    }
+  },
+  "web-week-6": {
+    "lessons": [
+      {
+        "title": "The Reactive Heart: State Mechanics with useState",
+        "language": "javascript",
+        "starterCode": "import { useState } from 'react';\n\nfunction CombatCounter() {\n  const [health, setHealth] = useState(100);\n\n  // Functional update ensures accuracy during batching\n  const takeDamage = (amount) => {\n    setHealth(prev => Math.max(0, prev - amount));\n  };\n\n  return (\n    <div>\n      <h3>Health: {health}</h3>\n      <button onClick={() => takeDamage(15)}>Take 15 Damage</button>\n    </div>\n  );\n}\n",
+        "content": "<h2>⚛️ Chapter 1: useState & Asynchronous Batching</h2>\n<p>State in React represents values that change over time and trigger component re-renders. Always use the <strong>functional updater form</strong> (<code>setVal(prev =&gt; prev + 1)</code>) when new state depends on previous state to prevent race conditions during React batching.</p>"
+      },
+      {
+        "title": "Lifecycle Management & Side Effects with useEffect",
+        "language": "javascript",
+        "starterCode": "import { useEffect, useState } from 'react';\n\nfunction OnlineStatusIndicator() {\n  const [isOnline, setIsOnline] = useState(navigator.onLine);\n\n  useEffect(() => {\n    const handleOnline = () => setIsOnline(true);\n    const handleOffline = () => setIsOnline(false);\n\n    window.addEventListener('online', handleOnline);\n    window.addEventListener('offline', handleOffline);\n\n    // CRITICAL: Cleanup function prevents memory leaks!\n    return () => {\n      window.removeEventListener('online', handleOnline);\n      window.removeEventListener('offline', handleOffline);\n    };\n  }, []); // Empty dependency array: runs once on mount\n\n  return <span>{isOnline ? '🟢 Connected' : '🔴 Offline'}</span>;\n}\n",
+        "content": "<h2>⚛️ Chapter 2: useEffect & Cleanup Functions</h2>\n<p><code>useEffect</code> synchronizes your component with external systems (timers, subscriptions, DOM APIs). Always provide a <strong>cleanup return function</strong> to detach event listeners and cancel timers when components unmount.</p>"
+      },
+      {
+        "title": "Controlled vs Uncontrolled Forms & Input Management",
+        "language": "javascript",
+        "starterCode": "import { useState } from 'react';\n\nfunction RegistrationForm() {\n  const [formData, setFormData] = useState({ handle: '', email: '' });\n\n  const handleChange = (e) => {\n    const { name, value } = e.target;\n    setFormData(prev => ({ ...prev, [name]: value }));\n  };\n\n  return (\n    <form onSubmit={(e) => { e.preventDefault(); console.log(formData); }}>\n      <input name=\"handle\" value={formData.handle} onChange={handleChange} />\n      <input name=\"email\" value={formData.email} onChange={handleChange} />\n      <button type=\"submit\">Submit</button>\n    </form>\n  );\n}\n",
+        "content": "<h2>⚛️ Chapter 3: Controlled Components</h2>\n<p>In a <strong>Controlled Component</strong>, the form input's value is driven strictly by React state. Changes invoke <code>onChange</code> handlers that update state, making inputs single sources of truth.</p>"
+      },
+      {
+        "title": "Performance Optimization: useMemo, useCallback & React.memo",
+        "language": "javascript",
+        "starterCode": "import { useMemo, useCallback, useState } from 'react';\n\nfunction DataViewer({ rawItems }) {\n  const [search, setSearch] = useState('');\n\n  // Memorize costly computation\n  const filteredItems = useMemo(() => {\n    return rawItems.filter(i => i.name.toLowerCase().includes(search.toLowerCase()));\n  }, [rawItems, search]);\n\n  // Preserve function identity across renders\n  const handleSelect = useCallback((id) => {\n    console.log(\"Selected item:\", id);\n  }, []);\n\n  return <div>{/* render UI */}</div>;\n}\n",
+        "content": "<h2>⚛️ Chapter 4: React Performance Optimization</h2>\n<ul>\n  <li><code>useMemo</code>: Caches the result of an expensive calculation between renders.</li>\n  <li><code>useCallback</code>: Caches a function definition between renders so child components don't re-render needlessly.</li>\n  <li><code>React.memo</code>: Skips re-rendering a component if its props have not changed.</li>\n</ul>"
+      },
+      {
+        "title": "Custom Hooks: Extracting Reusable Business Logic",
+        "language": "javascript",
+        "starterCode": "import { useState, useEffect } from 'react';\n\n// Custom Hook for Window Dimensions\nfunction useWindowSize() {\n  const [size, setSize] = useState({\n    width: window.innerWidth,\n    height: window.innerHeight\n  });\n\n  useEffect(() => {\n    const handleResize = () => setSize({ width: window.innerWidth, height: window.innerHeight });\n    window.addEventListener('resize', handleResize);\n    return () => window.removeEventListener('resize', handleResize);\n  }, []);\n\n  return size;\n}\n",
+        "content": "<h2>⚛️ Chapter 5: Custom Hooks Architecture</h2>\n<p>Custom hooks are JavaScript functions prefixed with <code>use</code> that can call other React hooks. They allow you to extract and share stateful business logic across multiple components without altering component hierarchy.</p>"
+      }
+    ],
+    "exercises": [
+      {
+        "title": "Counter with Boundaries Hook",
+        "instructions": "Create a custom hook useCounter(initial, min, max) that bounds values.",
+        "starterCode": "function useCounter(initial, min, max) {}",
+        "solution": "function useCounter(i, min, max) { const [c, setC] = useState(i); return { c, inc: () => setC(p => Math.min(max, p+1)), dec: () => setC(p => Math.max(min, p-1)) }; }",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed hook test"
+          }
+        ]
+      },
+      {
+        "title": "Controlled Search Filter",
+        "instructions": "Implement a controlled text input that filters a list of names.",
+        "starterCode": "function SearchBox({ list }) {}",
+        "solution": "function SearchBox({ list }) { const [q, setQ] = useState(\"\"); const filtered = list.filter(x => x.includes(q)); return <input value={q} onChange={e => setQ(e.target.value)} />; }",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed search test"
+          }
+        ]
+      }
+    ],
+    "quiz": {
+      "title": "Module 6 Mastery Quiz: State & Hooks",
+      "questions": [
+        {
+          "question": "What is the purpose of returning a function from inside useEffect?",
+          "options": [
+            "To re-trigger the effect immediately",
+            "To perform cleanup when the component unmounts or before the effect re-runs",
+            "To return JSX to the DOM",
+            "To log errors to the console"
+          ],
+          "correct": 1,
+          "explanation": "The return function cleans up subscriptions, event listeners, and timers to prevent memory leaks."
+        },
+        {
+          "question": "When should you pass a function to the state setter (e.g. setCount(prev => prev + 1))?",
+          "options": [
+            "Only on initial component mount",
+            "Whenever the new state depends on the previous state value",
+            "Only when handling string inputs",
+            "Never; direct values are preferred"
+          ],
+          "correct": 1,
+          "explanation": "Functional state updates guarantee accurate calculations during React state batching."
+        }
+      ]
+    },
+    "project": {
+      "title": "Interactive Quest Master Dashboard",
+      "scenario": "Build a fully controlled React quest tracker featuring customized hooks, debounced search filters, and persistent state.",
+      "starterCode": "// Quest Master Dashboard",
+      "requirements": [
+        "Manage multi-field form state with controlled components",
+        "Implement useEffect with event listener cleanups",
+        "Build a reusable custom hook for local storage persistence",
+        "Optimize filtered search performance using useMemo"
+      ]
+    }
+  },
+  "web-week-7": {
+    "lessons": [
+      {
+        "title": "The TypeScript Crucible: Why Static Types Prevent Production Crashes",
+        "language": "typescript",
+        "starterCode": "// Static Type Verification\ninterface Hero {\n  id: number;\n  name: string;\n  powerLevel?: number; // Optional property\n}\n\nfunction deployHero(hero: Hero): string {\n  return `Deploying ${hero.name} (Level: ${hero.powerLevel ?? 1})`;\n}\n\n// deployHero({ id: 1 }); // Compile error: 'name' is missing!\n",
+        "content": "<h2>🔷 Chapter 1: Why TypeScript?</h2>\n<p>JavaScript is dynamically typed: errors manifest only at runtime when users click buttons. TypeScript layers a compile-time static type system over JavaScript, catching bugs before code ever deploys.</p>"
+      },
+      {
+        "title": "Primitive Types, Type Inference & Union / Intersection Types",
+        "language": "typescript",
+        "starterCode": "// Union types: One of several allowed values\ntype Status = 'idle' | 'loading' | 'success' | 'error';\n\n// Discriminated Unions: Powerful pattern for state machines\ntype State =\n  | { status: 'idle' }\n  | { status: 'loading' }\n  | { status: 'success'; data: string[] }\n  | { status: 'error'; error: Error };\n\nfunction renderState(s: State) {\n  if (s.status === 'success') console.log(\"Items:\", s.data.length);\n  else if (s.status === 'error') console.error(s.error.message);\n}\n",
+        "content": "<h2>🔷 Chapter 2: Discriminated Unions & Exhaustive Checks</h2>\n<p>Discriminated unions pair a literal discriminant property (like <code>status</code>) with payload data, enabling the compiler to narrow types with absolute mathematical certainty inside conditional branches.</p>"
+      },
+      {
+        "title": "Interfaces vs Type Aliases: Designing Component Prop Contracts",
+        "language": "typescript",
+        "starterCode": "interface CardProps {\n  title: string;\n  onClick: (id: string) => void;\n  children: React.ReactNode;\n}\n\n// Extending interfaces\ninterface PremiumCardProps extends CardProps {\n  badgeColor: string;\n}\n",
+        "content": "<h2>🔷 Chapter 3: Interfaces vs Type Aliases in React</h2>\n<p>Use <code>interface</code> when designing object contracts that can be extended, and <code>type</code> when creating unions, primitives, tuples, or complex mapped types.</p>"
+      },
+      {
+        "title": "Generics: Forging Flexible, Reusable UI Components & State",
+        "language": "typescript",
+        "starterCode": "// Generic API response container\ninterface ApiResponse<T> {\n  status: number;\n  data: T;\n  timestamp: number;\n}\n\ninterface UserProfile {\n  username: string;\n  guild: string;\n}\n\nfunction handleResponse(res: ApiResponse<UserProfile>) {\n  console.log(\"Welcome,\", res.data.username);\n}\n",
+        "content": "<h2>🔷 Chapter 4: Generics (Type Parameters)</h2>\n<p>Generics let you write components, functions, and interfaces that work over a variety of types rather than a single one, preserving full type safety without resorting to <code>any</code>.</p>"
+      },
+      {
+        "title": "TypeScript with React: Typing Events, Refs & API Responses",
+        "language": "typescript",
+        "starterCode": "import React, { useRef } from 'react';\n\ninterface InputProps {\n  onTextChange: (text: string) => void;\n}\n\nexport const SafeInput: React.FC<InputProps> = ({ onTextChange }) => {\n  const inputRef = useRef<HTMLInputElement>(null);\n\n  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {\n    onTextChange(e.target.value);\n  };\n\n  return <input ref={inputRef} onChange={handleChange} />;\n};\n",
+        "content": "<h2>🔷 Chapter 5: React + TypeScript Integration</h2>\n<p>Master typing common React patterns: <code>React.MouseEvent</code>, <code>React.ChangeEvent</code>, <code>React.FC</code>, and generic hooks like <code>useRef&lt;HTMLInputElement&gt;(null)</code>.</p>"
+      }
+    ],
+    "exercises": [
+      {
+        "title": "Discriminated Union State Handler",
+        "instructions": "Define an ApiResponse<T> type union with Success and Error variants.",
+        "starterCode": "type ApiResponse<T> = /* define union */;",
+        "solution": "type ApiResponse<T> = { ok: true; data: T } | { ok: false; error: string };",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed type test"
+          }
+        ]
+      },
+      {
+        "title": "Typed React Props Contract",
+        "instructions": "Write an interface ButtonProps with label, disabled optional boolean, and onClick callback.",
+        "starterCode": "interface ButtonProps {}",
+        "solution": "interface ButtonProps { label: string; disabled?: boolean; onClick: () => void; }",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed interface test"
+          }
+        ]
+      }
+    ],
+    "quiz": {
+      "title": "Module 7 Mastery Quiz: TypeScript Engineering",
+      "questions": [
+        {
+          "question": "What is the key benefit of a Discriminated Union in TypeScript?",
+          "options": [
+            "It speeds up JavaScript execution in V8",
+            "It enables type narrowing based on a shared literal property",
+            "It converts objects into binary format",
+            "It replaces SQL database migrations"
+          ],
+          "correct": 1,
+          "explanation": "Discriminated unions allow TypeScript to narrow complex union states with zero casting."
+        },
+        {
+          "question": "What is the type of an input change event in React?",
+          "options": [
+            "Event",
+            "React.ChangeEvent<HTMLInputElement>",
+            "CustomEvent",
+            "InputEvent"
+          ],
+          "correct": 1,
+          "explanation": "React provides the synthetic event wrapper React.ChangeEvent<HTMLInputElement> for input changes."
+        }
+      ]
+    },
+    "project": {
+      "title": "Bulletproof Cyberdeck Component Library",
+      "scenario": "Develop a strongly typed React UI component library with buttons, cards, modals, and generic data tables with zero any types.",
+      "starterCode": "// TypeScript Component Library",
+      "requirements": [
+        "Define strict interfaces for all component props",
+        "Use discriminated unions for component variants",
+        "Build a generic table component with TableProps<T>",
+        "Eliminate any and unknown type escapes"
+      ]
+    }
+  },
+  "web-week-8": {
+    "lessons": [
+      {
+        "title": "Client-Side Routing: Browser History API vs React Router",
+        "language": "javascript",
+        "starterCode": "import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';\n\nfunction App() {\n  return (\n    <BrowserRouter>\n      <nav>\n        <Link to=\"/\">Armory</Link> | <Link to=\"/quests\">Quests</Link>\n      </nav>\n      <Routes>\n        <Route path=\"/\" element={<h2>Armory Hub</h2>} />\n        <Route path=\"/quests\" element={<h2>Quest Portal</h2>} />\n      </Routes>\n    </BrowserRouter>\n  );\n}\n",
+        "content": "<h2>🧭 Chapter 1: Single-Page Architecture & Client-Side Routing</h2>\n<p>Traditional multi-page sites cause a full browser reload on every link click. SPAs intercept link clicks using the HTML5 <strong>History API</strong> (<code>pushState</code>) to swap views dynamically with zero page reloads!</p>"
+      },
+      {
+        "title": "Dynamic Routes, Nested Layouts & Route Loaders",
+        "language": "javascript",
+        "starterCode": "import { useParams } from 'react-router-dom';\n\nfunction QuestDetail() {\n  // Extracts :questId from route \"/quests/:questId\"\n  const { questId } = useParams();\n  return <div>Viewing Quest: #{questId}</div>;\n}\n",
+        "content": "<h2>🧭 Chapter 2: URL Parameters & Dynamic Routes</h2>\n<p>Dynamic segment paths (<code>/users/:id</code>) allow single components to render data for thousands of unique records by extracting params via <code>useParams</code>.</p>"
+      },
+      {
+        "title": "Context API: Prop-Drilling Elimination & Theme / Auth State",
+        "language": "javascript",
+        "starterCode": "import { createContext, useContext, useState } from 'react';\n\nconst AuthContext = createContext(null);\n\nexport function AuthProvider({ children }) {\n  const [user, setUser] = useState({ name: 'Valkyrie', authenticated: true });\n  return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>;\n}\n\nexport const useAuth = () => useContext(AuthContext);\n",
+        "content": "<h2>🧭 Chapter 3: React Context API</h2>\n<p>Avoid passing props through 10 layers of components (<strong>Prop Drilling</strong>). Context provides global data broadcasting for theme, locale, and authentication state.</p>"
+      },
+      {
+        "title": "Global State Architectures: Zustand vs Redux Toolkit Principles",
+        "language": "javascript",
+        "starterCode": "// Lightweight global state with Zustand\nimport { create } from 'zustand';\n\nexport const useInventoryStore = create((set) => ({\n  credits: 500,\n  items: [],\n  addCredits: (amount) => set((state) => ({ credits: state.credits + amount })),\n  addItem: (item) => set((state) => ({ items: [...state.items, item] }))\n}));\n",
+        "content": "<h2>🧭 Chapter 4: Modern Global State Management</h2>\n<p>While Redux pioneered unidirectional data flow, modern tools like <strong>Zustand</strong> deliver minimal boilerplate, hook-based stores, and fine-grained selector re-renders.</p>"
+      },
+      {
+        "title": "Server State & Data Caching: TanStack Query (React Query)",
+        "language": "javascript",
+        "starterCode": "import { useQuery } from '@tanstack/react-query';\n\nfunction GuildMembers() {\n  const { data, isLoading, error } = useQuery({\n    queryKey: ['guild-members'],\n    queryFn: () => fetch('/api/guild').then(res => res.json()),\n    staleTime: 60 * 1000 // Cache fresh for 1 minute\n  });\n\n  if (isLoading) return <div>Loading roster...</div>;\n  return <ul>{data?.map(m => <li key={m.id}>{m.name}</li>)}</ul>;\n}\n",
+        "content": "<h2>🧭 Chapter 5: Server State vs Client State</h2>\n<p>Do not store remote server responses in global client stores. <strong>TanStack Query</strong> automatically manages caching, background re-fetching, deduplication, and stale data synchronization!</p>"
+      }
+    ],
+    "exercises": [
+      {
+        "title": "Context Authentication Provider",
+        "instructions": "Create an AuthContext and custom hook useAuth that exposes user and login function.",
+        "starterCode": "const AuthContext = createContext();",
+        "solution": "const AuthContext = createContext(); function AuthProvider({ children }) { const [u, setU] = useState(null); return <AuthContext.Provider value={{ u, login: setU }}>{children}</AuthContext.Provider>; }",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed context test"
+          }
+        ]
+      },
+      {
+        "title": "Zustand Global Cart Store",
+        "instructions": "Define a Zustand store with cart array and addToCart action.",
+        "starterCode": "const useCart = create((set) => ({}));",
+        "solution": "const useCart = create((set) => ({ cart: [], addToCart: (i) => set(s => ({ cart: [...s.cart, i] })) }));",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed zustand test"
+          }
+        ]
+      }
+    ],
+    "quiz": {
+      "title": "Module 8 Mastery Quiz: SPA Routing & Global State",
+      "questions": [
+        {
+          "question": "What is the main difference between Server State and Client State?",
+          "options": [
+            "Server state is written in SQL, client state in CSS",
+            "Server state is remotely persisted and can become stale asynchronously, while client state is local UI state",
+            "Client state never changes",
+            "There is no difference"
+          ],
+          "correct": 1,
+          "explanation": "Server state belongs to remote databases and requires caching/refetching mechanisms (like TanStack Query)."
+        },
+        {
+          "question": "What React Hook extracts route parameters like :id in React Router?",
+          "options": [
+            "useRoute()",
+            "useParams()",
+            "useLocation()",
+            "useHistory()"
+          ],
+          "correct": 1,
+          "explanation": "useParams() returns an object of key/value pairs of dynamic URL parameters."
+        }
+      ]
+    },
+    "project": {
+      "title": "Full-Scale SPA Cyberpunk Guild Headquarters",
+      "scenario": "Assemble a complete Single Page Application featuring React Router navigation, authentication context, and Zustand-backed inventory store.",
+      "starterCode": "// SPA Guild Headquarters",
+      "requirements": [
+        "Configure BrowserRouter with nested routes",
+        "Implement protected routes guarded by AuthContext",
+        "Store dynamic character equipment in a Zustand store",
+        "Display dynamic detail views using useParams"
+      ]
+    }
+  },
+  "web-week-9": {
+    "lessons": [
+      {
+        "title": "The Database Divide: Relational Tables vs Document Stores",
+        "language": "sql",
+        "starterCode": "-- Relational Structure: Structured Schema with Typed Columns\nCREATE TABLE pilots (\n    id SERIAL PRIMARY KEY,\n    callsign VARCHAR(50) NOT NULL UNIQUE,\n    credits NUMERIC(12, 2) NOT NULL DEFAULT 0.00,\n    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()\n);\n",
+        "content": "<h2>🐘 Chapter 1: Relational vs Document Databases</h2>\n<p>Relational databases (PostgreSQL) enforce strong mathematical schemas, relational foreign key constraints, and ACID transactions. In contrast, Document stores (MongoDB) provide schemaless JSON flexibility at the expense of automated relational integrity.</p>"
+      },
+      {
+        "title": "Forging the Schema: PostgreSQL Data Types, Constraints & Keys",
+        "language": "sql",
+        "starterCode": "CREATE TABLE mechs (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    pilot_id INT NOT NULL REFERENCES pilots(id) ON DELETE CASCADE,\n    model VARCHAR(100) NOT NULL,\n    tier INT NOT NULL CHECK (tier BETWEEN 1 AND 10),\n    is_operational BOOLEAN NOT NULL DEFAULT TRUE\n);\n",
+        "content": "<h2>🐘 Chapter 2: Schema Constraints & Integrity Runes</h2>\n<p>Use constraints (<code>CHECK</code>, <code>UNIQUE</code>, <code>NOT NULL</code>, <code>FOREIGN KEY</code>) to guarantee data validity directly in the database engine, guarding against bugs in application code.</p>"
+      },
+      {
+        "title": "The Language of Queries: SQL CRUD, Filtering & Multi-Table JOINs",
+        "language": "sql",
+        "starterCode": "-- Multi-Table INNER JOIN\nSELECT \n    p.callsign,\n    m.model,\n    m.tier\nFROM pilots p\nINNER JOIN mechs m ON p.id = m.pilot_id\nWHERE m.is_operational = TRUE\nORDER BY m.tier DESC;\n",
+        "content": "<h2>🐘 Chapter 3: SQL CRUD & Joins</h2>\n<p>Master the four primary join types: <code>INNER JOIN</code> (intersection), <code>LEFT JOIN</code> (all left rows + matching right), <code>RIGHT JOIN</code>, and <code>FULL OUTER JOIN</code>.</p>"
+      },
+      {
+        "title": "Relational Integrity: Foreign Key Cascades & Referential Invariants",
+        "language": "sql",
+        "starterCode": "-- Cascading Deletions: When a pilot is deleted, their mechs are pruned automatically\nALTER TABLE mechs\nDROP CONSTRAINT mechs_pilot_id_fkey,\nADD CONSTRAINT mechs_pilot_id_fkey\n    FOREIGN KEY (pilot_id) REFERENCES pilots(id)\n    ON DELETE CASCADE;\n",
+        "content": "<h2>🐘 Chapter 4: Foreign Key Invariants & Cascades</h2>\n<p>Foreign keys prevent orphaned records. With <code>ON DELETE CASCADE</code>, removing a parent record automatically prunes associated child records.</p>"
+      },
+      {
+        "title": "Indexing Internals (B-Trees), EXPLAIN ANALYZE & ACID Transactions",
+        "language": "sql",
+        "starterCode": "-- Indexing high-frequency search column\nCREATE INDEX idx_mechs_tier ON mechs (tier);\n\n-- Inspecting the PostgreSQL Query Plan\nEXPLAIN ANALYZE\nSELECT * FROM mechs WHERE tier >= 8;\n",
+        "content": "<h2>🐘 Chapter 5: B-Tree Indexes & ACID Transactions</h2>\n<div class=\"callout callout--quest\">\n  <strong>⚔️ ACID GUARANTEES:</strong> <em>Atomicity (all or nothing), Consistency (valid state transitions), Isolation (independent concurrent execution), and Durability (persisted to disk).</em>\n</div>\n<p>Indexes transform full-table sequential scans (<code>O(N)</code>) into lightning-fast logarithmic B-Tree searches (<code>O(log N)</code>).</p>"
+      }
+    ],
+    "exercises": [
+      {
+        "title": "Relational Schema Definition",
+        "instructions": "Create a table guilds with id, name unique varchar(100), and created_at timestamp.",
+        "starterCode": "CREATE TABLE guilds ();",
+        "solution": "CREATE TABLE guilds ( id SERIAL PRIMARY KEY, name VARCHAR(100) UNIQUE NOT NULL, created_at TIMESTAMPTZ DEFAULT NOW() );",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed DDL test"
+          }
+        ]
+      },
+      {
+        "title": "Multi-Table SQL Join",
+        "instructions": "Select user name and guild name using an INNER JOIN between users and guilds.",
+        "starterCode": "SELECT /* query */;",
+        "solution": "SELECT u.name, g.name AS guild FROM users u INNER JOIN guilds g ON u.guild_id = g.id;",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed join test"
+          }
+        ]
+      }
+    ],
+    "quiz": {
+      "title": "Module 9 Mastery Quiz: PostgreSQL Mastery",
+      "questions": [
+        {
+          "question": "What does ACID stand for in database systems?",
+          "options": [
+            "Async, Concurrent, Indexed, Distributed",
+            "Atomicity, Consistency, Isolation, Durability",
+            "Array, Character, Integer, Decimal",
+            "Authentication, Cryptography, Identity, Directory"
+          ],
+          "correct": 1,
+          "explanation": "ACID guarantees reliable transactions even during hardware crashes or concurrent operations."
+        },
+        {
+          "question": "What SQL command displays the execution plan and actual runtime of a query in PostgreSQL?",
+          "options": [
+            "SHOW PLAN",
+            "EXPLAIN ANALYZE",
+            "DEBUG QUERY",
+            "TRACE EXECUTION"
+          ],
+          "correct": 1,
+          "explanation": "EXPLAIN ANALYZE executes the query and prints planning time, execution time, and index usage."
+        }
+      ]
+    },
+    "project": {
+      "title": "PostgreSQL Guild Armory Schema",
+      "scenario": "Design and write a complete production-grade PostgreSQL relational schema for an online armory with users, equipment, transactions, and foreign key cascades.",
+      "starterCode": "-- PostgreSQL Armory Schema",
+      "requirements": [
+        "Define primary and foreign keys with cascading deletes",
+        "Apply CHECK and UNIQUE constraints on vital columns",
+        "Create B-Tree indexes on frequent search fields",
+        "Write multi-table aggregate queries with GROUP BY"
+      ]
+    }
+  },
+  "web-week-10": {
+    "lessons": [
+      {
+        "title": "The Server Runtime: Node.js, V8 Engine & Non-Blocking I/O",
+        "language": "javascript",
+        "starterCode": "// Inspecting process and environment variables in Node.js\nconsole.log(\"⚡ Server OS:\", process.platform);\nconsole.log(\"⚡ Node Version:\", process.version);\nconsole.log(\"⚡ Port:\", process.env.PORT || 3000);\n",
+        "content": "<h2>🟢 Chapter 1: Node.js Runtime & Non-Blocking I/O</h2>\n<p>Node.js takes Chrome's V8 JavaScript engine out of the browser and embeds it into a server runtime powered by <strong>libuv</strong>. All filesystem, network, and timer operations are asynchronously offloaded, allowing a single thread to handle tens of thousands of concurrent client connections!</p>"
+      },
+      {
+        "title": "The Rules of the Web: HTTP Protocols, Status Codes & REST Conventions",
+        "language": "javascript",
+        "starterCode": "// RESTful Resource Routing Convention\n// GET    /api/mechs        -> List all mechs\n// POST   /api/mechs        -> Create new mech\n// GET    /api/mechs/:id    -> Retrieve specific mech\n// PUT    /api/mechs/:id    -> Replace mech\n// DELETE /api/mechs/:id    -> Delete mech\n",
+        "content": "<h2>🟢 Chapter 2: RESTful Architecture & HTTP Semantics</h2>\n<p>Representational State Transfer (REST) maps CRUD operations onto standard HTTP verbs (<code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>PATCH</code>, <code>DELETE</code>), utilizing stateless URI endpoints and descriptive status codes.</p>"
+      },
+      {
+        "title": "The Express Foundry: Routing Pipelines, Middleware & Request Lifecycle",
+        "language": "javascript",
+        "starterCode": "import express from 'express';\nconst app = express();\n\n// Global JSON parsing middleware\napp.use(express.json());\n\n// Custom Logger Middleware\napp.use((req, res, next) => {\n  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);\n  next(); // Pass control to next handler in pipeline!\n});\n\napp.get('/api/health', (req, res) => {\n  res.json({ status: 'HEALTHY', uptime: process.uptime() });\n});\n\napp.listen(3000, () => console.log(\"Server online at port 3000\"));\n",
+        "content": "<h2>🟢 Chapter 3: Express Middleware & The Request Pipeline</h2>\n<p>An Express application is essentially a stack of middleware functions. Each function receives <code>req</code>, <code>res</code>, and <code>next</code>, and can mutate requests, send responses, or invoke the next handler in line.</p>"
+      },
+      {
+        "title": "Payload Validation, Error Handling Middleware & Input Sanitization",
+        "language": "javascript",
+        "starterCode": "// Centralized Global Error Handling Middleware (4 arguments!)\napp.use((err, req, res, next) => {\n  console.error(\"🔥 Unhandled Server Error:\", err.stack);\n  const statusCode = err.statusCode || 500;\n  res.status(statusCode).json({\n    error: true,\n    message: err.message || 'Internal Server Error'\n  });\n});\n",
+        "content": "<h2>🟢 Chapter 4: Defensive Error Handling & Input Validation</h2>\n<p>Never let unhandled Promise rejections crash your Node process. Modern Express APIs use centralized 4-parameter error middleware to catch and serialize errors predictably.</p>"
+      },
+      {
+        "title": "File Uploads, Streaming Responses & Rate Limiting Guardrails",
+        "language": "javascript",
+        "starterCode": "import rateLimit from 'express-rate-limit';\n\n// Prevent brute-force DDoS attacks\nconst limiter = rateLimit({\n  windowMs: 15 * 60 * 1000, // 15 minutes\n  max: 100, // Limit each IP to 100 requests per window\n  message: { error: 'Too many requests, try again later.' }\n});\n\napp.use('/api/', limiter);\n",
+        "content": "<h2>🟢 Chapter 5: API Security & Rate Limiting Guardrails</h2>\n<p>Protect public APIs against abuse by introducing IP-based rate limiting, request payload size boundaries, and compression.</p>"
+      }
+    ],
+    "exercises": [
+      {
+        "title": "Express Route Handler",
+        "instructions": "Create a GET /api/stats endpoint that returns { online: true, players: 42 } with status 200.",
+        "starterCode": "const app = express();",
+        "solution": "app.get(\"/api/stats\", (req, res) => res.status(200).json({ online: true, players: 42 }));",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed route test"
+          }
+        ]
+      },
+      {
+        "title": "Centralized Error Middleware",
+        "instructions": "Write an Express error-handling middleware function with (err, req, res, next).",
+        "starterCode": "function errorHandler(err, req, res, next) {}",
+        "solution": "function errorHandler(err, req, res, next) { res.status(err.status || 500).json({ error: err.message }); }",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed error middleware test"
+          }
+        ]
+      }
+    ],
+    "quiz": {
+      "title": "Module 10 Mastery Quiz: Node.js & Express",
+      "questions": [
+        {
+          "question": "What is the signature of an Express error-handling middleware?",
+          "options": [
+            "(req, res) => {}",
+            "(req, res, next) => {}",
+            "(err, req, res, next) => {}",
+            "(err, req, res) => {}"
+          ],
+          "correct": 2,
+          "explanation": "Express distinguishes error handlers by their 4-parameter signature: (err, req, res, next)."
+        },
+        {
+          "question": "What library powers Node.js asynchronous I/O and thread pooling?",
+          "options": [
+            "React",
+            "libuv",
+            "Webpack",
+            "Babel"
+          ],
+          "correct": 1,
+          "explanation": "libuv is the multi-platform C library that powers the Node.js event loop and asynchronous I/O."
+        }
+      ]
+    },
+    "project": {
+      "title": "Cyberpunk RESTful Microservice",
+      "scenario": "Build a complete Express RESTful microservice with logging middleware, input validation, rate limiting, and centralized error handling.",
+      "starterCode": "// Express Microservice",
+      "requirements": [
+        "Configure global JSON body parser",
+        "Implement REST routes for full CRUD lifecycle",
+        "Apply rate limiting to prevent endpoint abuse",
+        "Use 4-parameter centralized error handling"
+      ]
+    }
+  },
+  "web-week-11": {
+    "lessons": [
+      {
+        "title": "Bridging Backend & Database: Node.js Connection Pools & SQL Queries",
+        "language": "javascript",
+        "starterCode": "import pg from 'pg';\nconst { Pool } = pg;\n\n// Connection pool reuses database connections efficiently\nexport const pool = new Pool({\n  connectionString: process.env.DATABASE_URL,\n  max: 20, // Max 20 concurrent connections\n  idleTimeoutMillis: 30000\n});\n\nexport async function getPlayer(id) {\n  // Parameterized query prevents SQL Injection!\n  const { rows } = await pool.query('SELECT * FROM players WHERE id = $1', [id]);\n  return rows[0];\n}\n",
+        "content": "<h2>🔒 Chapter 1: Node.js + PostgreSQL Connection Pooling</h2>\n<p>Opening a database connection requires a costly network handshake. A <strong>Connection Pool</strong> maintains a pool of warm connections ready for instant query execution.</p>"
+      },
+      {
+        "title": "Password Cryptography: Salted Hashes with Argon2 / Bcrypt",
+        "language": "javascript",
+        "starterCode": "import bcrypt from 'bcrypt';\n\nconst SALT_ROUNDS = 12;\n\nexport async function hashPassword(plainPassword) {\n  const salt = await bcrypt.genSalt(SALT_ROUNDS);\n  return bcrypt.hash(plainPassword, salt);\n}\n\nexport async function verifyPassword(plain, hash) {\n  return bcrypt.compare(plain, hash);\n}\n",
+        "content": "<h2>🔒 Chapter 2: Salted Password Hashing</h2>\n<div class=\"callout callout--quest\">\n  <strong>⚔️ SECURITY MANDATE:</strong> <em>NEVER store plaintext passwords. Always hash passwords with an adaptive slow-hashing algorithm (Argon2 or bcrypt) using unique cryptographically secure salts.</em>\n</div>"
+      },
+      {
+        "title": "Stateless Session Management: JSON Web Tokens (JWT) & Refresh Tokens",
+        "language": "javascript",
+        "starterCode": "import jwt from 'jsonwebtoken';\n\nconst JWT_SECRET = process.env.JWT_SECRET || 'cyber_vault_secret';\n\nexport function generateAccessToken(user) {\n  return jwt.sign(\n    { id: user.id, role: user.role },\n    JWT_SECRET,\n    { expiresIn: '15m' } // Short-lived access token\n  );\n}\n",
+        "content": "<h2>🔒 Chapter 3: Stateless JWT Authentication</h2>\n<p>A <strong>JSON Web Token (JWT)</strong> contains a Base64-encoded Header, Payload, and cryptographic Signature. The server verifies tokens mathematically without storing session state in memory.</p>"
+      },
+      {
+        "title": "Role-Based Access Control (RBAC) & Protected API Middleware",
+        "language": "javascript",
+        "starterCode": "export function requireRole(allowedRole) {\n  return (req, res, next) => {\n    const authHeader = req.headers.authorization;\n    if (!authHeader?.startsWith('Bearer ')) {\n      return res.status(401).json({ error: 'Missing or malformed token' });\n    }\n    const token = authHeader.split(' ')[1];\n    try {\n      const decoded = jwt.verify(token, JWT_SECRET);\n      if (decoded.role !== allowedRole) {\n        return res.status(403).json({ error: 'Forbidden: Insufficient clearance' });\n      }\n      req.user = decoded;\n      next();\n    } catch (err) {\n      res.status(401).json({ error: 'Invalid or expired token' });\n    }\n  };\n}\n",
+        "content": "<h2>🔒 Chapter 4: Role-Based Authorization Guardrails</h2>\n<p>Guard sensitive endpoints with middleware that verifies the JWT signature and checks user authorization roles (<code>Admin</code>, <code>Player</code>, <code>Spectator</code>).</p>"
+      },
+      {
+        "title": "Web Security Fortress: CORS, CSRF, XSS Prevention & Helmet",
+        "language": "javascript",
+        "starterCode": "import helmet from 'helmet';\nimport cors from 'cors';\n\n// Attach essential HTTP security headers\napp.use(helmet());\n\n// Restrict cross-origin access to trusted domains\napp.use(cors({\n  origin: 'https://cyberquest.dev',\n  credentials: true\n}));\n",
+        "content": "<h2>🔒 Chapter 5: Hardening the Full-Stack Fortress</h2>\n<ul>\n  <li><strong>Helmet:</strong> Sets secure headers (<code>Content-Security-Policy</code>, <code>X-Frame-Options</code>).</li>\n  <li><strong>CORS:</strong> Prevents unauthorized external sites from reading your API responses.</li>\n  <li><strong>XSS & CSRF:</strong> Sanitize user HTML output and use <code>SameSite=Strict</code> cookie attributes.</li>\n</ul>"
+      }
+    ],
+    "exercises": [
+      {
+        "title": "Parameterized Query Guard",
+        "instructions": "Write a function findUserByEmail(pool, email) that uses parameterized $1 query syntax.",
+        "starterCode": "async function findUserByEmail(pool, email) {}",
+        "solution": "async function findUserByEmail(pool, email) { return (await pool.query(\"SELECT * FROM users WHERE email = $1\", [email])).rows[0]; }",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed query test"
+          }
+        ]
+      },
+      {
+        "title": "JWT Token Verification Middleware",
+        "instructions": "Create an Express middleware that checks Authorization header for Bearer token.",
+        "starterCode": "function authMiddleware(req, res, next) {}",
+        "solution": "function authMiddleware(req, res, next) { const t = req.headers.authorization?.split(\" \")[1]; if (!t) return res.status(401).send(); req.user = jwt.verify(t, \"secret\"); next(); }",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed auth middleware test"
+          }
+        ]
+      }
+    ],
+    "quiz": {
+      "title": "Module 11 Mastery Quiz: Auth & Security",
+      "questions": [
+        {
+          "question": "How do Parameterized Queries prevent SQL Injection?",
+          "options": [
+            "By encrypting the entire database table",
+            "By treating user inputs strictly as literal data rather than executable SQL code",
+            "By running queries in a sandbox thread",
+            "By converting SQL into JavaScript"
+          ],
+          "correct": 1,
+          "explanation": "Parameterized queries pass user data separately from the SQL statement template, preventing malicious syntax injections."
+        },
+        {
+          "question": "Why should passwords be hashed with bcrypt rather than standard SHA-256?",
+          "options": [
+            "SHA-256 is deprecated in web development",
+            "bcrypt includes automatic salt generation and configurable work factors that resist GPU cracking",
+            "bcrypt generates shorter hashes",
+            "bcrypt is written in Python"
+          ],
+          "correct": 1,
+          "explanation": "Fast hashes like SHA-256 can be brute-forced at billions of attempts per second; bcrypt is deliberately slow."
+        }
+      ]
+    },
+    "project": {
+      "title": "Secure Full-Stack Authentication Gateway",
+      "scenario": "Assemble a production-ready authentication subsystem with registration, bcrypt hashing, JWT issuance, and RBAC protected routes.",
+      "starterCode": "// Authentication Gateway",
+      "requirements": [
+        "Connect to PostgreSQL with connection pooling and parameterized queries",
+        "Hash passwords with bcrypt (12 salt rounds)",
+        "Generate signed JWT tokens with expiration",
+        "Enforce role-based access control with Express middleware"
+      ]
+    }
+  },
+  "web-week-12": {
+    "lessons": [
+      {
+        "title": "The Version Control Citadel: Advanced Git Branching & Rebasing Workflows",
+        "language": "bash",
+        "starterCode": "# Interactive rebase to squash commits cleanly before merging\ngit checkout -b feature/quantum-telemetry\ngit add .\ngit commit -m \"feat: add telemetry hooks\"\n\n# Rebase onto main with zero merge bubbles\ngit fetch origin\ngit rebase origin/main\n",
+        "content": "<h2>🚀 Chapter 1: Advanced Git Branching & Clean Rebasing</h2>\n<p>Professional engineering teams maintain clean, linear commit histories using interactive rebasing (<code>git rebase -i</code>) and Trunk-Based Development, eliminating messy merge bubbles.</p>"
+      },
+      {
+        "title": "Encapsulating Applications: Docker Containerization & Multi-Stage Builds",
+        "language": "dockerfile",
+        "starterCode": "# Multi-Stage Dockerfile for Minimal Production Image\nFROM node:20-alpine AS builder\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci\nCOPY . .\nRUN npm run build\n\n# Production runner: only ships runtime artifacts!\nFROM node:20-alpine AS runner\nWORKDIR /app\nCOPY --from=builder /app/dist ./dist\nCOPY --from=builder /app/node_modules ./node_modules\nEXPOSE 3000\nCMD [\"node\", \"dist/server.js\"]\n",
+        "content": "<h2>🚀 Chapter 2: Multi-Stage Docker Builds</h2>\n<p>Containers package your code and all system dependencies into an immutable image that runs identically anywhere. <strong>Multi-stage builds</strong> compile code in a heavy build container, then copy only production binaries into a lightweight runner image, slashing image sizes by up to 80%!</p>"
+      },
+      {
+        "title": "Multi-Container Orchestration: Docker Compose (App + PostgreSQL + Redis)",
+        "language": "yaml",
+        "starterCode": "version: '3.8'\nservices:\n  web:\n    build: .\n    ports:\n      - \"3000:3000\"\n    environment:\n      - DATABASE_URL=postgres://postgres:secret@db:5432/cyber_db\n    depends_on:\n      - db\n\n  db:\n    image: postgres:16-alpine\n    environment:\n      POSTGRES_PASSWORD: secret\n      POSTGRES_DB: cyber_db\n    volumes:\n      - pgdata:/var/lib/postgresql/data\n\nvolumes:\n  pgdata:\n",
+        "content": "<h2>🚀 Chapter 3: Local Orchestration with Docker Compose</h2>\n<p>Spin up your entire distributed architecture (frontend, Node.js API, PostgreSQL database, and Redis cache) with a single command: <code>docker compose up -d</code>!</p>"
+      },
+      {
+        "title": "Automated Continuous Integration & Deployment (CI/CD) with GitHub Actions",
+        "language": "yaml",
+        "starterCode": "name: CI/CD Pipeline\non: [push]\njobs:\n  test-and-build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: 20\n      - run: npm ci\n      - run: npm run lint\n      - run: npm test\n      - run: npm run build\n",
+        "content": "<h2>🚀 Chapter 4: GitHub Actions & Automated Pipelines</h2>\n<p>Continuous Integration (CI) automatically runs tests and linters on every pull request, ensuring broken code can never be merged into production branches.</p>"
+      },
+      {
+        "title": "The Production Ascent: Cloud Hosting, Reverse Proxies (Nginx), SSL & Domain Launch",
+        "language": "nginx",
+        "starterCode": "# Nginx Reverse Proxy Configuration\nserver {\n    listen 80;\n    server_name api.cyberquest.dev;\n    return 301 https://$host$request_uri;\n}\n\nserver {\n    listen 443 ssl http2;\n    server_name api.cyberquest.dev;\n\n    location / {\n        proxy_pass http://localhost:3000;\n        proxy_set_header Host $host;\n        proxy_set_header X-Real-IP $remote_addr;\n    }\n}\n",
+        "content": "<h2>🚀 Chapter 5: Reverse Proxies, SSL & Cloud Deployment</h2>\n<div class=\"callout callout--quest\">\n  <strong>⚔️ CAPSTONE LAUNCH:</strong> <em>Deploy your containerized full-stack application behind an Nginx reverse proxy with automated Let's Encrypt SSL certificates to the global cloud!</em>\n</div>"
+      }
+    ],
+    "exercises": [
+      {
+        "title": "Docker Compose Service Definition",
+        "instructions": "Define a PostgreSQL service inside a docker-compose.yml mapping port 5432.",
+        "starterCode": "services:\n  postgres:\n",
+        "solution": "services:\n  postgres:\n    image: postgres:16-alpine\n    ports:\n      - \"5432:5432\"\n    environment:\n      POSTGRES_PASSWORD: pass",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed compose test"
+          }
+        ]
+      },
+      {
+        "title": "GitHub Actions Workflow",
+        "instructions": "Define a step that runs npm test using actions/setup-node.",
+        "starterCode": "steps:\n",
+        "solution": "steps:\n  - uses: actions/checkout@v4\n  - uses: actions/setup-node@v4\n  - run: npm test",
+        "testCases": [
+          {
+            "input": "",
+            "expectedOutput": "Passed workflow test"
+          }
+        ]
+      }
+    ],
+    "quiz": {
+      "title": "Module 12 Mastery Quiz: DevOps & Cloud Launch",
+      "questions": [
+        {
+          "question": "What is the primary benefit of a Multi-Stage Dockerfile build?",
+          "options": [
+            "It allows Docker to run without a Linux kernel",
+            "It drastically reduces final image size by discarding compilers and build tools from the runtime image",
+            "It eliminates the need for Git",
+            "It makes database migrations instant"
+          ],
+          "correct": 1,
+          "explanation": "Multi-stage builds leave behind compilers, build dependencies, and source files, shipping only minimal runtime artifacts."
+        },
+        {
+          "question": "What role does Nginx commonly serve when deployed in front of a Node.js API?",
+          "options": [
+            "It executes JavaScript faster than V8",
+            "It acts as a reverse proxy, handling SSL termination, rate limiting, and static file caching",
+            "It replaces the database",
+            "It compiles TypeScript"
+          ],
+          "correct": 1,
+          "explanation": "Nginx acts as a high-performance reverse proxy for SSL termination, load balancing, and request routing."
+        }
+      ]
+    },
+    "project": {
+      "title": "Production Cloud Launch & Capstone Defense",
+      "scenario": "Package your entire full-stack application with a multi-stage Dockerfile, Docker Compose stack, GitHub Actions CI pipeline, and Nginx configuration.",
+      "starterCode": "# Production Capstone Deployment",
+      "requirements": [
+        "Write an optimized multi-stage Dockerfile",
+        "Orchestrate web service and PostgreSQL with Docker Compose",
+        "Configure GitHub Actions workflow for linting and testing",
+        "Provide an Nginx reverse proxy configuration with SSL forwarding"
+      ]
+    }
+  }
 };

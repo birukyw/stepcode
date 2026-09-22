@@ -360,7 +360,7 @@ function TrackWeekItem({ week, progress, isElective }) {
       <div className="track-week-item__header" onClick={() => setIsOpen(!isOpen)}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 0 }}>
           <span className="track-week-item__badge">
-            {isElective ? 'ELECTIVE' : `MODULE ${week.moduleNumber || week.number}`}
+            {`MODULE ${week.moduleNumber || week.number}`}
           </span>
           <span className="track-week-item__title">
             {week.title}

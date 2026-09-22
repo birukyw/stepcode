@@ -28,7 +28,7 @@ export const TRACKS = [
         badge: 'FOUNDATIONS',
         icon: '🌱',
         modulesCount: 6,
-        phases: [ROADMAP.phases[7]] // phase-py-beginner
+        phases: [ROADMAP.phases.find(p => p.id === 'phase-py-beginner')]
       },
       {
         id: 'intermediate',
@@ -37,12 +37,12 @@ export const TRACKS = [
         badge: 'ELECTIVES',
         icon: '⚡',
         modulesCount: 5,
-        phases: [ROADMAP.phases[8]] // phase-py-intermediate
+        phases: [ROADMAP.phases.find(p => p.id === 'phase-py-intermediate')]
       }
     ],
     phases: [
-      ROADMAP.phases[7], // Phase Python Beginner (Modules 1-6)
-      ROADMAP.phases[8], // Phase Python Intermediate Electives (Modules 7-11)
+      ROADMAP.phases.find(p => p.id === 'phase-py-beginner'),
+      ROADMAP.phases.find(p => p.id === 'phase-py-intermediate'),
     ]
   },
   {
@@ -58,12 +58,14 @@ export const TRACKS = [
     badge: 'HIGH DEMAND',
     color: 'var(--yellow)',
     difficulty: 'Beginner to Full-Stack',
-    duration: '6 Modules',
-    modulesCount: 6,
+    duration: '12 Modules',
+    modulesCount: 12,
     tags: ['HTML5 / CSS3', 'JavaScript ES6+', 'React & TS', 'PostgreSQL', 'Node.js / Express', 'Docker & CI/CD'],
     description: 'Build production-grade web software from pixel to database. Master semantic HTML5 & modern CSS Grid, core JavaScript interactivity & V8 runtime, declarative React with TypeScript, relational database architecture with PostgreSQL, RESTful microservices with Node.js & Express, and containerized cloud deployment with Docker & GitHub Actions.',
     phases: [
-      ROADMAP.phases.find(p => p.id === 'phase-web-fullstack') || ROADMAP.phases[10],
+      ROADMAP.phases.find(p => p.id === 'phase-web-foundations'),
+      ROADMAP.phases.find(p => p.id === 'phase-web-react-ts'),
+      ROADMAP.phases.find(p => p.id === 'phase-web-backend-cloud'),
     ]
   },
   {
@@ -80,12 +82,12 @@ export const TRACKS = [
     color: 'var(--green-bright)',
     difficulty: 'Intermediate to Advanced',
     duration: '8 Modules',
-    modulesCount: 44,
+    modulesCount: 8,
     tags: ['Big-O', 'Two Pointers', 'Sliding Window', 'Binary Search', 'Trees', 'Graphs', 'DP'],
     description: 'Step into the Grand Arena of Algor. Conquer high-yield algorithmic trial chambers across Big-O battle metrics, two-pointer duels, linked list labyrinths, monotonic stacks, binary search trees, and dynamic programming spells with multi-language execution in Python 3, Java, C++, or JavaScript.',
     phases: [
-      ROADMAP.phases[1], // Phase 2: LeetCode Core (Modules 1-4)
-      ROADMAP.phases[2], // Phase 3: LeetCode Advanced (Modules 5-8)
+      ROADMAP.phases.find(p => p.id === 'phase-2'),
+      ROADMAP.phases.find(p => p.id === 'phase-3'),
     ]
   },
   {
@@ -101,14 +103,14 @@ export const TRACKS = [
     badge: 'ENTERPRISE QUEST',
     color: 'var(--cyan)',
     difficulty: 'Beginner to Advanced',
-    duration: '10 Modules',
-    modulesCount: 48,
+    duration: '12 Modules',
+    modulesCount: 12,
     tags: ['Java 21', 'JVM Internals', 'OOP Sorcery', 'SQL & JDBC', 'Spring Boot 3', 'Microservices'],
     description: 'The premier enterprise engineering odyssey. Enter the JVM Citadel mastering memory runes, object-oriented architecture, and collections alchemy. Transition into relational vaults with PostgreSQL & JDBC, and forge production-grade microservices with Spring Boot 3.',
     phases: [
-      ROADMAP.phases[0], // Phase 1: Java Foundations (Modules 1-4)
-      ROADMAP.phases[3], // Phase 4: SQL & PostgreSQL (Modules 13-16)
-      ROADMAP.phases[4], // Phase 5: Spring Boot 3 (Modules 17-20)
+      ROADMAP.phases.find(p => p.id === 'phase-1'),
+      ROADMAP.phases.find(p => p.id === 'phase-4'),
+      ROADMAP.phases.find(p => p.id === 'phase-5'),
     ]
   },
   {
@@ -124,12 +126,12 @@ export const TRACKS = [
     badge: 'SYSTEMS ARCHITECTURE',
     color: '#ff80ab',
     difficulty: 'Advanced',
-    duration: '8 Weeks',
-    modulesCount: 32,
+    duration: '8 Modules',
+    modulesCount: 8,
     tags: ['C', 'C++ 17', 'Pointers', 'Stack & Heap', 'Memory Allocation', 'Assembly'],
     description: 'Understand what software is actually doing under the hood. Master pointer arithmetic, dynamic memory allocation with malloc and free, custom data structures from scratch, and C++ OOP abstractions.',
     phases: [
-      ROADMAP.phases[9], // Phase Systems: C Memory Architecture & Systems
+      ROADMAP.phases.find(p => p.id === 'phase-sys-1'),
     ]
   }
 ];
