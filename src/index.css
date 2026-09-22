@@ -4144,6 +4144,113 @@ h3.cyber-glitch-header {
   color: #fff;
 }
 
+/* ─── Teacher Callouts & Pedagogical Boxes ────────────────────────────── */
+.teacher-callout {
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 18px 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  position: relative;
+  backdrop-filter: blur(8px);
+}
+
+.teacher-callout strong {
+  color: #fff;
+}
+
+.teacher-callout--intuition {
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  border-left: 4px solid #00e5ff;
+}
+
+.teacher-callout--pro-tip {
+  background: rgba(179, 136, 255, 0.08);
+  border: 1px solid rgba(179, 136, 255, 0.25);
+  border-left: 4px solid #b388ff;
+}
+
+.teacher-callout--trap {
+  background: rgba(255, 64, 129, 0.08);
+  border: 1px solid rgba(255, 64, 129, 0.25);
+  border-left: 4px solid #ff4081;
+}
+
+.teacher-callout--analogy {
+  background: rgba(0, 230, 118, 0.08);
+  border: 1px solid rgba(0, 230, 118, 0.25);
+  border-left: 4px solid #00e676;
+}
+
+/* Backward compatibility for legacy .callout classes */
+.callout {
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 18px 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  background: rgba(179, 136, 255, 0.08);
+  border: 1px solid rgba(179, 136, 255, 0.25);
+  border-left: 4px solid #b388ff;
+}
+
+/* Clean Math Display Box */
+.math-formula {
+  background: rgba(10, 15, 29, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  padding: 12px 18px;
+  margin: 14px 0;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: #00e5ff;
+  text-align: center;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
+}
+
+.math-formula .math-label {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+  font-family: var(--font-pixel);
+}
+
+.concept-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  margin: 0 2px;
+  background: rgba(0, 229, 255, 0.12);
+  color: #00e5ff;
+  border: 1px solid rgba(0, 229, 255, 0.3);
+}
+
+.concept-pill--purple {
+  background: rgba(179, 136, 255, 0.12);
+  color: #b388ff;
+  border-color: rgba(179, 136, 255, 0.3);
+}
+
+.concept-pill--green {
+  background: rgba(0, 230, 118, 0.12);
+  color: #00e676;
+  border-color: rgba(0, 230, 118, 0.3);
+}
+
+.concept-pill--pink {
+  background: rgba(255, 64, 129, 0.12);
+  color: #ff4081;
+  border-color: rgba(255, 64, 129, 0.3);
+}
+
 
 
 

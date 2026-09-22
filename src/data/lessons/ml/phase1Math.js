@@ -12,11 +12,18 @@ export const mlPhase1Content = {
         "content": `
 <h2>📐 Lesson 1: Vectors, Coordinate Systems & Multi-Dimensional Tensors</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Before neural networks can predict proteins or generate speech, every input—whether an image pixel, audio sample, or token embedding—must be projected into vector space. Master the transition from geometric arrows to high-dimensional memory arrays.</em>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Before neural networks can predict proteins or generate speech, every input—whether an image pixel, audio sample, or token embedding—must be projected into vector space. Master the transition from geometric arrows to high-dimensional memory arrays.
 </div>
 
-<p>In classical Euclidean geometry, a vector is an arrow endowed with <strong>magnitude (length)</strong> and <strong>direction</strong> originating from an origin point. In machine learning, we generalize this: a vector $\\mathbf{x} \\in \\mathbb{R}^D$ is an ordered $D$-dimensional array of scalar features representing state or position in a continuous latent manifold.</p>
+<h3>🎯 Welcome! What is a Vector in AI?</h3>
+<p>If you remember high school geometry, you probably picture an arrow drawn on grid paper with an origin, an angle, and a length. That's a great physical intuition!</p>
+<p>In Machine Learning, however, think of a vector as a <strong>data profile</strong>. For instance, if you're predicting apartment rental prices, you might describe an apartment with a list of 4 numbers: <code>[bedrooms, square_feet, distance_to_metro, floor_level]</code>. That list of 4 numbers is a 4-dimensional vector!</p>
+<div class="teacher-callout teacher-callout--analogy">
+  <strong>🌍 Real-World Analogy:</strong> A song on Spotify can be described by audio features: <code>[danceability: 0.82, tempo: 128, acousticness: 0.15, valence: 0.74]</code>. When Spotify recommends songs similar to your taste, it is simply finding songs whose feature vectors point in almost the exact same direction in musical space!
+</div>
+<p>In classical Euclidean geometry, a vector is an arrow endowed with <strong>magnitude (length)</strong> and <strong>direction</strong> originating from an origin point. In machine learning, we generalize this: a vector <strong>x</strong> ∈ ℝ<sup>D</sup> is an ordered <em>D</em>-dimensional array of scalar features representing state or position in a continuous latent manifold.</p>
 
 <div class=\"math-diagram-box\">
   <div class=\"math-diagram-header\">
@@ -74,11 +81,11 @@ export const mlPhase1Content = {
 <p>Modern machine learning operations manipulate multi-dimensional arrays known as <strong>tensors</strong>. The number of orthogonal indices required to look up a scalar entry is the tensor's <strong>rank</strong> (or order):</p>
 
 <ul>
-  <li><strong>Rank 0 (Scalar):</strong> A single numerical quantity $s \\in \\mathbb{R}$ (e.g. learning rate $\\alpha = 0.001$, loss $\\mathcal{L} = 0.42$).</li>
-  <li><strong>Rank 1 (Vector):</strong> A 1D sequence of length $D$: $\\mathbf{x} = [x_1, x_2, \\dots, x_D]^T$ (e.g. word embedding vector of dimension 4096).</li>
-  <li><strong>Rank 2 (Matrix):</strong> A 2D grid of size $M \\times N$: $\\mathbf{W} \\in \\mathbb{R}^{M \\times N}$ (e.g. weight projection matrix).</li>
-  <li><strong>Rank 3 (3D Tensor):</strong> Batched sequences $[B, T, D]$ where $B$ is batch size, $T$ is sequence token length, and $D$ is embedding dimension.</li>
-  <li><strong>Rank 4 (4D Tensor):</strong> Batched image volumes $[B, C, H, W]$ (Batch, Channels, Height, Width).</li>
+  <li><strong>Rank 0 (Scalar):</strong> A single numerical quantity s ∈ ℝ (e.g. learning rate α = 0.001, loss Loss <em>L</em> = 0.42).</li>
+  <li><strong>Rank 1 (Vector):</strong> A 1D sequence of length <em>D</em>: <strong>x</strong> = [x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>D</sub>]ᵀ (e.g. word embedding vector of dimension 4096).</li>
+  <li><strong>Rank 2 (Matrix):</strong> A 2D grid of size M × N: <strong>W</strong> ∈ ℝ<sup>M × N</sup> (e.g. weight projection matrix).</li>
+  <li><strong>Rank 3 (3D Tensor):</strong> Batched sequences [B, T, D] where <em>B</em> is batch size, <em>T</em> is sequence token length, and <em>D</em> is embedding dimension.</li>
+  <li><strong>Rank 4 (4D Tensor):</strong> Batched image volumes [B, C, H, W] (Batch, Channels, Height, Width).</li>
 </ul>
 
 <div class=\"math-diagram-box\">
@@ -214,11 +221,22 @@ For contiguous row-major tensor of shape (M, N) with 4-byte float32 elements:
         "content": `
 <h2>📐 Lesson 2: Vector Spaces, Basis, Dot Products & Projections</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Cosine similarity in vector databases, self-attention query-key matching, and linear neural layers all reduce to one fundamental operation: the Inner (Dot) Product. Understand its geometric and algebraic soul.</em>
+<h3>🧭 The Intuition: Basis Vectors are Your Coordinate Rulers</h3>
+<p>Imagine giving someone directions in a city laid out on a grid. You might say: <em>"Walk 3 blocks East and 2 blocks North."</em> Here, "East" and "North" are your <strong>basis directions</strong>, and "3" and "2" are your coordinates.</p>
+<p>In mathematics, a <strong>basis</strong> is the minimal set of reference directions you need to reach <em>every single point</em> in your space without any redundant directions. In 2D space, you need 2 basis vectors; in 100-dimensional AI latent space, you need 100 independent basis vectors!</p>
+<div class="teacher-callout teacher-callout--pro-tip">
+  <strong>⭐ Why Basis Matters in Deep Learning:</strong><br />
+  When an embedding model converts sentences into vectors, it is projecting language onto a set of semantic basis vectors. One direction might encode "formality", another encodes "sentiment", and another encodes "tense".
 </div>
 
-<p>A <strong>vector space</strong> $\\mathcal{V}$ over $\\mathbb{R}$ is a collection of vectors closed under vector addition and scalar multiplication. A set of vectors $\\{\\mathbf{v}_1, \\mathbf{v}_2, \\dots, \\mathbf{v}_k\\}$ forms a <strong>basis</strong> for $\\mathcal{V}$ if they are linearly independent and span the entirety of $\\mathcal{V}$.</p>
+
+
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Cosine similarity in vector databases, self-attention query-key matching, and linear neural layers all reduce to one fundamental operation: the Inner (Dot) Product. Understand its geometric and algebraic soul.
+</div>
+
+<p>A <strong>vector space</strong> Vector Space <em>V</em> over ℝ is a collection of vectors closed under vector addition and scalar multiplication. A set of vectors {<strong>v</strong><sub>1</sub>, <strong>v</strong><sub>2</sub>, ..., <strong>v</strong><sub>k</sub>} forms a <strong>basis</strong> for Vector Space <em>V</em> if they are linearly independent and span the entirety of Vector Space <em>V</em>.</p>
 
 <div class=\"math-diagram-box\">
   <div class=\"math-diagram-header\">
@@ -245,12 +263,12 @@ For contiguous row-major tensor of shape (M, N) with 4-byte float32 elements:
 </div>
 
 <h3>The Dot Product (Inner Product)</h3>
-<p>For vectors $\\mathbf{a}, \\mathbf{b} \\in \\mathbb{R}^D$, their algebraic inner product is:</p>
+<p>For vectors <strong>a</strong>, <strong>b</strong> ∈ ℝ<sup>D</sup>, their algebraic inner product is:</p>
 <pre class=\"ascii-diagram\">
 ⟨a, b⟩ = a · b = ∑_{i=1}^D a_i b_i = ‖a‖ ‖b‖ cos(θ)
 </pre>
 
-<p>Where $\\theta$ is the angle between the two vectors, and $\\|\\mathbf{a}\\| = \\sqrt{\\sum a_i^2}$ is the Euclidean $L_2$ norm.</p>
+<p>Where θ is the angle between the two vectors, and ||<strong>a</strong>|| = √(∑ a<sub>i</sub>²) is the Euclidean <em>L</em><sub>2</sub> norm.</p>
 
 <div class=\"math-diagram-box\">
   <div class=\"math-diagram-header\">
@@ -341,11 +359,22 @@ For contiguous row-major tensor of shape (M, N) with 4-byte float32 elements:
         "content": `
 <h2>📐 Lesson 3: Matrix Multiplication Mechanics, GEMM & Memory Cache Striding</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Over 90% of GPU compute in LLM training is spent executing General Matrix Multiplications (GEMM). Learn how BLAS routines, tiled caching, and systolic arrays turn $O(N^3)$ loops into teraflops of throughput.</em>
+<h3>🧩 The Mental Model: Batch Processing in Parallel</h3>
+<p>If a vector represents <em>one</em> person's data, a <strong>matrix</strong> is simply a spreadsheet containing <em>thousands</em> of people stacked together as rows.</p>
+<p>When we multiply a data matrix <strong>X</strong> by a weight matrix <strong>W</strong>, what are we really doing? We are calculating the dot product of every single person against every single feature detector in the layer simultaneously!</p>
+<div class="teacher-callout teacher-callout--pro-tip">
+  <strong>⭐ Teacher's Hardware Insight:</strong><br />
+  Why do GPUs exist for AI? Because modern GPUs have specialized hardware units (Tensor Cores) designed to perform 4×4 or 16×16 matrix multiplications in a single clock cycle!
 </div>
 
-<p>Given matrices $\\mathbf{A} \\in \\mathbb{R}^{M \\times K}$ and $\\mathbf{B} \\in \\mathbb{R}^{K \\times N}$, their product $\\mathbf{C} = \\mathbf{AB} \\in \\mathbb{R}^{M \\times N}$ has entries:</p>
+
+
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Over 90% of GPU compute in LLM training is spent executing General Matrix Multiplications (GEMM). Learn how BLAS routines, tiled caching, and systolic arrays turn O(N^3) loops into teraflops of throughput.
+</div>
+
+<p>Given matrices <strong>A</strong> ∈ ℝ<sup>M × K</sup> and <strong>B</strong> ∈ ℝ<sup>K × N</sup>, their product <strong>C</strong> = <strong>AB</strong> ∈ ℝ<sup>M × N</sup> has entries:</p>
 <pre class=\"ascii-diagram\">
 C_{i, j} = ∑_{k=1}^K A_{i, k} · B_{k, j}
 </pre>
@@ -468,11 +497,22 @@ C_{i, j} = ∑_{k=1}^K A_{i, k} · B_{k, j}
         "content": `
 <h2>📐 Lesson 4: Linear Transformations, Determinants & Volume Scaling</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Every linear layer in a neural network (y = Wx + b) performs a geometric transformation: stretching, rotating, reflecting, and shearing the latent space. The determinant reveals whether volume is expanded, compressed, or collapsed entirely.</em>
+<h3>🎈 The Intuition: Matrices Warping Space</h3>
+<p>Most students are taught that a matrix is a static grid of numbers. But in machine learning, think of a matrix as a <strong>machine that transforms space</strong>.</p>
+<p>When you multiply a vector by a matrix, the vector moves: it stretches, shrinks, rotates, or shears! The fundamental rule of a <em>linear</em> transformation is that grid lines remain parallel and evenly spaced, and the origin (0, 0) never moves.</p>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 What Does the Determinant Mean?</strong><br />
+  Think of drawing a 1×1 square on a sheet of rubber (area = 1). When you stretch the rubber using a matrix, the area of that square changes. The <strong>determinant</strong> is simply the factor by which areas (or volumes) scale! If the determinant is 0, space is squashed completely flat, and you can never reverse the operation.
 </div>
 
-<p>A mapping $T: V \\to W$ is a <strong>linear transformation</strong> if it preserves addition and scalar multiplication: $T(c\\mathbf{u} + \\mathbf{v}) = cT(\\mathbf{u}) + T(\\mathbf{v})$. In finite dimensions, every linear transformation is completely defined by how it transforms the standard basis vectors $\\hat{i}$ and $\\hat{j}$.</p>
+
+
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Every linear layer in a neural network (y = Wx + b) performs a geometric transformation: stretching, rotating, reflecting, and shearing the latent space. The determinant reveals whether volume is expanded, compressed, or collapsed entirely.
+</div>
+
+<p>A mapping T: V to W is a <strong>linear transformation</strong> if it preserves addition and scalar multiplication: T(c<strong>u</strong> + <strong>v</strong>) = cT(<strong>u</strong>) + T(<strong>v</strong>). In finite dimensions, every linear transformation is completely defined by how it transforms the standard basis vectors hat{i} and hat{j}.</p>
 
 <div class=\"math-diagram-box\">
   <div class=\"math-diagram-header\">
@@ -578,11 +618,12 @@ C_{i, j} = ∑_{k=1}^K A_{i, k} · B_{k, j}
         "content": `
 <h2>📐 Lesson 5: Orthogonality, Orthonormal Bases & Gram-Schmidt</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Orthogonal bases eliminate redundancy and prevent numerical instability in deep learning. Learn how QR factorization and Gram-Schmidt orthogonalization construct stable computational coordinates.</em>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Orthogonal bases eliminate redundancy and prevent numerical instability in deep learning. Learn how QR factorization and Gram-Schmidt orthogonalization construct stable computational coordinates.
 </div>
 
-<p>Two vectors $\\mathbf{u}, \\mathbf{v}$ are <strong>orthogonal</strong> if their dot product vanishes: $\\mathbf{u} \\cdot \\mathbf{v} = 0$. A set of vectors is <strong>orthonormal</strong> if they are pairwise orthogonal and each has unit length: $\\|\\mathbf{u}_i\\| = 1$.</p>
+<p>Two vectors <strong>u</strong>, <strong>v</strong> are <strong>orthogonal</strong> if their dot product vanishes: <strong>u</strong> · <strong>v</strong> = 0. A set of vectors is <strong>orthonormal</strong> if they are pairwise orthogonal and each has unit length: ||<strong>u</strong><sub>i</sub>|| = 1.</p>
 
 <div class=\"math-diagram-box\">
   <div class=\"math-diagram-header\">
@@ -689,15 +730,25 @@ C_{i, j} = ∑_{k=1}^K A_{i, k} · B_{k, j}
         "content": `
 <h2>📐 Lesson 6: Matrix Decompositions: Eigenvalues, Eigenvectors & Spectral Theorem</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>When most vectors undergo a matrix transformation, their direction shifts wildly. But special vectors maintain their exact directional heading, simply scaling in magnitude. These are eigenvectors—the axes of principal variance in data science.</em>
+<h3>⚡ The Intuition: The Axis of Pure Stretch</h3>
+<p>When a matrix transforms space, it usually knocks vectors off their original line—they rotate and stretch simultaneously. But for almost every matrix, there are special "privileged" directions that <strong>do not rotate at all</strong>. They only stretch or shrink along their original line.</p>
+<p>Those special directions are <strong>eigenvectors</strong>, and the factor by which they stretch is their <strong>eigenvalue</strong>!</p>
+<div class="teacher-callout teacher-callout--analogy">
+  <strong>🌍 Real-World Analogy: Wind on a Sailboat:</strong> Think of wind pushing against a sail. Most directions make the boat drift sideways, but there is one special heading where the wind pushes the boat straight ahead along its keel without twisting. That heading is an eigenvector of the wind's force!
 </div>
 
-<p>For a square matrix $\\mathbf{A} \\in \\mathbb{R}^{N \\times N}$, a non-zero vector $\\mathbf{v}$ is an <strong>eigenvector</strong> corresponding to <strong>eigenvalue</strong> $\\lambda$ if:</p>
+
+
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  When most vectors undergo a matrix transformation, their direction shifts wildly. But special vectors maintain their exact directional heading, simply scaling in magnitude. These are eigenvectors—the axes of principal variance in data science.
+</div>
+
+<p>For a square matrix <strong>A</strong> ∈ ℝ<sup>N × N</sup>, a non-zero vector <strong>v</strong> is an <strong>eigenvector</strong> corresponding to <strong>eigenvalue</strong> λ if:</p>
 <pre class=\"ascii-diagram\">
 A v = λ v   ⟺   (A - λ I) v = 0
 </pre>
-<p>Non-trivial solutions exist if and only if the characteristic polynomial vanishes: $\\det(\\mathbf{A} - \\lambda \\mathbf{I}) = 0$.</p>
+<p>Non-trivial solutions exist if and only if the characteristic polynomial vanishes: det(<strong>A</strong> - λ <strong>I</strong>) = 0.</p>
 
 <div class=\"math-diagram-box\">
   <div class=\"math-diagram-header\">
@@ -798,18 +849,29 @@ A v = λ v   ⟺   (A - λ I) v = 0
         "content": `
 <h2>📐 Lesson 7: Singular Value Decomposition (SVD) & Low-Rank Approximation</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>SVD is the pinnacle of linear algebra. It applies to ANY rectangular matrix M × N, factoring it into rotation, scaling, and rotation. It underpins LoRA parameter-efficient fine-tuning, embedding compression, and latent semantic indexing.</em>
+<h3>🗝️ The Master Key of Linear Algebra: SVD</h3>
+<p>If eigenvalues only work on square matrices, <strong>Singular Value Decomposition (SVD)</strong> is the universal Swiss Army Knife that works on <em>any</em> matrix—tall, wide, square, or gigantic.</p>
+<p>SVD proves a breathtaking theorem: <em>any</em> matrix transformation, no matter how chaotic, can be broken down into three simple, elegant steps: a rotation, followed by a stretch along orthogonal axes, followed by a final rotation!</p>
+<div class="teacher-callout teacher-callout--pro-tip">
+  <strong>⭐ Why AI Architects Care About SVD:</strong><br />
+  SVD is the mathematical foundation of model compression. Modern techniques like LoRA (Low-Rank Adaptation) use the exact same low-rank principle to compress giant 70-billion-parameter LLMs into nimble adapters that train on everyday hardware.
 </div>
 
-<p>Any arbitrary matrix $\\mathbf{A} \\in \\mathbb{R}^{M \\times N}$ factorizes into:</p>
+
+
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  SVD is the pinnacle of linear algebra. It applies to ANY rectangular matrix M × N, factoring it into rotation, scaling, and rotation. It underpins LoRA parameter-efficient fine-tuning, embedding compression, and latent semantic indexing.
+</div>
+
+<p>Any arbitrary matrix <strong>A</strong> ∈ ℝ<sup>M × N</sup> factorizes into:</p>
 <pre class=\"ascii-diagram\">
 A = U Σ V^T
 </pre>
 <ul>
-  <li>$\\mathbf{U} \\in \\mathbb{R}^{M \\times M}$: Left singular vectors (orthonormal eigenvectors of $\\mathbf{A}\\mathbf{A}^T$).</li>
-  <li>$\\mathbf{\\Sigma} \\in \\mathbb{R}^{M \\times N}$: Diagonal singular values $\\sigma_1 \\ge \\sigma_2 \\ge \\dots \\ge 0$ (square roots of eigenvalues of $\\mathbf{A}^T\\mathbf{A}$).</li>
-  <li>$\\mathbf{V}^T \\in \\mathbb{R}^{N \\times N}$: Right singular vectors (orthonormal eigenvectors of $\\mathbf{A}^T\\mathbf{A}$).</li>
+  <li><strong>U</strong> ∈ ℝ<sup>M × M</sup>: Left singular vectors (orthonormal eigenvectors of <strong>A</strong><strong>A</strong>ᵀ).</li>
+  <li><strong>Sigma</strong> ∈ ℝ<sup>M × N</sup>: Diagonal singular values σ<sub>1</sub> ≥ σ<sub>2</sub> ≥ ... ≥ 0 (square roots of eigenvalues of <strong>A</strong>ᵀ<strong>A</strong>).</li>
+  <li><strong>V</strong>ᵀ ∈ ℝ<sup>N × N</sup>: Right singular vectors (orthonormal eigenvectors of <strong>A</strong>ᵀ<strong>A</strong>).</li>
 </ul>
 
 <div class=\"math-diagram-box\">
@@ -928,15 +990,16 @@ A = U Σ V^T
         "content": `
 <h2>📐 Lesson 8: Principal Component Analysis (PCA) & Dimensionality Reduction</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>High-dimensional spaces suffer from the curse of dimensionality: distances become equidistant and volumes explode exponentially. PCA projects data onto directions of maximum variance, minimizing reconstruction loss.</em>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  High-dimensional spaces suffer from the curse of dimensionality: distances become equidistant and volumes explode exponentially. PCA projects data onto directions of maximum variance, minimizing reconstruction loss.
 </div>
 
-<p>Given centered data matrix $\\mathbf{X} \\in \\mathbb{R}^{N \\times D}$ (with $\\frac{1}{N}\\sum \\mathbf{x}_i = \\mathbf{0}$), the sample covariance matrix is:</p>
+<p>Given centered data matrix <strong>X</strong> ∈ ℝ<sup>N × D</sup> (with (1 / N)∑ <strong>x</strong><sub>i</sub> = <strong>0</strong>), the sample covariance matrix is:</p>
 <pre class=\"ascii-diagram\">
 Σ = (1 / N) X^T X ∈ ℝ^{D × D}
 </pre>
-<p>The first principal component $\\mathbf{w}_1$ is the unit vector maximizing variance:</p>
+<p>The first principal component <strong>w</strong><sub>1</sub> is the unit vector maximizing variance:</p>
 <pre class=\"ascii-diagram\">
 max_{‖w‖=1} Var(X w) = max_{‖w‖=1} w^T Σ w   ⟹   Σ w_1 = λ_1 w_1
 </pre>
@@ -1036,8 +1099,8 @@ max_{‖w‖=1} Var(X w) = max_{‖w‖=1} w^T Σ w   ⟹   Σ w_1 = λ_1 w_1
         "description": `
 <h3>⚔️ LAB CHALLENGE: Build a Vector Transformation & Projection Engine</h3>
 <p>Implement the function <code>orthogonal_projection(a, b)</code> which computes the vector projection of vector <code>a</code> onto vector <code>b</code> using pure NumPy matrix-vector operations.</p>
-<p>Formula: $\\text{proj}_{\\mathbf{b}}(\\mathbf{a}) = \\frac{\\mathbf{a} \\cdot \\mathbf{b}}{\\|\\mathbf{b}\\|^2} \\mathbf{b}$</p>
-<p>Also implement <code>cosine_similarity(a, b)</code> returning $\\frac{\\mathbf{a} \\cdot \\mathbf{b}}{\\|\\mathbf{a}\\| \\|\\mathbf{b}\\|}$.</p>
+<p>Formula: proj_{<strong>b</strong>}(<strong>a</strong>) = (<strong>a</strong> · <strong>b</strong> / ||<strong>b</strong>||²) <strong>b</strong></p>
+<p>Also implement <code>cosine_similarity(a, b)</code> returning (<strong>a</strong> · <strong>b</strong> / ||<strong>a</strong>|| ||<strong>b</strong>||).</p>
 `,
         "starterCode": `import numpy as np
 
@@ -1117,11 +1180,12 @@ print(f"Cosine Similarity: {round(sim, 4)}")
         "content": `
 <h2>📐 Lesson 1: Derivatives, Tangent Hyperplanes & Directional Derivatives</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Optimization is the heartbeat of learning. Every weight update in a billion-parameter model relies on finding the slope of the loss landscape. Understand how single-variable derivatives generalize into directional derivatives on high-dimensional manifolds.</em>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Optimization is the heartbeat of learning. Every weight update in a billion-parameter model relies on finding the slope of the loss landscape. Understand how single-variable derivatives generalize into directional derivatives on high-dimensional manifolds.
 </div>
 
-<p>The derivative of a single-variable function $f(x)$ represents the instantaneous rate of change and the slope of the tangent line:</p>
+<p>The derivative of a single-variable function f(x) represents the instantaneous rate of change and the slope of the tangent line:</p>
 <pre class=\"ascii-diagram\">
 f'(x) = lim_{h → 0} [f(x + h) - f(x)] / h
 </pre>
@@ -1211,15 +1275,16 @@ f'(x) = lim_{h → 0} [f(x + h) - f(x)] / h
         "content": `
 <h2>📐 Lesson 2: Partial Derivatives, Gradient Vectors & The Jacobian Matrix</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>When functions map from vector spaces to vector spaces (as every neural network layer does), the derivative is no longer a scalar—it is a Jacobian matrix containing every pairwise partial derivative.</em>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  When functions map from vector spaces to vector spaces (as every neural network layer does), the derivative is no longer a scalar—it is a Jacobian matrix containing every pairwise partial derivative.
 </div>
 
-<p>For a scalar-valued function $f(\\mathbf{x}): \\mathbb{R}^D \\to \\mathbb{R}$, the <strong>gradient vector</strong> $\\nabla f(\\mathbf{x})$ packs all first-order partial derivatives:</p>
+<p>For a scalar-valued function f(<strong>x</strong>): ℝ<sup>D</sup> to ℝ, the <strong>gradient vector</strong> nabla f(<strong>x</strong>) packs all first-order partial derivatives:</p>
 <pre class=\"ascii-diagram\">
 ∇f(x) = [ ∂f/∂x₁,  ∂f/∂x₂,  ...,  ∂f/∂x_D ]^T
 </pre>
-<p>For vector-valued functions $\\mathbf{f}(\\mathbf{x}): \\mathbb{R}^N \\to \\mathbb{R}^M$, the first-order derivative is the $M \\times N$ <strong>Jacobian matrix</strong> $\\mathbf{J}$:</p>
+<p>For vector-valued functions <strong>f</strong>(<strong>x</strong>): ℝ<sup>N</sup> to ℝ<sup>M</sup>, the first-order derivative is the M × N <strong>Jacobian matrix</strong> <strong>J</strong>:</p>
 <pre class=\"ascii-diagram\">
 J_{i, j} = ∂f_i / ∂x_j
 </pre>
@@ -1316,11 +1381,12 @@ J_{i, j} = ∂f_i / ∂x_j
         "content": `
 <h2>📐 Lesson 3: Second-Order Derivatives, The Hessian Matrix & Curvature</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Gradients tell you which direction goes downhill; the Hessian tells you how fast the gradient itself is changing. Understanding curvature separates first-order SGD from second-order Newton-Raphson methods.</em>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Gradients tell you which direction goes downhill; the Hessian tells you how fast the gradient itself is changing. Understanding curvature separates first-order SGD from second-order Newton-Raphson methods.
 </div>
 
-<p>For a function $f(\\mathbf{x}): \\mathbb{R}^D \\to \\mathbb{R}$, the symmetric $D \\times D$ <strong>Hessian matrix</strong> $\\mathbf{H}$ contains all second-order partial derivatives:</p>
+<p>For a function f(<strong>x</strong>): ℝ<sup>D</sup> to ℝ, the symmetric D × D <strong>Hessian matrix</strong> <strong>H</strong> contains all second-order partial derivatives:</p>
 <pre class=\"ascii-diagram\">
 H_{i, j} = ∂²f / (∂x_i ∂x_j)
 </pre>
@@ -1411,11 +1477,12 @@ H_{i, j} = ∂²f / (∂x_i ∂x_j)
         "content": `
 <h2>📐 Lesson 4: The Multivariate Chain Rule (The Engine of Backprop)</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Backpropagation is nothing more and nothing less than the recursive application of the multivariable chain rule on a Directed Acyclic Graph (DAG). Master the flow of upstream, local, and downstream gradients.</em>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Backpropagation is nothing more and nothing less than the recursive application of the multivariable chain rule on a Directed Acyclic Graph (DAG). Master the flow of upstream, local, and downstream gradients.
 </div>
 
-<p>For composite functions $z = f(y_1, y_2, \\dots, y_m)$ where each $y_i = g_i(x)$, the multivariable chain rule sums partial paths:</p>
+<p>For composite functions z = f(y<sub>1</sub>, y<sub>2</sub>, ..., y<sub>m</sub>) where each y<sub>i</sub> = g<sub>i</sub>(x), the multivariable chain rule sums partial paths:</p>
 <pre class=\"ascii-diagram\">
 ∂z / ∂x = ∑_{i=1}^m (∂z / ∂y_i) · (∂y_i / ∂x)
 </pre>
@@ -1520,11 +1587,21 @@ H_{i, j} = ∂²f / (∂x_i ∂x_j)
         "content": `
 <h2>📐 Lesson 5: Gradient Descent Dynamics: Batch, Mini-Batch & Stochastic (SGD)</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Should you compute gradients on the entire dataset, a single sample, or a balanced mini-batch? Understand the statistical variance trade-off and GPU parallelism that make mini-batch SGD the industry standard.</em>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Should you compute gradients on the entire dataset, a single sample, or a balanced mini-batch? Understand the statistical variance trade-off and GPU parallelism that make mini-batch SGD the industry standard.
 </div>
 
-<p>Gradient descent updates parameters $\\theta$ opposite the gradient of the loss $\\mathcal{L}$:</p>
+<h3>🏔️ The Intuition: Walking Down a Foggy Mountain</h3>
+<p>Imagine you are blindfolded on a rugged mountain in dense fog, and your goal is to reach the lowest valley (the minimum loss). What would you do?</p>
+<p>You would feel the ground with your boots in every direction to find which way slopes downward most steeply, and take a step in that direction! That is <strong>Gradient Descent</strong>:</p>
+<ul>
+  <li><strong>The Loss function:</strong> The mountain's altitude (error).</li>
+  <li><strong>The Gradient (∇L):</strong> The direction of steepest uphill ascent.</li>
+  <li><strong>Negative Gradient (-∇L):</strong> The direction of steepest downhill descent!</li>
+  <li><strong>The Learning Rate (α):</strong> The size of your step. Take too small a step, and you'll freeze on the mountain before reaching the valley. Take too big a leap, and you'll fling yourself off a cliff!</li>
+</ul>
+<p>Gradient descent updates parameters θ opposite the gradient of the loss Loss <em>L</em>:</p>
 <pre class=\"ascii-diagram\">
 θ_{t+1} = θ_t - η ∇_θ L(θ_t)
 </pre>
@@ -1635,11 +1712,12 @@ H_{i, j} = ∂²f / (∂x_i ∂x_j)
         "content": `
 <h2>📐 Lesson 6: Momentum, Nesterov Accelerated Gradient & Friction Dynamics</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Imagine a heavy bowling ball rolling down the loss mountain: it builds velocity in consistent directions, dampens noisy lateral oscillations, and rolls through small speed bumps. This is the physical intuition behind momentum.</em>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Imagine a heavy bowling ball rolling down the loss mountain: it builds velocity in consistent directions, dampens noisy lateral oscillations, and rolls through small speed bumps. This is the physical intuition behind momentum.
 </div>
 
-<p>Classic Momentum introduces a velocity vector $\\mathbf{v}_t$ with friction coefficient $\\beta \\approx 0.9$:</p>
+<p>Classic Momentum introduces a velocity vector <strong>v</strong><sub>t</sub> with friction coefficient β ≈ 0.9:</p>
 <pre class=\"ascii-diagram\">
 v_t = β v_{t-1} + (1 - β) ∇_θ L(θ_t)
 θ_{t+1} = θ_t - η v_t
@@ -1738,11 +1816,12 @@ v_t = β v_{t-1} + (1 - β) ∇_θ L(θ_t)
         "content": `
 <h2>📐 Lesson 7: Adaptive Optimizers: RMSProp, Adam & AdamW with Decoupled Weight Decay</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Different parameters require different learning rates. Frequent features need smaller, careful steps; rare features need larger updates. Adam combines momentum with second-moment scaling, powering 99% of modern LLMs.</em>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Different parameters require different learning rates. Frequent features need smaller, careful steps; rare features need larger updates. Adam combines momentum with second-moment scaling, powering 99% of modern LLMs.
 </div>
 
-<p>Adam (Adaptive Moment Estimation) tracks both the <strong>first raw moment</strong> $m_t$ (mean gradient) and the <strong>second uncentered moment</strong> $v_t$ (uncentered variance):</p>
+<p>Adam (Adaptive Moment Estimation) tracks both the <strong>first raw moment</strong> <em>m</em><sub>t</sub> (mean gradient) and the <strong>second uncentered moment</strong> <em>v</em><sub>t</sub> (uncentered variance):</p>
 <pre class=\"ascii-diagram\">
 m_t = β_1 m_{t-1} + (1 - β_1) g_t           (First Moment: Direction)
 v_t = β_2 v_{t-1} + (1 - β_2) g_t^2         (Second Moment: Scale)
@@ -1849,11 +1928,12 @@ m̂_t = m_t / (1 - β_1^t),   v̂_t = v_t / (1 - β_2^t)   (Bias Correction)
         "content": `
 <h2>📐 Lesson 8: Loss Landscapes, Convexity, Local Minima & Saddle Points</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Why do deep neural networks train so successfully despite having non-convex loss functions? In high dimensions, local minima are rare; saddle points with escape routes dominate the topology.</em>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Why do deep neural networks train so successfully despite having non-convex loss functions? In high dimensions, local minima are rare; saddle points with escape routes dominate the topology.
 </div>
 
-<p>A set $C$ is convex if the line segment connecting any two points in $C$ lies entirely within $C$. A function $f$ is <strong>convex</strong> if:</p>
+<p>A set <em>C</em> is convex if the line segment connecting any two points in <em>C</em> lies entirely within <em>C</em>. A function <em>f</em> is <strong>convex</strong> if:</p>
 <pre class=\"ascii-diagram\">
 f(α x + (1 - α) y) ≤ α f(x) + (1 - α) f(y),   ∀ α ∈ [0, 1]
 </pre>
@@ -2054,15 +2134,16 @@ print(f"dL/dy: {y.grad}")
         "content": `
 <h2>📐 Lesson 1: Random Variables, Densities & Cumulative Distributions (CDF)</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Machine learning models make predictions under uncertainty. Probability density functions describe continuous feature likelihoods, while cumulative distributions allow sampling and quantile thresholding.</em>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Machine learning models make predictions under uncertainty. Probability density functions describe continuous feature likelihoods, while cumulative distributions allow sampling and quantile thresholding.
 </div>
 
-<p>A continuous random variable $X$ has a <strong>Probability Density Function (PDF)</strong> $f_X(x) \\ge 0$ such that the probability of $X$ falling in interval $[a, b]$ is the integral:</p>
+<p>A continuous random variable <em>X</em> has a <strong>Probability Density Function (PDF)</strong> f<sub>X</sub>(x) ≥ 0 such that the probability of <em>X</em> falling in interval [a, b] is the integral:</p>
 <pre class=\"ascii-diagram\">
 P(a ≤ X ≤ b) = ∫_a^b f_X(x) dx,   where   ∫_{-∞}^{∞} f_X(x) dx = 1
 </pre>
-<p>The <strong>Cumulative Distribution Function (CDF)</strong> $F_X(x) = P(X \\le x) = \\int_{-\\infty}^x f_X(t) dt$ maps $\\mathbb{R} \\to [0, 1]$.</p>
+<p>The <strong>Cumulative Distribution Function (CDF)</strong> F<sub>X</sub>(x) = P(X ≤ x) = ∈t_{-∈fty}^x f<sub>X</sub>(t) dt maps ℝ to [0, 1].</p>
 
 <div class=\"math-diagram-box\">
   <div class=\"math-diagram-header\">
@@ -2155,11 +2236,12 @@ P(a ≤ X ≤ b) = ∫_a^b f_X(x) dx,   where   ∫_{-∞}^{∞} f_X(x) dx = 1
         "content": `
 <h2>📐 Lesson 2: Common Distributions: Gaussian, Bernoulli, Binomial & Poisson</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Every machine learning loss function is rooted in a probability distribution: Mean Squared Error assumes Gaussian noise; Binary Cross-Entropy assumes Bernoulli trials; Count regression assumes Poisson rates.</em>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Every machine learning loss function is rooted in a probability distribution: Mean Squared Error assumes Gaussian noise; Binary Cross-Entropy assumes Bernoulli trials; Count regression assumes Poisson rates.
 </div>
 
-<p>The <strong>Univariate Normal (Gaussian)</strong> distribution $\\mathcal{N}(\\mu, \\sigma^2)$ is defined by:</p>
+<p>The <strong>Univariate Normal (Gaussian)</strong> distribution Normal distribution <em>N</em>(μ, σ²) is defined by:</p>
 <pre class=\"ascii-diagram\">
 p(x; μ, σ) = (1 / [σ √(2π)]) · exp( - (x - μ)² / (2σ²) )
 </pre>
@@ -2266,15 +2348,16 @@ p(x; μ, σ) = (1 / [σ √(2π)]) · exp( - (x - μ)² / (2σ²) )
         "content": `
 <h2>📐 Lesson 3: Expected Value, Variance, Covariance & Correlation Matrices</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Expectation is the center of gravity; variance is the dispersion; covariance reveals whether two features rise together or oppose one another. Feature decorrelation is the gateway to efficient deep learning.</em>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Expectation is the center of gravity; variance is the dispersion; covariance reveals whether two features rise together or oppose one another. Feature decorrelation is the gateway to efficient deep learning.
 </div>
 
-<p>The <strong>Expected Value</strong> $\\mathbb{E}[X]$ of a continuous random variable is its probability-weighted average:</p>
+<p>The <strong>Expected Value</strong> mathbb{E}[X] of a continuous random variable is its probability-weighted average:</p>
 <pre class=\"ascii-diagram\">
 E[X] = ∫_{-∞}^{∞} x f_X(x) dx,   Var(X) = E[(X - E[X])²] = E[X²] - (E[X])²
 </pre>
-<p>For two random variables $X$ and $Y$, their <strong>Covariance</strong> is $\\text{Cov}(X, Y) = \\mathbb{E}[(X - \\mathbb{E}[X])(Y - \\mathbb{E}[Y])]$.</p>
+<p>For two random variables <em>X</em> and <em>Y</em>, their <strong>Covariance</strong> is Cov(X, Y) = mathbb{E}[(X - mathbb{E}[X])(Y - mathbb{E}[Y])].</p>
 
 <div class=\"math-diagram-box\">
   <div class=\"math-diagram-header\">
@@ -2375,11 +2458,12 @@ E[X] = ∫_{-∞}^{∞} x f_X(x) dx,   Var(X) = E[(X - E[X])²] = E[X²] - (E[X]
         "content": `
 <h2>📐 Lesson 4: Conditional Probability, Bayes' Theorem & Likelihood</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>How should beliefs update when new experimental data arrives? Bayes' theorem provides the mathematical framework for learning from evidence.</em>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  How should beliefs update when new experimental data arrives? Bayes' theorem provides the mathematical framework for learning from evidence.
 </div>
 
-<p>The conditional probability of event $A$ given event $B$ is $P(A|B) = \\frac{P(A \\cap B)}{P(B)}$. Reversing the condition yields <strong>Bayes' Theorem</strong>:</p>
+<p>The conditional probability of event <em>A</em> given event <em>B</em> is P(A|B) = (P(A cap B) / P(B)). Reversing the condition yields <strong>Bayes' Theorem</strong>:</p>
 <pre class=\"ascii-diagram\">
 P(θ | D) = [ P(D | θ) · P(θ) ] / P(D)
 Posterior = [ Likelihood · Prior ] / Marginal Evidence
@@ -2478,84 +2562,85 @@ Posterior = [ Likelihood · Prior ] / Marginal Evidence
         "content": `
 <h2>📐 Lesson 5: Maximum Likelihood Estimation (MLE) & The Log-Likelihood</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Why do we minimize Cross-Entropy Loss in classification and Mean Squared Error in regression? Because both are mathematically identical to Maximum Likelihood Estimation under Bernoulli and Gaussian noise models!</em>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Why do we minimize Cross-Entropy Loss in classification and Mean Squared Error in regression? Because both are mathematically identical to Maximum Likelihood Estimation under Bernoulli and Gaussian noise models!
 </div>
 
-<p>Assuming $N$ independent, identically distributed (i.i.d.) observations $\\mathcal{D} = \\{x_1, x_2, \\dots, x_N\\}$, the joint likelihood is a product of probabilities:</p>
+<p>Assuming <em>N</em> independent, identically distributed (i.i.d.) observations Dataset <em>D</em> = {x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>N</sub>}, the joint likelihood is a product of probabilities:</p>
 <pre class=\"ascii-diagram\">
 L(θ; D) = ∏_{i=1}^N p(x_i | θ)
 </pre>
-<p>Because products of small probabilities trigger floating-point underflow ($0.001^{1000} \\to 0$), we take the natural logarithm, converting products into numerically stable sums:</p>
-<pre class=\"ascii-diagram\">
-log L(θ; D) = ∑_{i=1}^N log p(x_i | θ)
-θ_{MLE} = argmin_θ [ - ∑_{i=1}^N log p(x_i | θ) ]   (Negative Log-Likelihood NLL)
+<p>Because products of small probabilities trigger floating-point underflow (e.g. 0.001<sup>1000</sup> → 0), we take the natural logarithm, converting products into numerically stable sums:</p>
+<pre class="ascii-diagram">
+log L(θ; D) = ∑_{i=1}^N log p(x<sub>i</sub> | θ)
+θ_{MLE} = argmin_θ [ - ∑_{i=1}^N log p(x<sub>i</sub> | θ) ]   (Negative Log-Likelihood NLL)
 </pre>
 
-<div class=\"math-diagram-box\">
-  <div class=\"math-diagram-header\">
-    <span class=\"math-diagram-title\">⚡ DIAGRAM 5.1: LOG TRANSFORMATION TURNS PRODUCTS INTO SUMS</span>
-    <span class=\"math-diagram-badge\">LOG TRICK</span>
+<div class="math-diagram-box">
+  <div class="math-diagram-header">
+    <span class="math-diagram-title">⚡ DIAGRAM 5.1: LOG TRANSFORMATION TURNS PRODUCTS INTO SUMS</span>
+    <span class="math-diagram-badge">LOG TRICK</span>
   </div>
-  <svg class=\"math-svg-canvas\" viewBox=\"0 0 500 170\">
-    <g transform=\"translate(40, 30)\">
-      <rect x=\"0\" y=\"0\" width=\"180\" height=\"80\" fill=\"rgba(239,68,68,0.15)\" stroke=\"#ef4444\" />
-      <text x=\"90\" y=\"40\" fill=\"#ef4444\" font-family=\"monospace\" font-size=\"11\" text-anchor=\"middle\">∏ p(x_i | θ)</text>
-      <text x=\"90\" y=\"65\" fill=\"#94a3b8\" font-family=\"monospace\" font-size=\"9\" text-anchor=\"middle\">Catastrophic Underflow! (0.000...)</text>
+  <svg class="math-svg-canvas" viewBox="0 0 500 170">
+    <g transform="translate(40, 30)">
+      <rect x="0" y="0" width="180" height="80" fill="rgba(239,68,68,0.15)" stroke="#ef4444" />
+      <text x="90" y="40" fill="#ef4444" font-family="monospace" font-size="11" text-anchor="middle">∏ p(x<sub>i</sub> | θ)</text>
+      <text x="90" y="65" fill="#94a3b8" font-family="monospace" font-size="9" text-anchor="middle">Catastrophic Underflow! (0.000...)</text>
     </g>
-    <path d=\"M 230 70 L 270 70\" stroke=\"#facc15\" stroke-width=\"2\" marker-end=\"url(#arrow-green)\" />
-    <text x=\"250\" y=\"60\" fill=\"#facc15\" font-family=\"monospace\" font-size=\"10\" text-anchor=\"middle\">ln()</text>
-    <g transform=\"translate(280, 30)\">
-      <rect x=\"0\" y=\"0\" width=\"180\" height=\"80\" fill=\"rgba(0,230,118,0.15)\" stroke=\"#00e676\" stroke-width=\"2\" />
-      <text x=\"90\" y=\"40\" fill=\"#00e676\" font-family=\"monospace\" font-size=\"11\" font-weight=\"bold\" text-anchor=\"middle\">∑ log p(x_i | θ)</text>
-      <text x=\"90\" y=\"65\" fill=\"#00e676\" font-family=\"monospace\" font-size=\"9\" text-anchor=\"middle\">Stable Addition in FP32</text>
+    <path d="M 230 70 L 270 70" stroke="#facc15" stroke-width="2" marker-end="url(#arrow-green)" />
+    <text x="250" y="60" fill="#facc15" font-family="monospace" font-size="10" text-anchor="middle">ln()</text>
+    <g transform="translate(280, 30)">
+      <rect x="0" y="0" width="180" height="80" fill="rgba(0,230,118,0.15)" stroke="#00e676" stroke-width="2" />
+      <text x="90" y="40" fill="#00e676" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">∑ log p(x<sub>i</sub> | θ)</text>
+      <text x="90" y="65" fill="#00e676" font-family="monospace" font-size="9" text-anchor="middle">Stable Addition in FP32</text>
     </g>
   </svg>
-  <div class=\"math-diagram-caption\">
+  <div class="math-diagram-caption">
     The log function is strictly monotonically increasing: maximizing log L(θ) yields the exact same optimal θ as maximizing L(θ).
   </div>
 </div>
 
-<div class=\"math-diagram-box\">
-  <div class=\"math-diagram-header\">
-    <span class=\"math-diagram-title\">⚡ DIAGRAM 5.2: GAUSSIAN MLE DERIVATION EQUALS MSE LOSS</span>
-    <span class=\"math-diagram-badge\">LOSS EQUIVALENCE</span>
+<div class="math-diagram-box">
+  <div class="math-diagram-header">
+    <span class="math-diagram-title">⚡ DIAGRAM 5.2: GAUSSIAN MLE DERIVATION EQUALS MSE LOSS</span>
+    <span class="math-diagram-badge">LOSS EQUIVALENCE</span>
   </div>
-  <svg class=\"math-svg-canvas\" viewBox=\"0 0 500 150\">
-    <text x=\"250\" y=\"40\" fill=\"#00e5ff\" font-family=\"monospace\" font-size=\"12\" text-anchor=\"middle\">- log p(y | x; θ) = - log [ (1 / σ√2π) exp(- (y - f_θ(x))² / 2σ²) ]</text>
-    <text x=\"250\" y=\"80\" fill=\"#00e676\" font-family=\"monospace\" font-size=\"13\" font-weight=\"bold\" text-anchor=\"middle\">= (1 / 2σ²) ∑ (y_i - f_θ(x_i))² + const</text>
-    <text x=\"250\" y=\"115\" fill=\"#facc15\" font-family=\"monospace\" font-size=\"11\" text-anchor=\"middle\">Minimizing Negative Log-Likelihood under Gaussian noise IS Mean Squared Error!</text>
+  <svg class="math-svg-canvas" viewBox="0 0 500 150">
+    <text x="250" y="40" fill="#00e5ff" font-family="monospace" font-size="12" text-anchor="middle">- log p(y | x; θ) = - log [ (1 / σ√2π) exp(- (y - f_θ(x))² / 2σ²) ]</text>
+    <text x="250" y="80" fill="#00e676" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">= (1 / 2σ²) ∑ (y<sub>i</sub> - f_θ(x<sub>i</sub>))² + const</text>
+    <text x="250" y="115" fill="#facc15" font-family="monospace" font-size="11" text-anchor="middle">Minimizing Negative Log-Likelihood under Gaussian noise IS Mean Squared Error!</text>
   </svg>
-  <div class=\"math-diagram-caption\">
+  <div class="math-diagram-caption">
     MSE is not an arbitrary metric: it is the mathematically optimal Maximum Likelihood estimator for targets with Gaussian-distributed errors.
   </div>
 </div>
 
-<div class=\"math-diagram-box\">
-  <div class=\"math-diagram-header\">
-    <span class=\"math-diagram-title\">⚡ DIAGRAM 5.3: BERNOULLI MLE EQUALS CROSS-ENTROPY LOSS</span>
-    <span class=\"math-diagram-badge\">CLASSIFICATION PROOF</span>
+<div class="math-diagram-box">
+  <div class="math-diagram-header">
+    <span class="math-diagram-title">⚡ DIAGRAM 5.3: BERNOULLI MLE EQUALS CROSS-ENTROPY LOSS</span>
+    <span class="math-diagram-badge">CLASSIFICATION PROOF</span>
   </div>
-  <svg class=\"math-svg-canvas\" viewBox=\"0 0 500 140\">
-    <text x=\"250\" y=\"45\" fill=\"#b388ff\" font-family=\"monospace\" font-size=\"12\" text-anchor=\"middle\">P(y | x) = p^y · (1 - p)^{1 - y}</text>
-    <text x=\"250\" y=\"85\" fill=\"#00e676\" font-family=\"monospace\" font-size=\"13\" font-weight=\"bold\" text-anchor=\"middle\">NLL = - [ y log(p) + (1 - y) log(1 - p) ]</text>
-    <text x=\"250\" y=\"115\" fill=\"#94a3b8\" font-family=\"monospace\" font-size=\"10\" text-anchor=\"middle\">Binary Cross-Entropy (BCE) Loss is the exact negative log-likelihood of a Bernoulli trial.</text>
+  <svg class="math-svg-canvas" viewBox="0 0 500 140">
+    <text x="250" y="45" fill="#b388ff" font-family="monospace" font-size="12" text-anchor="middle">P(y | x) = p^y · (1 - p)^{1 - y}</text>
+    <text x="250" y="85" fill="#00e676" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">NLL = - [ y log(p) + (1 - y) log(1 - p) ]</text>
+    <text x="250" y="115" fill="#94a3b8" font-family="monospace" font-size="10" text-anchor="middle">Binary Cross-Entropy (BCE) Loss is the exact negative log-likelihood of a Bernoulli trial.</text>
   </svg>
-  <div class=\"math-diagram-caption\">
+  <div class="math-diagram-caption">
     Cross-Entropy Loss is the exact negative log-likelihood of Bernoulli data.
   </div>
 </div>
 
-<div class=\"math-diagram-box\">
-  <div class=\"math-diagram-header\">
-    <span class=\"math-diagram-title\">⚡ DIAGRAM 5.4: ASYMPTOTIC NORMALITY OF MLE ESTIMATORS</span>
-    <span class=\"math-diagram-badge\">FISHER INFORMATION</span>
+<div class="math-diagram-box">
+  <div class="math-diagram-header">
+    <span class="math-diagram-title">⚡ DIAGRAM 5.4: ASYMPTOTIC NORMALITY OF MLE ESTIMATORS</span>
+    <span class="math-diagram-badge">FISHER INFORMATION</span>
   </div>
-  <svg class=\"math-svg-canvas\" viewBox=\"0 0 500 130\">
-    <text x=\"250\" y=\"50\" fill=\"#00e5ff\" font-family=\"monospace\" font-size=\"12\" text-anchor=\"middle\">√N (θ_MLE - θ_true) ⟶ N(0, I(θ)⁻¹)</text>
-    <text x=\"250\" y=\"85\" fill=\"#94a3b8\" font-family=\"monospace\" font-size=\"10\" text-anchor=\"middle\">As dataset size N → ∞, the MLE estimator achieves the theoretical minimum possible variance (Cramér-Rao Bound).</text>
+  <svg class="math-svg-canvas" viewBox="0 0 500 130">
+    <text x="250" y="50" fill="#00e5ff" font-family="monospace" font-size="12" text-anchor="middle">√N (θ<sub>M</sub>LE - θ<sub>t</sub>rue) ⟶ N(0, I(θ)⁻¹)</text>
+    <text x="250" y="85" fill="#94a3b8" font-family="monospace" font-size="10" text-anchor="middle">As dataset size N → ∞, the MLE estimator achieves the theoretical minimum possible variance (Cramér-Rao Bound).</text>
   </svg>
-  <div class=\"math-diagram-caption\">
+  <div class="math-diagram-caption">
     Cramér-Rao Lower Bound: MLE is asymptotically efficient, achieving the lowest possible variance among all unbiased estimators.
   </div>
 </div>
@@ -2568,83 +2653,84 @@ log L(θ; D) = ∑_{i=1}^N log p(x_i | θ)
         "content": `
 <h2>📐 Lesson 6: Maximum A Posteriori (MAP) Estimation & Bayesian Priors as Regularization</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Weight decay (L2 regularization) and Lasso (L1 regularization) are not heuristic hacks: they are the exact mathematical consequence of MAP estimation with Gaussian and Laplace priors over weights!</em>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Weight decay (L2 regularization) and Lasso (L1 regularization) are not heuristic hacks: they are the exact mathematical consequence of MAP estimation with Gaussian and Laplace priors over weights!
 </div>
 
-<p>While MLE seeks $\\theta$ maximizing data likelihood $P(\\mathcal{D}|\\theta)$, **Maximum A Posteriori (MAP)** seeks the mode of the posterior distribution:</p>
-<pre class=\"ascii-diagram\">
+<p>While MLE seeks\θmaximizing data likelihoodP(\<em>D</em>|\θ), **Maximum A Posteriori (MAP)** seeks the mode of the posterior distribution:</p>
+<pre class="ascii-diagram">
 θ_{MAP} = argmax_θ [ log P(D | θ) + log P(θ) ]
 </pre>
 
-<div class=\"math-diagram-box\">
-  <div class=\"math-diagram-header\">
-    <span class=\"math-diagram-title\">⚡ DIAGRAM 6.1: GAUSSIAN PRIOR DERIVES L2 WEIGHT DECAY</span>
-    <span class=\"math-diagram-badge\">RIDGE REGULARIZATION DUALITY</span>
+<div class="math-diagram-box">
+  <div class="math-diagram-header">
+    <span class="math-diagram-title">⚡ DIAGRAM 6.1: GAUSSIAN PRIOR DERIVES L2 WEIGHT DECAY</span>
+    <span class="math-diagram-badge">RIDGE REGULARIZATION DUALITY</span>
   </div>
-  <svg class=\"math-svg-canvas\" viewBox=\"0 0 500 160\">
-    <!-- Prior p(w) ~ N(0, sigma_0^2) -->
-    <text x=\"250\" y=\"40\" fill=\"#00e5ff\" font-family=\"monospace\" font-size=\"12\" text-anchor=\"middle\">Prior: p(w) ∝ exp( - ‖w‖² / (2 σ₀²) )</text>
-    <text x=\"250\" y=\"80\" fill=\"#00e676\" font-family=\"monospace\" font-size=\"13\" font-weight=\"bold\" text-anchor=\"middle\">log p(w) = - [ 1 / (2 σ₀²) ] ‖w‖² + const</text>
-    <text x=\"250\" y=\"115\" fill=\"#facc15\" font-family=\"monospace\" font-size=\"11\" text-anchor=\"middle\">Objective: Loss(θ) + λ ‖w‖²  where λ = 1 / (2 σ₀²)</text>
+  <svg class="math-svg-canvas" viewBox="0 0 500 160">
+    <!-- Prior p(w) ~ N(0, sigma<sub>0</sub>²) -->
+    <text x="250" y="40" fill="#00e5ff" font-family="monospace" font-size="12" text-anchor="middle">Prior: p(w) ∝ exp( - ‖w‖² / (2 σ₀²) )</text>
+    <text x="250" y="80" fill="#00e676" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">log p(w) = - [ 1 / (2 σ₀²) ] ‖w‖² + const</text>
+    <text x="250" y="115" fill="#facc15" font-family="monospace" font-size="11" text-anchor="middle">Objective: Loss(θ) + λ ‖w‖²  where λ = 1 / (2 σ₀²)</text>
   </svg>
-  <div class=\"math-diagram-caption\">
+  <div class="math-diagram-caption">
     L2 Weight Decay Equivalence: Placing a zero-mean Gaussian prior over neural network weights is mathematically equivalent to L2 regularization.
   </div>
 </div>
 
-<div class=\"math-diagram-box\">
-  <div class=\"math-diagram-header\">
-    <span class=\"math-diagram-title\">⚡ DIAGRAM 6.2: LAPLACE PRIOR DERIVES L1 LASSO REGULARIZATION</span>
-    <span class=\"math-diagram-badge\">SPARSITY EMERGENCE</span>
+<div class="math-diagram-box">
+  <div class="math-diagram-header">
+    <span class="math-diagram-title">⚡ DIAGRAM 6.2: LAPLACE PRIOR DERIVES L1 LASSO REGULARIZATION</span>
+    <span class="math-diagram-badge">SPARSITY EMERGENCE</span>
   </div>
-  <svg class=\"math-svg-canvas\" viewBox=\"0 0 500 160\">
+  <svg class="math-svg-canvas" viewBox="0 0 500 160">
     <!-- Sharp peaked Laplace distribution -->
-    <g transform=\"translate(60, 30)\">
-      <path d=\"M 10 90 L 70 10 L 130 90\" fill=\"none\" stroke=\"#b388ff\" stroke-width=\"2.5\" />
-      <text x=\"70\" y=\"115\" fill=\"#b388ff\" font-family=\"monospace\" font-size=\"9\" text-anchor=\"middle\">Laplace Prior p(w) ∝ exp(-|w|/b)</text>
+    <g transform="translate(60, 30)">
+      <path d="M 10 90 L 70 10 L 130 90" fill="none" stroke="#b388ff" stroke-width="2.5" />
+      <text x="70" y="115" fill="#b388ff" font-family="monospace" font-size="9" text-anchor="middle">Laplace Prior p(w) ∝ exp(-|w|/b)</text>
     </g>
     <!-- Arrow -->
-    <path d=\"M 210 70 L 260 70\" stroke=\"#facc15\" stroke-width=\"2\" marker-end=\"url(#arrow-green)\" />
-    <g transform=\"translate(280, 45)\">
-      <text x=\"100\" y=\"20\" fill=\"#00e676\" font-family=\"monospace\" font-size=\"12\" font-weight=\"bold\">Objective: Loss(θ) + λ ∑ |w_i|</text>
-      <text x=\"100\" y=\"45\" fill=\"#94a3b8\" font-family=\"monospace\" font-size=\"10\">Sharp peak at 0 drives weights to exact 0</text>
+    <path d="M 210 70 L 260 70" stroke="#facc15" stroke-width="2" marker-end="url(#arrow-green)" />
+    <g transform="translate(280, 45)">
+      <text x="100" y="20" fill="#00e676" font-family="monospace" font-size="12" font-weight="bold">Objective: Loss(θ) + λ ∑ |w<sub>i</sub>|</text>
+      <text x="100" y="45" fill="#94a3b8" font-family="monospace" font-size="10">Sharp peak at 0 drives weights to exact 0</text>
     </g>
   </svg>
-  <div class=\"math-diagram-caption\">
+  <div class="math-diagram-caption">
     L1 Lasso Equivalence: Placing a zero-mean Laplace prior over weights induces L1 sparsity, setting unimportant weights to strictly zero.
   </div>
 </div>
 
-<div class=\"math-diagram-box\">
-  <div class=\"math-diagram-header\">
-    <span class=\"math-diagram-title\">⚡ DIAGRAM 6.3: MLE VS MAP UNDER SMALL VS INFINITE DATA</span>
-    <span class=\"math-diagram-badge\">ASYMPTOTIC CONVERGENCE</span>
+<div class="math-diagram-box">
+  <div class="math-diagram-header">
+    <span class="math-diagram-title">⚡ DIAGRAM 6.3: MLE VS MAP UNDER SMALL VS INFINITE DATA</span>
+    <span class="math-diagram-badge">ASYMPTOTIC CONVERGENCE</span>
   </div>
-  <svg class=\"math-svg-canvas\" viewBox=\"0 0 500 140\">
-    <rect x=\"50\" y=\"30\" width=\"180\" height=\"70\" fill=\"rgba(0,229,255,0.15)\" stroke=\"#00e5ff\" />
-    <text x=\"140\" y=\"55\" fill=\"#00e5ff\" font-family=\"monospace\" font-size=\"10\" text-anchor=\"middle\">Small N (Few samples)</text>
-    <text x=\"140\" y=\"75\" fill=\"#e2e8f0\" font-family=\"monospace\" font-size=\"9\" text-anchor=\"middle\">Prior P(θ) dominates</text>
+  <svg class="math-svg-canvas" viewBox="0 0 500 140">
+    <rect x="50" y="30" width="180" height="70" fill="rgba(0,229,255,0.15)" stroke="#00e5ff" />
+    <text x="140" y="55" fill="#00e5ff" font-family="monospace" font-size="10" text-anchor="middle">Small N (Few samples)</text>
+    <text x="140" y="75" fill="#e2e8f0" font-family="monospace" font-size="9" text-anchor="middle">Prior P(θ) dominates</text>
 
-    <rect x=\"270\" y=\"30\" width=\"180\" height=\"70\" fill=\"rgba(0,230,118,0.15)\" stroke=\"#00e676\" />
-    <text x=\"360\" y=\"55\" fill=\"#00e676\" font-family=\"monospace\" font-size=\"10\" font-weight=\"bold\" text-anchor=\"middle\">Infinite N (Big Data)</text>
-    <text x=\"360\" y=\"75\" fill=\"#00e676\" font-family=\"monospace\" font-size=\"9\" text-anchor=\"middle\">Likelihood overwhelms prior → θ_MAP = θ_MLE</text>
+    <rect x="270" y="30" width="180" height="70" fill="rgba(0,230,118,0.15)" stroke="#00e676" />
+    <text x="360" y="55" fill="#00e676" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">Infinite N (Big Data)</text>
+    <text x="360" y="75" fill="#00e676" font-family="monospace" font-size="9" text-anchor="middle">Likelihood overwhelms prior → θ<sub>M</sub>AP = θ<sub>M</sub>LE</text>
   </svg>
-  <div class=\"math-diagram-caption\">
+  <div class="math-diagram-caption">
     Asymptotic Equivalence: As dataset size grows to infinity, data likelihood overwhelms the prior, causing MAP to converge onto MLE.
   </div>
 </div>
 
-<div class=\"math-diagram-box\">
-  <div class=\"math-diagram-header\">
-    <span class=\"math-diagram-title\">⚡ DIAGRAM 6.4: UNIFORM (UNINFORMATIVE) PRIOR COLLAPSE</span>
-    <span class=\"math-diagram-badge\">PRIOR COLLAPSE</span>
+<div class="math-diagram-box">
+  <div class="math-diagram-header">
+    <span class="math-diagram-title">⚡ DIAGRAM 6.4: UNIFORM (UNINFORMATIVE) PRIOR COLLAPSE</span>
+    <span class="math-diagram-badge">PRIOR COLLAPSE</span>
   </div>
-  <svg class=\"math-svg-canvas\" viewBox=\"0 0 500 120\">
-    <text x=\"250\" y=\"45\" fill=\"#facc15\" font-family=\"monospace\" font-size=\"12\" text-anchor=\"middle\">If P(θ) = Uniform Constant:  log P(θ) = C</text>
-    <text x=\"250\" y=\"80\" fill=\"#00e676\" font-family=\"monospace\" font-size=\"13\" font-weight=\"bold\" text-anchor=\"middle\">argmax_θ [ log P(D | θ) + C ] = argmax_θ log P(D | θ) = θ_MLE</text>
+  <svg class="math-svg-canvas" viewBox="0 0 500 120">
+    <text x="250" y="45" fill="#facc15" font-family="monospace" font-size="12" text-anchor="middle">If P(θ) = Uniform Constant:  log P(θ) = C</text>
+    <text x="250" y="80" fill="#00e676" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">argmax_θ [ log P(D | θ) + C ] = argmax_θ log P(D | θ) = θ<sub>M</sub>LE</text>
   </svg>
-  <div class=\"math-diagram-caption\">
+  <div class="math-diagram-caption">
     MLE is simply a special case of MAP with a completely flat, uninformative uniform prior.
   </div>
 </div>
@@ -2657,86 +2743,87 @@ log L(θ; D) = ∑_{i=1}^N log p(x_i | θ)
         "content": `
 <h2>📐 Lesson 7: Hypothesis Testing, Confidence Intervals & Central Limit Theorem</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Did your new recommendation model actually improve click-through rate, or was the gain a random fluke of sampling variance? Master A/B testing statistical significance, Z-scores, and p-values.</em>
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Did your new recommendation model actually improve click-through rate, or was the gain a random fluke of sampling variance? Master A/B testing statistical significance, Z-scores, and p-values.
 </div>
 
-<p>The <strong>Central Limit Theorem (CLT)</strong> guarantees that the sum (or average) of $N$ independent random variables with mean $\\mu$ and finite variance $\\sigma^2$ converges to a normal distribution as $N \\to \\infty$, regardless of the underlying distribution's shape:</p>
-<pre class=\"ascii-diagram\">
-X̄_N ~ N( μ,  σ² / N )
+<p>The <strong>Central Limit Theorem (CLT)</strong> guarantees that the sum (or average) of <em>N</em> independent random variables with mean <em>μ</em> and finite variance <em>σ</em>² converges to a normal distribution as <em>N</em> → ∞, regardless of the underlying distribution's shape:</p>
+<pre class="ascii-diagram">
+X̄<sub>N</sub> ~ N( μ,  σ² / N )
 </pre>
 
-<div class=\"math-diagram-box\">
-  <div class=\"math-diagram-header\">
-    <span class=\"math-diagram-title\">⚡ DIAGRAM 7.1: CENTRAL LIMIT THEOREM DISTRIBUTION CONVERGENCE</span>
-    <span class=\"math-diagram-badge\">CLT SIMULATION</span>
+<div class="math-diagram-box">
+  <div class="math-diagram-header">
+    <span class="math-diagram-title">⚡ DIAGRAM 7.1: CENTRAL LIMIT THEOREM DISTRIBUTION CONVERGENCE</span>
+    <span class="math-diagram-badge">CLT SIMULATION</span>
   </div>
-  <svg class=\"math-svg-canvas\" viewBox=\"0 0 500 180\">
+  <svg class="math-svg-canvas" viewBox="0 0 500 180">
     <!-- Uniform original shape -->
-    <g transform=\"translate(50, 40)\">
-      <rect x=\"0\" y=\"20\" width=\"80\" height=\"50\" fill=\"rgba(0,229,255,0.2)\" stroke=\"#00e5ff\" />
-      <text x=\"40\" y=\"90\" fill=\"#00e5ff\" font-family=\"monospace\" font-size=\"9\" text-anchor=\"middle\">Original (Uniform)</text>
+    <g transform="translate(50, 40)">
+      <rect x="0" y="20" width="80" height="50" fill="rgba(0,229,255,0.2)" stroke="#00e5ff" />
+      <text x="40" y="90" fill="#00e5ff" font-family="monospace" font-size="9" text-anchor="middle">Original (Uniform)</text>
     </g>
     <!-- Arrow -->
-    <path d=\"M 150 65 L 200 65\" stroke=\"#facc15\" stroke-width=\"2\" marker-end=\"url(#arrow-green)\" />
-    <text x=\"175\" y=\"55\" fill=\"#facc15\" font-family=\"monospace\" font-size=\"9\" text-anchor=\"middle\">Avg N=50</text>
+    <path d="M 150 65 L 200 65" stroke="#facc15" stroke-width="2" marker-end="url(#arrow-green)" />
+    <text x="175" y="55" fill="#facc15" font-family="monospace" font-size="9" text-anchor="middle">Avg N=50</text>
     <!-- Normal bell -->
-    <g transform=\"translate(220, 20)\">
-      <path d=\"M 20 80 Q 75 10 130 80\" fill=\"none\" stroke=\"#00e676\" stroke-width=\"3\" />
-      <text x=\"75\" y=\"105\" fill=\"#00e676\" font-family=\"monospace\" font-size=\"10\" font-weight=\"bold\" text-anchor=\"middle\">Sample Means ~ N(μ, σ²/N)</text>
+    <g transform="translate(220, 20)">
+      <path d="M 20 80 Q 75 10 130 80" fill="none" stroke="#00e676" stroke-width="3" />
+      <text x="75" y="105" fill="#00e676" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">Sample Means ~ N(μ, σ²/N)</text>
     </g>
   </svg>
-  <div class=\"math-diagram-caption\">
+  <div class="math-diagram-caption">
     The miracle of the CLT: Even when individual data is wildly skewed or uniform, sample averages are always normally distributed.
   </div>
 </div>
 
-<div class=\"math-diagram-box\">
-  <div class=\"math-diagram-header\">
-    <span class=\"math-diagram-title\">⚡ DIAGRAM 7.2: NULL HYPOTHESIS TESTING & P-VALUE REJECTION</span>
-    <span class=\"math-diagram-badge\">A/B TESTING CORE</span>
+<div class="math-diagram-box">
+  <div class="math-diagram-header">
+    <span class="math-diagram-title">⚡ DIAGRAM 7.2: NULL HYPOTHESIS TESTING & P-VALUE REJECTION</span>
+    <span class="math-diagram-badge">A/B TESTING CORE</span>
   </div>
-  <svg class=\"math-svg-canvas\" viewBox=\"0 0 500 160\">
-    <path d=\"M 60 120 Q 250 20 440 120\" fill=\"none\" stroke=\"#475569\" stroke-width=\"1.5\" />
-    <line x1=\"370\" y1=\"120\" x2=\"370\" y2=\"65\" stroke=\"#ef4444\" stroke-width=\"2\" stroke-dasharray=\"3\" />
-    <path d=\"M 370 65 Q 405 95 440 120 L 370 120 Z\" fill=\"rgba(239,68,68,0.4)\" />
-    <text x=\"395\" y=\"55\" fill=\"#ef4444\" font-family=\"monospace\" font-size=\"10\">p-value &lt; 0.05</text>
-    <text x=\"250\" y=\"145\" fill=\"#94a3b8\" font-family=\"monospace\" font-size=\"10\" text-anchor=\"middle\">Null Hypothesis H₀: No true difference between Model A and Model B</text>
+  <svg class="math-svg-canvas" viewBox="0 0 500 160">
+    <path d="M 60 120 Q 250 20 440 120" fill="none" stroke="#475569" stroke-width="1.5" />
+    <line x1="370" y1="120" x2="370" y2="65" stroke="#ef4444" stroke-width="2" stroke-dasharray="3" />
+    <path d="M 370 65 Q 405 95 440 120 L 370 120 Z" fill="rgba(239,68,68,0.4)" />
+    <text x="395" y="55" fill="#ef4444" font-family="monospace" font-size="10">p-value &lt; 0.05</text>
+    <text x="250" y="145" fill="#94a3b8" font-family="monospace" font-size="10" text-anchor="middle">Null Hypothesis H₀: No true difference between Model A and Model B</text>
   </svg>
-  <div class=\"math-diagram-caption\">
+  <div class="math-diagram-caption">
     p-value: The probability of observing a performance gap at least this extreme purely by chance under the assumption that H₀ is true.
   </div>
 </div>
 
-<div class=\"math-diagram-box\">
-  <div class=\"math-diagram-header\">
-    <span class=\"math-diagram-title\">⚡ DIAGRAM 7.3: TYPE I ERROR (ALPHA) VS TYPE II ERROR (BETA)</span>
-    <span class=\"math-diagram-badge\">DECISION MATRIX</span>
+<div class="math-diagram-box">
+  <div class="math-diagram-header">
+    <span class="math-diagram-title">⚡ DIAGRAM 7.3: TYPE I ERROR (ALPHA) VS TYPE II ERROR (BETA)</span>
+    <span class="math-diagram-badge">DECISION MATRIX</span>
   </div>
-  <svg class=\"math-svg-canvas\" viewBox=\"0 0 500 150\">
-    <rect x=\"80\" y=\"30\" width=\"150\" height=\"60\" fill=\"rgba(239,68,68,0.15)\" stroke=\"#ef4444\" />
-    <text x=\"155\" y=\"55\" fill=\"#ef4444\" font-family=\"monospace\" font-size=\"10\" text-anchor=\"middle\">Type I Error (α): False Alarm</text>
-    <text x=\"155\" y=\"75\" fill=\"#94a3b8\" font-family=\"monospace\" font-size=\"8\" text-anchor=\"middle\">Rejecting true H₀</text>
+  <svg class="math-svg-canvas" viewBox="0 0 500 150">
+    <rect x="80" y="30" width="150" height="60" fill="rgba(239,68,68,0.15)" stroke="#ef4444" />
+    <text x="155" y="55" fill="#ef4444" font-family="monospace" font-size="10" text-anchor="middle">Type I Error (α): False Alarm</text>
+    <text x="155" y="75" fill="#94a3b8" font-family="monospace" font-size="8" text-anchor="middle">Rejecting true H₀</text>
 
-    <rect x=\"260\" y=\"30\" width=\"150\" height=\"60\" fill=\"rgba(250,204,21,0.15)\" stroke=\"#facc15\" />
-    <text x=\"335\" y=\"55\" fill=\"#facc15\" font-family=\"monospace\" font-size=\"10\" text-anchor=\"middle\">Type II Error (β): Missed Signal</text>
-    <text x=\"335\" y=\"75\" fill=\"#94a3b8\" font-family=\"monospace\" font-size=\"8\" text-anchor=\"middle\">Failing to reject false H₀</text>
+    <rect x="260" y="30" width="150" height="60" fill="rgba(250,204,21,0.15)" stroke="#facc15" />
+    <text x="335" y="55" fill="#facc15" font-family="monospace" font-size="10" text-anchor="middle">Type II Error (β): Missed Signal</text>
+    <text x="335" y="75" fill="#94a3b8" font-family="monospace" font-size="8" text-anchor="middle">Failing to reject false H₀</text>
   </svg>
-  <div class=\"math-diagram-caption\">
+  <div class="math-diagram-caption">
     Statistical Power (1 - β): The probability of correctly detecting a genuine improvement when one truly exists.
   </div>
 </div>
 
-<div class=\"math-diagram-box\">
-  <div class=\"math-diagram-header\">
-    <span class=\"math-diagram-title\">⚡ DIAGRAM 7.4: 95% CONFIDENCE INTERVAL DERIVATION</span>
-    <span class=\"math-diagram-badge\">ESTIMATION BOUNDS</span>
+<div class="math-diagram-box">
+  <div class="math-diagram-header">
+    <span class="math-diagram-title">⚡ DIAGRAM 7.4: 95% CONFIDENCE INTERVAL DERIVATION</span>
+    <span class="math-diagram-badge">ESTIMATION BOUNDS</span>
   </div>
-  <svg class=\"math-svg-canvas\" viewBox=\"0 0 500 130\">
-    <text x=\"250\" y=\"45\" fill=\"#00e676\" font-family=\"monospace\" font-size=\"13\" font-weight=\"bold\" text-anchor=\"middle\">CI = X̄ ± 1.96 · (σ / √N)</text>
-    <text x=\"250\" y=\"80\" fill=\"#94a3b8\" font-family=\"monospace\" font-size=\"10\" text-anchor=\"middle\">95% of identically computed confidence intervals contain the true population parameter μ.</text>
+  <svg class="math-svg-canvas" viewBox="0 0 500 130">
+    <text x="250" y="45" fill="#00e676" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">CI = X̄ ± 1.96 · (σ / √N)</text>
+    <text x="250" y="80" fill="#94a3b8" font-family="monospace" font-size="10" text-anchor="middle">95% of identically computed confidence intervals contain the true population parameter μ.</text>
   </svg>
-  <div class=\"math-diagram-caption\">
+  <div class="math-diagram-caption">
     Standard Error: Decreases with 1/√N; quadrupling data collection cuts uncertainty margins in half.
   </div>
 </div>
@@ -2749,92 +2836,100 @@ X̄_N ~ N( μ,  σ² / N )
         "content": `
 <h2>📐 Lesson 8: Information Theory: Entropy, Cross-Entropy & KL Divergence (Data Drift)</h2>
 
-<div class=\"callout callout--quest\">
-  <strong>🧠 AI ARCHITECT CODEX:</strong> <em>Claude Shannon's information theory answers how much surprise a signal contains. Kullback-Leibler (KL) divergence measures the statistical distance between distributions, powering production data drift monitors and RLHF alignment.</em>
+<h3>🎲 The Intuition: How Surprised Are You?</h3>
+<p>Imagine your weather app tells you: <em>"Tomorrow in the Sahara Desert, it will be sunny."</em> How much new information did you gain? Almost none! You already expected it to be sunny.</p>
+<p>Now imagine your app says: <em>"Tomorrow in the Sahara Desert, it will snow 4 feet!"</em> That message contains a massive amount of information because it was completely unexpected.</p>
+<p><strong>Entropy</strong> is simply the mathematical measurement of <em>average surprise or uncertainty</em>. In Machine Learning, when a model is confident and correct, its Cross-Entropy loss approaches 0. When it is confused or making wild guesses, Cross-Entropy explodes!</p>
+
+
+
+<div class="teacher-callout teacher-callout--intuition">
+  <strong>💡 The Teacher's Perspective:</strong><br />
+  Claude Shannon's information theory answers how much surprise a signal contains. Kullback-Leibler (KL) divergence measures the statistical distance between distributions, powering production data drift monitors and RLHF alignment.
 </div>
 
-<p>The <strong>Shannon Entropy</strong> $H(P)$ of a discrete distribution $P$ measures expected surprise or uncertainty:</p>
-<pre class=\"ascii-diagram\">
+<p>The <strong>Shannon Entropy</strong>H(P)of a discrete distributionPmeasures expected surprise or uncertainty:</p>
+<pre class="ascii-diagram">
 H(P) = - ∑_{x} P(x) log₂ P(x)
 </pre>
-<p>The <strong>Kullback-Leibler (KL) Divergence</strong> from distribution $Q$ to true distribution $P$ measures information loss:</p>
-<pre class=\"ascii-diagram\">
+<p>The <strong>Kullback-Leibler (KL) Divergence</strong> from distributionQto true distributionPmeasures information loss:</p>
+<pre class="ascii-diagram">
 D_{KL}(P ‖ Q) = ∑_{x} P(x) log [ P(x) / Q(x) ] = H(P, Q) - H(P) ≥ 0
 </pre>
 
-<div class=\"math-diagram-box\">
-  <div class=\"math-diagram-header\">
-    <span class=\"math-diagram-title\">⚡ DIAGRAM 8.1: KL DIVERGENCE AS EXTRA BITS OF ENCODING</span>
-    <span class=\"math-diagram-badge\">INFORMATION COMPRESSION</span>
+<div class="math-diagram-box">
+  <div class="math-diagram-header">
+    <span class="math-diagram-title">⚡ DIAGRAM 8.1: KL DIVERGENCE AS EXTRA BITS OF ENCODING</span>
+    <span class="math-diagram-badge">INFORMATION COMPRESSION</span>
   </div>
-  <svg class=\"math-svg-canvas\" viewBox=\"0 0 500 180\">
+  <svg class="math-svg-canvas" viewBox="0 0 500 180">
     <!-- True Distribution P -->
-    <path d=\"M 60 120 Q 150 20 240 120\" fill=\"none\" stroke=\"#00e5ff\" stroke-width=\"2.5\" />
-    <text x=\"150\" y=\"50\" fill=\"#00e5ff\" font-family=\"monospace\" font-size=\"11\">True P(x)</text>
+    <path d="M 60 120 Q 150 20 240 120" fill="none" stroke="#00e5ff" stroke-width="2.5" />
+    <text x="150" y="50" fill="#00e5ff" font-family="monospace" font-size="11">True P(x)</text>
 
     <!-- Model Distribution Q -->
-    <path d=\"M 140 120 Q 230 40 320 120\" fill=\"none\" stroke=\"#b388ff\" stroke-width=\"2.5\" stroke-dasharray=\"3\" />
-    <text x=\"270\" y=\"60\" fill=\"#b388ff\" font-family=\"monospace\" font-size=\"11\">Model Q(x)</text>
+    <path d="M 140 120 Q 230 40 320 120" fill="none" stroke="#b388ff" stroke-width="2.5" stroke-dasharray="3" />
+    <text x="270" y="60" fill="#b388ff" font-family="monospace" font-size="11">Model Q(x)</text>
 
-    <text x=\"250\" y=\"155\" fill=\"#00e676\" font-family=\"monospace\" font-size=\"11\" font-weight=\"bold\" text-anchor=\"middle\">D_{KL}(P ‖ Q) = Extra bits expended when using Q instead of P</text>
+    <text x="250" y="155" fill="#00e676" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">D_{KL}(P ‖ Q) = Extra bits expended when using Q instead of P</text>
   </svg>
-  <div class=\"math-diagram-caption\">
+  <div class="math-diagram-caption">
     Gibbs' Inequality: D_{KL}(P ‖ Q) ≥ 0 with equality if and only if P = Q almost everywhere.
   </div>
 </div>
 
-<div class=\"math-diagram-box\">
-  <div class=\"math-diagram-header\">
-    <span class=\"math-diagram-title\">⚡ DIAGRAM 8.2: DATA DRIFT DETECTION IN PRODUCTION MLOPS</span>
-    <span class=\"math-diagram-badge\">MODEL MONITORING</span>
+<div class="math-diagram-box">
+  <div class="math-diagram-header">
+    <span class="math-diagram-title">⚡ DIAGRAM 8.2: DATA DRIFT DETECTION IN PRODUCTION MLOPS</span>
+    <span class="math-diagram-badge">MODEL MONITORING</span>
   </div>
-  <svg class=\"math-svg-canvas\" viewBox=\"0 0 500 160\">
-    <g transform=\"translate(50, 30)\">
-      <rect x=\"0\" y=\"0\" width=\"160\" height=\"80\" fill=\"rgba(0,229,255,0.15)\" stroke=\"#00e5ff\" />
-      <text x=\"80\" y=\"35\" fill=\"#00e5ff\" font-family=\"monospace\" font-size=\"10\" text-anchor=\"middle\">Training Baseline P(X)</text>
-      <text x=\"80\" y=\"60\" fill=\"#94a3b8\" font-family=\"monospace\" font-size=\"9\" text-anchor=\"middle\">Golden Reference Data</text>
+  <svg class="math-svg-canvas" viewBox="0 0 500 160">
+    <g transform="translate(50, 30)">
+      <rect x="0" y="0" width="160" height="80" fill="rgba(0,229,255,0.15)" stroke="#00e5ff" />
+      <text x="80" y="35" fill="#00e5ff" font-family="monospace" font-size="10" text-anchor="middle">Training Baseline P(X)</text>
+      <text x="80" y="60" fill="#94a3b8" font-family="monospace" font-size="9" text-anchor="middle">Golden Reference Data</text>
     </g>
-    <path d=\"M 220 70 L 270 70\" stroke=\"#ef4444\" stroke-width=\"2\" marker-end=\"url(#arrow-cyan)\" />
-    <g transform=\"translate(280, 30)\">
-      <rect x=\"0\" y=\"0\" width=\"160\" height=\"80\" fill=\"rgba(239,68,68,0.15)\" stroke=\"#ef4444\" />
-      <text x=\"80\" y=\"35\" fill=\"#ef4444\" font-family=\"monospace\" font-size=\"10\" text-anchor=\"middle\">Live Production Q_t(X)</text>
-      <text x=\"80\" y=\"60\" fill=\"#ef4444\" font-family=\"monospace\" font-size=\"9\" text-anchor=\"middle\">D_KL &gt; 0.1 → ALERT: DRIFT!</text>
+    <path d="M 220 70 L 270 70" stroke="#ef4444" stroke-width="2" marker-end="url(#arrow-cyan)" />
+    <g transform="translate(280, 30)">
+      <rect x="0" y="0" width="160" height="80" fill="rgba(239,68,68,0.15)" stroke="#ef4444" />
+      <text x="80" y="35" fill="#ef4444" font-family="monospace" font-size="10" text-anchor="middle">Live Production Q<sub>t</sub>(X)</text>
+      <text x="80" y="60" fill="#ef4444" font-family="monospace" font-size="9" text-anchor="middle">D<sub>K</sub>L &gt; 0.1 → ALERT: DRIFT!</text>
     </g>
   </svg>
-  <div class=\"math-diagram-caption\">
+  <div class="math-diagram-caption">
     Production Drift Gate: MLOps monitors compute KL divergence between live inference feature streams and training baselines to trigger automated pipeline retraining.
   </div>
 </div>
 
-<div class=\"math-diagram-box\">
-  <div class=\"math-diagram-header\">
-    <span class=\"math-diagram-title\">⚡ DIAGRAM 8.3: KL ASYMMETRY (FORWARD VS REVERSE KL)</span>
-    <span class=\"math-diagram-badge\">ZERO-AVOIDING VS ZERO-FORCING</span>
+<div class="math-diagram-box">
+  <div class="math-diagram-header">
+    <span class="math-diagram-title">⚡ DIAGRAM 8.3: KL ASYMMETRY (FORWARD VS REVERSE KL)</span>
+    <span class="math-diagram-badge">ZERO-AVOIDING VS ZERO-FORCING</span>
   </div>
-  <svg class=\"math-svg-canvas\" viewBox=\"0 0 500 150\">
-    <rect x=\"50\" y=\"30\" width=\"180\" height=\"75\" fill=\"rgba(0,229,255,0.15)\" stroke=\"#00e5ff\" />
-    <text x=\"140\" y=\"55\" fill=\"#00e5ff\" font-family=\"monospace\" font-size=\"10\" text-anchor=\"middle\">Forward KL D(P ‖ Q)</text>
-    <text x=\"140\" y=\"75\" fill=\"#94a3b8\" font-family=\"monospace\" font-size=\"9\" text-anchor=\"middle\">Mean-seeking (Covers all modes)</text>
+  <svg class="math-svg-canvas" viewBox="0 0 500 150">
+    <rect x="50" y="30" width="180" height="75" fill="rgba(0,229,255,0.15)" stroke="#00e5ff" />
+    <text x="140" y="55" fill="#00e5ff" font-family="monospace" font-size="10" text-anchor="middle">Forward KL D(P ‖ Q)</text>
+    <text x="140" y="75" fill="#94a3b8" font-family="monospace" font-size="9" text-anchor="middle">Mean-seeking (Covers all modes)</text>
 
-    <rect x=\"270\" y=\"30\" width=\"180\" height=\"75\" fill=\"rgba(179,136,255,0.15)\" stroke=\"#b388ff\" />
-    <text x=\"360\" y=\"55\" fill=\"#b388ff\" font-family=\"monospace\" font-size=\"10\" text-anchor=\"middle\">Reverse KL D(Q ‖ P)</text>
-    <text x=\"360\" y=\"75\" fill=\"#00e676\" font-family=\"monospace\" font-size=\"9\" text-anchor=\"middle\">Mode-seeking (Locks onto single sharp mode)</text>
+    <rect x="270" y="30" width="180" height="75" fill="rgba(179,136,255,0.15)" stroke="#b388ff" />
+    <text x="360" y="55" fill="#b388ff" font-family="monospace" font-size="10" text-anchor="middle">Reverse KL D(Q ‖ P)</text>
+    <text x="360" y="75" fill="#00e676" font-family="monospace" font-size="9" text-anchor="middle">Mode-seeking (Locks onto single sharp mode)</text>
   </svg>
-  <div class=\"math-diagram-caption\">
-    Asymmetry Property: D_KL(P ‖ Q) ≠ D_KL(Q ‖ P). Reverse KL is used in VAEs and RLHF policy optimization to avoid generating nonsensical intermediate tokens.
+  <div class="math-diagram-caption">
+    Asymmetry Property: D<sub>K</sub>L(P ‖ Q) ≠ D<sub>K</sub>L(Q ‖ P). Reverse KL is used in VAEs and RLHF policy optimization to avoid generating nonsensical intermediate tokens.
   </div>
 </div>
 
-<div class=\"math-diagram-box\">
-  <div class=\"math-diagram-header\">
-    <span class=\"math-diagram-title\">⚡ DIAGRAM 8.4: JENSEN-SHANNON DIVERGENCE (SYMMETRIC DISTANCE)</span>
-    <span class=\"math-diagram-badge\">GAN STABILITY</span>
+<div class="math-diagram-box">
+  <div class="math-diagram-header">
+    <span class="math-diagram-title">⚡ DIAGRAM 8.4: JENSEN-SHANNON DIVERGENCE (SYMMETRIC DISTANCE)</span>
+    <span class="math-diagram-badge">GAN STABILITY</span>
   </div>
-  <svg class=\"math-svg-canvas\" viewBox=\"0 0 500 130\">
-    <text x=\"250\" y=\"45\" fill=\"#00e676\" font-family=\"monospace\" font-size=\"12\" font-weight=\"bold\" text-anchor=\"middle\">JSD(P ‖ Q) = 1/2 D_{KL}(P ‖ M) + 1/2 D_{KL}(Q ‖ M)</text>
-    <text x=\"250\" y=\"75\" fill=\"#94a3b8\" font-family=\"monospace\" font-size=\"10\" text-anchor=\"middle\">where M = 1/2 (P + Q). Bounded in [0, 1] with symmetric property JSD(P ‖ Q) = JSD(Q ‖ P).</text>
+  <svg class="math-svg-canvas" viewBox="0 0 500 130">
+    <text x="250" y="45" fill="#00e676" font-family="monospace" font-size="12" font-weight="bold" text-anchor="middle">JSD(P ‖ Q) = 1/2 D_{KL}(P ‖ M) + 1/2 D_{KL}(Q ‖ M)</text>
+    <text x="250" y="75" fill="#94a3b8" font-family="monospace" font-size="10" text-anchor="middle">where M = 1/2 (P + Q). Bounded in [0, 1] with symmetric property JSD(P ‖ Q) = JSD(Q ‖ P).</text>
   </svg>
-  <div class=\"math-diagram-caption\">
+  <div class="math-diagram-caption">
     Jensen-Shannon Divergence: Symmetrizes KL divergence, providing a true metric distance for Generative Adversarial Networks (GANs).
   </div>
 </div>
@@ -2847,8 +2942,8 @@ D_{KL}(P ‖ Q) = ∑_{x} P(x) log [ P(x) / Q(x) ] = H(P, Q) - H(P) ≥ 0
         "language": "python",
         "description": `
 <h3>⚔️ LAB CHALLENGE: Parameter Estimation & KL Divergence</h3>
-<p>Implement <code>gaussian_mle(samples)</code> which returns the sample mean and variance $(\\mu_{MLE}, \\sigma^2_{MLE})$.</p>
-<p>Also implement <code>discrete_kl_divergence(p, q)</code> returning $\\sum p_i \\log_2(p_i / q_i)$.</p>
+<p>Implement <code>gaussian<sub>m</sub>le(samples)</code> which returns the sample mean and variance(\μ_{MLE}, \σ^2_{MLE}).</p>
+<p>Also implement <code>discrete_kl_divergence(p, q)</code> returning ∑ pᵢ log₂(pᵢ / qᵢ).</p>
 `,
         "starterCode": `import numpy as np
 
