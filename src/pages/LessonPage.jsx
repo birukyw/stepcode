@@ -36,6 +36,13 @@ export default function LessonPage() {
   const totalLessons = weekContent.lessons.length;
   const itemId = `${weekId}-lesson-${idx}`;
   const isDone = !!progress[itemId];
+  const isTheoryLesson = lesson.layout === 'fullscreen' || lesson.noCode === true || !lesson.starterCode;
+  const [showSandbox, setShowSandbox] = useState(() => !isTheoryLesson);
+
+  useEffect(() => {
+    setShowSandbox(!isTheoryLesson);
+  }, [weekId, idx, isTheoryLesson]);
+
   const isLeetCode = isLeetCodeCareer(phase?.id, weekId);
 
   const [currentLang, setCurrentLang] = useState(() => {
@@ -127,7 +134,8 @@ export default function LessonPage() {
     : currentLang === 'css' ? 'style.css'
     : 'solution.js';
 
-  const themeSprite = weekId?.startsWith('py-') ? 'serpent'
+  const themeSprite = weekId?.startsWith('ml-') ? 'bot'
+    : weekId?.startsWith('py-') ? 'serpent'
     : (phase?.id === 'phase-2' || phase?.id === 'phase-3' || ['week-5','week-6','week-7','week-8','week-9','week-10','week-11','week-12'].includes(weekId)) ? 'gladiator'
     : (phase?.id === 'phase-1' || phase?.id === 'phase-4' || phase?.id === 'phase-5') ? 'wizard'
     : weekId?.startsWith('sys-') ? 'chip'
@@ -143,11 +151,23 @@ export default function LessonPage() {
             {idx + 1} / {totalLessons}
           </span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <PixelSprite name={isDone ? 'trophy' : 'sparkle'} size={14} />
-          <span style={{ fontSize: 11, color: isDone ? 'var(--green-bright)' : 'var(--text-dim)', fontFamily: 'var(--font-pixel)' }}>
-            {isDone ? '+15 XP' : '15 XP'}
-          </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          {!isMobile && (
+            <button
+              type="button"
+              className="lesson-sandbox-toggle"
+              onClick={() => setShowSandbox(prev => !prev)}
+              title={showSandbox ? "Switch to Fullscreen Theory Reader" : "Open Interactive Sandbox"}
+            >
+              <span>{showSandbox ? "📖 Fullscreen Reader" : "💻 Open Sandbox"}</span>
+            </button>
+          )}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <PixelSprite name={isDone ? 'trophy' : 'sparkle'} size={14} />
+            <span style={{ fontSize: 11, color: isDone ? 'var(--green-bright)' : 'var(--text-dim)', fontFamily: 'var(--font-pixel)' }}>
+              {isDone ? '+15 XP' : '15 XP'}
+            </span>
+          </div>
         </div>
       </div>
       <div className="lesson-panel-left__scroll">
@@ -309,8 +329,8 @@ export default function LessonPage() {
             )}
           </div>
         </div>
-      ) : (
-        /* Full-height split layout */
+      ) : showSandbox ? (
+        /* Full-height split layout with sandbox */
         <Split className="lesson-layout" sizes={[40, 60]} gutterSize={2} snapOffset={0}>
           {/* === LEFT: Lesson Content === */}
           <div className="lesson-panel-left">
@@ -323,6 +343,13 @@ export default function LessonPage() {
             {renderTerminal()}
           </Split>
         </Split>
+      ) : (
+        /* Full-width Theory Reader Layout */
+        <div className="lesson-layout--fullscreen">
+          <div className="lesson-panel-fullscreen">
+            {renderLesson()}
+          </div>
+        </div>
       )}
 
       {/* Bottom bar */}

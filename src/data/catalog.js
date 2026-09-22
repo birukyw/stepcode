@@ -91,6 +91,69 @@ export const TRACKS = [
     ]
   },
   {
+    id: 'ml-ai',
+    alias: 'machine-learning',
+    title: 'Machine Learning & AI Engineering',
+    shortTitle: 'ML & AI',
+    heroImage: '/images/retro_ml_bg.png',
+    heroBadge: 'AI ARCHITECT · TRACK',
+    heroDescription: 'From Python Developer to Production AI Architect: Master matrix calculus, classical statistical learning, deep learning, Transformers, LLMs, RAG, autonomous agents, and high-throughput vLLM MLOps!',
+    timeToComplete: '85h',
+    tagline: 'From Python Developer to Production AI Architect: Math, Deep Learning, LLMs & MLOps',
+    icon: '🧠',
+    badge: 'MOST COMPREHENSIVE',
+    color: '#b388ff',
+    difficulty: 'Intermediate to Production Architect',
+    duration: '18 Modules',
+    modulesCount: 18,
+    tags: ['Linear Algebra', 'PyTorch', 'CNNs & ResNets', 'Transformers', 'LoRA / QLoRA', 'RAG & Agents', 'vLLM', 'MLOps'],
+    description: 'The definitive mathematical and architectural journey from Python developer to production AI engineer. Master foundational matrix calculus & Bayesian probability, scikit-learn statistical learning, PyTorch deep learning dynamics & vision architectures, modern Transformer internals, LLM pre-training & fine-tuning with LoRA/QLoRA, production RAG & multi-agent systems, and enterprise MLOps with vLLM continuous batching and observability.',
+    levels: [
+      {
+        id: 'math-classical',
+        title: 'Mathematical & Classical Foundations',
+        subtitle: 'Matrix Calculus, Optimization, Probability, and Statistical Learning',
+        badge: 'FOUNDATIONS',
+        icon: '📐',
+        modulesCount: 7,
+        phases: [
+          ROADMAP.phases.find(p => p.id === 'phase-ml-math'),
+          ROADMAP.phases.find(p => p.id === 'phase-ml-classical'),
+        ]
+      },
+      {
+        id: 'deeplearning-genai',
+        title: 'Deep Learning & Generative AI',
+        subtitle: 'PyTorch Dynamics, CNNs, Transformers, LLMs, LoRA, RAG & Agents',
+        badge: 'DEEP LEARNING & LLMs',
+        icon: '✨',
+        modulesCount: 8,
+        phases: [
+          ROADMAP.phases.find(p => p.id === 'phase-ml-deeplearning'),
+          ROADMAP.phases.find(p => p.id === 'phase-ml-genai'),
+        ]
+      },
+      {
+        id: 'mlops-production',
+        title: 'Production MLOps & Systems',
+        subtitle: 'High-Performance vLLM Serving, Continuous Batching, CI/CD & Observability',
+        badge: 'PRODUCTION ARCHITECT',
+        icon: '🛡️',
+        modulesCount: 3,
+        phases: [
+          ROADMAP.phases.find(p => p.id === 'phase-ml-mlops'),
+        ]
+      }
+    ],
+    phases: [
+      ROADMAP.phases.find(p => p.id === 'phase-ml-math'),
+      ROADMAP.phases.find(p => p.id === 'phase-ml-classical'),
+      ROADMAP.phases.find(p => p.id === 'phase-ml-deeplearning'),
+      ROADMAP.phases.find(p => p.id === 'phase-ml-genai'),
+      ROADMAP.phases.find(p => p.id === 'phase-ml-mlops'),
+    ]
+  },
+  {
     id: 'java-spring',
     title: 'Java Enterprise Development',
     shortTitle: 'Java',

@@ -3920,5 +3920,230 @@ h3.cyber-glitch-header {
   text-align: center;
 }
 
+/* ─── Fullscreen Math & Theory Reader Layout ───────────────────────────── */
+.lesson-layout--fullscreen {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px 24px 80px;
+  display: flex;
+  flex-direction: column;
+}
+
+.lesson-panel-fullscreen {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.lesson-panel-fullscreen__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+
+.lesson-panel-fullscreen__scroll {
+  padding: 32px 36px 60px;
+  overflow-y: auto;
+}
+
+.lesson-sandbox-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(179, 136, 255, 0.12);
+  border: 1px solid rgba(179, 136, 255, 0.35);
+  color: #d1c4e9;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lesson-sandbox-toggle:hover {
+  background: rgba(179, 136, 255, 0.25);
+  border-color: #b388ff;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* ─── Mathematical Diagrams & Animated Interactive Boxes ────────────────── */
+.math-diagram-box {
+  background: radial-gradient(circle at top left, rgba(30, 27, 75, 0.6), rgba(15, 23, 42, 0.95));
+  border: 1px solid rgba(179, 136, 255, 0.25);
+  border-radius: 8px;
+  padding: 18px;
+  margin: 24px 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35), inset 0 0 12px rgba(179, 136, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.math-diagram-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #b388ff, #7c4dff);
+}
+
+.math-diagram-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.math-diagram-title {
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  color: #b388ff;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.math-diagram-badge {
+  font-size: 9px;
+  padding: 2px 6px;
+  background: rgba(179, 136, 255, 0.15);
+  border: 1px solid rgba(179, 136, 255, 0.3);
+  border-radius: 3px;
+  color: #e0e7ff;
+  font-family: var(--font-mono);
+}
+
+.math-svg-canvas {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+}
+
+.math-diagram-caption {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #94a3b8;
+  font-style: italic;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Keyframes for Math Diagrams */
+@keyframes vector-pulse {
+  0%, 100% {
+    stroke-dashoffset: 0;
+    opacity: 0.9;
+  }
+  50% {
+    stroke-dashoffset: 8;
+    opacity: 1;
+  }
+}
+
+@keyframes rotate-basis {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(15deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes roll-contour {
+  0% { cx: 80; cy: 60; }
+  25% { cx: 140; cy: 90; }
+  50% { cx: 180; cy: 110; }
+  75% { cx: 210; cy: 125; }
+  100% { cx: 220; cy: 130; }
+}
+
+@keyframes stride-highlight {
+  0%, 20% { fill: rgba(179, 136, 255, 0.9); }
+  25%, 45% { fill: rgba(0, 229, 255, 0.9); }
+  50%, 70% { fill: rgba(0, 230, 118, 0.9); }
+  75%, 100% { fill: rgba(255, 234, 0, 0.9); }
+}
+
+@keyframes heat-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.9; }
+}
+
+@keyframes neural-pulse {
+  0% { stroke-dashoffset: 30; opacity: 0.3; }
+  50% { stroke-dashoffset: 0; opacity: 1; }
+  100% { stroke-dashoffset: -30; opacity: 0.3; }
+}
+
+.anim-vector-pulse {
+  animation: vector-pulse 3s infinite ease-in-out;
+}
+
+.anim-roll-contour {
+  animation: roll-contour 4s infinite alternate ease-in-out;
+}
+
+.anim-neural-pulse {
+  stroke-dasharray: 6;
+  animation: neural-pulse 2s infinite linear;
+}
+
+.anim-heat-pulse {
+  animation: heat-pulse 2.5s infinite ease-in-out;
+}
+
+/* ─── Course Resources Modal / Section in TrackPage ───────────────────── */
+.track-resources-card {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(179, 136, 255, 0.2);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  backdrop-filter: blur(6px);
+}
+
+.track-resources-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.track-resource-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.track-resource-btn:hover {
+  background: rgba(179, 136, 255, 0.15);
+  border-color: #b388ff;
+  color: #fff;
+}
+
+
 
 

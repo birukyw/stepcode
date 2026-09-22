@@ -15,6 +15,11 @@ const PHASE_DESCRIPTIONS = {
   'phase-7': 'The final boss! 🚀 Master professional Git collaboration, containerize with Docker & Compose, automate with GitHub Actions CI/CD, and defend your Capstone in technical interviews.',
   'phase-py-beginner': 'Begin your journey on the Path of the Serpent Sage! 🐍 Master Python 3 syntax, CPython execution mechanics, short-circuit logic, loops, functions, collections, and object-oriented foundations.',
   'phase-py-intermediate': 'Choose your mastery electives in the Applied Python Ecosystem! ⚡ Dive into advanced OOP & dunders, file I/O & JSON, REST API clients, vectorized data science, and high-speed FastAPI web citadels.',
+  'phase-ml-math': 'Build unbreakable mathematical intuition for AI! 📐 Master vector spaces, linear transformations, matrix calculus, Hessian optimization, probability distributions, information theory, and Bayesian inference with interactive visual animations.',
+  'phase-ml-classical': 'Master the algorithmic workhorses of enterprise data science! 🌲 From linear regression and logistic boundaries to gradient boosted decision trees (XGBoost/LightGBM), unsupervised PCA/t-SNE, and rigorous cross-validation.',
+  'phase-ml-deeplearning': 'Ascend into deep representations! 🧠 Build neural networks and autograd backprop engines from scratch, master modern optimizers (AdamW), convolutional vision architectures (ResNet), and sequence modeling leading to self-attention.',
+  'phase-ml-genai': 'Master the cutting-edge of Generative AI & Large Language Models! ✨ Deconstruct the Transformer architecture, explore pre-training scaling laws, fine-tune with LoRA/QLoRA, engineer production RAG systems, and build autonomous ReAct agents.',
+  'phase-ml-mlops': 'Deploy AI to production at enterprise scale! 🛡️ Master high-throughput serving with vLLM PagedAttention, continuous batching, streaming SSE, automated CI/CD pipelines, experiment tracking, drift monitoring, and prompt injection guardrails.',
 };
 
 export default function PhasePage() {

@@ -9,6 +9,7 @@ export default function TrackPage() {
   const { progress, getPhaseProgress, currentUser, stats, openAuthModal } = useContext(AppContext);
   const track = getTrack(trackId);
   const [selectedLevel, setSelectedLevel] = useState('all'); // 'all' | level.id
+  const [activeResourceTab, setActiveResourceTab] = useState(null); // 'checklist' | 'reading' | 'repo' | null
 
   // Calculate track progress
   let totalItems = 0;
@@ -171,6 +172,190 @@ export default function TrackPage() {
               </button>
             );
           })}
+        </div>
+      )}
+
+      {/* Companion Architect Toolkit for ML Track */}
+      {track.id === 'ml-ai' && (
+        <div style={{ marginTop: 20, marginBottom: 8 }}>
+          <div className="track-resources-card">
+            <div>
+              <div style={{ fontWeight: 700, fontSize: 13, color: '#b388ff', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+                <span>🛠️</span>
+                <span>AI ARCHITECT TOOLKIT & COMPANION RESOURCES</span>
+              </div>
+              <div style={{ fontSize: 11, color: 'var(--text-dim)' }}>
+                Official syllabus companion: curriculum checklist, landmark reading list, and production GitHub template.
+              </div>
+            </div>
+            <div className="track-resources-tabs">
+              <button
+                className="track-resource-btn"
+                onClick={() => setActiveResourceTab(activeResourceTab === 'checklist' ? null : 'checklist')}
+                style={activeResourceTab === 'checklist' ? { borderColor: '#b388ff', color: '#fff', background: 'rgba(179, 136, 255, 0.25)' } : {}}
+              >
+                📋 Course Checklist
+              </button>
+              <button
+                className="track-resource-btn"
+                onClick={() => setActiveResourceTab(activeResourceTab === 'reading' ? null : 'reading')}
+                style={activeResourceTab === 'reading' ? { borderColor: '#b388ff', color: '#fff', background: 'rgba(179, 136, 255, 0.25)' } : {}}
+              >
+                📚 Reading List
+              </button>
+              <button
+                className="track-resource-btn"
+                onClick={() => setActiveResourceTab(activeResourceTab === 'repo' ? null : 'repo')}
+                style={activeResourceTab === 'repo' ? { borderColor: '#b388ff', color: '#fff', background: 'rgba(179, 136, 255, 0.25)' } : {}}
+              >
+                🐙 GitHub Template
+              </button>
+            </div>
+          </div>
+
+          {/* Expanded Resource Drawer */}
+          {activeResourceTab && (
+            <div style={{
+              background: 'rgba(15, 23, 42, 0.9)',
+              border: '1px solid rgba(179, 136, 255, 0.35)',
+              borderRadius: 8,
+              padding: 20,
+              marginBottom: 16,
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
+              backdropFilter: 'blur(10px)'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, borderBottom: '1px solid rgba(255, 255, 255, 0.1)', paddingBottom: 10 }}>
+                <div style={{ fontWeight: 700, fontSize: 14, color: '#fff' }}>
+                  {activeResourceTab === 'checklist' && '📋 Production AI Architect Course Checklist'}
+                  {activeResourceTab === 'reading' && '📚 Recommended Reading List & Essential Papers'}
+                  {activeResourceTab === 'repo' && '🐙 Production Machine Learning GitHub Repository Template'}
+                </div>
+                <button
+                  onClick={() => setActiveResourceTab(null)}
+                  style={{ background: 'transparent', border: 'none', color: 'var(--text-dim)', cursor: 'pointer', fontSize: 16 }}
+                >
+                  ✕
+                </button>
+              </div>
+
+              {activeResourceTab === 'checklist' && (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 14 }}>
+                  <div style={{ background: 'rgba(255,255,255,0.02)', padding: 12, borderRadius: 6, border: '1px solid var(--border)' }}>
+                    <div style={{ fontWeight: 700, color: '#b388ff', fontSize: 12, marginBottom: 8 }}>Phase 1: Mathematical Foundations</div>
+                    <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                      <li>Module 1: Matrix calculus, vector spaces, SVD & PCA projection</li>
+                      <li>Module 2: Multivariable gradients, Jacobian, Hessian, Adam optimizer</li>
+                      <li>Module 3: Bayes theorem, distributions, Shannon entropy & KL divergence</li>
+                    </ul>
+                  </div>
+                  <div style={{ background: 'rgba(255,255,255,0.02)', padding: 12, borderRadius: 6, border: '1px solid var(--border)' }}>
+                    <div style={{ fontWeight: 700, color: '#7c4dff', fontSize: 12, marginBottom: 8 }}>Phase 2: Classical Machine Learning</div>
+                    <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                      <li>Module 4: Linear regression, Ridge/Lasso, Logistic regression</li>
+                      <li>Module 5: Decision trees, Random Forests, XGBoost & LightGBM</li>
+                      <li>Module 6: K-Means, DBSCAN, t-SNE, and Isolation Forests</li>
+                      <li>Module 7: Feature engineering pipelines, Optuna hyperparameter tuning</li>
+                    </ul>
+                  </div>
+                  <div style={{ background: 'rgba(255,255,255,0.02)', padding: 12, borderRadius: 6, border: '1px solid var(--border)' }}>
+                    <div style={{ fontWeight: 700, color: '#e040fb', fontSize: 12, marginBottom: 8 }}>Phase 3: Deep Learning Foundations</div>
+                    <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                      <li>Module 8: Computational graphs, PyTorch autograd engine from scratch</li>
+                      <li>Module 9: Training dynamics, Batch/LayerNorm, residual connections</li>
+                      <li>Module 10: Convolutional architectures, ResNet-50 transfer learning</li>
+                      <li>Module 11: Sequence modeling, LSTMs, and self-attention foundations</li>
+                    </ul>
+                  </div>
+                  <div style={{ background: 'rgba(255,255,255,0.02)', padding: 12, borderRadius: 6, border: '1px solid var(--border)' }}>
+                    <div style={{ fontWeight: 700, color: '#00e5ff', fontSize: 12, marginBottom: 8 }}>Phase 4: Generative AI & LLMs</div>
+                    <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                      <li>Module 12: Multi-head attention, RoPE positional embeddings, nano-GPT</li>
+                      <li>Module 13: Pre-training scaling laws, QLoRA 4-bit fine-tuning & DPO</li>
+                      <li>Module 14: Hybrid RAG, BM25 + dense vector search, TruLens evaluation</li>
+                      <li>Module 15: ReAct autonomous agents, tool calling & debugging loops</li>
+                    </ul>
+                  </div>
+                  <div style={{ background: 'rgba(255,255,255,0.02)', padding: 12, borderRadius: 6, border: '1px solid var(--border)' }}>
+                    <div style={{ fontWeight: 700, color: '#ff4081', fontSize: 12, marginBottom: 8 }}>Phase 5: Production MLOps & Systems</div>
+                    <ul style={{ margin: 0, paddingLeft: 18, fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                      <li>Module 16: vLLM PagedAttention, continuous batching, streaming SSE</li>
+                      <li>Module 17: MLflow experiment tracking, Feast feature stores, Docker GPU</li>
+                      <li>Module 18: Drift detection (PSI/KS-test), OpenTelemetry tracing, Guardrails</li>
+                    </ul>
+                  </div>
+                </div>
+              )}
+
+              {activeResourceTab === 'reading' && (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 14 }}>
+                  <div style={{ background: 'rgba(255,255,255,0.02)', padding: 12, borderRadius: 6, border: '1px solid var(--border)' }}>
+                    <div style={{ fontWeight: 700, color: '#fff', fontSize: 13 }}>📖 Foundational Textbooks</div>
+                    <ul style={{ margin: '8px 0 0', paddingLeft: 18, fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                      <li><strong>Mathematics for Machine Learning</strong> (Deisenroth, Faisal, Ong - 2020)</li>
+                      <li><strong>Pattern Recognition & Machine Learning</strong> (Christopher Bishop - 2006)</li>
+                      <li><strong>Deep Learning</strong> (Goodfellow, Bengio, Courville - 2016)</li>
+                      <li><strong>Designing Machine Learning Systems</strong> (Chip Huyen - 2022)</li>
+                    </ul>
+                  </div>
+                  <div style={{ background: 'rgba(255,255,255,0.02)', padding: 12, borderRadius: 6, border: '1px solid var(--border)' }}>
+                    <div style={{ fontWeight: 700, color: '#fff', fontSize: 13 }}>📑 Seminal Research Papers</div>
+                    <ul style={{ margin: '8px 0 0', paddingLeft: 18, fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                      <li><strong>Attention Is All You Need</strong> (Vaswani et al., 2017)</li>
+                      <li><strong>Deep Residual Learning for Image Recognition</strong> (He et al., 2015)</li>
+                      <li><strong>LoRA: Low-Rank Adaptation of Large Language Models</strong> (Hu et al., 2021)</li>
+                      <li><strong>Efficient Memory Management for LLM Serving with PagedAttention</strong> (Kwon et al., 2023)</li>
+                      <li><strong>ReAct: Synergizing Reasoning and Acting in Language Models</strong> (Yao et al., 2022)</li>
+                    </ul>
+                  </div>
+                </div>
+              )}
+
+              {activeResourceTab === 'repo' && (
+                <div>
+                  <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginBottom: 8 }}>
+                    Recommended directory structure for an enterprise-ready Machine Learning & AI Engineering repository:
+                  </div>
+                  <pre style={{
+                    background: '#090d16',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: 6,
+                    padding: 14,
+                    fontSize: 12,
+                    color: '#00e5ff',
+                    fontFamily: 'var(--font-mono)',
+                    margin: 0,
+                    overflowX: 'auto'
+                  }}>
+{`ml-production-architect/
+├── configs/                  # Hyperparameters & model configs
+│   ├── train_lora.yaml       # QLoRA fine-tuning arguments
+│   └── serve_vllm.yaml       # PagedAttention & batching limits
+├── data/                     # Datasets tracked via DVC
+│   ├── raw.dvc               # Immutable raw data hash pointer
+│   └── processed/            # Parquet feature sets
+├── notebooks/                # Exploratory analysis & prototype math
+│   ├── 01_matrix_calculus.ipynb
+│   └── 02_rag_eval_truLens.ipynb
+├── src/                      # Production modular Python package
+│   ├── __init__.py
+│   ├── data/                 # Feature extraction & validation
+│   ├── models/               # PyTorch architectures & Transformer modules
+│   ├── training/             # Distributed training loops & MLflow logging
+│   └── serving/              # FastAPI async gateway & continuous batching
+├── tests/                    # Automated CI test suites
+│   ├── test_transforms.py
+│   └── test_model_shapes.py
+├── docker/                   # Production containers
+│   ├── Dockerfile.gpu        # NVIDIA CUDA 12.2 runtime
+│   └── docker-compose.yaml   # Gateway + Redis cache + Prometheus
+├── .dvc/                     # Data Version Control configuration
+├── requirements.txt          # Frozen production dependencies
+└── pyproject.toml            # Poetry / uv project metadata`}
+                  </pre>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
 

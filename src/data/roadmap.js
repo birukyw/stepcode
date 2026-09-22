@@ -9,6 +9,7 @@ import { phase7Content } from './lessons/phase7.js';
 import { pythonTrackContent } from './lessons/pythonTrack.js';
 import { systemsTrackContent } from './lessons/systemsTrack.js';
 import { webTrackContent } from './lessons/webTrack.js';
+import { mlTrackContent } from './lessons/mlTrack.js';
 
 const contentMap = {
   ...phase1Content,
@@ -21,6 +22,7 @@ const contentMap = {
   ...pythonTrackContent,
   ...systemsTrackContent,
   ...webTrackContent,
+  ...mlTrackContent,
 };
 
 export function getWeekContent(weekId) {
@@ -236,6 +238,82 @@ export const ROADMAP = {
           lessons: [{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
         { id: 'web-week-12', number: 12, moduleNumber: 12, title: 'Production DevOps, Containerization with Docker & Cloud Launch',
           lessons: [{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
+      ],
+    },
+    {
+      id: 'phase-ml-math', number: 14,
+      title: 'Mathematical Foundations for Machine Learning',
+      subtitle: 'Linear Algebra, Matrix Calculus & Bayesian Statistics',
+      icon: '📐', months: 'Mathematical Foundations', weekRange: 'Modules 1–3', color: '#b388ff',
+      weeks: [
+        { id: 'ml-week-1', number: 1, moduleNumber: 1, title: 'Linear Algebra & Matrix Calculus for Deep Learning',
+          lessons: [{},{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2,3], project: true },
+        { id: 'ml-week-2', number: 2, moduleNumber: 2, title: 'Multivariable Calculus, Gradients & Numerical Optimization',
+          lessons: [{},{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2,3], project: true },
+        { id: 'ml-week-3', number: 3, moduleNumber: 3, title: 'Probability, Information Theory & Bayesian Inference',
+          lessons: [{},{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2,3], project: true },
+      ],
+    },
+    {
+      id: 'phase-ml-classical', number: 15,
+      title: 'Classical Machine Learning & Statistical Learning',
+      subtitle: 'Supervised Models, Ensembles, Unsupervised & Validation Systems',
+      icon: '🌲', months: 'Statistical Learning', weekRange: 'Modules 4–7', color: '#7c4dff',
+      weeks: [
+        { id: 'ml-week-4', number: 4, moduleNumber: 4, title: 'Supervised Learning I: Linear & Logistic Models',
+          lessons: [{},{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
+        { id: 'ml-week-5', number: 5, moduleNumber: 5, title: 'Supervised Learning II: Trees, Ensembles & Boosting',
+          lessons: [{},{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
+        { id: 'ml-week-6', number: 6, moduleNumber: 6, title: 'Unsupervised Learning & Dimensionality Reduction',
+          lessons: [{},{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
+        { id: 'ml-week-7', number: 7, moduleNumber: 7, title: 'ML Systems: Feature Engineering & Model Validation',
+          lessons: [{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
+      ],
+    },
+    {
+      id: 'phase-ml-deeplearning', number: 16,
+      title: 'Deep Learning Foundations & Architectures',
+      subtitle: 'Neural Networks, Backpropagation, CNNs & Sequence Modeling',
+      icon: '🧠', months: 'Deep Learning', weekRange: 'Modules 8–11', color: '#e040fb',
+      weeks: [
+        { id: 'ml-week-8', number: 8, moduleNumber: 8, title: 'Neural Network Architecture & Backpropagation',
+          lessons: [{},{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
+        { id: 'ml-week-9', number: 9, moduleNumber: 9, title: 'Deep Learning Optimization & Training Dynamics',
+          lessons: [{},{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
+        { id: 'ml-week-10', number: 10, moduleNumber: 10, title: 'Computer Vision & Convolutional Architectures',
+          lessons: [{},{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
+        { id: 'ml-week-11', number: 11, moduleNumber: 11, title: 'Sequence Modeling: RNNs to Self-Attention',
+          lessons: [{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
+      ],
+    },
+    {
+      id: 'phase-ml-genai', number: 17,
+      title: 'Modern Generative AI, Transformers, and LLMs',
+      subtitle: 'Transformers, Pre-training, LoRA/QLoRA, RAG & Autonomous Agents',
+      icon: '✨', months: 'Generative AI & LLMs', weekRange: 'Modules 12–15', color: '#00e5ff',
+      weeks: [
+        { id: 'ml-week-12', number: 12, moduleNumber: 12, title: 'The Transformer Architecture in Depth',
+          lessons: [{},{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
+        { id: 'ml-week-13', number: 13, moduleNumber: 13, title: 'LLM Training, Fine-Tuning & Alignment (LoRA/RLHF)',
+          lessons: [{},{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
+        { id: 'ml-week-14', number: 14, moduleNumber: 14, title: 'Retrieval-Augmented Generation (RAG) Systems',
+          lessons: [{},{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
+        { id: 'ml-week-15', number: 15, moduleNumber: 15, title: 'Autonomous AI Agents & Tool Calling',
+          lessons: [{},{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
+      ],
+    },
+    {
+      id: 'phase-ml-mlops', number: 18,
+      title: 'Production MLOps, Serving & Systems',
+      subtitle: 'vLLM Serving, Pipelines, CI/CD, Observability & Guardrails',
+      icon: '🛡️', months: 'Production MLOps', weekRange: 'Modules 16–18', color: '#ff4081',
+      weeks: [
+        { id: 'ml-week-16', number: 16, moduleNumber: 16, title: 'High-Performance Inference & Serving',
+          lessons: [{},{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
+        { id: 'ml-week-17', number: 17, moduleNumber: 17, title: 'Pipelines, Experimentation & Artifact Tracking',
+          lessons: [{},{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
+        { id: 'ml-week-18', number: 18, moduleNumber: 18, title: 'Production Monitoring, Security & Governance',
+          lessons: [{},{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
       ],
     },
   ],
