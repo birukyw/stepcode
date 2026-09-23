@@ -22,6 +22,9 @@ export default function MobileBottomNav() {
   const isPhase = location.pathname.startsWith('/phase');
   const isCoding = location.pathname.startsWith('/exercise') || location.pathname.startsWith('/lesson');
 
+  // On coding and lesson pages, the page provides its own dedicated action and navigation bars
+  if (isCoding) return null;
+
   return (
     <nav className="mobile-bottom-nav">
       <Link to="/" className={`mobile-bottom-nav__item ${isHome ? 'active' : ''}`}>
