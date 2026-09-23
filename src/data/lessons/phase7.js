@@ -33,7 +33,7 @@ export const phase7Content = {
   <li><strong>git merge:</strong> Creates a merge commit with two parents, preserving true history but creating tangled branch graphs.</li>
   <li><strong>git rebase:</strong> Replays your branch commits one-by-one on top of the latest target branch, maintaining a clean, perfectly linear project history.</li>
 </ul>
-<div class="callout callout--warn">
+<div class="teacher-callout teacher-callout--trap">
   <strong>Golden Rule of Rebasing:</strong> Never rebase commits that have already been pushed and shared on public/collaborative branches (like <code>main</code>).
 </div>
 `,

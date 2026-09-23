@@ -144,7 +144,7 @@ export const phase6Content = {
         content: `
 <h2>Async/Await & The Fetch API</h2>
 <p><code>async/await</code> provides clean, synchronous-looking syntax on top of native Promises.</p>
-<div class="callout callout--warn">
+<div class="teacher-callout teacher-callout--trap">
   <strong>Crucial Fetch Detail:</strong> <code>fetch()</code> does NOT reject on HTTP 404 or 500 errors! It only rejects on network failures. You must always check <code>if (!response.ok) throw new Error(...)</code>!
 </div>
 `,
