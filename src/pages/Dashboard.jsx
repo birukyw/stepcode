@@ -184,8 +184,8 @@ export default function Dashboard() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <div className="welcome-quickstart-icon">🚀</div>
             <div>
-              <h3 style={{ fontSize: 15, color: '#fff', margin: '0 0 4px', fontFamily: 'var(--font-pixel)' }}>
-                New Quest Initiated!
+              <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 4px', fontFamily: 'var(--font-heading)' }}>
+                New Journey Initiated!
               </h3>
               <p style={{ margin: 0, fontSize: 13, color: 'var(--text-secondary)' }}>
                 Select a career specialization below to view the syllabus and begin your first interactive lesson.

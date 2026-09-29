@@ -491,7 +491,7 @@ export default function TrackPage() {
                   <div key={lvl.id} style={{ padding: '10px 12px', background: 'rgba(255,255,255,0.03)', borderRadius: 6, border: '1px solid var(--border)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
                       <span style={{ fontSize: 12, fontWeight: 700, color: '#fff' }}>{lvl.icon} {lvl.title}</span>
-                      <span style={{ fontSize: 9, color: 'var(--cyan)', fontFamily: 'var(--font-pixel)' }}>{lvl.badge}</span>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--cyan)', fontFamily: 'var(--font-mono)' }}>{lvl.badge}</span>
                     </div>
                     <p style={{ fontSize: 11, color: 'var(--text-dim)', margin: 0 }}>{lvl.subtitle}</p>
                   </div>

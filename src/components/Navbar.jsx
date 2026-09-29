@@ -72,13 +72,13 @@ export default function Navbar() {
         <div className="navbar__stat navbar__stat--user" style={{ marginLeft: 2 }}>
           {currentUser ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span className="navbar__user-name" style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: 'var(--cyan)' }}>
+              <span className="navbar__user-name" style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 600, color: 'var(--cyan)' }}>
                 👾 {currentUser.username}
               </span>
               <button
                 className="btn btn-secondary btn--reset navbar__logout-btn"
                 onClick={logout}
-                style={{ padding: '4px 8px', fontSize: 10 }}
+                style={{ padding: '4px 10px', fontSize: 12 }}
                 title="Sign Out"
               >
                 Logout
@@ -89,12 +89,13 @@ export default function Navbar() {
               className="btn btn-primary navbar__signin-btn"
               onClick={openAuthModal}
               style={{
-                fontFamily: 'var(--font-pixel)',
-                fontSize: 8,
-                padding: '5px 10px',
+                fontFamily: 'var(--font-heading)',
+                fontSize: 12,
+                fontWeight: 700,
+                padding: '6px 14px',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 4,
+                gap: 6,
               }}
             >
               Sign In

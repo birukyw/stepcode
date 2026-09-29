@@ -75,7 +75,7 @@ export default function QuizPage() {
               <img src="/images/pixel_cyber_mascot.jpg" alt="Cyber Mascot" className="quiz-pixel-result__avatar" />
               <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                 <PixelSprite name={correctCount >= quiz.length * 0.7 ? "trophy" : "chip"} size={22} animated />
-                <span style={{ fontFamily: 'var(--font-pixel)', fontSize: 9, color: 'var(--cyan)' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.05em', color: 'var(--cyan)' }}>
                   {correctCount === quiz.length ? 'SECTOR CLEARED' : 'MISSION COMPLETED'}
                 </span>
               </div>
@@ -108,7 +108,7 @@ export default function QuizPage() {
 
       <div className="quiz-container">
         <div className="quiz-header">
-          <GlitchHeader as="div" text={`🧪 Module ${week.moduleNumber || week.number} Quiz`} style={{ fontFamily: 'var(--font-pixel)', fontSize: 14, color: 'var(--white)' }} />
+          <GlitchHeader as="div" text={`🧪 Module ${week.moduleNumber || week.number} Quiz`} style={{ fontFamily: 'var(--font-heading)', fontSize: 20, fontWeight: 800, color: 'var(--text-primary)' }} />
           <div style={{ fontSize: 14, color: 'var(--text-dim)', marginTop: 4 }}>{week.title}</div>
         </div>
 
@@ -141,7 +141,7 @@ export default function QuizPage() {
               }
               return (
                 <div key={i} className={cls} onClick={() => handleSelect(i)}>
-                  <span style={{ fontFamily: 'var(--font-pixel)', fontSize: 10, color: 'var(--text-dim)', minWidth: 24 }}>{letters[i]}</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--text-dim)', minWidth: 24 }}>{letters[i]}</span>
                   <span>{opt}</span>
                 </div>
               );

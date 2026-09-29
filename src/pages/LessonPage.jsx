@@ -164,7 +164,7 @@ export default function LessonPage() {
           )}
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <PixelSprite name={isDone ? 'trophy' : 'sparkle'} size={14} />
-            <span style={{ fontSize: 11, color: isDone ? 'var(--green-bright)' : 'var(--text-dim)', fontFamily: 'var(--font-pixel)' }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: isDone ? 'var(--green-bright)' : 'var(--text-dim)', fontFamily: 'var(--font-mono)' }}>
               {isDone ? '+15 XP' : '15 XP'}
             </span>
           </div>
@@ -175,10 +175,12 @@ export default function LessonPage() {
           as="h1"
           text={`${String(idx + 1).padStart(2, '0')}. ${lesson.title}`}
           style={{
-            fontFamily: 'var(--font-pixel)',
-            fontSize: 14,
-            color: 'var(--white)',
-            marginBottom: 10,
+            fontFamily: 'var(--font-heading)',
+            fontSize: 22,
+            fontWeight: 800,
+            letterSpacing: '-0.02em',
+            color: 'var(--text-primary)',
+            marginBottom: 14,
           }}
         />
         <div className="lesson-content" dangerouslySetInnerHTML={{ __html: lesson.content }} />
@@ -197,7 +199,7 @@ export default function LessonPage() {
         {/* LeetCode Multi-Language Switcher (Only for DSA & LeetCode Career) */}
         {isLeetCode && (
           <div className="editor-lang-picker" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 10, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: 0.5, fontFamily: 'var(--font-pixel)' }}>
+            <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: 0.5, fontFamily: 'var(--font-mono)' }}>
               Lang:
             </span>
             <select

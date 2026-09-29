@@ -179,15 +179,16 @@ export default function AuthModal({ onClose, onSuccess }) {
                   type="button"
                   onClick={handleDirectOverride}
                   style={{
-                    background: 'rgba(0, 229, 255, 0.15)',
+                    background: 'rgba(56, 189, 248, 0.12)',
                     border: '1px solid var(--cyan)',
                     color: 'var(--cyan)',
-                    fontFamily: 'var(--font-pixel)',
-                    fontSize: 8,
-                    padding: '6px 10px',
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    padding: '8px 12px',
                     cursor: 'pointer',
-                    marginTop: 4,
-                    borderRadius: 3,
+                    marginTop: 6,
+                    borderRadius: 'var(--radius-sm)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',

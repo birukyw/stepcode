@@ -183,7 +183,7 @@ export default function ExercisePage() {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           <PixelSprite name={isDone ? 'trophy' : 'sword'} size={14} />
-          <span style={{ fontSize: 11, color: isDone ? 'var(--green-bright)' : 'var(--yellow)', fontFamily: 'var(--font-pixel)' }}>
+          <span style={{ fontSize: 12, fontWeight: 700, color: isDone ? 'var(--green-bright)' : 'var(--yellow)', fontFamily: 'var(--font-mono)' }}>
             {isDone ? '+20 XP' : '20 XP'}
           </span>
         </div>
@@ -193,8 +193,8 @@ export default function ExercisePage() {
           as="h1"
           text={`⚔️ Exercise ${idx + 1}`}
           style={{
-            fontFamily: 'var(--font-pixel)', fontSize: 14,
-            color: 'var(--white)', marginBottom: 4,
+            fontFamily: 'var(--font-heading)', fontSize: 20, fontWeight: 800,
+            color: 'var(--text-primary)', marginBottom: 4, letterSpacing: '-0.02em',
           }}
         />
         <GlitchHeader
@@ -202,7 +202,7 @@ export default function ExercisePage() {
           text={exercise.title}
           scramble={false}
           style={{
-            fontFamily: 'var(--font-pixel)', fontSize: 10,
+            fontFamily: 'var(--font-heading)', fontSize: 14, fontWeight: 600,
             color: 'var(--cyan)', marginBottom: 16,
           }}
         />
@@ -211,7 +211,7 @@ export default function ExercisePage() {
 
         {exercise.expectedOutput && (
           <div style={{ marginTop: 16 }}>
-            <h3 style={{ fontFamily: 'var(--font-pixel)', fontSize: 9, color: 'var(--green-bright)', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 13, fontWeight: 700, color: 'var(--green-bright)', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
               <PixelSprite name="chip" size={12} /> Expected Output:
             </h3>
             <pre style={{
@@ -227,7 +227,7 @@ export default function ExercisePage() {
             border: `1px solid ${result === 'pass' ? 'var(--green-bright)' : 'var(--red)'}`,
             background: result === 'pass' ? 'rgba(76,175,80,0.1)' : 'rgba(239,83,80,0.1)',
             color: result === 'pass' ? 'var(--green-bright)' : 'var(--red)',
-            fontFamily: 'var(--font-pixel)', fontSize: 9,
+            fontFamily: 'var(--font-heading)', fontSize: 13, fontWeight: 600,
             display: 'flex', alignItems: 'center', gap: 8,
           }}>
             <PixelSprite name={result === 'pass' ? 'trophy' : 'bug'} size={16} />
@@ -265,7 +265,7 @@ export default function ExercisePage() {
         {/* LeetCode Multi-Language Switcher (Only for DSA and Leetcode Mastery Career) */}
         {isLeetCode && (
           <div className="editor-lang-picker" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 10, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: 0.5, fontFamily: 'var(--font-pixel)' }}>
+            <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: 0.5, fontFamily: 'var(--font-mono)' }}>
               Lang:
             </span>
             <select
