@@ -38,7 +38,7 @@ export const phase5Content = {
       {
         "title": "Constructor Injection Pattern",
         "language": "java",
-        "starterCode": "public class DIExercise {\n    static class SpellService {\n        public String cast() { return \"Fireball!\"; }\n    }\n\n    static class Mage {\n        private final SpellService spells;\n        // Constructor Injection\n        public Mage(SpellService spells) {\n            this.spells = spells;\n        }\n        public String attack() {\n            return spells.cast();\n        }\n    }\n\n    public static void main(String[] args) {\n        Mage mage = new Mage(new SpellService());\n        System.out.println(mage.attack());\n    }\n}",
+        "starterCode": "public class DIExercise {\n    static class NotificationService {\n        public String notify() { return \"Fireball!\"; }\n    }\n\n    static class Mage {\n        private final NotificationService notifications;\n        // Constructor Injection\n        public Mage(NotificationService notifications) {\n            this.notifications = notifications;\n        }\n        public String attack() {\n            return notifications.notify();\n        }\n    }\n\n    public static void main(String[] args) {\n        Mage mage = new Mage(new NotificationService());\n        System.out.println(mage.attack());\n    }\n}",
         "expectedOutput": "Fireball!",
         "description": "\n<h2>Exercise: Constructor Dependency Injection</h2>\n<p>Verify constructor dependency injection by instantiating a service and passing it into a consumer class.</p>\n",
         "hints": [

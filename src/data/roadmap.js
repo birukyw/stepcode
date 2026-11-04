@@ -30,28 +30,28 @@ export function getWeekContent(weekId) {
 }
 
 export const ROADMAP = {
-  title: "The Legend of Java: Quest for the Software Engineering Internship",
+  title: "StepCode: Computer Science & Software Engineering Curriculum",
   phases: [
     {
       id: 'phase-1', number: 1,
-      title: 'The Awakening: Java Foundations',
-      subtitle: 'JVM Realms & Object Sorcery',
+      title: 'Java Language Foundations',
+      subtitle: 'JVM Architecture, Memory & Object-Oriented Principles',
       icon: '🧙‍♂️', months: 'Java Foundations', weekRange: 'Modules 1–4', color: '#00e5ff',
       weeks: [
-        { id: 'week-1', number: 1, moduleNumber: 1, title: 'The First Spell: JVM Architecture & Primitive Types',
+        { id: 'week-1', number: 1, moduleNumber: 1, title: 'JVM Architecture, Bytecode & Primitive Types',
           lessons: [{},{},{},{},{}], exercises: [{},{}], quiz: [1], project: true },
-        { id: 'week-2', number: 2, moduleNumber: 2, title: 'Forging Objects: Classes, Encapsulation & Memory',
+        { id: 'week-2', number: 2, moduleNumber: 2, title: 'Classes, Encapsulation & Object Memory Model',
           lessons: [{},{},{},{},{}], exercises: [{},{}], quiz: [1], project: true },
-        { id: 'week-3', number: 3, moduleNumber: 3, title: 'Bloodlines: Inheritance & Polymorphic Dispatch',
+        { id: 'week-3', number: 3, moduleNumber: 3, title: 'Inheritance, Interfaces & Dynamic Dispatch',
           lessons: [{},{},{},{},{}], exercises: [{},{}], quiz: [1], project: true },
-        { id: 'week-4', number: 4, moduleNumber: 4, title: 'The Backpack: Collections Framework & Exceptions',
+        { id: 'week-4', number: 4, moduleNumber: 4, title: 'Collections Framework, Generics & Exception Handling',
           lessons: [{},{},{},{},{}], exercises: [{},{}], quiz: [1], project: true },
       ],
     },
     {
       id: 'phase-2', number: 2,
-      title: 'The Trials of Algor I: LeetCode Core',
-      subtitle: 'Two Pointers, Sliding Window & Stacks',
+      title: 'Data Structures & Algorithms I: Core Problem Solving',
+      subtitle: 'Two Pointers, Sliding Window & Linear Structures',
       icon: '⚔️', months: 'DSA Core', weekRange: 'Modules 1–4', color: '#00e676',
       weeks: [
         { id: 'week-5', number: 5, moduleNumber: 1, title: 'Complexity Analysis, Two Pointers & Sliding Window',
@@ -66,8 +66,8 @@ export const ROADMAP = {
     },
     {
       id: 'phase-3', number: 3,
-      title: 'The Trials of Algor II: LeetCode Advanced',
-      subtitle: 'Trees, Heaps, Graphs & DP',
+      title: 'Data Structures & Algorithms II: Advanced Patterns',
+      subtitle: 'Trees, Heaps, Graphs & Dynamic Programming',
       icon: '🧠', months: 'DSA Advanced', weekRange: 'Modules 5–8', color: '#ffea00',
       weeks: [
         { id: 'week-9', number: 9, moduleNumber: 5, title: 'Binary Trees & BST Traversals',
@@ -82,8 +82,8 @@ export const ROADMAP = {
     },
     {
       id: 'phase-4', number: 4,
-      title: 'The Vault of Data: SQL & PostgreSQL',
-      subtitle: 'Relational DBs, ACID & JDBC',
+      title: 'Relational Databases & SQL',
+      subtitle: 'Schema Design, Normalization, ACID & JDBC',
       icon: '🗄️', months: 'Month 4', weekRange: 'Modules 5–8', color: '#00e5ff',
       weeks: [
         { id: 'week-13', number: 13, moduleNumber: 5, title: 'Relational Databases & Schema Design',
@@ -98,8 +98,8 @@ export const ROADMAP = {
     },
     {
       id: 'phase-5', number: 5,
-      title: 'The Engine of Creation: Spring Boot 3',
-      subtitle: 'Enterprise Backend & REST APIs',
+      title: 'Backend Engineering with Spring Boot 3',
+      subtitle: 'Dependency Injection, REST APIs, JPA & Security',
       icon: '⚙️', months: 'Month 5', weekRange: 'Modules 9–12', color: '#00e676',
       weeks: [
         { id: 'week-17', number: 17, moduleNumber: 9, title: 'Spring Framework Core & IoC',
@@ -114,7 +114,7 @@ export const ROADMAP = {
     },
     {
       id: 'phase-6', number: 6,
-      title: 'The Realm of Users: Modern Frontend',
+      title: 'Frontend Engineering: Web Standards & React',
       subtitle: 'HTML5, CSS3, ES6+ JS & React',
       icon: '🎨', months: 'Month 6', weekRange: 'Modules 21–24', color: '#ffea00',
       weeks: [
@@ -130,17 +130,17 @@ export const ROADMAP = {
     },
     {
       id: 'phase-7', number: 7,
-      title: 'The Final Boss: DevOps & Capstone Launch',
+      title: 'DevOps, Cloud Deployment & Capstone Architecture',
       subtitle: 'Docker, CI/CD, Cloud & Interviews',
       icon: '🐉', months: 'Month 7', weekRange: 'Modules 25–28', color: '#ff007f',
       weeks: [
-        { id: 'week-25', number: 25, title: 'The Git Forge: Branching & Rebasing',
+        { id: 'week-25', number: 25, title: 'Distributed Version Control: Git Branching & Rebasing',
           lessons: [{},{}], exercises: [{}], quiz: [1], project: false },
         { id: 'week-26', number: 26, title: 'Containerization: Docker & Compose',
           lessons: [{},{}], exercises: [{}], quiz: [1], project: false },
-        { id: 'week-27', number: 27, title: 'Ascending to Cloud: GitHub Actions CI/CD',
+        { id: 'week-27', number: 27, title: 'Continuous Integration & Deployment with GitHub Actions',
           lessons: [{},{}], exercises: [{}], quiz: [1], project: false },
-        { id: 'week-28', number: 28, title: 'The Capstone Trial & Interview Defense',
+        { id: 'week-28', number: 28, title: 'Full-Stack Capstone Architecture & Code Review',
           lessons: [{},{}], exercises: [{}], quiz: [1], project: true },
       ],
     },
@@ -202,7 +202,7 @@ export const ROADMAP = {
           lessons: [{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
         { id: 'web-week-2', number: 2, moduleNumber: 2, title: 'Modern CSS3, Flexbox & CSS Grid Mastery',
           lessons: [{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
-        { id: 'web-week-3', number: 3, moduleNumber: 3, title: 'JavaScript Engine, Scopes, Closures & DOM Sorcery',
+        { id: 'web-week-3', number: 3, moduleNumber: 3, title: 'JavaScript Engine, Scopes, Closures & DOM Manipulation',
           lessons: [{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
         { id: 'web-week-4', number: 4, moduleNumber: 4, title: 'Asynchronous JavaScript, Promises & Network Protocols',
           lessons: [{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
@@ -211,14 +211,14 @@ export const ROADMAP = {
     {
       id: 'phase-web-react-ts', number: 12,
       title: 'Frontend Engineering with React & TypeScript',
-      subtitle: 'Virtual DOM, State Alchemy, TypeScript & SPA Routing',
+      subtitle: 'Virtual DOM, State Management, TypeScript & SPA Routing',
       icon: '⚛️', months: 'Frontend Systems', weekRange: 'Modules 5–8', color: '#00e5ff',
       weeks: [
         { id: 'web-week-5', number: 5, moduleNumber: 5, title: 'React Architecture, JSX & Pure Component Trees',
           lessons: [{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
-        { id: 'web-week-6', number: 6, moduleNumber: 6, title: 'State Alchemy, Hooks & Side Effect Lifecycle',
+        { id: 'web-week-6', number: 6, moduleNumber: 6, title: 'State Management, Hooks & Side Effect Lifecycle',
           lessons: [{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
-        { id: 'web-week-7', number: 7, moduleNumber: 7, title: 'TypeScript for Frontend Wizards',
+        { id: 'web-week-7', number: 7, moduleNumber: 7, title: 'TypeScript for Modern Frontend Architecture',
           lessons: [{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
         { id: 'web-week-8', number: 8, moduleNumber: 8, title: 'Single-Page Application (SPA) Routing & Global State',
           lessons: [{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
@@ -227,7 +227,7 @@ export const ROADMAP = {
     {
       id: 'phase-web-backend-cloud', number: 13,
       title: 'Backend Engines, Relational Data & Cloud Deployment',
-      subtitle: 'PostgreSQL Relational Vaults, Node APIs, Auth & Docker',
+      subtitle: 'PostgreSQL Relational Databases, Node APIs, Auth & Docker',
       icon: '🚀', months: 'Backend & Cloud', weekRange: 'Modules 9–12', color: '#00e676',
       weeks: [
         { id: 'web-week-9', number: 9, moduleNumber: 9, title: 'Relational Databases & PostgreSQL Mastery',

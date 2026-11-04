@@ -98,7 +98,7 @@ export default function PhasePage() {
           <div className="sidebar-card">
             <div className="sidebar-card__title">
               Phase Progress
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: 'var(--text-dim)' }}>
+              <span style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: 'var(--text-dim)' }}>
                 {pct}%
               </span>
             </div>
@@ -147,7 +147,7 @@ function WeekChapter({ week, phase, progress }) {
       <div className="chapter-header" onClick={() => setIsOpen(!isOpen)}>
         <div className={numberClass}>{week.moduleNumber || week.number}</div>
         <div className="chapter-title">{week.title}</div>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: 'var(--text-dim)' }}>
+        <span style={{ fontFamily: 'var(--font-pixel)', fontSize: 8, color: 'var(--text-dim)' }}>
           {doneCount}/{totalCount}
         </span>
         {pct === 100 && <span style={{ color: 'var(--green-bright)', fontSize: 14 }}>✅</span>}

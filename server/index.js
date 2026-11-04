@@ -485,6 +485,26 @@ app.post('/api/run', async (req, res) => {
       }
     }
 
+    // For Python — execute directly via local Python if available, zero latency & free!
+    if (language === 'python' || language === 'python3') {
+      try {
+        const { execFile } = await import('child_process');
+        const { promisify } = await import('util');
+        const execFileAsync = promisify(execFile);
+        
+        const { stdout, stderr } = await execFileAsync('python', ['-c', code], {
+          timeout: 5000,
+          maxBuffer: 1024 * 1024
+        });
+        return res.json({ output: stdout || stderr || '(no output)' });
+      } catch (execErr) {
+        if (execErr.stdout || execErr.stderr) {
+          return res.json({ output: (execErr.stdout || '') + (execErr.stderr || '') });
+        }
+        console.log('[run] Local python failed or not found, attempting JDoodle fallback:', execErr.message);
+      }
+    }
+
     // For Java/other languages — use JDoodle API
     const JDOODLE_CLIENT_ID = process.env.JDOODLE_CLIENT_ID;
     const JDOODLE_CLIENT_SECRET = process.env.JDOODLE_CLIENT_SECRET;
@@ -553,6 +573,6 @@ app.use((err, req, res, next) => {
 
 // ─── Start ───────────────────────────────────────────────────────
 const LISTEN_PORT = process.env.PORT || PORT;
-app.listen(LISTEN_PORT, () => {
-  console.log(`⚔️  CodeQuest running on http://localhost:${LISTEN_PORT}`);
+app.listen(LISTEN_PORT, '127.0.0.1', () => {
+  console.log(`⚔️  CodeQuest running on http://127.0.0.1:${LISTEN_PORT} and http://localhost:${LISTEN_PORT}`);
 });

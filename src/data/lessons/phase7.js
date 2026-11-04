@@ -19,7 +19,7 @@ export const phase7Content = {
   <li>Never commit directly to <code>main</code> or <code>master</code>.</li>
   <li>Cut a descriptive branch (e.g., <code>feature/user-auth</code> or <code>fix/cart-null-pointer</code>).</li>
   <li>Write atomic commits with <strong>Conventional Commits</strong> formatting (<code>feat:</code>, <code>fix:</code>, <code>test:</code>, <code>refactor:</code>).</li>
-  <li>Open a <strong>Pull Request (PR)</strong> for peer code review before merging.</li>
+  <li>Open a <strong>Pull Reservice (PR)</strong> for peer code review before merging.</li>
 </ol>
 `,
       },
@@ -54,7 +54,7 @@ export const phase7Content = {
     ],
     quiz: [
       {
-        question: 'What is the Golden Rule of Git Rebasing?',
+        serviceion: 'What is the Golden Rule of Git Rebasing?',
         options: ['Never rebase on a Monday', 'Never rebase public, shared commits on shared branches like main', 'Always rebase before git init', 'Rebase only works with GitHub Enterprise'],
         correctIndex: 1,
         explanation: 'Rebasing rewrites commit SHA hashes. Rebasing shared branches causes history divergence for all collaborators.'
@@ -85,7 +85,7 @@ export const phase7Content = {
       {
         title: 'Multi-Container Orchestration with Docker Compose',
         language: 'html',
-        starterCode: `<!-- docker-compose.yml -->\n<!--\nversion: '3.8'\nservices:\n  postgres-db:\n    image: postgres:15-alpine\n    environment:\n      POSTGRES_DB: questdb\n      POSTGRES_USER: quest\n      POSTGRES_PASSWORD: secret\n    ports:\n      - "5432:5432"\n    volumes:\n      - pgdata:/var/lib/postgresql/data\n\n  backend-api:\n    build: ./backend\n    ports:\n      - "8080:8080"\n    environment:\n      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/questdb\n    depends_on:\n      - postgres-db\n\nvolumes:\n  pgdata:\n-->`,
+        starterCode: `<!-- docker-compose.yml -->\n<!--\nversion: '3.8'\nservices:\n  postgres-db:\n    image: postgres:15-alpine\n    environment:\n      POSTGRES_DB: servicedb\n      POSTGRES_USER: service\n      POSTGRES_PASSWORD: secret\n    ports:\n      - "5432:5432"\n    volumes:\n      - pgdata:/var/lib/postgresql/data\n\n  backend-api:\n    build: ./backend\n    ports:\n      - "8080:8080"\n    environment:\n      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/servicedb\n    depends_on:\n      - postgres-db\n\nvolumes:\n  pgdata:\n-->`,
         content: `
 <h2>Docker Compose: Micro-Environments</h2>
 <p>Docker Compose allows you to spin up your complete multi-tier application (PostgreSQL + Spring Boot API + React frontend) with a single command:</p>
@@ -109,7 +109,7 @@ export const phase7Content = {
     ],
     quiz: [
       {
-        question: 'What is the primary benefit of a Multi-Stage Dockerfile?',
+        serviceion: 'What is the primary benefit of a Multi-Stage Dockerfile?',
         options: ['It builds Docker containers in parallel threads', 'It produces significantly smaller, secure production images containing only the runtime artifacts without build tool bloat', 'It allows containers to run without Docker installed', 'It eliminates the need for Docker Compose'],
         correctIndex: 1,
         explanation: 'Multi-stage builds leave behind compilers, caches, and SDKs, yielding lightweight, secure production images.'
@@ -126,7 +126,7 @@ export const phase7Content = {
       {
         title: 'Automated Testing & GitHub Actions Pipelines',
         language: 'html',
-        starterCode: `<!-- .github/workflows/ci.yml -->\n<!--\nname: Java & React CI Pipeline\n\non:\n  push:\n    branches: [ main ]\n  pull_request:\n    branches: [ main ]\n\njobs:\n  backend-test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v3\n      - name: Set up JDK 17\n        uses: actions/setup-java@v3\n        with:\n          java-version: '17'\n          distribution: 'temurin'\n      - name: Run Maven Tests\n        run: mvn test\n-->`,
+        starterCode: `<!-- .github/workflows/ci.yml -->\n<!--\nname: Java & React CI Pipeline\n\non:\n  push:\n    branches: [ main ]\n  pull_reservice:\n    branches: [ main ]\n\njobs:\n  backend-test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v3\n      - name: Set up JDK 17\n        uses: actions/setup-java@v3\n        with:\n          java-version: '17'\n          distribution: 'temurin'\n      - name: Run Maven Tests\n        run: mvn test\n-->`,
         content: `
 <h2>Continuous Integration (CI) Philosophy</h2>
 <p>Every commit pushed to GitHub triggers automated pipelines executing in ephemeral cloud VMs:</p>
@@ -168,7 +168,7 @@ export const phase7Content = {
     ],
     quiz: [
       {
-        question: 'Why do CI/CD systems rely on standard Unix process exit codes (0 vs non-zero)?',
+        serviceion: 'Why do CI/CD systems rely on standard Unix process exit codes (0 vs non-zero)?',
         options: ['Because non-zero exit codes signal to the CI runner that a step failed, immediately halting the pipeline', 'Because exit code 0 consumes less memory', 'Process exit codes are only used on Windows', 'Exit codes dictate the port number of the web server'],
         correctIndex: 0,
         explanation: 'In Unix shells and CI systems, exit code 0 indicates success, while any non-zero value signals an error, stopping subsequent build stages.'
@@ -230,7 +230,7 @@ export const phase7Content = {
     ],
     quiz: [
       {
-        question: 'When answering behavioral interview questions, which part of the STAR method should receive the most focus and technical detail?',
+        serviceion: 'When answering behavioral interview serviceions, which part of the STAR method should receive the most focus and technical detail?',
         options: ['Situation', 'Task', 'Action (the specific engineering decisions, implementations, and tradeoffs YOU made)', 'Result'],
         correctIndex: 2,
         explanation: 'Interviewers evaluate your technical depth and problem-solving through the Actions you took to overcome hurdles.'
