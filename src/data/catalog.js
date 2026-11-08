@@ -1,49 +1,38 @@
 // ─── StepCode Career Tracks & Course Catalog (Brilliant.org Educational Model) ───
 import { ROADMAP } from './roadmap.js';
+import { PYTHON_PHASES, PYTHON_SYLLABUS_STATS } from '../content/python/index.js';
 
 export const TRACKS = [
   {
-    id: 'python-intro',
-    alias: 'python-backend',
-    title: 'Introduction to Python',
-    shortTitle: 'Python',
+    id: 'python-4',
+    alias: 'python-intro',
+    aliases: ['python-intro', 'python-backend'],
+    title: 'Python 4: SWE Curriculum',
+    shortTitle: 'Python 4',
     heroImage: null,
     heroBadge: 'BEGINNER · COURSE',
-    heroDescription: "Learn programming fundamentals such as variables, control flow, functions, and data structures with the world's most versatile language — Python.",
-    timeToComplete: '22h',
-    tagline: 'Master Python 3 fundamentals, object-oriented design, data processing, and FastAPI backends',
+    heroDescription: "Learn programming fundamentals, data structures, production engineering, and machine learning with the world's most versatile language — Python.",
+    timeToComplete: '60h',
+    tagline: 'Four sequential tracks: Foundations, DSA, Applied SWE, and AI & ML',
     icon: '🐍',
     badge: 'FOUNDATIONS',
     color: '#2563eb',
-    difficulty: 'Beginner to Intermediate',
-    duration: '11 Modules',
-    modulesCount: 11,
-    tags: ['Python 3', 'Syntax', 'Functions', 'OOP', 'File I/O', 'REST APIs', 'Data Science', 'FastAPI'],
-    description: 'A comprehensive, intuition-first Python curriculum. Build strong foundational problem-solving skills from variables, loops, and functions, to object-oriented architecture, file handling, and modern FastAPI web services.',
-    levels: [
-      {
-        id: 'beginner',
-        title: 'Beginner Foundations',
-        subtitle: 'From Hello World to Loops, Functions, Collections & Classes',
-        badge: 'FOUNDATIONS',
-        icon: '🌱',
-        modulesCount: 6,
-        phases: [ROADMAP.phases.find(p => p.id === 'phase-py-beginner')]
-      },
-      {
-        id: 'intermediate',
-        title: 'Applied Python Ecosystem',
-        subtitle: 'Advanced OOP, File I/O, REST APIs, Data Science & FastAPI',
-        badge: 'APPLIED',
-        icon: '⚡',
-        modulesCount: 5,
-        phases: [ROADMAP.phases.find(p => p.id === 'phase-py-intermediate')]
-      }
-    ],
-    phases: [
-      ROADMAP.phases.find(p => p.id === 'phase-py-beginner'),
-      ROADMAP.phases.find(p => p.id === 'phase-py-intermediate'),
-    ]
+    difficulty: 'Beginner to Advanced',
+    duration: `${PYTHON_SYLLABUS_STATS.modules} Modules`,
+    modulesCount: PYTHON_SYLLABUS_STATS.modules,
+    lessonsCount: PYTHON_SYLLABUS_STATS.lessons,
+    tags: ['Python 3', 'Memory Model', 'DSA', 'Big-O', 'Concurrency', 'SQLite', 'pytest', 'NumPy', 'Autograd', 'Transformers'],
+    description: 'A four-track, intuition-first Python curriculum built for real software engineering. Start from variables and the memory model, climb through data structures and algorithmic complexity, move into production system design with generators, concurrency and testing, then finish with classical ML and deep learning from scratch.',
+    levels: PYTHON_PHASES.map((phase) => ({
+      id: phase.id,
+      title: phase.title,
+      subtitle: phase.subtitle,
+      badge: phase.badge,
+      icon: phase.icon,
+      modulesCount: phase.modulesCount,
+      phases: [phase],
+    })),
+    phases: PYTHON_PHASES,
   },
   {
     id: 'web-fullstack',

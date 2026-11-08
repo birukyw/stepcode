@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import ArrayPointerWidget from './widgets/ArrayPointerWidget';
 import PredictionCardWidget from './widgets/PredictionCardWidget';
 import CodeFillWidget from './widgets/CodeFillWidget';
@@ -17,6 +17,14 @@ import TruthinessScaleWidget from './widgets/TruthinessScaleWidget';
 import IteratorProtocolWidget from './widgets/IteratorProtocolWidget';
 import LoopControlJumperWidget from './widgets/LoopControlJumperWidget';
 import { STEP_TYPES } from '../types/lesson';
+import {
+  getScreenMeta,
+  isExploreRole,
+  normalizeHints,
+  hasHints,
+  orderStepsByScreenArc,
+  HINT_TIERS,
+} from '../engine/schema';
 
 function formatText(text) {
   if (!text) return null;
@@ -34,6 +42,113 @@ function formatText(text) {
       </p>
     );
   });
+}
+
+/**
+ * HintDrawer:
+ * Three-tier progressive hint ladder — nudge → blueprint → walkthrough.
+ * Each tier unlocks in order; the learner can stop at any level.
+ */
+function HintDrawer({ hints }) {
+  const [revealed, setRevealed] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const available = hints.filter(Boolean).length;
+  if (available === 0) return null;
+
+  const revealNext = () => {
+    setRevealed((prev) => Math.min(prev + 1, available));
+    setIsOpen(true);
+  };
+
+  return (
+    <div style={{ marginTop: 20, width: '100%' }}>
+      {!isOpen ? (
+        <button
+          type="button"
+          className="btn btn-secondary btn-sm"
+          onClick={() => setIsOpen(true)}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, padding: '6px 12px' }}
+        >
+          <span>💡</span>
+          <span>Need a hint? ({available} tier{available === 1 ? '' : 's'})</span>
+        </button>
+      ) : (
+        <div
+          style={{
+            border: '1px solid var(--border)',
+            borderRadius: 'var(--radius-lg)',
+            background: 'var(--bg-subtle)',
+            padding: '16px 18px',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+            <span style={{ fontSize: 12, fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--text-dim)' }}>
+              Progressive hints
+            </span>
+            <button
+              type="button"
+              onClick={() => setIsOpen(false)}
+              style={{ background: 'transparent', border: 'none', color: 'var(--text-dim)', fontSize: 12, cursor: 'pointer', padding: 0 }}
+            >
+              Hide
+            </button>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {HINT_TIERS.map((tier) => {
+              const text = hints[tier.level];
+              if (!text) return null;
+              const isUnlocked = revealed > tier.level;
+              const isNext = revealed === tier.level;
+
+              return (
+                <div
+                  key={tier.key}
+                  style={{
+                    border: `1px solid ${isUnlocked ? 'var(--border)' : 'var(--border-subtle, var(--border))'}`,
+                    borderRadius: 'var(--radius-sm)',
+                    background: isUnlocked ? 'var(--bg-surface)' : 'transparent',
+                    padding: '12px 14px',
+                    opacity: isUnlocked ? 1 : 0.55,
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: isUnlocked ? 6 : 0 }}>
+                    <span style={{ fontSize: 14 }}>{isUnlocked ? tier.icon : '🔒'}</span>
+                    <span style={{ fontSize: 12, fontWeight: 800, color: isUnlocked ? 'var(--text-primary)' : 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                      Tier {tier.level + 1} · {tier.label}
+                    </span>
+                    {isUnlocked && (
+                      <span style={{ fontSize: 11, color: 'var(--text-dim)', fontWeight: 500 }}>{tier.blurb}</span>
+                    )}
+                  </div>
+
+                  {isUnlocked ? (
+                    <div style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                      {formatText(text)}
+                    </div>
+                  ) : isNext ? (
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-sm"
+                      onClick={revealNext}
+                      style={{ marginTop: 6, fontSize: 12, fontWeight: 700, padding: '4px 10px' }}
+                    >
+                      Reveal {tier.label.toLowerCase()} →
+                    </button>
+                  ) : (
+                    <div style={{ fontSize: 12, color: 'var(--text-dim)', marginTop: 4 }}>
+                      Unlocks after tier {tier.level}.
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 /**
@@ -69,8 +184,13 @@ export default function BrilliantLessonRunner({
   const isFinalStep = currentStepIdx === steps.length - 1;
   const progressPercent = steps.length > 0 ? ((currentStepIdx + 1) / steps.length) * 100 : 0;
 
+  const screenMeta = getScreenMeta(step);
+  const stepHints = normalizeHints(step);
+  const showHints = hasHints(step);
+
   // Determine if current step is a teaching/exploration step (no wrong answers, teach first!)
   const isTeaching = Boolean(
+    isExploreRole(step) ||
     step.isTeachingStep ||
     step.type === STEP_TYPES.EXPLORE ||
     step.type === STEP_TYPES.PIPELINE_FLOW ||
@@ -364,6 +484,25 @@ export default function BrilliantLessonRunner({
             {week?.title ? week.title.split(':')[0] : 'Python Intuition'}
           </span>
 
+          {screenMeta && (
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 800,
+                padding: '3px 10px',
+                borderRadius: 'var(--radius-full)',
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                background: 'var(--bg-subtle)',
+                border: '1px solid var(--border)',
+                color: 'var(--text-secondary)'
+              }}
+              title={screenMeta.guidance}
+            >
+              {screenMeta.number}/5 · {screenMeta.badge}
+            </span>
+          )}
+
           <span
             style={{
               fontSize: 11,
@@ -386,6 +525,12 @@ export default function BrilliantLessonRunner({
 
         <h1 className="stepper-step-title">{step.title}</h1>
 
+        {screenMeta?.guidance && (
+          <p style={{ fontSize: 13, color: 'var(--text-dim)', fontWeight: 500, marginTop: -4, marginBottom: 14 }}>
+            {screenMeta.guidance}
+          </p>
+        )}
+
         {/* Concept Briefing Card (Teach First, Test Second) */}
         {step.description && (
           <div className="stepper-briefing">
@@ -404,6 +549,11 @@ export default function BrilliantLessonRunner({
 
         {/* Interactive Micro-Widget */}
         {renderWidget()}
+
+        {/* Three-tier progressive hint ladder (nudge → blueprint → walkthrough) */}
+        {showHints && (
+          <HintDrawer key={`hints-${currentStepIdx}`} hints={stepHints} />
+        )}
 
         {/* Post-submission Pedagogical Explanation (for challenge steps) */}
         {!isTeaching && isSubmitted && (

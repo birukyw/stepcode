@@ -10,6 +10,7 @@ import { pythonTrackContent } from './lessons/pythonTrack.js';
 import { systemsTrackContent } from './lessons/systemsTrack.js';
 import { webTrackContent } from './lessons/webTrack.js';
 import { mlTrackContent } from './lessons/mlTrack.js';
+import { pythonSyllabusContent, PYTHON_PHASES } from '../content/python/index.js';
 
 const contentMap = {
   ...phase1Content,
@@ -23,6 +24,8 @@ const contentMap = {
   ...systemsTrackContent,
   ...webTrackContent,
   ...mlTrackContent,
+  // New Python SWE syllabus takes precedence for its module ids.
+  ...pythonSyllabusContent,
 };
 
 export function getWeekContent(weekId) {
@@ -316,6 +319,8 @@ export const ROADMAP = {
           lessons: [{},{},{},{},{},{},{},{}], exercises: [{},{}], quiz: [1,2], project: true },
       ],
     },
+    // Python SWE syllabus — 4 tracks · 22 modules · 115 lessons
+    ...PYTHON_PHASES,
   ],
 };
 

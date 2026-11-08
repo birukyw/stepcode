@@ -10,10 +10,7 @@ import { useState, useEffect } from 'react';
  * - Truthiness evaluation of empty sequences and None
  */
 export default function TypeCastingWidget({ props = {}, isSubmitted, onValidationChange }) {
-  const [selectedValIdx, setSelectedValIdx] = useState(0);
-  const [targetType, setTargetType] = useState('bool');
-
-  const candidates = [
+  const defaultCandidates = [
     { label: '"42"', raw: '42', isStr: true, val: "42" },
     { label: '"3.14"', raw: '3.14', isStr: true, val: "3.14" },
     { label: '0', raw: 0, isStr: false, val: 0 },
@@ -25,7 +22,34 @@ export default function TypeCastingWidget({ props = {}, isSubmitted, onValidatio
     { label: '"hello"', raw: 'hello', isStr: true, val: "hello" }
   ];
 
-  const current = candidates[selectedValIdx];
+  // Lesson-supplied inputs may be plain labels (strings) or full candidate objects.
+  const rawInputs = Array.isArray(props.inputs) && props.inputs.length > 0 ? props.inputs : null;
+  const candidates = rawInputs
+    ? rawInputs.map((input, idx) =>
+        typeof input === 'string'
+          ? { label: input, raw: input, isStr: true, val: input, id: idx }
+          : { ...input, id: input.id ?? idx }
+      )
+    : defaultCandidates;
+
+  const targetOutput = props.targetOutput !== undefined && props.targetOutput !== null
+    ? String(props.targetOutput)
+    : null;
+  const buggyExpr = props.buggyExpr || null;
+  const showBuggy = Boolean(buggyExpr);
+
+  const [selectedValIdx, setSelectedValIdx] = useState(0);
+  const [targetType, setTargetType] = useState(props.defaultTargetType || 'bool');
+  const [bugFixed, setBugFixed] = useState(false);
+
+  const current = candidates[selectedValIdx] || candidates[0];
+
+  // Reset when the lesson swaps inputs or target.
+  useEffect(() => {
+    setSelectedValIdx(0);
+    setTargetType(props.defaultTargetType || 'bool');
+    setBugFixed(false);
+  }, [props.inputs, props.targetOutput, props.buggyExpr, props.defaultTargetType]);
 
   // Perform safe conversion
   let result = '';
@@ -77,11 +101,20 @@ export default function TypeCastingWidget({ props = {}, isSubmitted, onValidatio
     errorMsg = err.message;
   }
 
+  const matchesTarget = targetOutput !== null && !isError && result === targetOutput;
+
   useEffect(() => {
     if (onValidationChange) {
-      onValidationChange(true, true);
+      // With a bug-hunt expression, the learner must patch before continuing.
+      if (showBuggy) {
+        onValidationChange(bugFixed, true);
+      } else if (targetOutput !== null) {
+        onValidationChange(matchesTarget, true);
+      } else {
+        onValidationChange(true, true);
+      }
     }
-  }, [selectedValIdx, targetType]);
+  }, [selectedValIdx, targetType, matchesTarget, bugFixed, showBuggy, targetOutput]);
 
   return (
     <div
@@ -223,7 +256,67 @@ export default function TypeCastingWidget({ props = {}, isSubmitted, onValidatio
             </div>
           </div>
         )}
+
+        {targetOutput !== null && (
+          <div
+            style={{
+              marginTop: 12,
+              paddingTop: 12,
+              borderTop: '1px solid var(--border)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              fontSize: 13,
+              fontWeight: 700
+            }}
+          >
+            <span style={{ color: 'var(--text-dim)' }}>
+              Target output: <code style={{ color: '#2563eb' }}>{targetOutput}</code>
+            </span>
+            <span style={{ color: matchesTarget ? 'var(--primary)' : 'var(--danger)' }}>
+              {matchesTarget ? '✓ Match' : '✕ Not yet'}
+            </span>
+          </div>
+        )}
       </div>
+
+      {/* Bug-hunt: patch the broken cast expression */}
+      {showBuggy && (
+        <div
+          style={{
+            width: '100%',
+            maxWidth: 620,
+            marginTop: 18,
+            padding: '16px 18px',
+            borderRadius: 'var(--radius)',
+            border: `1px solid ${bugFixed ? 'var(--primary)' : 'rgba(239, 68, 68, 0.35)'}`,
+            background: bugFixed ? 'rgba(27, 156, 90, 0.08)' : 'rgba(239, 68, 68, 0.06)'
+          }}
+        >
+          <div style={{ fontSize: 12, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--text-dim)', marginBottom: 8 }}>
+            🐛 Buggy expression
+          </div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 14, color: isSubmitted ? 'var(--text-secondary)' : 'var(--text-primary)', marginBottom: 12 }}>
+            {buggyExpr}
+          </div>
+
+          {bugFixed ? (
+            <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--primary)' }}>
+              ✓ Patched: the cast now converts through the intermediate type.
+            </div>
+          ) : (
+            <button
+              type="button"
+              className="btn btn-primary btn-sm"
+              onClick={() => setBugFixed(true)}
+              disabled={isSubmitted}
+              style={{ fontSize: 12, fontWeight: 700, padding: '6px 14px' }}
+            >
+              I found the fix — apply the patch
+            </button>
+          )}
+        </div>
+      )}
 
       {/* Pro-Tip Callout */}
       <div

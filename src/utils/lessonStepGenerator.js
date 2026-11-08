@@ -49,7 +49,10 @@ function extractFirstParagraph(html) {
 export function getInteractiveStepsForLesson(lesson, weekContent, weekId, lessonIndex) {
   if (!lesson) return [];
 
-  // 1. Check if the lesson already has explicit handcrafted steps in the lesson object
+  // 1. Check if the lesson already has explicit screens (5-screen arc) or steps
+  if (lesson.screens && Array.isArray(lesson.screens) && lesson.screens.length > 0) {
+    return lesson.screens;
+  }
   if (lesson.steps && Array.isArray(lesson.steps) && lesson.steps.length > 0) {
     return lesson.steps;
   }

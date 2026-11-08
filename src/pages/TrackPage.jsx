@@ -9,7 +9,7 @@ export default function TrackPage() {
   const navigate = useNavigate();
   const { progress } = useContext(AppContext);
 
-  const track = TRACKS.find((t) => t.id === trackId || t.alias === trackId) || TRACKS[0];
+  const track = TRACKS.find((t) => t.id === trackId || t.alias === trackId || t.aliases?.includes(trackId)) || TRACKS[0];
 
   // Resolve phases from ROADMAP
   const phases = (track.phases || []).filter(Boolean);

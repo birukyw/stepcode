@@ -12,27 +12,49 @@ import { useState, useEffect } from 'react';
  * - CPython Small Integer Singleton Caching Slider (-5 to 256)
  */
 export default function PyObjectMemoryWidget({ props = {}, isSubmitted, onValidationChange }) {
-  const [activePreset, setActivePreset] = useState('bind_both'); // 'bind_both' | 'reassign_x' | 'mutate_list'
+  // Custom stack-to-heap steps supplied by a lesson screen. Each entry is a
+  // named checkpoint containing nametags + heap objects (see buildPresetState).
+  const customSteps = Array.isArray(props.steps) && props.steps.length > 0 ? props.steps : null;
+  const customCommands = Array.isArray(props.commands) && props.commands.length > 0 ? props.commands : null;
+
+  const [activePreset, setActivePreset] = useState(customSteps ? 0 : 'bind_both'); // index | 'bind_both' | 'reassign_x' | 'mutate_list'
   const [cacheValue, setCacheValue] = useState(100);
   const [hoveredTag, setHoveredTag] = useState(null);
 
-  const isChallenge = Boolean(props.target);
+  // A custom target selects a required step index or preset key.
+  const isChallenge = Boolean(props.target !== undefined && props.target !== null);
+  const showCacheExplorer = props.showCacheExplorer !== false;
+
+  useEffect(() => {
+    if (customSteps) setActivePreset(0);
+    else if (props.defaultPreset) setActivePreset(props.defaultPreset);
+  }, [customSteps, props.defaultPreset]);
 
   useEffect(() => {
     if (onValidationChange) {
       if (isChallenge) {
-        onValidationChange(activePreset === props.target, true);
+        onValidationChange(String(activePreset) === String(props.target), true);
       } else {
         onValidationChange(true, true);
       }
     }
   }, [activePreset, isChallenge, props.target]);
 
-  // Determine state based on preset
+  // Determine state based on preset or custom step
   let nametags = [];
   let heapObjects = [];
+  let scopeLabel = props.scopeLabel || 'Local Scope';
+  let note = null;
+  let commandList = customCommands;
 
-  if (activePreset === 'bind_both') {
+  if (customSteps) {
+    const step = customSteps[activePreset] || customSteps[0] || {};
+    nametags = step.nametags || [];
+    heapObjects = step.objects || step.heapObjects || [];
+    scopeLabel = step.scope || scopeLabel;
+    note = step.note || null;
+    if (Array.isArray(step.commands)) commandList = step.commands;
+  } else if (activePreset === 'bind_both') {
     // x = 42; y = x
     nametags = [
       { id: 'tag-x', name: 'x', pointsTo: 'obj-42', color: '#3b82f6' },
@@ -127,6 +149,26 @@ export default function PyObjectMemoryWidget({ props = {}, isSubmitted, onValida
 
       {/* Preset Action Buttons */}
       <div style={{ display: 'flex', gap: 8, marginBottom: 28, flexWrap: 'wrap', justifyContent: 'center' }}>
+        {customSteps ? (
+          customSteps.map((step, idx) => (
+            <button
+              key={idx}
+              type="button"
+              className="btn btn-sm"
+              style={{
+                fontSize: 12,
+                padding: '6px 14px',
+                background: activePreset === idx ? 'var(--primary)' : 'var(--bg-subtle)',
+                color: activePreset === idx ? '#fff' : 'var(--text-secondary)',
+                fontWeight: 700
+              }}
+              onClick={() => setActivePreset(idx)}
+            >
+              {idx + 1}. {step.label || step.command || `Step ${idx + 1}`}
+            </button>
+          ))
+        ) : (
+          <>
         <button
           type="button"
           className="btn btn-sm"
@@ -171,7 +213,47 @@ export default function PyObjectMemoryWidget({ props = {}, isSubmitted, onValida
         >
           3. List In-Place Mutation
         </button>
+          </>
+        )}
       </div>
+
+      {/* Command tape for custom steps */}
+      {commandList && commandList.length > 0 && (
+        <div
+          style={{
+            width: '100%',
+            maxWidth: 600,
+            marginBottom: 18,
+            background: 'var(--bg-editor)',
+            border: '1px solid var(--border)',
+            borderRadius: 'var(--radius-sm)',
+            padding: '10px 14px',
+            fontFamily: 'var(--font-mono)',
+            fontSize: 12.5,
+            color: '#94a3b8'
+          }}
+        >
+          {commandList.map((cmd, idx) => (
+            <div
+              key={idx}
+              style={{
+                color: idx === activePreset ? '#e2e8f0' : '#64748b',
+                fontWeight: idx === activePreset ? 700 : 400
+              }}
+            >
+              <span style={{ marginRight: 8, color: idx === activePreset ? 'var(--primary)' : 'transparent' }}>▸</span>
+              {cmd}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Step note for custom steps */}
+      {note && (
+        <div style={{ width: '100%', maxWidth: 600, marginBottom: 16, fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+          {note}
+        </div>
+      )}
 
       {/* Visual Memory Canvas: Namespace on Left, Heap on Right */}
       <div
