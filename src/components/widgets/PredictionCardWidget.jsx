@@ -54,17 +54,34 @@ export default function PredictionCardWidget({ props = {}, isSubmitted, onValida
             onClick={() => handleSelect(option, index)}
             role="button"
             tabIndex={0}
+            style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
           >
-            <span className="quiz-option-label">{option.text || option}</span>
-            <div className="quiz-option-check">
-              {isSelected ? (
-                isSubmitted ? (isCorrect ? '✓' : '✕') : '●'
-              ) : isSubmitted && isCorrect ? (
-                '✓'
-              ) : (
-                ''
-              )}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+              <span className="quiz-option-label">{option.text || option}</span>
+              <div className="quiz-option-check">
+                {isSelected ? (
+                  isSubmitted ? (isCorrect ? '✓' : '✕') : '●'
+                ) : isSubmitted && isCorrect ? (
+                  '✓'
+                ) : (
+                  ''
+                )}
+              </div>
             </div>
+            {isSubmitted && isSelected && (option.feedback || option.explanation) && (
+              <div style={{
+                marginTop: 8,
+                fontSize: 13,
+                lineHeight: 1.5,
+                color: isCorrect ? 'var(--primary)' : 'var(--danger)',
+                fontWeight: 500,
+                borderTop: '1px dashed currentColor',
+                paddingTop: 6,
+                opacity: 0.95
+              }}>
+                {option.feedback || option.explanation}
+              </div>
+            )}
           </div>
         );
       })}

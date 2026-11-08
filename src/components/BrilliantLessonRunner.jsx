@@ -189,17 +189,29 @@ export default function BrilliantLessonRunner({
   const showHints = hasHints(step);
 
   // Determine if current step is a teaching/exploration step (no wrong answers, teach first!)
-  const isTeaching = Boolean(
+  const isChallengeRole = step.role === 'mental_model' || step.role === 'bug_hunt' || step.role === 'boss_synthesis';
+  const hasInteractiveChallengeProps = Boolean(
+    step.props?.target ||
+    step.props?.targetOutput ||
+    step.props?.buggyExpr ||
+    step.props?.correctAnswer ||
+    step.props?.options ||
+    step.props?.prediction ||
+    step.props?.correctOrder ||
+    step.props?.expectedOutput
+  );
+
+  const isTeaching = !isChallengeRole && Boolean(
     isExploreRole(step) ||
     step.isTeachingStep ||
-    step.type === STEP_TYPES.EXPLORE ||
-    step.type === STEP_TYPES.PIPELINE_FLOW ||
-    step.type === STEP_TYPES.TYPE_CASTING ||
-    step.type === STEP_TYPES.SHORT_CIRCUIT ||
-    step.type === STEP_TYPES.BRANCHING ||
-    step.type === STEP_TYPES.TRUTHINESS_SCALE ||
-    step.type === STEP_TYPES.ITERATOR_PROTOCOL ||
-    step.type === STEP_TYPES.LOOP_CONTROL ||
+    (step.type === STEP_TYPES.EXPLORE && !hasInteractiveChallengeProps) ||
+    (step.type === STEP_TYPES.PIPELINE_FLOW && !step.props?.target) ||
+    (step.type === STEP_TYPES.TYPE_CASTING && !step.props?.targetOutput && !step.props?.buggyExpr) ||
+    (step.type === STEP_TYPES.SHORT_CIRCUIT && !step.props?.target) ||
+    (step.type === STEP_TYPES.BRANCHING && !step.props?.target) ||
+    (step.type === STEP_TYPES.TRUTHINESS_SCALE && !step.props?.target) ||
+    (step.type === STEP_TYPES.ITERATOR_PROTOCOL && !step.props?.target) ||
+    (step.type === STEP_TYPES.LOOP_CONTROL && !step.props?.target) ||
     (step.type === STEP_TYPES.STRING_SLICER && !step.props?.targetSlice) ||
     (step.type === STEP_TYPES.MEMORY_MODEL && !step.props?.target)
   );

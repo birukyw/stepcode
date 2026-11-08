@@ -14,8 +14,13 @@ import { useState, useEffect } from 'react';
 export default function PyObjectMemoryWidget({ props = {}, isSubmitted, onValidationChange }) {
   // Custom stack-to-heap steps supplied by a lesson screen. Each entry is a
   // named checkpoint containing nametags + heap objects (see buildPresetState).
-  const customSteps = Array.isArray(props.steps) && props.steps.length > 0 ? props.steps : null;
-  const customCommands = Array.isArray(props.commands) && props.commands.length > 0 ? props.commands : null;
+  let customSteps = Array.isArray(props.steps) && props.steps.length > 0 ? props.steps : null;
+  let customCommands = Array.isArray(props.commands) && props.commands.length > 0 ? props.commands : null;
+
+  // If props.commands is an array of step objects, treat it as customSteps
+  if (!customSteps && customCommands && typeof customCommands[0] === 'object' && customCommands[0] !== null) {
+    customSteps = customCommands;
+  }
 
   const [activePreset, setActivePreset] = useState(customSteps ? 0 : 'bind_both'); // index | 'bind_both' | 'reassign_x' | 'mutate_list'
   const [cacheValue, setCacheValue] = useState(100);
@@ -242,7 +247,7 @@ export default function PyObjectMemoryWidget({ props = {}, isSubmitted, onValida
               }}
             >
               <span style={{ marginRight: 8, color: idx === activePreset ? 'var(--primary)' : 'transparent' }}>▸</span>
-              {cmd}
+              {typeof cmd === 'string' ? cmd : (cmd.command || cmd.label || cmd.text || `Step ${idx + 1}`)}
             </div>
           ))}
         </div>

@@ -1,8 +1,13 @@
 /**
- * src/engine/schema.js
- *
- * Defines the 5-screen pedagogical arc and progressive hint contract
- * for StepCode / CodeQuest interactive lessons modeled after Brilliant.org.
+ * StepCode Curriculum & Lesson Engine Schema
+ * Defines the 5-Screen Lesson Arc, 3-Tier Progressive Hints, and Step Normalization.
+ * 
+ * Pedagogical Contract (gemini.md):
+ * - Screen 1 (hook): Visual manipulation puzzle to discover invariant (max 60 words).
+ * - Screen 2 (mental_model): Name the invariant with guided prediction & misconception feedback (max 75 words).
+ * - Screen 3 (manipulation): Parameter tuning and token/code slotting.
+ * - Screen 4 (bug_hunt): Counterexample/edge case identification and patch.
+ * - Screen 5 (boss_synthesis): Real Python coding challenge with 4 test cases & 3-tier hints.
  */
 
 export const SCREEN_ROLES = [
@@ -13,111 +18,117 @@ export const SCREEN_ROLES = [
   'boss_synthesis',
 ];
 
-export const SCREEN_META = {
+export const SCREEN_METADATA = {
   hook: {
-    number: 1,
     role: 'hook',
-    badge: 'Hook',
-    guidance: 'Explore the visual to discover the invariant',
-    maxWords: 60,
+    number: 1,
+    badge: 'Discovery Hook',
+    guidance: 'Manipulate the visual to discover the invariant',
+    isExplore: true,
   },
   mental_model: {
-    number: 2,
     role: 'mental_model',
+    number: 2,
     badge: 'Mental Model',
-    guidance: 'Name the invariant and test your intuition',
-    maxWords: 75,
+    guidance: 'Name the invariant with a guided prediction check',
+    isExplore: false,
   },
   manipulation: {
-    number: 3,
     role: 'manipulation',
-    badge: 'Manipulation',
-    guidance: 'Tune parameters and slot tokens to verify the rule',
-    maxWords: 100,
+    number: 3,
+    badge: 'Interactive Lab',
+    guidance: 'Tune parameters and slot tokens to verify state',
+    isExplore: false,
   },
   bug_hunt: {
-    number: 4,
     role: 'bug_hunt',
+    number: 4,
     badge: 'Bug Hunt',
-    guidance: 'Find the counterexample and patch the bug',
-    maxWords: 100,
+    guidance: 'Spot the counterexample or edge case and patch the flaw',
+    isExplore: false,
   },
   boss_synthesis: {
-    number: 5,
     role: 'boss_synthesis',
+    number: 5,
     badge: 'Boss Synthesis',
-    guidance: 'Solve the complete coding challenge with real Python',
-    maxWords: 120,
+    guidance: 'Write real Python to synthesize the concept',
+    isExplore: false,
   },
 };
 
 export const HINT_TIERS = [
   {
-    level: 0,
     key: 'nudge',
+    level: 0,
     label: 'Nudge',
     icon: '💡',
-    blurb: 'A gentle directional hint without giving anything away.',
+    blurb: 'A gentle directional hint to nudge you on track',
   },
   {
-    level: 1,
     key: 'blueprint',
+    level: 1,
     label: 'Blueprint',
     icon: '📐',
-    blurb: 'The conceptual structure and algorithmic steps to take.',
+    blurb: 'Algorithmic outline & state transitions',
   },
   {
-    level: 2,
     key: 'walkthrough',
+    level: 2,
     label: 'Walkthrough',
     icon: '🔍',
-    blurb: 'A near-complete explanation with code structure or edge-case handling.',
+    blurb: 'Step-by-step logic and syntax breakdown',
   },
 ];
 
 /**
- * Returns metadata describing the screen role within the 5-screen arc.
+ * Returns metadata for a step, determining its position in the 5-screen arc.
  */
-export function getScreenMeta(step) {
+export function getScreenMeta(step, fallbackIndex = 0) {
   if (!step) return null;
-  const role = step.role || step.screenRole;
-  if (role && SCREEN_META[role]) {
-    return SCREEN_META[role];
+  const role = step.role || step.screenRole || (step.props && step.props.role);
+  if (role && SCREEN_METADATA[role]) {
+    return SCREEN_METADATA[role];
   }
-  return null;
+
+  // Fallback based on step number / screen index if available
+  const idx = typeof step.screenNumber === 'number'
+    ? step.screenNumber - 1
+    : typeof fallbackIndex === 'number'
+    ? fallbackIndex
+    : 0;
+
+  const mappedRole = SCREEN_ROLES[idx % SCREEN_ROLES.length];
+  if (mappedRole && SCREEN_METADATA[mappedRole]) {
+    return SCREEN_METADATA[mappedRole];
+  }
+
+  return {
+    role: 'interactive',
+    number: idx + 1,
+    badge: 'Interactive Step',
+    guidance: 'Interact with the step to verify your understanding',
+    isExplore: false,
+  };
 }
 
 /**
- * Determines whether a step is purely exploratory (no wrong answers, teach-first).
+ * Determines whether the step should be treated as an exploration/teaching step
+ * (meaning no incorrect red state on continue).
  */
 export function isExploreRole(step) {
   if (!step) return false;
-  if (step.isTeachingStep) return true;
+  if (step.isTeachingStep === true || step.isExplore === true) return true;
   const role = step.role || step.screenRole;
-  if (role === 'hook') {
-    // If it has challenge validation props, it requires verification
-    if (
-      step.props?.options ||
-      step.props?.correctOrder ||
-      step.props?.target ||
-      step.props?.correctAnswer ||
-      step.props?.expectedOutput ||
-      step.props?.prediction
-    ) {
-      return false;
-    }
-    return true;
-  }
-  return false;
+  return role === 'hook';
 }
 
 /**
- * Normalizes hints from step/screen into a 3-tier array [nudge, blueprint, walkthrough].
+ * Normalizes 3-tier hints array: [nudge, blueprint, walkthrough]
+ * Accepts array of strings, object with tier keys, or props.hints.
  */
 export function normalizeHints(step) {
   if (!step) return [null, null, null];
-  const rawHints = step.hints || step.props?.hints;
-  if (!rawHints) return [null, null, null];
+  const rawHints = step.hints || (step.props && step.props.hints);
 
   if (Array.isArray(rawHints)) {
     return [
@@ -127,40 +138,51 @@ export function normalizeHints(step) {
     ];
   }
 
-  if (typeof rawHints === 'object') {
+  if (rawHints && typeof rawHints === 'object') {
     return [
-      rawHints.nudge || rawHints[0] || null,
-      rawHints.blueprint || rawHints[1] || null,
-      rawHints.walkthrough || rawHints[2] || null,
+      rawHints.nudge || rawHints.tier1 || null,
+      rawHints.blueprint || rawHints.tier2 || null,
+      rawHints.walkthrough || rawHints.tier3 || null,
     ];
   }
 
-  if (typeof rawHints === 'string') {
-    return [rawHints, null, null];
+  if (step.hint && typeof step.hint === 'string') {
+    return [step.hint, null, null];
   }
 
   return [null, null, null];
 }
 
 /**
- * Checks if a step has any hints configured.
+ * Checks whether any hint tier is available for this step.
  */
 export function hasHints(step) {
-  return normalizeHints(step).some(Boolean);
+  const hints = normalizeHints(step);
+  return hints.some((h) => Boolean(h && h.trim()));
 }
 
 /**
- * Sorts or validates screens into the standard 5-screen arc order.
+ * Orders steps by the 5-screen pedagogical arc:
+ * hook -> mental_model -> manipulation -> bug_hunt -> boss_synthesis
  */
 export function orderStepsByScreenArc(steps) {
   if (!Array.isArray(steps)) return [];
-  const hasRoles = steps.some((s) => s.role && SCREEN_ROLES.includes(s.role));
-  if (!hasRoles) return steps;
+  const rolePriority = {
+    hook: 1,
+    mental_model: 2,
+    manipulation: 3,
+    bug_hunt: 4,
+    boss_synthesis: 5,
+  };
 
-  const roleOrder = new Map(SCREEN_ROLES.map((role, idx) => [role, idx]));
+  const hasScreenRoles = steps.some((s) => (s.role && rolePriority[s.role]) || (s.screenRole && rolePriority[s.screenRole]));
+  if (!hasScreenRoles) return [...steps];
+
   return [...steps].sort((a, b) => {
-    const orderA = a.role ? roleOrder.get(a.role) ?? 99 : 99;
-    const orderB = b.role ? roleOrder.get(b.role) ?? 99 : 99;
-    return orderA - orderB;
+    const roleA = a.role || a.screenRole;
+    const roleB = b.role || b.screenRole;
+    const prioA = rolePriority[roleA] || 99;
+    const prioB = rolePriority[roleB] || 99;
+    return prioA - prioB;
   });
 }
