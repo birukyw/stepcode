@@ -1,282 +1,238 @@
-import { useState, useContext, useCallback, useEffect, useMemo } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useContext, useEffect, useMemo, useCallback } from 'react';
+import { useParams, useNavigate, useLocation, useMatch, Link } from 'react-router-dom';
+import Split from 'react-split';
 import { AppContext } from '../App';
-import { getWeekContent, findWeek, findPhaseForWeek } from '../data/roadmap';
-import CodeEditor from '../components/CodeEditor';
-import BrilliantLessonRunner from '../components/BrilliantLessonRunner';
-import { getInteractiveStepsForLesson } from '../utils/lessonStepGenerator';
+import { getModule, courseOfModule } from '../data/curriculum';
+import { buildSequence, afterUrl, courseHome } from '../data/flow';
+import { xpSummary, XP, XP_PER_LEVEL } from '../data/xp';
+import { getStreak } from '../utils/activity';
+import { getLessonContent, getModuleContent, getTrackFinal } from '../content/lessons';
+import Markdown from '../components/Markdown';
+import IdePanel from '../components/IdePanel';
+import { Icon } from '../components/art/Illustrations';
+import Reward from '../components/Reward';
+import Bit from '../components/art/Bit';
+import { SettingsButton } from '../components/Settings';
 import { runCode } from '../utils/api';
+import { preloadPython, isPythonReady, cancelPython } from '../utils/pyRunner';
+import { buildCheckScript } from '../utils/checkHarness';
+import { splitPages } from '../utils/pages';
+
+const DEFAULT_STARTER = {
+  python: '# Write your code here\nprint("Hello, world!")\n',
+  java: 'public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, world!");\n    }\n}\n',
+};
+
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch { /* ignore */ } },
+};
 
 export default function LessonPage() {
-  const { weekId, lessonIndex } = useParams();
-  const idx = parseInt(lessonIndex, 10);
+  const params = useParams();
+  const finalDef = params.trackId ? getTrackFinal(params.trackId) : null;
+  const moduleId = finalDef ? finalDef.moduleId : params.moduleId;
+  const lessonIndex = params.lessonIndex;
+  const isProject = !!useMatch('/project/:moduleId') || !!finalDef;
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const { progress, completeLesson } = useContext(AppContext);
 
-  const weekContent = getWeekContent(weekId);
-  const week = findWeek(weekId);
-  const phase = findPhaseForWeek(weekId);
+  const mod = getModule(moduleId);
+  const idx = parseInt(lessonIndex, 10);
+  const lesson = isProject ? null : mod?.lessons?.[idx];
+  const project = finalDef ? finalDef.project : isProject ? getModuleContent(moduleId)?.project : null;
+  const content = useMemo(() => (isProject ? project : lesson ? getLessonContent(lesson.id) : null), [isProject, project, lesson]);
 
-  // Default to Brilliant-style interactive stepper mode!
-  const [viewMode, setViewMode] = useState('interactive');
+  const entryId = finalDef ? `${params.trackId}-final` : isProject ? `${moduleId}-project` : lesson?.id;
+  const progressKey = finalDef ? `${params.trackId}-final` : isProject ? `${moduleId}-project` : `${moduleId}-lesson-${idx}`;
+  const title = isProject ? project?.title : lesson?.title;
 
-  // Generate or retrieve interactive steps for this lesson
-  const lesson = weekContent?.lessons?.[idx];
-  const steps = useMemo(() => {
-    if (!lesson) return [];
-    return getInteractiveStepsForLesson(lesson, weekContent, weekId, idx);
-  }, [lesson, weekContent, weekId, idx]);
+  const seq = useMemo(() => buildSequence(), []);
+  const at = seq.findIndex((e) => e.url === pathname);
+  const prev = at > 0 ? seq[at - 1] : null;
+  const next = at >= 0 && at < seq.length - 1 ? seq[at + 1] : null;
+  const kindXp = finalDef ? XP.final : isProject ? XP.project : XP.lesson;
 
-  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 900);
+  const pages = useMemo(() => (content ? splitPages(content.body) : []), [content]);
+  const [page, setPage] = useState(0);
 
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 900);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Full article editor state
-  const hasCode = Boolean(lesson?.starterCode);
-  const [currentLang, setCurrentLang] = useState(lesson?.language || 'python');
-  const [code, setCode] = useState(lesson?.starterCode || '');
+  const [language, setLanguage] = useState(() => store.get('stepcode_lang') || 'python');
+  const [codes, setCodes] = useState({});
+  const [stdin, setStdin] = useState('');
   const [output, setOutput] = useState('');
   const [isRunning, setIsRunning] = useState(false);
+  const [tab, setTab] = useState('lesson');
+  const [reward, setReward] = useState(null);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 900);
 
   useEffect(() => {
-    if (lesson) {
-      setCurrentLang(lesson.language || 'python');
-      setCode(lesson.starterCode || '');
-      setOutput('');
-    }
-  }, [lesson, idx]);
+    const onResize = () => setIsMobile(window.innerWidth <= 900);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
-  if (!weekContent || !week || !weekContent.lessons || !weekContent.lessons[idx]) {
+  const starterFor = useCallback((lang) => content?.starter?.[lang] ?? DEFAULT_STARTER[lang], [content]);
+
+  useEffect(() => {
+    if (!entryId) return;
+    const saved = {};
+    ['python', 'java'].forEach((l) => { saved[l] = store.get(`stepcode_code_${entryId}_${l}`); });
+    setCodes(saved);
+    setStdin(content?.stdin || '');
+    setOutput('');
+    setTab('lesson');
+    setPage(0);
+  }, [entryId]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => { document.querySelector('.lesson-article')?.scrollTo(0, 0); }, [page, entryId]);
+
+  const code = codes[language] || starterFor(language);
+  const changeCode = (v) => { setCodes((c) => ({ ...c, [language]: v })); store.set(`stepcode_code_${entryId}_${language}`, v); };
+  const changeLanguage = (l) => { setLanguage(l); store.set('stepcode_lang', l); };
+  const reset = () => { setCodes((c) => ({ ...c, [language]: '' })); store.set(`stepcode_code_${entryId}_${language}`, ''); setOutput(''); };
+  const openSnippet = (text, lang) => {
+    const target = lang === 'java' ? 'java' : 'python';
+    setLanguage(target);
+    setCodes((c) => ({ ...c, [target]: text }));
+    setTab('code');
+  };
+
+  // Warm up the in-browser Python as soon as a lesson opens, so the first Run is quick.
+  useEffect(() => { preloadPython(); }, []);
+
+  const execute = async (source, opts) => {
+    setIsRunning(true);
+    setOutput(language === 'python' && !isPythonReady() ? 'Loading Python (first run only)…' : 'Running…');
+    const res = await runCode(source, language, stdin, opts);
+    const text = res.error ? `Error: ${res.error}` : res.output;
+    setOutput(text);
+    setIsRunning(false);
+    return text;
+  };
+  const stop = () => { cancelPython(); };
+  const run = () => execute(code);
+  const check = async () => {
+    if (!project?.checks) return;
+    const text = await execute(buildCheckScript(code, project.checks, { interactive: !!project.interactive }), { timeoutMs: 40000 });
+    if (/ALL CHECKS PASSED/.test(text)) award();
+  };
+
+  const isDone = !!progress[progressKey];
+  const xp = xpSummary(progress, seq);
+  const lastPage = page >= pages.length - 1;
+
+  const award = () => {
+    if (progress[progressKey]) return;
+    const before = xpSummary(progress, seq);
+    const earned = before.earned + kindXp;
+    completeLesson(progressKey);
+    setReward({
+      kind: finalDef ? 'final' : isProject ? 'project' : 'lesson',
+      xp: kindXp,
+      before: { level: before.level, intoLevel: before.intoLevel },
+      after: { level: Math.floor(earned / XP_PER_LEVEL) + 1, intoLevel: earned % XP_PER_LEVEL },
+      streak: Math.max(1, getStreak()),
+    });
+  };
+  const home = courseHome(moduleId);
+  const leave = () => navigate(afterUrl(next, moduleId));
+  const finish = () => { if (isDone) leave(); else award(); };
+  const goNext = () => { if (!lastPage) setPage(page + 1); else finish(); };
+  const goBack = () => { if (page > 0) setPage(page - 1); else if (prev) navigate(prev.url); else navigate(home); };
+
+  if (!mod || (!lesson && !project)) {
     return (
-      <div style={{ padding: 60, textAlign: 'center' }}>
-        <h2>Lesson not found</h2>
-        <button type="button" className="btn btn-primary" style={{ marginTop: 20 }} onClick={() => navigate('/')}>
-          Return to courses
-        </button>
+      <div className="notfound">
+        <h1>Page not found</h1>
+        <Link to="/python" className="cx-btn">Back to course</Link>
       </div>
     );
   }
 
-  const totalLessons = weekContent.lessons.length;
-  const itemId = `${weekId}-lesson-${idx}`;
-  const isDone = !!progress[itemId];
-
-  const handleReset = () => {
-    setCode(lesson.starterCode || '');
-    setOutput('');
-  };
-
-  const handleRun = async () => {
-    setIsRunning(true);
-    setOutput('Running...');
-
-    if (currentLang === 'javascript') {
-      try {
-        let logs = [];
-        const fakeConsole = {
-          log: (...args) => logs.push(args.join(' ')),
-          error: (...args) => logs.push('ERROR: ' + args.join(' ')),
-        };
-        const fn = new Function('console', code);
-        fn(fakeConsole);
-        setOutput(logs.join('\n') || '(No output)');
-      } catch (err) {
-        setOutput(`Error: ${err.message}`);
-      }
-    } else {
-      const result = await runCode(code, currentLang);
-      if (result.error) setOutput(result.error);
-      else setOutput(result.output || '(No output)');
-    }
-    setIsRunning(false);
-  };
-
-  const handleContinue = () => {
-    completeLesson(itemId);
-    if (idx < totalLessons - 1) {
-      navigate(`/lesson/${weekId}/${idx + 1}`);
-    } else {
-      navigate(-1);
-    }
-  };
-
-  const progressPercent = ((idx + 1) / totalLessons) * 100;
-
-  // ─── BRILLIANT-STYLE INTERACTIVE MODE (Default) ───────────────────────────
-  if (viewMode === 'interactive' && steps.length > 0) {
-    return (
-      <BrilliantLessonRunner
-        key={`${weekId}-${idx}`}
-        lesson={lesson}
-        steps={steps}
-        week={week}
-        phase={phase}
-        lessonIndex={idx}
-        totalLessons={totalLessons}
-        onExit={() => navigate(-1)}
-        onComplete={() => completeLesson(itemId)}
-        onNextLesson={
-          idx < totalLessons - 1
-            ? () => navigate(`/lesson/${weekId}/${idx + 1}`)
-            : () => navigate(-1)
-        }
-        onSwitchToReader={() => setViewMode('reader')}
-      />
-    );
-  }
-
-  // ─── FULL ARTICLE & SANDBOX MODE (Optional deep reference view) ───────────
-  return (
-    <div className="lesson-workspace-container">
-      {/* Top Header */}
-      <header className="lesson-top-nav">
-        <button
-          type="button"
-          className="lesson-top-nav__close"
-          onClick={() => navigate(-1)}
-        >
-          ← {week.title.split(':')[0]}
-        </button>
-
-        <div className="lesson-top-nav__title">
-          {idx + 1}/{totalLessons} · {lesson.title}
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          {/* Switch back to Brilliant Interactive Mode */}
-          <button
-            type="button"
-            className="btn btn-primary btn-sm"
-            onClick={() => setViewMode('interactive')}
-            style={{ fontSize: 12, padding: '5px 12px', fontWeight: 700 }}
-          >
-            ✨ Interactive Mode
-          </button>
-
-          <div className="lesson-top-nav__progress-track" title={`${Math.round(progressPercent)}%`}>
-            <div
-              className="lesson-top-nav__progress-fill"
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
-        </div>
-      </header>
-
-      {/* Main Split Screen */}
-      <div className="lesson-split-main">
-        {/* Left Panel: Reader */}
-        <div className="lesson-panel-reader">
-          <div style={{ marginBottom: 16, padding: '10px 14px', background: 'var(--primary-subtle)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 13, color: 'var(--primary)', fontWeight: 600 }}>
-              💡 Prefer hands-on intuition puzzles?
-            </span>
-            <button
-              type="button"
-              className="btn btn-primary btn-sm"
-              onClick={() => setViewMode('interactive')}
-              style={{ fontSize: 11, padding: '4px 10px' }}
-            >
-              Start Interactive Lesson →
-            </button>
-          </div>
-
-          <article className="lesson-reader-article">
-            <div dangerouslySetInnerHTML={{ __html: lesson.content }} />
-          </article>
-        </div>
-
-        {/* Right Panel: Code Editor */}
-        {hasCode && (
-          <div className="lesson-panel-editor">
-            {/* Editor Toolbar */}
-            <div className="editor-toolbar">
-              <select
-                className="editor-toolbar__lang-select"
-                value={currentLang}
-                onChange={(e) => setCurrentLang(e.target.value)}
-              >
-                <option value="python">Python</option>
-                <option value="javascript">JavaScript</option>
-                <option value="java">Java</option>
-                <option value="cpp">C++</option>
-                <option value="sql">SQL</option>
-                <option value="html">HTML</option>
-                <option value="css">CSS</option>
-              </select>
-
-              <div className="editor-toolbar__actions">
-                <button
-                  type="button"
-                  className="btn btn-secondary btn-sm"
-                  onClick={handleReset}
-                >
-                  Reset
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-primary btn-sm"
-                  onClick={handleRun}
-                  disabled={isRunning}
-                >
-                  {isRunning ? 'Running...' : '▶ Run'}
-                </button>
-              </div>
-            </div>
-
-            {/* CodeMirror Workspace */}
-            <div className="editor-codemirror-box">
-              <CodeEditor
-                code={code}
-                language={currentLang}
-                onChange={setCode}
-              />
-            </div>
-
-            {/* Terminal Output */}
-            <div className="terminal-dock">
-              <div className="terminal-dock__header">Output</div>
-              <div className="terminal-dock__body">
-                {output || 'Run your code to see output here.'}
-              </div>
-            </div>
+  const article = (
+    <div className="lesson-article">
+      <div className="lesson-article__head">
+        <span className="lesson-article__kind">{finalDef ? 'Final project' : isProject ? 'Project' : 'Lesson'}</span>
+        {pages.length > 1 && (
+          <span className="lesson-article__dots" aria-label={`Part ${page + 1} of ${pages.length}`}>
+            {pages.map((_, i) => <button key={i} type="button" className={i === page ? 'is-on' : i < page ? 'is-past' : ''} onClick={() => setPage(i)} aria-label={`Go to part ${i + 1}`} />)}
+          </span>
+        )}
+      </div>
+      <div className="lesson-article__inner">
+        {content ? (
+          <Markdown source={pages[page] || ''} onRunSnippet={openSnippet} />
+        ) : (
+          <div className="article">
+            <h1>{title}</h1>
+            <aside className="callout callout--tip"><span>This lesson is still being written. The editor is ready if you want to experiment.</span></aside>
           </div>
         )}
       </div>
+    </div>
+  );
 
-      {/* Bottom Dock */}
-      <footer className="lesson-bottom-dock">
-        <div className="lesson-bottom-dock__status">
-          <span className="lesson-bottom-dock__message">
-            {isDone
-              ? '✓ Completed'
-              : hasCode
-              ? 'Try the code, then continue.'
-              : 'Read and continue when ready.'}
+  const ide = (
+    <IdePanel
+      language={language}
+      onLanguageChange={changeLanguage}
+      code={code}
+      onCodeChange={changeCode}
+      onReset={reset}
+      onRun={run}
+      onStop={language === 'python' ? stop : undefined}
+      isRunning={isRunning}
+      output={output}
+      stdin={stdin}
+      onStdinChange={setStdin}
+      onCheck={isProject ? check : undefined}
+      canCheck={language === 'python'}
+    />
+  );
+
+  return (
+    <div className="workspace">
+      {reward && <Reward reward={reward} onContinue={() => { setReward(null); leave(); }} onStay={() => setReward(null)} />}
+      <header className="workspace__bar">
+        <Link to="/" className="workspace__brand" aria-label="StepCode home"><Bit mood="idle" size={30} /><span className="wordmark">StepCode</span></Link>
+        <Link to={home} className="workspace__crumb"><span>{courseOfModule(moduleId)?.short || 'Python'}</span><i>/</i><b>{mod.title.split('—')[0].trim()}</b></Link>
+        <div className="workspace__xp" title={`${xp.earned} of ${xp.total} XP`}>
+          <div className="workspace__progress" role="progressbar" aria-valuenow={xp.pct} aria-valuemin={0} aria-valuemax={100} aria-label="XP earned"><span style={{ width: `${xp.pct}%` }} /></div>
+          <span className="workspace__pct">{xp.pct}%</span>
+        </div>
+        <SettingsButton />
+      </header>
+
+      {isMobile ? (
+        <>
+          <div className="workspace__tabs" role="tablist">
+            <button role="tab" aria-selected={tab === 'lesson'} onClick={() => setTab('lesson')}>{isProject ? 'Brief' : 'Lesson'}</button>
+            <button role="tab" aria-selected={tab === 'code'} onClick={() => setTab('code')}>Code</button>
+          </div>
+          <div className="workspace__body">{tab === 'lesson' ? article : ide}</div>
+        </>
+      ) : (
+        <Split className="split split--h workspace__body" sizes={[46, 54]} minSize={[320, 380]} gutterSize={8} snapOffset={0}>
+          {article}
+          {ide}
+        </Split>
+      )}
+
+      <footer className="workspace__foot">
+        <Link to={home} className="workspace__menu" aria-label="Back to course outline"><Icon name="layers" size={18} /></Link>
+        <div className="workspace__where">
+          <b>{title}</b>
+          <span>
+            {finalDef ? 'Final project' : isProject ? 'Project' : `Lesson ${idx + 1} of ${mod.lessons.length}`}
+            {pages.length > 1 && <> · Part {page + 1} of {pages.length}</>}
+            <em className="workspace__xpgain">{isDone ? 'Completed' : `+${kindXp} XP`}</em>
           </span>
         </div>
-
-        <div className="lesson-bottom-dock__actions">
-          {idx > 0 && (
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => navigate(`/lesson/${weekId}/${idx - 1}`)}
-            >
-              Previous
-            </button>
-          )}
-
-          <button
-            type="button"
-            className="btn btn-success"
-            onClick={handleContinue}
-          >
-            {idx < totalLessons - 1 ? 'Continue' : 'Finish'}
+        <div className="workspace__nav">
+          <button type="button" className="cx-btn cx-btn--ghost cx-btn--sm" onClick={goBack}>Back</button>
+          <button type="button" className="cx-btn cx-btn--sm cx-btn--blue" onClick={goNext}>
+            {!lastPage ? 'Next' : isDone ? (next ? 'Next lesson' : 'Back to course') : next ? 'Complete lesson' : 'Finish course'}
           </button>
         </div>
       </footer>

@@ -1,192 +1,135 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../App';
-import { ROADMAP, getWeekContent } from '../data/roadmap';
-import PixelSprite from '../components/PixelSprite';
-import GlitchHeader from '../components/GlitchHeader';
+import { getModule } from '../data/curriculum';
+import { buildSequence, afterUrl, courseHome } from '../data/flow';
+import { getModuleContent } from '../content/lessons';
+import { Icon } from '../components/art/Illustrations';
+import Bit from '../components/art/Bit';
+import Reward from '../components/Reward';
+import { xpSummary, XP, XP_PER_LEVEL } from '../data/xp';
+import { getStreak } from '../utils/activity';
+
+const LETTERS = ['A', 'B', 'C', 'D', 'E'];
 
 export default function QuizPage() {
-  const { weekId } = useParams();
+  const { moduleId } = useParams();
   const navigate = useNavigate();
-  const { progress, completeItem } = useContext(AppContext);
+  const { progress, completeLesson } = useContext(AppContext);
+  const mod = getModule(moduleId);
+  const quiz = getModuleContent(moduleId)?.quiz;
+  const seq = useMemo(() => buildSequence(), []);
+  const at = seq.findIndex((e) => e.url === `/quiz/${moduleId}`);
+  const prev = at > 0 ? seq[at - 1] : null;
+  const next = at >= 0 && at < seq.length - 1 ? seq[at + 1] : null;
 
-  const weekContent = getWeekContent(weekId);
-  const week = findWeek(weekId);
-  const phase = findPhaseForWeek(weekId);
-
-  if (!weekContent || !week || !weekContent.quiz || weekContent.quiz.length === 0) {
-    return <div style={{ padding: 40 }}>Quiz not found.</div>;
-  }
-
-  const quiz = weekContent.quiz;
-  const itemId = `${weekId}-quiz`;
-  const isDone = !!progress[itemId];
-
-  const [currentQ, setCurrentQ] = useState(0);
-  const [selected, setSelected] = useState(null);
-  const [answered, setAnswered] = useState(false);
+  const [step, setStep] = useState(0);
+  const [picked, setPicked] = useState(null);
   const [answers, setAnswers] = useState([]);
-  const [showResults, setShowResults] = useState(false);
+  const [finished, setFinished] = useState(false);
+  const [reward, setReward] = useState(null);
 
-  const question = quiz[currentQ];
-  const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
-
-  function handleSelect(optionIndex) {
-    if (answered) return;
-    setSelected(optionIndex);
+  if (!mod || !quiz) {
+    return <div className="notfound"><h1>Quiz not found</h1><Link to="/python" className="btn btn--primary">Back to course</Link></div>;
   }
 
-  function handleCheck() {
-    if (selected === null) return;
-    setAnswered(true);
-    setAnswers([...answers, { selected, correct: question.correctIndex }]);
-  }
+  const total = quiz.questions.length;
+  const q = quiz.questions[step];
+  const score = answers.filter((a, i) => a === quiz.questions[i].answer).length;
+  const passMark = Math.ceil(total * (quiz.pass ?? 0.7));
+  const passed = score >= passMark;
 
-  function handleNext() {
-    if (currentQ < quiz.length - 1) {
-      setCurrentQ(currentQ + 1);
-      setSelected(null);
-      setAnswered(false);
+  const choose = (i) => { if (picked === null) setPicked(i); };
+  const advance = () => {
+    const nextAnswers = [...answers, picked];
+    setAnswers(nextAnswers);
+    setPicked(null);
+    if (step + 1 >= total) {
+      setFinished(true);
+      const final = nextAnswers.filter((a, i) => a === quiz.questions[i].answer).length;
+      if (final >= passMark && !progress[`${moduleId}-quiz`]) {
+        const before = xpSummary(progress, seq);
+        const earned = before.earned + XP.quiz;
+        completeLesson(`${moduleId}-quiz`);
+        setReward({ kind: 'quiz', xp: XP.quiz, before: { level: before.level, intoLevel: before.intoLevel }, after: { level: Math.floor(earned / XP_PER_LEVEL) + 1, intoLevel: earned % XP_PER_LEVEL }, streak: Math.max(1, getStreak()) });
+      } else if (final >= passMark) completeLesson(`${moduleId}-quiz`);
     } else {
-      // Show results
-      const finalAnswers = [...answers];
-      const correctCount = finalAnswers.filter(a => a.selected === a.correct).length;
-      const xp = correctCount * 10;
-      if (!isDone) completeItem(itemId, 'quiz', xp, { score: correctCount });
-      setShowResults(true);
+      setStep(step + 1);
     }
-  }
+  };
+  const retry = () => { setStep(0); setPicked(null); setAnswers([]); setFinished(false); };
 
-  if (showResults) {
-    const correctCount = answers.filter(a => a.selected === a.correct).length;
-    const emoji = correctCount === quiz.length ? '🏆' : correctCount >= quiz.length * 0.7 ? '⭐' : '📚';
+  if (finished) {
     return (
-      <div>
-        <div className="breadcrumbs">
-          <Link to="/">Home</Link>
-          <span className="breadcrumbs__sep">›</span>
-          <Link to={`/phase/${phase.id}`}>{phase.title}</Link>
-          <span className="breadcrumbs__sep">›</span>
-          <span className="breadcrumbs__current">Module {week.moduleNumber || week.number} · Quiz Results</span>
-        </div>
-        <div className="quiz-container">
-          <div className="quiz-result">
-            <div className="quiz-pixel-result">
-              <img src="/images/pixel_cyber_mascot.jpg" alt="Cyber Mascot" className="quiz-pixel-result__avatar" />
-              <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                <PixelSprite name={correctCount >= quiz.length * 0.7 ? "trophy" : "chip"} size={22} animated />
-                <span style={{ fontFamily: 'var(--font-pixel)', fontSize: 9, color: 'var(--cyan)' }}>
-                  {correctCount === quiz.length ? 'SECTOR CLEARED' : 'MISSION COMPLETED'}
-                </span>
-              </div>
-            </div>
-            <GlitchHeader as="div" className="quiz-result__score" text={`${correctCount} / ${quiz.length}`} />
-            <div className="quiz-result__msg">
-              {correctCount === quiz.length ? 'Perfect score! You nailed it!' :
-               correctCount >= quiz.length * 0.7 ? 'Great job! Keep it up!' :
-               'Review the lessons and try again. You got this!'}
-            </div>
-            <div style={{ fontSize: 13, color: 'var(--yellow)', marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-              <PixelSprite name="chip" size={14} /> +{correctCount * 10} XP earned
-            </div>
-            <Link to={`/phase/${phase.id}`} className="btn btn--next">Back to Phase →</Link>
+      <main className="quiz">
+        {reward && <Reward reward={reward} onContinue={() => { setReward(null); navigate(afterUrl(next, moduleId)); }} onStay={() => setReward(null)} />}
+        <div className="quiz__card quiz__result">
+          <p className="quiz__crumb">{mod.title} · Quiz</p>
+          <div className="quiz__badge"><Bit mood={passed ? 'cheer' : 'sad'} size={92} float /></div>
+          <h1>{passed ? 'Quiz passed' : 'Not quite yet'}</h1>
+          <p className="quiz__score"><strong>{score}</strong> of {total} correct <span>· {passMark} needed to pass</span></p>
+          <ol className="quiz__review">
+            {quiz.questions.map((qq, i) => {
+              const ok = answers[i] === qq.answer;
+              return (
+                <li key={i} className={ok ? 'is-ok' : 'is-bad'}>
+                  <Icon name={ok ? 'check' : 'spark'} size={16} />
+                  <div>
+                    <p>{qq.q}</p>
+                    {!ok && <p className="quiz__why">Correct answer: {qq.options[qq.answer]}. {qq.explain}</p>}
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+          <div className="quiz__actions">
+            <button type="button" className="btn btn--ghost" onClick={retry}>Retake quiz</button>
+            <button type="button" className="btn btn--primary" onClick={() => navigate(afterUrl(next, moduleId))}>
+              {next ? 'Continue' : 'Back to course'}
+            </button>
           </div>
         </div>
-      </div>
+      </main>
     );
   }
 
+  const revealed = picked !== null;
   return (
-    <div>
-      <div className="breadcrumbs">
-        <Link to="/">Home</Link>
-        <span className="breadcrumbs__sep">›</span>
-        <Link to={`/phase/${phase.id}`}>{phase.title}</Link>
-        <span className="breadcrumbs__sep">›</span>
-        <span className="breadcrumbs__current">Module {week.moduleNumber || week.number} · Quiz</span>
+    <main className="quiz">
+      <div className="quiz__top">
+        <Link to={courseHome(moduleId)} className="quiz__back"><Icon name="arrow" size={16} className="flip" /> Course</Link>
+        {prev && <Link to={prev.url} className="quiz__back">Previous: {prev.title}</Link>}
+        {progress[`${moduleId}-quiz`] && <span className="quiz__passed">Passed earlier</span>}
       </div>
-
-      <div className="quiz-container">
-        <div className="quiz-header">
-          <GlitchHeader as="div" text={`🧪 Module ${week.moduleNumber || week.number} Quiz`} style={{ fontFamily: 'var(--font-pixel)', fontSize: 14, color: 'var(--white)' }} />
-          <div style={{ fontSize: 14, color: 'var(--text-dim)', marginTop: 4 }}>{week.title}</div>
-        </div>
-
-        {/* Progress dots */}
-        <div style={{ display: 'flex', gap: 6, marginBottom: 16 }}>
-          {quiz.map((_, i) => {
-            let bg = 'var(--border-dim)';
-            if (i === currentQ) bg = 'var(--cyan)';
-            else if (answers[i]) {
-              bg = answers[i].selected === answers[i].correct ? 'var(--green-bright)' : 'var(--red)';
-            }
-            return <div key={i} style={{ width: 24, height: 4, borderRadius: 2, background: bg }} />;
-          })}
-        </div>
-
-        <div className="quiz-question">
-          <div className="quiz-progress-text">Question {currentQ + 1} of {quiz.length}</div>
-          <div className="quiz-question__text">{question.question}</div>
-          {question.code && (
-            <pre style={{ background: 'var(--bg-editor)', border: '1px solid var(--border)', borderRadius: 6, padding: 12, fontFamily: 'var(--font-mono)', fontSize: 14, color: 'var(--white)', margin: '12px 0' }}>{question.code}</pre>
-          )}
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-            {question.options.map((opt, i) => {
-              let cls = 'quiz-option';
-              if (selected === i) cls += ' quiz-option--selected';
-              if (answered) {
-                if (i === question.correctIndex) cls += ' quiz-option--correct';
-                else if (i === selected) cls += ' quiz-option--wrong';
-              }
-              return (
-                <div key={i} className={cls} onClick={() => handleSelect(i)}>
-                  <span style={{ fontFamily: 'var(--font-pixel)', fontSize: 10, color: 'var(--text-dim)', minWidth: 24 }}>{letters[i]}</span>
+      <div className="quiz__card">
+        <p className="quiz__crumb">{mod.title} · Quiz · Question {step + 1} of {total}</p>
+        <div className="quiz__bar"><span style={{ width: `${(step / total) * 100}%` }} /></div>
+        <h1>{q.q}</h1>
+        {q.code && <pre className="quiz__code"><code>{q.code}</code></pre>}
+        <ul className="quiz__options">
+          {q.options.map((opt, i) => {
+            const state = !revealed ? '' : i === q.answer ? 'is-right' : i === picked ? 'is-wrong' : 'is-dim';
+            return (
+              <li key={i}>
+                <button type="button" className={`quiz__option ${state}`} onClick={() => choose(i)} disabled={revealed} aria-pressed={picked === i}>
+                  <span className="quiz__letter">{LETTERS[i]}</span>
                   <span>{opt}</span>
-                </div>
-              );
-            })}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+        {revealed && (
+          <div className={`quiz__feedback ${picked === q.answer ? 'is-right' : 'is-wrong'}`} role="status">
+            <strong>{picked === q.answer ? 'Correct.' : 'Not quite.'}</strong> {q.explain}
           </div>
-
-          {answered && question.explanation && (
-            <div style={{
-              marginTop: 16, padding: '12px 16px',
-              background: 'rgba(79,195,247,0.06)', borderLeft: '3px solid var(--cyan)',
-              borderRadius: '0 6px 6px 0', fontSize: 13, color: 'var(--cyan)',
-            }}>
-              💡 {question.explanation}
-            </div>
-          )}
-        </div>
-
-        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12 }}>
-          {!answered ? (
-            <button className="btn btn--submit" onClick={handleCheck} disabled={selected === null}>
-              Check Answer
-            </button>
-          ) : (
-            <button className="btn btn--next" onClick={handleNext}>
-              {currentQ < quiz.length - 1 ? 'Next Question →' : 'See Results →'}
-            </button>
-          )}
+        )}
+        <div className="quiz__actions">
+          <button type="button" className="btn btn--primary" onClick={advance} disabled={!revealed}>
+            {step + 1 >= total ? 'See results' : 'Next question'}
+          </button>
         </div>
       </div>
-    </div>
+    </main>
   );
-}
-
-function findWeek(weekId) {
-  for (const phase of ROADMAP.phases) {
-    for (const week of phase.weeks) {
-      if (week.id === weekId) return week;
-    }
-  }
-  return null;
-}
-
-function findPhaseForWeek(weekId) {
-  for (const phase of ROADMAP.phases) {
-    if (phase.weeks.some(w => w.id === weekId)) return phase;
-  }
-  return ROADMAP.phases[0];
 }

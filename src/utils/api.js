@@ -1,64 +1,31 @@
+import { runPython } from './pyRunner';
+
 const API_BASE = '/api';
 
-function getHeaders() {
-  const token = localStorage.getItem('codequest_token');
-  const headers = { 'Content-Type': 'application/json' };
-  if (token) headers['Authorization'] = `Bearer ${token}`;
-  return headers;
-}
-
-export async function fetchStats() {
-  try {
-    const res = await fetch(`${API_BASE}/stats`, {
-      headers: getHeaders(),
-    });
-    if (!res.ok) return null;
-    return await res.json();
-  } catch {
-    // Fallback to localStorage if server is down
-    const stored = localStorage.getItem('codequest-fallback');
-    return stored ? JSON.parse(stored) : null;
-  }
-}
-
-export async function saveStats(stats) {
-  try {
-    await fetch(`${API_BASE}/stats`, {
-      method: 'PUT',
-      headers: getHeaders(),
-      body: JSON.stringify(stats),
-    });
-  } catch {
-    // Fallback
-    const data = JSON.parse(localStorage.getItem('codequest-fallback') || '{}');
-    data.stats = stats;
-    localStorage.setItem('codequest-fallback', JSON.stringify(data));
-  }
-}
-
-export async function saveProgress(itemId, type, xp, extra = {}) {
-  try {
-    await fetch(`${API_BASE}/progress`, {
-      method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify({ itemId, type, xp, ...extra }),
-    });
-  } catch {}
-}
-
-export async function runCode(code, language) {
+async function runOnServer(code, language, stdin) {
   try {
     const res = await fetch(`${API_BASE}/run`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code, language }),
+      body: JSON.stringify({ code, language, stdin }),
     });
     const data = await res.json();
-    if (!res.ok) {
-      return { error: data.error || `Server returned ${res.status}` };
-    }
+    if (!res.ok) return { error: data.error || `Server returned ${res.status}` };
     return data;
   } catch (err) {
-    return { error: `Could not connect to server: ${err.message}` };
+    return { error: `Could not reach the code runner (${err.message}).` };
   }
+}
+
+/** Python runs in the browser. Java still needs the server runner. */
+export async function runCode(code, language, stdin = '', opts = {}) {
+  if (language === 'python') {
+    const res = await runPython(code, stdin, opts);
+    if (!res.fallback) return { output: res.output || '(no output)', stopped: res.stopped, timedOut: res.timedOut };
+    // Pyodide could not load (offline or blocked). Fall back to the dev server if one is running.
+    const viaServer = await runOnServer(code, language, stdin);
+    if (viaServer.error) return { error: `Python could not load in your browser (${res.reason}), and no server runner is available.` };
+    return viaServer;
+  }
+  return runOnServer(code, language, stdin);
 }
