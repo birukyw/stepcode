@@ -1,0 +1,22 @@
+# Render Blueprint: the code runner (Java). The website itself is deployed on Vercel.
+services:
+  - type: web
+    name: stepcode-runner
+    runtime: docker
+    dockerfilePath: ./server/Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: RUNNER_LANGUAGES
+        value: java
+      # Your Vercel site(s), comma separated, no trailing slash. Set this in the Render dashboard.
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: MAX_CONCURRENT
+        value: "2"
+      - key: RATE_PER_MIN
+        value: "20"

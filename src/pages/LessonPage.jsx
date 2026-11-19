@@ -64,10 +64,10 @@ export default function LessonPage() {
   const [isRunning, setIsRunning] = useState(false);
   const [tab, setTab] = useState('lesson');
   const [reward, setReward] = useState(null);
-  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 900);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 820);
 
   useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth <= 900);
+    const onResize = () => setIsMobile(window.innerWidth <= 820);
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
@@ -102,6 +102,7 @@ export default function LessonPage() {
   useEffect(() => { preloadPython(); }, []);
 
   const execute = async (source, opts) => {
+    if (isMobile) setTab('terminal');
     setIsRunning(true);
     setOutput(language === 'python' && !isPythonReady() ? 'Loading Python (first run only)…' : 'Running…');
     const res = await runCode(source, language, stdin, opts);
@@ -188,6 +189,7 @@ export default function LessonPage() {
       onStdinChange={setStdin}
       onCheck={isProject ? check : undefined}
       canCheck={language === 'python'}
+      view={isMobile ? (tab === 'terminal' ? 'terminal' : 'code') : 'both'}
     />
   );
 
@@ -207,8 +209,12 @@ export default function LessonPage() {
       {isMobile ? (
         <>
           <div className="workspace__tabs" role="tablist">
-            <button role="tab" aria-selected={tab === 'lesson'} onClick={() => setTab('lesson')}>{isProject ? 'Brief' : 'Lesson'}</button>
-            <button role="tab" aria-selected={tab === 'code'} onClick={() => setTab('code')}>Code</button>
+            <button role="tab" aria-selected={tab === 'lesson'} onClick={() => setTab('lesson')}><Icon name="book" size={16} />{isProject ? 'Brief' : 'Read'}</button>
+            <button role="tab" aria-selected={tab === 'code'} onClick={() => setTab('code')}><Icon name="code" size={16} />Code</button>
+            <button role="tab" aria-selected={tab === 'terminal'} onClick={() => setTab('terminal')}>
+              <Icon name="terminal" size={16} />Terminal
+              {isRunning ? <i className="workspace__dot workspace__dot--run" /> : output ? <i className={`workspace__dot ${/Traceback|Error|FAIL  |checks failed/.test(output) ? 'workspace__dot--bad' : 'workspace__dot--ok'}`} /> : null}
+            </button>
           </div>
           <div className="workspace__body">{tab === 'lesson' ? article : ide}</div>
         </>

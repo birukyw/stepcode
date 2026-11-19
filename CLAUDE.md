@@ -21,6 +21,9 @@ Python runs in the browser: Pyodide 0.26.4 in a Web Worker (`public/py-worker.js
 ## Design
 Clean modern system (Bricolage Grotesque display, Inter, JetBrains Mono; violet `--brand`, amber only for XP/rewards; thin 1.5px translucent `--edge` borders). Pixel art is gone (sprite files deleted); photo banners stay. Bit is a vector mascot (`art/Bit.jsx`, moods idle/happy/wink/think/read/cheer/sad) and the only guide (`Companion.jsx`, draggable, position saved in localStorage, double-click resets). Brilliant-style rewards: `LevelRing.jsx`, `Reward.jsx` (modal on first lesson/quiz/project completion), streak in `utils/activity.js`. The modern CSS block is at the end of `src/index.css` and overrides older rules.
 
+## Deploy (see DEPLOY.md)
+Website on Vercel (`vercel.json`), Java runner on Render (`render.yaml`, `server/Dockerfile`). Python runs in the browser, so only Java needs the runner. `VITE_API_URL` points the site at the runner; the runner limits origins with `ALLOWED_ORIGINS`. Phones (width <= 820px) get lesson tabs Read / Code / Terminal (`IdePanel` `view` prop); Run jumps to Terminal. PWA manifest and icons live in `public/`.
+
 ## Commands
 `npm run dev` (Vite :3000, runner :3001), `npm run build`.
 

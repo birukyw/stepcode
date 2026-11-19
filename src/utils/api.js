@@ -1,8 +1,13 @@
 import { runPython } from './pyRunner';
 
-const API_BASE = '/api';
+// In development Vite proxies /api to the local runner. On the deployed site set VITE_API_URL to the
+// runner's address (for example https://stepcode-runner.onrender.com). Without it, only Python (in the browser) works.
+const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+const API_BASE = `${API_URL}/api`;
+const HAS_RUNNER = !import.meta.env.PROD || !!API_URL;
 
 async function runOnServer(code, language, stdin) {
+  if (!HAS_RUNNER) return { error: 'Java needs the code server, which is not switched on for this site yet. Python works fully in your browser.' };
   try {
     const res = await fetch(`${API_BASE}/run`, {
       method: 'POST',

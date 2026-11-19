@@ -1299,3 +1299,83 @@ h1 { font-weight: 700; line-height: 1.1; }
 .cx-card__art--java-further::after { background-image: url('/images/java-card.webp'); background-position: center 40%; filter: grayscale(0.6); }
 .cx-sec--extras { margin-top: 56px; }
 .cx-course-hero--further .cx-course-hero__art { filter: hue-rotate(75deg) saturate(1.1); }
+
+/* ═══ Phone layout: lessons become three tabs (Read, Code, Terminal) ═══ */
+.workspace { height: 100vh; height: 100dvh; }
+.workspace__tabs { display: none; }
+.workspace__dot { display: inline-block; width: 8px; height: 8px; margin-left: 6px; background: var(--dim); }
+.workspace__dot--ok { background: var(--green); } .workspace__dot--bad { background: var(--red); }
+.workspace__dot--run { background: var(--accent); animation: dotpulse 0.9s steps(2) infinite; }
+@keyframes dotpulse { 50% { opacity: 0.25; } }
+.ide--single .ide__editor { flex: 1; min-height: 0; }
+.ide--single .terminal { flex: 1; min-height: 0; }
+.ide--single .cm-editor, .ide--single .ide__editor > div { height: 100%; }
+
+@media (max-width: 820px) {
+  html, body { overscroll-behavior-y: none; }
+  .workspace__tabs { display: flex; padding: 0; background: var(--nav-bg); border-bottom: 1px solid var(--edge-2); }
+  .workspace__tabs button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 12px 6px; font-size: 14px; font-family: var(--font-body); min-height: 46px; }
+  .workspace__tabs button svg { flex-shrink: 0; }
+  .workspace__tabs button[aria-selected='true'] { color: var(--text); border-bottom-color: var(--brand); background: var(--brand-wash); }
+  .workspace__bar { padding: 6px 10px; gap: 8px; min-height: 48px; padding-right: 10px; }
+  .workspace__brand .wordmark { display: none; }
+  .workspace__crumb { min-width: 0; flex: 1; }
+  .workspace__crumb b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; }
+  .workspace__xp { flex: 0 0 auto; }
+  .workspace__pct { font-size: 14px; }
+  .workspace__body { min-height: 0; overflow: hidden; }
+  .lesson-article { height: 100%; }
+  .lesson-article__inner { padding: 18px 16px 28px; }
+  .lesson-article__head { padding: 8px 14px; }
+  .ide { border-left: 0; }
+  .ide__bar { padding: 6px 10px; gap: 6px; flex-wrap: nowrap; overflow-x: auto; }
+  .ide__file { display: none; }
+  .ide__btn, .ide__run, .ide__select { min-height: 38px; padding-left: 12px; padding-right: 12px; }
+  .ide__run { min-width: 84px; }
+  .terminal__bar { padding: 6px 10px; }
+  .terminal__out { padding: 12px; font-size: 13px; }
+  .terminal__stdin, .cx-search input, .ide__select, input, textarea, select { font-size: 16px; }
+  .workspace__foot { padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); gap: 10px; }
+  .workspace__where { min-width: 0; flex: 1; }
+  .workspace__where b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; }
+  .workspace__where span { display: block; font-size: 12px; }
+  .workspace__nav { flex-shrink: 0; gap: 8px; }
+  .workspace__nav .cx-btn { padding: 10px 14px; font-size: 14px; min-height: 42px; }
+  .workspace__menu { display: none; }
+  /* The guide stays out of the way on phones; tap Bit on other pages for tips */
+  .buddies--bar { display: none; }
+  .buddies { left: 8px; bottom: 76px; }
+  .buddies__bubble { max-width: calc(100vw - 24px); }
+  /* Course and home pages */
+  .topnav { padding: 8px 12px; gap: 8px; flex-wrap: wrap; }
+  .topnav__links { order: 3; width: 100%; justify-content: flex-start; overflow-x: auto; gap: 14px; }
+  .topnav .wordmark { font-size: 19px; }
+  .stats { padding: 3px 6px 3px 10px; gap: 8px; }
+  .cx-course-hero { min-height: 0; }
+  .cx-course-hero__copy { padding: 28px 16px 30px; }
+  .cx-course-hero h1 { font-size: 34px !important; }
+  .cx-course-main { padding: 18px 12px 80px; }
+  .cx-chapter { grid-template-columns: 42px minmax(0, 1fr); }
+  .cx-chapter__num { width: 38px; height: 38px; font-size: 13px; }
+  .cx-row { grid-template-columns: 34px minmax(0, 1fr) auto; gap: 8px; padding: 8px; }
+  .cx-rowbtn { min-width: 64px; height: 38px; }
+  .hero { padding: 30px 16px 10px; }
+  .hero h1 { font-size: 38px !important; }
+  .cx-hero h1 { font-size: 38px !important; }
+  .heroart { display: none; }
+  .cx-sec { padding-left: 16px; padding-right: 16px; }
+  .cx-final { padding: 40px 16px; }
+  .cx-tabs__list { gap: 10px; }
+  .settings__pop { right: 8px; left: 8px; width: auto; max-width: none; }
+}
+@media (max-width: 820px) and (max-height: 520px) {
+  /* landscape phone: keep the header slim */
+  .workspace__bar { min-height: 40px; }
+  .workspace__tabs button { min-height: 38px; padding: 6px; }
+  .workspace__foot { padding-top: 4px; padding-bottom: calc(4px + env(safe-area-inset-bottom)); }
+}
+@media (hover: none) { .cx-rowbtn, .ide__btn, .ide__run { -webkit-tap-highlight-color: transparent; } }
+@media (max-width: 820px) {
+  .buddies:not(.buddies--free) { left: auto; right: 8px; bottom: 76px; align-items: flex-end; zoom: 0.8; }
+  .buddies__toggle { display: none; }
+}
