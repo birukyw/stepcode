@@ -100,7 +100,7 @@ export default function CoursePage({ slug = 'python' }) {
                   const complete = doneCount === items.length;
                   return (
                     <article key={mod.id} className={`cx-chapter ${isOpen ? 'is-open' : ''}`}>
-                      <span className={`cx-chapter__num ${complete ? 'is-done' : ''}`}>{complete ? <Icon name="check" size={18} /> : chapter}</span>
+                      <span className={`cx-chapter__num ${complete ? 'is-done' : ''}`}>{complete ? <Icon name="check" size={18} /> : mod.id.replace('m', '').replace('-', '.')}</span>
                       <div className="cx-panel">
                         <button type="button" className="cx-panel__head" aria-expanded={isOpen} aria-controls={`panel-${mod.id}`} onClick={() => toggle(mod.id)}>
                           <span className="cx-panel__title">{mod.title}</span>
@@ -140,7 +140,7 @@ export default function CoursePage({ slug = 'python' }) {
           {slug === 'python' && (
             <aside className="cx-next">
               <h3>Finished the foundations?</h3>
-              <p>{other.title} picks up where this course ends: {other.tagline.toLowerCase()}.</p>
+              <p>{other.title} continues from here with data structures and algorithms, real software systems and machine learning.</p>
               <Link to={other.path} className="cx-btn cx-btn--sm">Go to {other.title}</Link>
             </aside>
           )}

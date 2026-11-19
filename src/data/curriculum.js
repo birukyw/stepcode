@@ -4,7 +4,7 @@ const SECTIONS = [
   {
     "id": "phase-py-foundations",
     "title": "Track 1: Beginner Python Foundations",
-    "subtitle": "State, Memory References, Decision Trees, Loops, Slicing & Hash Maps",
+    "subtitle": "Variables, Decisions, Loops, Lists, Functions, Dictionaries, Errors, Files & Classes",
     "modules": [
       {
         "id": "m1-1",
@@ -166,8 +166,21 @@ const SECTIONS = [
           },
           {
             "id": "1.6.6",
-            "title": "Track 1 Capstone: Mini Search Engine"
+            "title": "Guided Build: A Mini Search Engine"
           }
+        ]
+      },
+      {
+        "id": "m1-7",
+        "title": "Real-World Python — Errors, Files, Modules & Classes",
+        "lessons": [
+          { "id": "1.7.1", "title": "Reading Errors & Debugging Like a Detective" },
+          { "id": "1.7.2", "title": "Handling Exceptions with try/except" },
+          { "id": "1.7.3", "title": "Reading & Writing Files" },
+          { "id": "1.7.4", "title": "Modules & the Standard Library" },
+          { "id": "1.7.5", "title": "Comprehensions & Handy Built-ins" },
+          { "id": "1.7.6", "title": "Your First Class: Objects & Methods" },
+          { "id": "1.7.7", "title": "Python Beyond the Browser: Scripts, pip & Virtual Environments" }
         ]
       }
     ]
@@ -330,10 +343,6 @@ const SECTIONS = [
           {
             "id": "2.6.4",
             "title": "2D Dynamic Programming: Knapsack, Grids & Edit Distance"
-          },
-          {
-            "id": "2.6.5",
-            "title": "Track 2 Capstone: High-Speed Route & Autocomplete Engine"
           }
         ]
       }
@@ -475,10 +484,6 @@ const SECTIONS = [
           {
             "id": "3.5.5",
             "title": "CPython Memory Internals & Profiling"
-          },
-          {
-            "id": "3.5.6",
-            "title": "Track 3 Capstone: Concurrent Task & Storage Engine"
           }
         ]
       }
@@ -615,7 +620,7 @@ const SECTIONS = [
           },
           {
             "id": "4.5.5",
-            "title": "Self-Attention, Transformers & Track 4 Capstone"
+            "title": "Self-Attention & Transformers"
           }
         ]
       }

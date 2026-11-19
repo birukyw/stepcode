@@ -1,6 +1,6 @@
 # Project: Recipe Finder
 
-You are building the search box for a recipe site. Using the inverted-index technique from lesson 1.6.6, write six functions that turn a small recipe collection into a fast, ranked search. This is the Track 1 capstone project, so it uses everything: strings, loops, functions, lists, dictionaries and sets.
+You are building the search box for a recipe site. Using the inverted-index technique from lesson 1.6.6, write six functions that turn a small recipe collection into a fast, ranked search. This is the module 1.6 project, so it uses everything from the module and the ones before it: strings, loops, functions, lists, dictionaries and sets.
 
 ## The data
 

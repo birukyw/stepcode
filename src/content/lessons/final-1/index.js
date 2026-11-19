@@ -1,7 +1,7 @@
 import b from './project.md?raw';
 
 export default {
-  moduleId: 'm1-6',
+  moduleId: 'm1-7',
   project: {
     title: 'The Lost Terminal',
     body: b,
