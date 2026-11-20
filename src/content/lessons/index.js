@@ -19,6 +19,7 @@ import m3_4 from './m3-4/index.js';
 import m3_5 from './m3-5/index.js';
 import final1 from './final-1/index.js';
 import final2 from './final-2/index.js';
+import final3 from './final-3/index.js';
 
 // Each module file exports { lessons: { [lessonId]: {...} }, quiz, project }.
 const MODULES = { 'm1-1': m1_1, 'm1-2': m1_2, 'm1-3': m1_3, 'm1-4': m1_4, 'm1-5': m1_5, 'm1-6': m1_6, 'm1-7': m1_7, 'm2-1': m2_1, 'm2-2': m2_2, 'm2-3': m2_3, 'm2-4': m2_4, 'm2-5': m2_5, 'm2-6': m2_6, 'm3-1': m3_1, 'm3-2': m3_2, 'm3-3': m3_3, 'm3-4': m3_4, 'm3-5': m3_5 };
@@ -34,5 +35,5 @@ export const getLessonContent = (lessonId) => {
 };
 
 // Track final projects. Tracks without content yet appear locked on the course page.
-const FINALS = { 'track-1': final1, 'track-2': final2 };
+const FINALS = { 'track-1': final1, 'track-2': final2, 'track-3': final3 };
 export const getTrackFinal = (trackId) => FINALS[trackId] || null;

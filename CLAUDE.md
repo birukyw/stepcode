@@ -29,7 +29,7 @@ Website on Vercel (`vercel.json`), Java runner on Render (`render.yaml`, `server
 `npm run dev` (Vite :3000, runner :3001), `npm run build`.
 
 ## Status
-Written: Track 1 (modules 1.1-1.7, final project), Track 2 complete (2.1-2.6, final "Atlas") and Track 3 modules 3.1-3.5. Next: the Track 3 final project (final-3, "Concurrent Task & Storage Engine"), then Track 4.
+Written: Track 1 (modules 1.1-1.7, final project), Track 2 complete (2.1-2.6, final "Atlas") and Track 3 complete (3.1-3.5, final "Taskforge"). Next: Track 4 (module 4.1, "Teach a Machine").
 
 ## UI notes
 - Layout follows Codédex: hero, "Become a ..." typer, tabs, course grid; course page = chapter timeline (double white/grey `.cx-panel`) + sticky progress sidebar; lesson shell = top bar (XP progress), article | IDE, bottom bar with Back/Next.
@@ -37,7 +37,7 @@ Written: Track 1 (modules 1.1-1.7, final project), Track 2 complete (2.1-2.6, fi
 - Lessons are paged at `##` headings (`src/utils/pages.js`). Hooks and quick checks are injected from `src/content/lessons/engage.js`.
 - Photo art lives in `public/images/` (`home-hero.png`, `python-hero.png`, `python-card.png`, `java-card.png`, optional `web-card.png`). They were downscaled and quantized with PIL, then drawn with `image-rendering: pixelated`.
 - Settings gear (`src/components/Settings.jsx`): theme (dark default, cream light) and font size slider (`--fs`, applied with `zoom` to reading panes). Add new settings as rows in `SettingsButton`. `?theme=light` in the URL previews a theme.
-- Each track ends with a final project (`/final/track-N`, 100 XP, `src/content/lessons/final-N/`, outlines in `FINALS` in `curriculum.js`). Track 1: The Lost Terminal. Track 2: Atlas (maps engine, `final-2`).
+- Each track ends with a final project (`/final/track-N`, 100 XP, `src/content/lessons/final-N/`, outlines in `FINALS` in `curriculum.js`). Track 1: The Lost Terminal. Track 2: Atlas (maps engine, `final-2`). Track 3: Taskforge (async job queue on SQLite, `final-3`; its checks use top-level `await`, which the worker allows).
 - Banner motion: `src/components/art/Ambient.jsx` layers stepped particles (binary digits, fireflies, waterfall, steam, campfire glow) over the three photos; photos also pan slowly (`kenburns`). Respects `prefers-reduced-motion`.
 - Project checks for speed use `timed(name, *args, limit=2.5)` (perf_counter; Pyodide has no SIGALRM) inside the check script; see `m2-1/index.js`.
 - Home hero is the editorial one (`HeroArt` floating cards, no pixel scene). Photos (`python-hero.webp`, `java-card.webp`) are full resolution and never pixelated.
