@@ -14,6 +14,7 @@ Python runs in the browser: Pyodide 0.26.4 in a Web Worker (`public/py-worker.js
 - `src/data/curriculum.js`: course outline (4 tracks, 22 modules, 115 lesson titles). Titles only.
 - `src/content/lessons/<module>/`: one `.md` per lesson (+ `project.md`) and an `index.js` with starters, `quiz`, `project` (starter + Python `checks`).
 - `src/content/lessons/index.js` registers modules. Lessons without content show "Coming soon".
+- Snippets that need real threads or processes are fenced ```python local (shows "Copy code" instead of "Open in editor"). Top-level `asyncio.run(...)` works in the editor: `public/py-worker.js` rewrites it to `await` and runs such programs through `_stepcode_run_async`.
 - Markdown subset: see `src/components/Markdown.jsx` (callouts `> **Tip:**`, folded `+++ Title ... +++`, ```python error, ```text output).
 - Project checks run through `src/utils/checkHarness.js` (helpers: `ns`, `out`, `check`, `close`, `run_with_inputs`).
 - `node tools/check-lessons.mjs` runs every snippet and compares it with the output shown in the lesson, and runs project solutions against their checks. Run it after editing lessons.
@@ -28,7 +29,7 @@ Website on Vercel (`vercel.json`), Java runner on Render (`render.yaml`, `server
 `npm run dev` (Vite :3000, runner :3001), `npm run build`.
 
 ## Status
-Written: Track 1 (modules 1.1-1.7, final project), Track 2 complete (2.1-2.6, final "Atlas") and Track 3 modules 3.1-3.3 (pipelines and decorators, object-oriented design, defensive systems with SQLite). Next: module 3.4 (concurrency).
+Written: Track 1 (modules 1.1-1.7, final project), Track 2 complete (2.1-2.6, final "Atlas") and Track 3 modules 3.1-3.5. Next: the Track 3 final project (final-3, "Concurrent Task & Storage Engine"), then Track 4.
 
 ## UI notes
 - Layout follows Codédex: hero, "Become a ..." typer, tabs, course grid; course page = chapter timeline (double white/grey `.cx-panel`) + sticky progress sidebar; lesson shell = top bar (XP progress), article | IDE, bottom bar with Back/Next.

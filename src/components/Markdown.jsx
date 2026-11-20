@@ -5,6 +5,7 @@ import { Icon } from './art/Illustrations';
 //   # ## ### headings, paragraphs, - bullets, 1. numbered lists, | tables |
 //   > callouts  (start with **Tip:** / **Warning:** / **Why it matters:** / **Note:**)
 //   ```python ... ```   runnable snippet ("Open in editor"); ```python error  = raises on purpose
+//   ```python local     code that needs real threads or processes: shows "Copy" instead of "Open in editor"
 //   ```text ... ```     plain output, not runnable
 //   +++ Title ... +++   collapsible block (used for solutions)
 //   **bold**  *italic*  `inline code`
@@ -116,6 +117,25 @@ function QuizCard({ data }) {
   );
 }
 
+function CopyButton({ text }) {
+  const [done, setDone] = useState(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch { /* ignore */ }
+      document.body.removeChild(ta);
+    }
+    setDone(true);
+    setTimeout(() => setDone(false), 1500);
+  };
+  return <button type="button" onClick={copy}>{done ? 'Copied' : 'Copy code'}</button>;
+}
+
 export default function Markdown({ source, onRunSnippet, nested = false }) {
   return (
     <div className={nested ? 'article article--nested' : 'article'}>
@@ -161,14 +181,16 @@ export default function Markdown({ source, onRunSnippet, nested = false }) {
             if (b.lang === 'quiz') {
               try { return <QuizCard key={idx} data={JSON.parse(b.text)} />; } catch { return null; }
             }
-            const runnable = (b.lang === 'python' || b.lang === 'java') && onRunSnippet;
+            const isLocal = b.flag === 'local';
+            const runnable = (b.lang === 'python' || b.lang === 'java') && onRunSnippet && !isLocal;
             return (
               <figure className={`snippet ${b.lang === 'text' ? 'snippet--out' : ''}`} key={idx}>
                 <figcaption>
-                  <span>{b.lang === 'text' ? 'output' : b.lang}{b.flag === 'error' ? ' · raises an error' : ''}</span>
+                  <span>{b.lang === 'text' ? 'output' : b.lang}{b.flag === 'error' ? ' · raises an error' : ''}{isLocal ? ' · run it on your computer' : ''}</span>
                   {runnable && (
                     <button type="button" onClick={() => onRunSnippet(b.text, b.lang)}>Open in editor</button>
                   )}
+                  {isLocal && <CopyButton text={b.text} />}
                 </figcaption>
                 <pre><code>{b.text}</code></pre>
               </figure>
