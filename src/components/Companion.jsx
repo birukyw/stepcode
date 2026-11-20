@@ -88,6 +88,11 @@ export default function Companion() {
     return () => { clearTimeout(greet); clearTimeout(attach); io?.disconnect(); };
   }, [pathname, say]);
 
+  // A saved position can be off-screen on a different (smaller) screen: pull Bit back into view on load
+  useEffect(() => {
+    setPos((p) => (p ? { x: clamp(p.x, 0, window.innerWidth - 56), y: clamp(p.y, 0, window.innerHeight - 56) } : p));
+  }, []);
+
   // Keep a dragged guide on screen if the window shrinks
   useEffect(() => {
     const onResize = () => setPos((p) => (p ? { x: clamp(p.x, 0, window.innerWidth - 70), y: clamp(p.y, 0, window.innerHeight - 70) } : p));
