@@ -1,5 +1,5 @@
 import { useContext, useMemo } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AppContext } from '../App';
 import { buildSequence } from '../data/flow';
 import { xpSummary } from '../data/xp';
@@ -46,11 +46,6 @@ export default function Navbar() {
         <Bit mood="idle" size={30} />
         <span className="wordmark">StepCode</span>
       </Link>
-      <nav className="topnav__links">
-        <NavLink to="/" end>Home</NavLink>
-        <NavLink to="/python">Learn Python</NavLink>
-        <NavLink to="/further">Speak Python</NavLink>
-      </nav>
       <Link to="/python" className="stats" title={`${xp.earned} of ${xp.total} XP earned`}>
         <span className="stats__item stats__item--streak" title="Day streak"><Icon name="flame" size={18} />{streak}</span>
         <span className="stats__item stats__item--xp"><Icon name="bolt" size={18} />{xp.earned}</span>
