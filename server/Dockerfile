@@ -6,7 +6,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+RUN npm install --omit=dev --no-audit --no-fund
 COPY server ./server
 # Run as an unprivileged user so submitted code cannot touch the image
 RUN useradd --create-home --shell /usr/sbin/nologin runner

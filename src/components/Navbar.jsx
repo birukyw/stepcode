@@ -8,6 +8,32 @@ import Bit from './art/Bit';
 import LevelRing from './LevelRing';
 import { Icon } from './art/Illustrations';
 import { SettingsButton } from './Settings';
+import { useAuth } from './AuthProvider';
+
+function AccountButton() {
+  const { configured, user, loading, signOut } = useAuth();
+  const { syncError } = useContext(AppContext);
+  if (!configured || loading) return null;
+  if (!user) {
+    return (
+      <div className="account">
+        <Link to="/login" className="account__login">Log in</Link>
+        <Link to="/login?mode=signup" className="account__signup">Sign up</Link>
+      </div>
+    );
+  }
+  const initial = (user.email || '?').slice(0, 1).toUpperCase();
+  return (
+    <details className="account account--menu">
+      <summary aria-label="Account menu"><span className="account__avatar">{initial}</span></summary>
+      <div className="account__pop">
+        <p className="account__email">{user.email}</p>
+        <p className="account__sync">{syncError ? 'Could not save to your account. Retrying when you make progress.' : 'Progress saved to your account'}</p>
+        <button type="button" className="account__out" onClick={signOut}>Log out</button>
+      </div>
+    </details>
+  );
+}
 
 export default function Navbar() {
   const { progress } = useContext(AppContext);
@@ -30,6 +56,7 @@ export default function Navbar() {
         <span className="stats__item stats__item--xp"><Icon name="bolt" size={18} />{xp.earned}</span>
         <LevelRing level={xp.level} pct={xp.intoLevel} size={34} stroke={3.5} />
       </Link>
+      <AccountButton />
       <SettingsButton />
     </header>
   );

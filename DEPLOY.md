@@ -32,6 +32,19 @@ Python lessons work straight away. The first Run downloads the Python engine (ab
 
 Free Render services sleep after a quiet period, so the first Java run after a pause can take about a minute.
 
+## Accounts (login)
+
+Login uses **Supabase** (free). It stores each person's email (as a login) and their progress. Without it the site still works as a guest, saving progress on the device.
+
+1. Go to supabase.com, sign in, **New project**. Pick a name, a database password (save it), and a region close to your users.
+2. Open **SQL Editor > New query**, paste the contents of `supabase/schema.sql`, and click **Run**. This creates the progress table and the rules that stop anyone reading another person's row.
+3. Open **Project Settings > API**. Copy the **Project URL** and the **anon public** key. (Never use the `service_role` key in the website.)
+4. In Vercel, **Settings > Environment Variables**, add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`, then **Redeploy**.
+5. In Supabase, open **Authentication > URL Configuration**. Set **Site URL** to your Vercel link (for example `https://stepcode-blue.vercel.app`) and add the same link plus `/login` under **Redirect URLs**.
+6. Open **Authentication > Providers > Email** and decide on **Confirm email**. On: people must click a link in their inbox before logging in (recommended). Off: they can log in instantly.
+
+Supabase's built-in email sender is rate limited (a few emails per hour). Before inviting many users, add your own SMTP sender under **Authentication > Emails > SMTP Settings**.
+
 ## Safety notes for the runner
 
 The runner executes code that strangers type into the site. It already has:
