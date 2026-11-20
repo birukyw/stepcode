@@ -28,7 +28,7 @@ Website on Vercel (`vercel.json`), Java runner on Render (`render.yaml`, `server
 `npm run dev` (Vite :3000, runner :3001), `npm run build`.
 
 ## Status
-Written: Track 1 (modules 1.1-1.6, final project) and Track 2 complete (modules 2.1-2.6, quizzes, projects, final project "Atlas"). Next: Track 3 (module 3.1).
+Written: Track 1 (modules 1.1-1.7, final project), Track 2 complete (2.1-2.6, final "Atlas") and Track 3 module 3.1 (generators, closures, decorators). Next: module 3.2.
 
 ## UI notes
 - Layout follows Codédex: hero, "Become a ..." typer, tabs, course grid; course page = chapter timeline (double white/grey `.cx-panel`) + sticky progress sidebar; lesson shell = top bar (XP progress), article | IDE, bottom bar with Back/Next.
